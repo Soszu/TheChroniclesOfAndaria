@@ -2,13 +2,15 @@ set (SOURCES
 	main.cpp
 	gracz.cpp
 	mainwindow.cpp
+	przedmiot.h
 )
- 
+
 set (HEADERS
 	gracz.h
 	mainwindow.h
+	przedmiot.h
 )
- 
+
 set (UI
 )
 

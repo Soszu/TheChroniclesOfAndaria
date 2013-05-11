@@ -8,7 +8,8 @@ class Gracz
 		virtual ~Gracz();
 
 	private:
-		/* add your private declarations */
+
+
 };
 
 #endif /* GRACZ_H */
