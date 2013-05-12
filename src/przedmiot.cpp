@@ -1,7 +1,13 @@
 #include "przedmiot.h"
 
-Przedmiot::Przedmiot(QString nazwa, short wartosc, QString opis, bool czyPo5Lvlu, short ograniczenia, int rodzaj)
+Przedmiot::Przedmiot(QString nazwa, quint8 wartosc, QString opis, bool czyPo5Lvlu, quint8 ograniczenia, RodzajPrzedmiotu rodzaj)
 {
+	this->nazwa = nazwa;
+	this->wartosc = wartosc;
+	this->opis = opis;
+	this->czyPo5Lvlu = czyPo5Lvlu;
+	this->ograniczenia = ograniczenia;
+	this->rodzaj = rodzaj;
 }
 
 QString Przedmiot::getNazwa()
@@ -9,7 +15,7 @@ QString Przedmiot::getNazwa()
 	return nazwa;
 }
 
-short Przedmiot::getWartosc()
+quint8 Przedmiot::getWartosc()
 {
 	return wartosc;
 }
@@ -24,12 +30,12 @@ bool Przedmiot::getCzyPo5Lvlu()
 	return czyPo5Lvlu;
 }
 
-short Przedmiot::getOgraniczenia()
+quint8 Przedmiot::getOgraniczenia()
 {
 	return ograniczenia;
 }
 
-int Przedmiot::getRodzaj()
+RodzajPrzedmiotu Przedmiot::getRodzaj()
 {
 	return rodzaj;
 }

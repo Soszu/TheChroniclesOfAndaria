@@ -1,21 +1,28 @@
 set (SOURCES
 	main.cpp
-	gracz.cpp
 	mainwindow.cpp
-	przedmiot.cpp
-	zadanie.cpp
 	panelakcji.cpp
 	mybutton.cpp
+	gracz.cpp
+	ekwipunek.cpp
+	nagroda.cpp
+	przedmiot.cpp
+	zadanie.cpp
+	przeciwnik.cpp
 )
 
 set (HEADERS
-	gracz.h
+	gra.h
 	ui_mainwindow.h
 	mainwindow.h
-	przedmiot.h
-	zadanie.h
 	panelakcji.h
 	mybutton.h
+	gracz.h
+	przedmiot.h
+	zadanie.h
+	ekwipunek.h
+	nagroda.h
+	przeciwnik.h
 )
 
 set (UI
