@@ -1,10 +1,10 @@
 #include "przedmiot.h"
 
-Przedmiot::Przedmiot(string nazwa, short wartosc, string opis, bool czyPo5Lvlu, short ograniczenia, int rodzaj)
+Przedmiot::Przedmiot(QString nazwa, short wartosc, QString opis, bool czyPo5Lvlu, short ograniczenia, int rodzaj)
 {
 }
 
-string Przedmiot::getNazwa()
+QString Przedmiot::getNazwa()
 {
 	return nazwa;
 }
@@ -14,7 +14,7 @@ short Przedmiot::getWartosc()
 	return wartosc;
 }
 
-string Przedmiot::getOpis()
+QString Przedmiot::getOpis()
 {
 	return opis;
 }

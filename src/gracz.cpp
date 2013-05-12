@@ -1,15 +1,15 @@
+#include "gracz.h"
+
 #ifndef GRACZ_H
 #define GRACZ_H
 
-class Gracz
+
+Gracz::Gracz()
 {
-	public:
-		Gracz();
-		virtual ~Gracz();
+}
 
-	private:
-
-
-};
+Gracz::~Gracz()
+{
+}
 
 #endif /* GRACZ_H */

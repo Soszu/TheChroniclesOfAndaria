@@ -3,11 +3,11 @@
 
 class Gracz
 {
-	public:
-		Gracz();
-		virtual ~Gracz();
+public:
+	Gracz();
+	virtual ~Gracz();
 
-	private:
+private:
 
 };
 

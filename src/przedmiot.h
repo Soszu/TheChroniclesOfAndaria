@@ -1,23 +1,24 @@
 #ifndef PRZEDMIOT_H
 #define PRZEDMIOT_H
+#include <QString>
 
 class Przedmiot
 {
 public:
-	Przedmiot( string nazwa, short wartosc, string opis, bool czyPo5Lvlu, short ograniczenia, int rodzaj );
+	Przedmiot( QString nazwa, short wartosc, QString opis, bool czyPo5Lvlu, short ograniczenia, int rodzaj );
 
 private:
-	string nazwa;
+	QString nazwa;
 	short wartosc;
-	string opis;
+	QString opis;
 	bool czyPo5Lvlu;
 
 	short ograniczenia;
 	int rodzaj;
 
-	string getNazwa();
+	QString getNazwa();
 	short getWartosc();
-	string getOpis();
+	QString getOpis();
 	bool getCzyPo5Lvlu();
 	short getOgraniczenia();
 	int getRodzaj();

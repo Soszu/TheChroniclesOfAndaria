@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 
-//namespace Ui {
-//class MainWindow;
-//}
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
@@ -16,7 +16,7 @@ public:
 	~MainWindow();
 
 private:
-//	Ui::MainWindow *ui;
+	Ui::MainWindow *ui;
 
 };
 
