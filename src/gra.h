@@ -17,7 +17,12 @@ struct IDPola
 	int x;
 	int y;
 };
-
+/*
+IDPola POCZATEK_CZLOWIEK =	{2,2};
+IDPola POCZATEK_ELF =		{4,4};
+IDPola POCZATEK_KRASNOLUD =	{1,5};
+IDPola POCZATEK_NIZIOLEK =	{5,7};
+*/
 struct statystyka
 {
 	quint8 zdrowieMaks;

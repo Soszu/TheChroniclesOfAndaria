@@ -29,7 +29,26 @@ Gracz::Gracz(QColor kolor, QString nazwa, Rasa rasa, Klasa klasa)
 		przepiszStaty(statyDruid);
 		break;
 	default:
-		qDebug() <<"Nie rozpoznano klasy";
+		qDebug() <<"Nie rozpoznano klasy przy ustalaniu pozycji";
+		break;
+	}
+*/
+/*
+	switch (rasa) {
+	case czlowiek:
+		this->pozycja = POCZATEK_CZLOWIEK;
+		break;
+	case elf:
+		this->pozycja = POCZATEK_ELF;
+		break;
+	case krasnolud:
+		this->pozycja = POCZATEK_KRASNOLUD;
+		break;
+	case niziolek:
+		this->pozycja = POCZATEK_NIZIOLEK;
+		break;
+	default:
+		qDebug() <<"Nie rozpoznano rasy przy ustalaniu pozycji";
 		break;
 	}
 */

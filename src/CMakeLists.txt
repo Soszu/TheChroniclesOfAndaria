@@ -1,6 +1,7 @@
 set (SOURCES
 	main.cpp
 	mainwindow.cpp
+	newgamedialog.cpp
 	panelakcji.cpp
 	mybutton.cpp
 	gracz.cpp
@@ -15,6 +16,7 @@ set (HEADERS
 	gra.h
 	ui_mainwindow.h
 	mainwindow.h
+	newgamedialog.h
 	panelakcji.h
 	mybutton.h
 	gracz.h
