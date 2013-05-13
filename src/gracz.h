@@ -11,13 +11,14 @@
 class Gracz
 {
 public:
-	Gracz(QColor kolor, QString nazwa, Rasa rasa, Klasa klasa);
+	Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI);
 	virtual ~Gracz();
 
-	QColor kolor;
 	QString nazwa;
 	Rasa rasa;
 	Klasa klasa;
+	QColor kolor;
+	bool czyAI;
 	IDPola pozycja;
 	Ekwipunek* ekwipunek;
 	QList<Zadanie*> zadania;

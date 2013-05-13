@@ -7,7 +7,9 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QCheckBox>
 #include <QMessageBox>
+#include <QStringList>
 #include "gra.h"
 #include "gracz.h"
 
@@ -22,8 +24,7 @@ signals:
 public slots:
 
 private:
-	static const int MAX_GRACZY = 8;
-	static const int MIN_GRACZY = 2;
+
 	quint8 liczbaGraczy;
 
 	struct wierszWyboru{
@@ -31,6 +32,7 @@ private:
 		QComboBox* rasa;
 		QComboBox* klasa;
 		QComboBox* kolor;
+		QCheckBox* ai;
 	};
 
 	QList<wierszWyboru> gracze;
@@ -40,7 +42,7 @@ private:
 	QPushButton* anuluj;
 	QPushButton* ok;
 
-	QHBoxLayout layoutyWierszy[MAX_GRACZY];
+	QHBoxLayout* layoutyWierszy[MAX_GRACZY];
 	QVBoxLayout layoutNaWierszeWyboru;
 	QHBoxLayout layoutNaPrzyciski;
 	QVBoxLayout* layoutGlowny;

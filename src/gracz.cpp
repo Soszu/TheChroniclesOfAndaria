@@ -1,11 +1,12 @@
 #include "gracz.h"
 
-Gracz::Gracz(QColor kolor, QString nazwa, Rasa rasa, Klasa klasa)
+Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 {
 	this->kolor = kolor;
 	this->nazwa = nazwa;
 	this->rasa = rasa;
 	this->klasa = klasa;
+	this->czyAI = czyAI;
 
 	this->ekwipunek = new Ekwipunek();
 

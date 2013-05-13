@@ -5,11 +5,17 @@ NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent)
 	komunikat = new QMessageBox;
 	komunikat->setWindowTitle(QString::fromUtf8("Błąd"));
 
-	liczbaGraczy = MIN_GRACZY;
+	this->setWindowTitle("Ustalanie graczy");
+	this->setSizeGripEnabled(false);
+
 	layoutGlowny = new QVBoxLayout(this);
+	layoutGlowny->setSizeConstraint( QLayout::SetFixedSize );
+
 	for(int i = 0; i < MAX_GRACZY; ++i)
-		layoutNaWierszeWyboru.addLayout(&layoutyWierszy[i]);
-	//bez tego się nie wyświetla, ale też nie robi błędów
+	{
+		layoutyWierszy[i] = new QHBoxLayout;
+		layoutNaWierszeWyboru.addLayout(layoutyWierszy[i]);
+	}
 
 	dodajGracza = new QPushButton("Dodaj gracza", this);
 	connect(dodajGracza, SIGNAL(clicked()),this,SLOT(dodajWiersz()));
@@ -29,6 +35,8 @@ NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent)
 	layoutNaPrzyciski.addWidget(anuluj);
 	layoutNaPrzyciski.addWidget(ok);
 
+	liczbaGraczy = MIN_GRACZY;
+
 	for(int i = 0; i < liczbaGraczy; ++i)
 	{
 		wierszWyboru tmp;
@@ -36,6 +44,7 @@ NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent)
 		gracze.push_back(tmp);
 
 	}
+
 	layoutGlowny->addLayout(&layoutNaWierszeWyboru);
 	layoutGlowny->addStretch();
 	layoutGlowny->addLayout(&layoutNaPrzyciski);
@@ -49,55 +58,48 @@ NewGameDialog::~NewGameDialog()
 		delete gracze.back().klasa;
 		delete gracze.back().rasa;
 		delete gracze.back().kolor;
+		delete gracze.back().ai;
 
 		gracze.pop_back();
 	}
 }
 
+/**
+ * @brief NewGameDialog::wypelnij Wypełnia zadany wiersz w formularzu opcjami do wyboru.
+ * @param wiersz struct ze wskaźnikami na elementy do wypełnienia
+ * @param numer numer aktualnego wiersza
+ */
 void NewGameDialog::wypelnij(NewGameDialog::wierszWyboru *wiersz, int numer)
 {
-	wiersz->nazwa = new QLineEdit("Gracz "+QString::number(numer + 1));
+	wiersz->nazwa = new QLineEdit("Gracz"+QString::number(numer + 1));
 	wiersz->rasa = new QComboBox();
 	wiersz->klasa = new QComboBox();
 	wiersz->kolor = new QComboBox();
+	wiersz->ai = new QCheckBox();
 
-	wiersz->rasa->addItem(QString::fromUtf8("Człowiek"));
-	wiersz->rasa->addItem(QString::fromUtf8("Elf"));
-	wiersz->rasa->addItem(QString::fromUtf8("Krasnolud"));
-	wiersz->rasa->addItem(QString::fromUtf8("Niziołek"));
+	for(int i = 0; i < LICZBA_RAS; ++i)
+		wiersz->rasa->addItem(RASY[i]);
 
-	wiersz->klasa->addItem(QString::fromUtf8("Wojownik"));
-	wiersz->klasa->addItem(QString::fromUtf8("Mag"));
-	wiersz->klasa->addItem(QString::fromUtf8("Łucznik"));
-	wiersz->klasa->addItem(QString::fromUtf8("Druid"));
+	for(int i = 0; i < LICZBA_KLAS; ++i)
+		wiersz->klasa->addItem(KLASY[i]);
 
-	wiersz->kolor->addItem(QString::fromUtf8("Zielony"));
-	wiersz->kolor->addItem(QString::fromUtf8("Czerwony"));
-	wiersz->kolor->addItem(QString::fromUtf8("Żólty"));
-	wiersz->kolor->addItem(QString::fromUtf8("Niebieski"));
-	wiersz->kolor->addItem(QString::fromUtf8("Czarny"));
-	wiersz->kolor->addItem(QString::fromUtf8("Biały"));
-	wiersz->kolor->addItem(QString::fromUtf8("Pomarańczowy"));
-	wiersz->kolor->addItem(QString::fromUtf8("Fioletowy"));
-	wiersz->kolor->addItem(QString::fromUtf8("Brązowy"));
-	wiersz->kolor->addItem(QString::fromUtf8("Różowy"));
+	for(int i = 0; i < LICZBA_MOZLIWYCH_KOLOROW; ++i)
+		wiersz->kolor->addItem(MOZLIWE_KOLORY[i]);
 
 	wiersz->kolor->setCurrentIndex(numer);
 
-	layoutyWierszy[numer].addWidget(wiersz->nazwa);
-	layoutyWierszy[numer].addWidget(wiersz->rasa);
-	layoutyWierszy[numer].addWidget(wiersz->klasa);
-	layoutyWierszy[numer].addWidget(wiersz->kolor);
+	wiersz->ai->setText("Komputer?");
+
+	layoutyWierszy[numer]->addWidget(wiersz->nazwa);
+	layoutyWierszy[numer]->addWidget(wiersz->rasa);
+	layoutyWierszy[numer]->addWidget(wiersz->klasa);
+	layoutyWierszy[numer]->addWidget(wiersz->kolor);
+	layoutyWierszy[numer]->addWidget(wiersz->ai);
 }
 
-Gracz *NewGameDialog::dajGracza(int indeks)
-{
-	//TODO
-	//można też możliwe wartości ująć w tabele
-	return new Gracz(Qt::red, "graczTestowy", krasnolud, mag);
-
-}
-
+/**
+ * @brief NewGameDialog::przekazDane Sprawdza poprawnośc danych, przepisuje dane z formularza i wypycha je dalej
+ */
 void NewGameDialog::przekazDane()
 {
 	for(int i = 0; i < liczbaGraczy; ++i) //czy poprawne
@@ -126,40 +128,57 @@ void NewGameDialog::przekazDane()
 	QList<Gracz*> dane;
 
 	for(int i = 0; i < liczbaGraczy; ++i )
-		dane.push_back(dajGracza(i));
+		dane.push_back(new Gracz(gracze[i].nazwa->text(),
+					 (Rasa)gracze[i].rasa->currentIndex(),
+					 (Klasa)gracze[i].klasa->currentIndex(),
+					 KOLORY[gracze[i].kolor->currentIndex()],
+					 gracze[i].ai->checkState()));
+	//korzystam tutaj z faktu, że pola w przyciskach są w takiej kolejności jak w tablicy,
+	//a tam, są w takiej kolejności jak w enumach
+
+//TODO: POZOSTAJE JUŻ TYLKO PRZEKAZAĆ DANE DALEJ
+//	Game.wpiszGraczy(); czy coś w tym stylu
 
 	this->close();
 }
 
+/**
+ * @brief NewGameDialog::dodajWiersz Dodaje na końcu wiersz do wprowadzenia danych gracza
+ */
 void NewGameDialog::dodajWiersz()
 {
-	if(liczbaGraczy < MAX_GRACZY)
-	{
-		wierszWyboru tmp;
-		wypelnij(&tmp, liczbaGraczy);
-		gracze.push_back(tmp);
-		++liczbaGraczy;
-	}
+	if(liczbaGraczy >= MAX_GRACZY)
+		return;
+
+	wierszWyboru tmp;
+	wypelnij(&tmp, liczbaGraczy);
+	gracze.push_back(tmp);
+	++liczbaGraczy;
+
 }
 
+/**
+ * @brief NewGameDialog::usunWiersz Usuwa ostatni wiersz z danymi gracza.
+ */
 void NewGameDialog::usunWiersz()
 {
-	if(liczbaGraczy > MIN_GRACZY)
-	{
-		--liczbaGraczy;
-		wierszWyboru tmp = gracze.back();
+	if(liczbaGraczy <= MIN_GRACZY)
+		return;
 
-		layoutyWierszy[liczbaGraczy].removeWidget(tmp.nazwa);
-		layoutyWierszy[liczbaGraczy].removeWidget(tmp.rasa);
-		layoutyWierszy[liczbaGraczy].removeWidget(tmp.klasa);
-		layoutyWierszy[liczbaGraczy].removeWidget(tmp.kolor);
+	--liczbaGraczy;
+	wierszWyboru tmp = gracze.back();
 
+	layoutyWierszy[liczbaGraczy]->removeWidget(tmp.nazwa);
+	layoutyWierszy[liczbaGraczy]->removeWidget(tmp.rasa);
+	layoutyWierszy[liczbaGraczy]->removeWidget(tmp.klasa);
+	layoutyWierszy[liczbaGraczy]->removeWidget(tmp.kolor);
+	layoutyWierszy[liczbaGraczy]->removeWidget(tmp.ai);
 
-		delete tmp.nazwa;
-		delete tmp.klasa;
-		delete tmp.rasa;
-		delete tmp.kolor;
+	delete tmp.nazwa;
+	delete tmp.klasa;
+	delete tmp.rasa;
+	delete tmp.kolor;
+	delete tmp.ai;
 
-		gracze.pop_back();
-	}
+	gracze.pop_back();
 }
