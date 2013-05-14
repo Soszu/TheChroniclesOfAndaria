@@ -64,6 +64,11 @@ NewGameDialog::~NewGameDialog()
 	}
 }
 
+void NewGameDialog::setCyklGry(CyklGry *cykl)
+{
+	this->cyklGry = cykl;
+}
+
 /**
  * @brief NewGameDialog::wypelnij Wypełnia zadany wiersz w formularzu opcjami do wyboru.
  * @param wiersz struct ze wskaźnikami na elementy do wypełnienia
@@ -136,8 +141,8 @@ void NewGameDialog::przekazDane()
 	//korzystam tutaj z faktu, że pola w przyciskach są w takiej kolejności jak w tablicy,
 	//a tam, są w takiej kolejności jak w enumach
 
-//TODO: POZOSTAJE JUŻ TYLKO PRZEKAZAĆ DANE DALEJ
-//	Game.wpiszGraczy(); czy coś w tym stylu
+	cyklGry->setGracze(dane);
+	cyklGry->rozpocznij();
 
 	this->close();
 }

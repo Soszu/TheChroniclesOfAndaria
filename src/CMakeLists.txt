@@ -2,7 +2,10 @@ set (SOURCES
 	main.cpp
 	mainwindow.cpp
 	newgamedialog.cpp
+	cyklgry.cpp
+	mistrzgry.cpp
 	panelakcji.cpp
+	oknogracza.cpp
 	mybutton.cpp
 	gracz.cpp
 	ekwipunek.cpp
@@ -17,7 +20,10 @@ set (HEADERS
 	ui_mainwindow.h
 	mainwindow.h
 	newgamedialog.h
+	cyklgry.h
+	mistrzgry.h
 	panelakcji.h
+	oknogracza.h
 	mybutton.h
 	gracz.h
 	przedmiot.h

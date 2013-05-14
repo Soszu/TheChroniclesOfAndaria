@@ -1,15 +1,10 @@
 #include "panelakcji.h"
 #include <QDebug>
 
-PanelAkcji::PanelAkcji()
+PanelAkcji::PanelAkcji(QGroupBox* box)
 {
 	uklad = NULL;
-}
-
-PanelAkcji& PanelAkcji::getPanelAkcji()
-{
-	static PanelAkcji instancja;
-	return instancja;
+	panelAkcji = box;
 }
 
 void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
@@ -28,14 +23,10 @@ void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
 	panelAkcji->setLayout(uklad);
 }
 
-void PanelAkcji::setGroupBox(QGroupBox* box)
-{
-	panelAkcji = box;
-}
-
 void PanelAkcji::kliknietoPrzyciskONazwie(QString nazwa)
 {
 	qDebug() << "kliknieto przycisk: " << nazwa;
+	//cyklGry->wybranoAkcje(nazwa);
 }
 
 void PanelAkcji::zwolnijPamiec()
@@ -44,3 +35,9 @@ void PanelAkcji::zwolnijPamiec()
 	for(int i = 0; i < przyciski.size(); ++i)
 		delete przyciski[i];
 }
+
+
+//void PanelAkcji::setCyklGry(CyklGry *cykl)
+//{
+//	this->cyklGry = cykl;
+//}

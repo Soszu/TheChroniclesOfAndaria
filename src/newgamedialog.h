@@ -12,6 +12,7 @@
 #include <QStringList>
 #include "gra.h"
 #include "gracz.h"
+#include "cyklgry.h"
 
 class NewGameDialog : public QDialog
 {
@@ -19,12 +20,13 @@ class NewGameDialog : public QDialog
 public:
 	explicit NewGameDialog(QWidget *parent = 0);
 	~NewGameDialog();
+	void setCyklGry(CyklGry* cykl);
 signals:
 
 public slots:
 
 private:
-
+	CyklGry* cyklGry;
 	quint8 liczbaGraczy;
 
 	struct wierszWyboru{
@@ -50,7 +52,6 @@ private:
 	QMessageBox* komunikat;
 
 	void wypelnij(wierszWyboru *wiersz, int numer);
-	Gracz* dajGracza(int indeks);
 
 private slots:
 	void przekazDane();

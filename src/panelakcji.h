@@ -3,25 +3,25 @@
 #include <QGroupBox>
 #include "mybutton.h"
 #include <QVBoxLayout>
+//#include "cyklgry.h"
 
 class PanelAkcji : public QObject
 {
 	Q_OBJECT
 public:
-	static PanelAkcji& getPanelAkcji();
+	PanelAkcji(QGroupBox* box);
 	void wyswietlAkcje(QList<QString> akcje);
-	void setGroupBox (QGroupBox* box);
+//	void setCyklGry(CyklGry* cykl);
 
 private slots:
 	void kliknietoPrzyciskONazwie(QString nazwa);
 
 private:
-
-	PanelAkcji();
 	void zwolnijPamiec();
 	QVBoxLayout* uklad;
 	QGroupBox* panelAkcji;
 	QList<MyButton*> przyciski;
+//	CyklGry* cyklGry;
 };
 
 #endif // PANELAKCJI_H
