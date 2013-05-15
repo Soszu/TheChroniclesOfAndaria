@@ -7,8 +7,8 @@ const int MAX_GRACZY = 8;
 const int MIN_GRACZY = 2;
 
 const quint8 LICZBA_KROLESTW = 4;
-const quint8 LICZBA_KLAS = 4;
 const quint8 LICZBA_RAS = 4;
+const quint8 LICZBA_KLAS = 4;
 
 enum Krolestwo
 {
@@ -73,11 +73,14 @@ const QColor KOLORY[]= {
 	Qt::gray
 };
 
-const quint16 GRANICE_POZIOMOW[]={0, 5, 10, 15, 20, 25, 30};
+
+const quint16 MAKSYMALNY_POZIOM = 10;
+const quint16 GRANICE_POZIOMOW[]={0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 const quint8 POCZATKOWY_POZIOM = 1;
 const quint8 POCZATKOWA_REPUTACJA = 0;
 const quint8 POCZATKOWE_ZLOTO = 10;
 const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
+const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;
 
 const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
@@ -88,6 +91,10 @@ struct IDPola
 	int x;
 	int y;
 };
+
+//IDPola POCZATKOWE_USTAWIENIE[] = {
+
+//}
 /*
 IDPola POCZATEK_CZLOWIEK =	{2,2};
 IDPola POCZATEK_ELF =		{4,4};
@@ -103,13 +110,12 @@ struct statystyka
 	quint8 atakMagiczny;
 	quint8 obrona;
 	quint8 percepcja;
-	quint8 punktyRuchu;
 };
 /*
-statystyka statyWojownik =	{1, 2, 3, 4, 5, 6, 7, 8};
-statystyka statyMag =		{1, 2, 3, 4, 5, 6, 7, 8};
-statystyka statyLucznik =	{1, 2, 3, 4, 5, 6, 7, 8};
-statystyka statyDruid =		{1, 2, 3, 4, 5, 6, 7, 8};
+statystyka statyWojownik =	{1, 2, 3, 4, 5, 6, 7};
+statystyka statyMag =		{1, 2, 3, 4, 5, 6, 7};
+statystyka statyLucznik =	{1, 2, 3, 4, 5, 6, 7};
+statystyka statyDruid =		{1, 2, 3, 4, 5, 6, 7};
 */
 
 enum RodzajPrzedmiotu
@@ -119,7 +125,8 @@ enum RodzajPrzedmiotu
 	zbrojaCiezka,
 	bronJednoreczna,
 	bronDwureczna,
-	tarcza
+	tarcza,
+	artefakt
 };
 
 #endif // GRA_H

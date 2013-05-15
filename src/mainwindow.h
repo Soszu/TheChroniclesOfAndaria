@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include "panelakcji.h"
 #include "oknogracza.h"
-//#include "cyklgry.h"
+#include "obszarplanszy.h"
+#include "mistrzgry.h"
+#include "plansza.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,13 +21,19 @@ public:
 	~MainWindow();
 	PanelAkcji* getPanelAkcji();
 	OknoGracza* getOknoGracza();
-//	void setCyklGry(CyklGry* cykl);
+	ObszarPlanszy* getObszarPlanszy();
+	void setPlansza(Plansza* plansza);
+	void setMistrzGry(MistrzGry* mistrz);
 
 private:
 	Ui::MainWindow *ui;
+
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;
-//	CyklGry* cyklGry;
+	ObszarPlanszy* obszarPlanszy;
+
+	MistrzGry* mistrzGry;
+	Plansza* plansza;
 
 };
 

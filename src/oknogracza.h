@@ -8,6 +8,7 @@ class OknoGracza
 public:
 	OknoGracza();
 	void wyswietlGracza(Gracz* gracz);
+	void wyswietlMonitAI();
 };
 
 #endif // OKNOGRACZA_H

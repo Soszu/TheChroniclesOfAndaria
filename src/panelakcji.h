@@ -3,7 +3,9 @@
 #include <QGroupBox>
 #include "mybutton.h"
 #include <QVBoxLayout>
-//#include "cyklgry.h"
+#include "mistrzgry.h"
+
+class MistrzGry;
 
 class PanelAkcji : public QObject
 {
@@ -11,7 +13,7 @@ class PanelAkcji : public QObject
 public:
 	PanelAkcji(QGroupBox* box);
 	void wyswietlAkcje(QList<QString> akcje);
-//	void setCyklGry(CyklGry* cykl);
+	void setMistrzGry(MistrzGry* mistrz);
 
 private slots:
 	void kliknietoPrzyciskONazwie(QString nazwa);
@@ -21,7 +23,7 @@ private:
 	QVBoxLayout* uklad;
 	QGroupBox* panelAkcji;
 	QList<MyButton*> przyciski;
-//	CyklGry* cyklGry;
+	MistrzGry* mistrzGry;
 };
 
 #endif // PANELAKCJI_H

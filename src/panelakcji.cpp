@@ -7,8 +7,13 @@ PanelAkcji::PanelAkcji(QGroupBox* box)
 	panelAkcji = box;
 }
 
+/**
+ * @brief PanelAkcji::wyswietlAkcje Wyświetla przyciski akcji wymienione w zadanej liście.
+ * @param akcje Lista nazw akcji do wyświetlenia
+ */
 void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
 {
+	/*
 	zwolnijPamiec();
 	przyciski.clear();
 	uklad = new QVBoxLayout;
@@ -21,14 +26,22 @@ void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
 	}
 
 	panelAkcji->setLayout(uklad);
+	*/
 }
 
+/**
+ * @brief PanelAkcji::kliknietoPrzyciskONazwie Powiadamia mistrza gry o kliknięciu na przcisk.
+ * @param nazwa Nazwa klikniętego przycisku
+ */
 void PanelAkcji::kliknietoPrzyciskONazwie(QString nazwa)
 {
 	qDebug() << "kliknieto przycisk: " << nazwa;
-	//cyklGry->wybranoAkcje(nazwa);
+	mistrzGry->wybranoAkcje(nazwa);
 }
 
+/**
+ * @brief PanelAkcji::zwolnijPamiec Zwalnia pamięć, którą zajmowały poprzednie przyciski
+ */
 void PanelAkcji::zwolnijPamiec()
 {
 	delete uklad;
@@ -36,8 +49,11 @@ void PanelAkcji::zwolnijPamiec()
 		delete przyciski[i];
 }
 
-
-//void PanelAkcji::setCyklGry(CyklGry *cykl)
-//{
-//	this->cyklGry = cykl;
-//}
+/**
+ * @brief PanelAkcji::setMistrzGry Ustawia mistrza gry, którego panel powiadomi o kliknięciu
+ * @param mistrz
+ */
+void PanelAkcji::setMistrzGry(MistrzGry *mistrz)
+{
+	this->mistrzGry = mistrz;
+}

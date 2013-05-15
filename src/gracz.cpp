@@ -13,8 +13,10 @@ Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 	this->poziom = POCZATKOWY_POZIOM;
 	this->zloto = POCZATKOWE_ZLOTO;
 	this->doswiadczenie = POCZATKOWE_DOSWIADCZENIE;
+	this->punktyRuchu = POCZATKOWE_PUNKTY_RUCHU;
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		this->reputacja[i] = POCZATKOWA_REPUTACJA;
+
 /*
 	switch (klasa) {
 	case wojownik:
@@ -70,5 +72,4 @@ void Gracz::przepiszStaty(statystyka konkret)
 	this->atakMagiczny = konkret.atakMagiczny;
 	this->obrona = konkret.obrona;
 	this->percepcja = konkret.percepcja;
-	this->punktyRuchu = konkret.punktyRuchu;
 }

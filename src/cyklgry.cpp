@@ -5,57 +5,74 @@ CyklGry::CyklGry()
 	indeksAktualnego = 0;
 }
 
+/**
+ * @brief CyklGry::setGracze Przyjmuje dane graczy
+ * @param gracze
+ */
 void CyklGry::setGracze(QList<Gracz *> gracze)
 {
 	this->gracze = gracze;
 }
 
-void CyklGry::setPanelAkcji(PanelAkcji *panel)
+/**
+ * @brief CyklGry::setMistrzGry Ustawia mistrza gry
+ * @param mistrz
+ */
+void CyklGry::setMistrzGry(MistrzGry *mistrz)
 {
-	this->panelAkcji = panel;
+	this->mistrzGry = mistrz;
 }
 
-void CyklGry::setOknoGracza(OknoGracza *okno)
+/**
+ * @brief CyklGry::setPlansza Ustawia planszę.
+ * @param plansza
+ */
+void CyklGry::setPlansza(Plansza *plansza)
 {
-	this->oknoGracza = okno;
+	this->plansza = plansza;
 }
 
-void CyklGry::wybranoAkcje(QString nazwa)
-{
-
-}
-
+/**
+ * @brief CyklGry::getGracze Metoda dająca dostęp do danych graczy
+ * @return
+ */
 QList<Gracz *> CyklGry::getGracze()
 {
 	return gracze;
 }
 
+/**
+ * @brief CyklGry::rozpocznij Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
+ */
 void CyklGry::rozpocznij()
 {
 	ruszGracza(indeksAktualnego);
 }
 
-
-void CyklGry::ruszGracza(int indeks)
+void CyklGry::zakonczGre()
 {
-	if(gracze[indeks]->czyAI)
-	{
-		//wyswietl "AI myśli..."
-		//zapytaj o decyzje dając akcje (być może jeszcze osiągalne pola jeśli plansza je udostępnia)
-		//jeśli to ruch niech plansza go wyświetli
-	}
-	else
-	{
-		oknoGracza->wyswietlGracza(gracze[indeks]);
-		//panelAkcji->wyswietlAkcje(/*Akcje*/); //mistrzGry->akcjeGracza(gracze[index]) ??
-		//powiedz planszy niech się podświetli
-	}
 }
 
+/**
+ * @brief CyklGry::ruszGracza
+ * @param indeks
+ */
+void CyklGry::ruszGracza(int indeks)
+{
+	mistrzGry->ruszGracza(gracze[indeks]);
+	plansza->ruszGracza(gracze[indeks]);
+}
 
+/**
+ * @brief CyklGry::zakonczTure Kończy turę aktualnego gracza, wyświetla następnego
+ */
 void CyklGry::zakonczTure()
 {
-	if(++indeksAktualnego >= gracze.size())
+	qDebug() <<"Zakonczono ture, indeks aktualnego gracza: " <<indeksAktualnego;
+
+	++indeksAktualnego;
+	if(indeksAktualnego >= gracze.size())
 		indeksAktualnego = 0;
 	ruszGracza(indeksAktualnego);
+
 }

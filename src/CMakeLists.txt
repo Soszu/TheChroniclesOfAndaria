@@ -4,8 +4,10 @@ set (SOURCES
 	newgamedialog.cpp
 	cyklgry.cpp
 	mistrzgry.cpp
+	plansza.cpp
 	panelakcji.cpp
 	oknogracza.cpp
+	obszarplanszy.cpp
 	mybutton.cpp
 	gracz.cpp
 	ekwipunek.cpp
@@ -22,8 +24,10 @@ set (HEADERS
 	newgamedialog.h
 	cyklgry.h
 	mistrzgry.h
+	plansza.h
 	panelakcji.h
 	oknogracza.h
+	obszarplanszy.h
 	mybutton.h
 	gracz.h
 	przedmiot.h
