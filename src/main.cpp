@@ -3,18 +3,17 @@
 #include "cyklgry.h"
 #include "mistrzgry.h"
 #include "plansza.h"
-#include "newgamedialog.h"
+#include "oknonowejgry.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
 	MainWindow okno;
-	NewGameDialog nowaGra;
+	OknoNowejGry nowaGra;
 	CyklGry cykl;
 	MistrzGry mistrz;
 	Plansza plansza;
-	okno.show();
 
 	okno.setMistrzGry(&mistrz); //potem mainwindow pokazuje swoim komponentom komu mają zgłaszać zmiany/ informace
 	okno.setPlansza(&plansza);
@@ -30,9 +29,10 @@ int main(int argc, char *argv[])
 	mistrz.setCyklGry(&cykl);
 	mistrz.setPlansza(&plansza);
 	plansza.setMistrzGry(&mistrz);
-
 	nowaGra.setCyklGry(&cykl);
+	nowaGra.setMainWindow(&okno);
 	nowaGra.show();
+
 
 	return a.exec();
 }

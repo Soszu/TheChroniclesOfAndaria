@@ -17,6 +17,15 @@ Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		this->reputacja[i] = POCZATKOWA_REPUTACJA;
 
+
+this->zdrowieMaks = 33;
+this->regeneracja = 5;
+this->atakWrecz = 123;
+this->atakDystansowy = 222;
+this->atakMagiczny = 111;
+this->obrona = 131;
+this->percepcja = 231;
+
 /*
 	switch (klasa) {
 	case wojownik:

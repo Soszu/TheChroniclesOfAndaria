@@ -13,8 +13,7 @@ PanelAkcji::PanelAkcji(QGroupBox* box)
  */
 void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
 {
-	/*
-	zwolnijPamiec();
+	delete uklad;
 	przyciski.clear();
 	uklad = new QVBoxLayout;
 
@@ -26,7 +25,7 @@ void PanelAkcji::wyswietlAkcje(QList<QString> akcje)
 	}
 
 	panelAkcji->setLayout(uklad);
-	*/
+
 }
 
 /**
@@ -39,16 +38,21 @@ void PanelAkcji::kliknietoPrzyciskONazwie(QString nazwa)
 	mistrzGry->wybranoAkcje(nazwa);
 }
 
+
 /**
  * @brief PanelAkcji::zwolnijPamiec Zwalnia pamięć, którą zajmowały poprzednie przyciski
  */
+/*
 void PanelAkcji::zwolnijPamiec()
 {
-	delete uklad;
 	for(int i = 0; i < przyciski.size(); ++i)
+	{
+		uklad->removeWidget(przyciski[i]);
 		delete przyciski[i];
+	}
+	delete uklad;
 }
-
+*/
 /**
  * @brief PanelAkcji::setMistrzGry Ustawia mistrza gry, którego panel powiadomi o kliknięciu
  * @param mistrz

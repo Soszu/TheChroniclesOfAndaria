@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLayout>
+#include <QFrame>
+#include <QGroupBox>
+#include <QGraphicsView>
 #include "panelakcji.h"
 #include "oknogracza.h"
 #include "obszarplanszy.h"
@@ -26,7 +30,13 @@ public:
 	void setMistrzGry(MistrzGry* mistrz);
 
 private:
-	Ui::MainWindow *ui;
+	QWidget* widget;
+	QHBoxLayout* layoutGlowny;
+	QVBoxLayout* layoutBoczny;
+	QGraphicsView* graphicsView;
+	QFrame* ramka;
+	QGroupBox* panel;
+
 
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;

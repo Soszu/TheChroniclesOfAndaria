@@ -1,12 +1,15 @@
 set (SOURCES
 	main.cpp
 	mainwindow.cpp
-	newgamedialog.cpp
+	oknonowejgry.cpp
 	cyklgry.cpp
 	mistrzgry.cpp
 	plansza.cpp
 	panelakcji.cpp
 	oknogracza.cpp
+	mojpasek.cpp
+	oknoekwipunek.cpp
+	oknozadania.cpp
 	obszarplanszy.cpp
 	mybutton.cpp
 	gracz.cpp
@@ -19,14 +22,16 @@ set (SOURCES
 
 set (HEADERS
 	gra.h
-	ui_mainwindow.h
 	mainwindow.h
-	newgamedialog.h
+	oknonowejgry.h
 	cyklgry.h
 	mistrzgry.h
 	plansza.h
 	panelakcji.h
 	oknogracza.h
+	mojpasek.h
+	oknoekwipunek.h
+	oknozadania.h
 	obszarplanszy.h
 	mybutton.h
 	gracz.h
@@ -37,16 +42,16 @@ set (HEADERS
 	przeciwnik.h
 )
 
-set (UI
-	mainwindow.ui
+
+set (RESOURCES
+	zasoby.qrc
 )
 
 qt4_wrap_cpp (SOURCES ${HEADERS})
-qt4_wrap_ui (SOURCES ${UI})
+qt4_add_resources (RESOURCES_RCC ${RESOURCES})
 add_executable (Planszowka
 	${SOURCES}
+	${RESOURCES_RCC}
 	${HEADERS}
-	${UI}
 )
 target_link_libraries (Planszowka ${QT_LIBRARIES})
-

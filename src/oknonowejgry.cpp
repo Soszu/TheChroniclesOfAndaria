@@ -1,8 +1,8 @@
-#include "newgamedialog.h"
+#include "oknonowejgry.h"
 
-NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent)
+OknoNowejGry::OknoNowejGry(QWidget *parent) : QDialog(parent)
 {
-	komunikat = new QMessageBox;
+	komunikat = new QMessageBox(this);
 	komunikat->setWindowTitle(QString::fromUtf8("Błąd"));
 
 	this->setWindowTitle("Ustalanie graczy");
@@ -48,9 +48,11 @@ NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent)
 	layoutGlowny->addLayout(&layoutNaWierszeWyboru);
 	layoutGlowny->addStretch();
 	layoutGlowny->addLayout(&layoutNaPrzyciski);
+
+//	connect(ok,SIGNAL(clicked()), mainWindow,SLOT(show());
 }
 
-NewGameDialog::~NewGameDialog()
+OknoNowejGry::~OknoNowejGry()
 {
 	while(!gracze.empty())
 	{
@@ -64,17 +66,22 @@ NewGameDialog::~NewGameDialog()
 	}
 }
 
-void NewGameDialog::setCyklGry(CyklGry *cykl)
+void OknoNowejGry::setCyklGry(CyklGry *cykl)
 {
 	this->cyklGry = cykl;
 }
 
+void OknoNowejGry::setMainWindow(QMainWindow *mainWindow)
+{
+	this->mainWindow = mainWindow;
+}
+
 /**
- * @brief NewGameDialog::wypelnij Wypełnia zadany wiersz w formularzu opcjami do wyboru.
+ * @brief OknoNowejGry::wypelnij Wypełnia zadany wiersz w formularzu opcjami do wyboru.
  * @param wiersz struct ze wskaźnikami na elementy do wypełnienia
  * @param numer numer aktualnego wiersza
  */
-void NewGameDialog::wypelnij(NewGameDialog::wierszWyboru *wiersz, int numer)
+void OknoNowejGry::wypelnij(OknoNowejGry::wierszWyboru *wiersz, int numer)
 {
 	wiersz->nazwa = new QLineEdit("Gracz"+QString::number(numer + 1));
 	wiersz->rasa = new QComboBox();
@@ -103,9 +110,9 @@ void NewGameDialog::wypelnij(NewGameDialog::wierszWyboru *wiersz, int numer)
 }
 
 /**
- * @brief NewGameDialog::przekazDane Sprawdza poprawnośc danych, przepisuje dane z formularza i wypycha je dalej
+ * @brief OknoNowejGry::przekazDane Sprawdza poprawnośc danych, przepisuje dane z formularza i wypycha je dalej
  */
-void NewGameDialog::przekazDane()
+void OknoNowejGry::przekazDane()
 {
 	for(int i = 0; i < liczbaGraczy; ++i) //czy poprawne
 	{
@@ -132,25 +139,28 @@ void NewGameDialog::przekazDane()
 
 	QList<Gracz*> dane;
 
-	for(int i = 0; i < liczbaGraczy; ++i )
+	for(int i = 0; i < liczbaGraczy; ++i ){
 		dane.push_back(new Gracz(gracze[i].nazwa->text(),
 					 (Rasa)gracze[i].rasa->currentIndex(),
 					 (Klasa)gracze[i].klasa->currentIndex(),
 					 KOLORY[gracze[i].kolor->currentIndex()],
 					 gracze[i].ai->checkState()));
+		qDebug() <<"# rasy gracza "<<i + 1 <<": " <<(Rasa)gracze[i].rasa->currentIndex();
+		qDebug() <<"# klasy gracza "<<i + 1 <<": " <<(Klasa)gracze[i].klasa->currentIndex();
+	}
 	//korzystam tutaj z faktu, że pola w przyciskach są w takiej kolejności jak w tablicy,
 	//a tam, są w takiej kolejności jak w enumach
 
 	cyklGry->setGracze(dane);
 	cyklGry->rozpocznij();
-
+	mainWindow->showMaximized();
 	this->close();
 }
 
 /**
- * @brief NewGameDialog::dodajWiersz Dodaje na końcu wiersz do wprowadzenia danych gracza
+ * @brief OknoNowejGry::dodajWiersz Dodaje na końcu wiersz do wprowadzenia danych gracza
  */
-void NewGameDialog::dodajWiersz()
+void OknoNowejGry::dodajWiersz()
 {
 	if(liczbaGraczy >= MAX_GRACZY)
 		return;
@@ -163,9 +173,9 @@ void NewGameDialog::dodajWiersz()
 }
 
 /**
- * @brief NewGameDialog::usunWiersz Usuwa ostatni wiersz z danymi gracza.
+ * @brief OknoNowejGry::usunWiersz Usuwa ostatni wiersz z danymi gracza.
  */
-void NewGameDialog::usunWiersz()
+void OknoNowejGry::usunWiersz()
 {
 	if(liczbaGraczy <= MIN_GRACZY)
 		return;

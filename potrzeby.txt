@@ -1,0 +1,99 @@
+KOLEJNOŚĆ PÓL W LINII NIE MA ZNACZENIA! WAŻNE JEST DLA MNIE, ŻEBY WSZYSTKIE POLA BYŁY ODDZIELNE TAKIM SAMYM SEPARATOREM 
+(tutaj używam ; ) gdzieniegdzie wspominam dla odróżnienia o przecinku (tam gdzie jest nieustalona z góry liczba argumentów)
+
+[02:07:07 CEST] Rafał Soszyński: jeśli jakiś wymóg napisałem tak, że jest ci niewygodnie wysłać w tym formacie, to pisz, bo będę zapewne w stanie przetworzyć go z innej postaci
+[02:07:33 CEST] Rafał Soszyński: + jeśli o czymś zapomniałem, albo napisałem coś niepotrzebnego to też krzycz
+[02:09:48 CEST] Rafał Soszyński: miejsca startowe i statystyki możesz wrzucić do jednego pliku bo zapomniałem o tym napisać
+
+======================
+STATYSTYKI
+
+- plik tekstowy
+Statystyki początkowe w zależności od klasy /rasy (chociaż o ile dobrze pamiętam, to zależność jest tylko od klasy)
+zdrowieMaks; regeneracja zdrowia/tura; atakWrecz; atakDystansowy; atakMagiczny; obrona; percepcja;
+przykład: 
+Człowiek wojownik: 20; 2; 5; 5; 5; 12; 5
+
+- dla każdej rasy miejsce startowe jako numer wiersza i kolumny w ustawieniu
+(może być w tym samym pliku co statystyka)
+
+======================
+UKŁAD PLANSZY
+
+-plik tekstowy
+Układ planszy w postaci (spacje opcjonalne):
+l; l; d; w; m;
+  l; l; d; g;
+
+gdzie pola lecą kolejno wierszami, a literki to symbole rodzajów pól.
+Ikonki pól znajdują się, w pliku <symbol>.png o nazwie jak symbol wspomniany w .txt znajdują się w zapodanym folderze.
+ (ewentualnie może być gdzieś spisana legenda: l;las;hexLasu.png )
+
+	Wymiary to tak na oko 30 kolumn na 20 wierszy.
+	Powiedziałeś kiedyś że w oryginale ma być 44x44 czyli ok.1900 tak było by 600 czyli prawie 1/3 czyli powinna być grywalna
+	lepiej żeby było to prostokątne, bo monitory wszystkie są szersze niż wyższe i będzie lepiej się w to gapić.
+
+======================
+PRZECIWNICY
+
+- plik tekstowy:
+Spis przeciwników w pliku w postaci: 
+liczba_porządkowa ;nazwa; nazwa_zdjęcia; opis(jeśli chcesz(krótki tekst)); atak; obrona; HP; <opis nagrody>(szczegóły na końcu)
+
+======================
+PRZEDMIOTY
+
+- plik tekstowy:
+Spis przedmiotów występujących w grze:
+liczba_porządkowa; nazwa; nazwa_zdjęcia; wartość(cena); opis(jeśli chcesz(krótki tekst)); 1 lub 0 (czy możliwy tyklo po 5 lvlu); ograniczenia(opis poniżej); rodzaj(opis poniżej)
+
+Sam wybierz jak wygodniej	
+	ograniczenia odnośnie tego jakie klasy/rasy mogą używać tego przedmiotu możesz pisać wypisując je po przecinku np. elf, mag, lowca
+albo ustalić kolejność: człowiek, elf, krasnalud, niziolek, wojownik, mag, lowca, druid i pisać 01000110 gdzie 1 jeśli może używać 0, gdy nie
+rodzaj możesz ponumerować, albo pisać nazwą, jak chcesz 
+
+======================
+
+- plik tekstowy:
+Spis zadań
+na razie nie przemyślałem ich do końca, więc dobrze by było jakbyś mi dał jescze trochę czasu, ale zapewne chciałbym, żeby to było coś typu:
+typ_zadania(spośród oznczeń do ustalenia); tytul; tresc; czyPowrotWymagany; poziomTrudności (nie pamiętam po co ale ustaliliśmy chyba że się przyda); pole celu<współrzędne>; <opis nagrody>
+do tego mogą pewnie dojść liczby porządkowe przeciwników do pokonania
+Jeżeli treść zadań będzie za długa żeby wygodnie pisać ją w jednej linii to daj znać.
+
+======================
+----------------------
+
+<opis nagrody> 
+reputacja do zdobycia (np. 4;0;1;-1;); złoto; doświadczenie; ileLosowychPrzedmiotów; konkretne przedmioty[po lczbie porządkowej, oddzielanie czymś innym niż średnik]
+
+<współrzędne>
+sam jescze nie mam pewności czy za współrzędne przyjąć numer wiersza i kolumy w układzie czy coś innego (np 1 wybraną liczbę) więc pisz jak ci wygodniej
+
+----------------------
+----------------------
+
+Reasumując zawartość paczki od ciebie mogła by wyglądać tak:
+	
+	układ_planszy.txt
+	Hexy //folder
+		l.png
+		d.png
+		(lub las.png)
+
+	statystyki_i_pozycje.txt
+
+	przeciwnicy.txt
+	Przeciwnicy //folder
+		1234.png
+		314.png
+		1.png
+		(lub Heniek.png) //opcja wcale nie gorsza
+	
+	przedmioty.txt
+	Przedmioty
+		palka_twojej_starej.png
+		13.png
+		121.png
+		
+	zadania.txt

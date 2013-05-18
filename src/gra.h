@@ -10,6 +10,14 @@ const quint8 LICZBA_KROLESTW = 4;
 const quint8 LICZBA_RAS = 4;
 const quint8 LICZBA_KLAS = 4;
 
+const QString KROLESTWA[] = {
+	QString::fromUtf8("Ludzie"),
+	"Elfy",
+	"Krasnoludy",
+	QString::fromUtf8("Niziołki")
+};
+
+/*
 enum Krolestwo
 {
 	RPA,
@@ -17,6 +25,7 @@ enum Krolestwo
 	Kanada,
 	Urugwaj
 };
+*/
 
 const QString RASY[] = {
 	QString::fromUtf8("Człowiek"),
@@ -78,6 +87,7 @@ const quint16 MAKSYMALNY_POZIOM = 10;
 const quint16 GRANICE_POZIOMOW[]={0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 const quint8 POCZATKOWY_POZIOM = 1;
 const quint8 POCZATKOWA_REPUTACJA = 0;
+const quint8 MAX_REPUTACJA = 5;
 const quint8 POCZATKOWE_ZLOTO = 10;
 const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;

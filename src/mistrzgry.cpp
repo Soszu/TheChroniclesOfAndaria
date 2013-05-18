@@ -13,8 +13,8 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 {
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->nazwa;
 
-	panelAkcji->wyswietlAkcje(mozliweAkcje(gracz));
-
+	//panelAkcji->wyswietlAkcje(mozliweAkcje(gracz));
+	//wybranoAkcje(QString::fromUtf8("Zakończ turę"));
 	if(gracz->czyAI)
 		oknoGracza ->wyswietlMonitAI();
 	else

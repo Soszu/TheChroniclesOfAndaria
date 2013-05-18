@@ -1,25 +1,34 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QtCore>
 #include <QtGui>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-	ui->setupUi(this);
+	widget = new QWidget();
+	this->setCentralWidget(widget);
+	layoutGlowny = new QHBoxLayout(widget);
+	layoutBoczny = new QVBoxLayout();
+	graphicsView = new QGraphicsView;
+	ramka = new QFrame();
+	panel = new QGroupBox();
 
-	panelAkcji = new PanelAkcji(ui->groupBox);
+	layoutGlowny->addWidget(graphicsView);
+	layoutGlowny->addLayout(layoutBoczny);
+	layoutBoczny->addWidget(ramka);
+	layoutBoczny->addWidget(panel);
+
+	panelAkcji = new PanelAkcji(panel);
 	panelAkcji->setMistrzGry(mistrzGry);
 
-	oknoGracza = new OknoGracza();
+	oknoGracza = new OknoGracza(ramka);
 
 	obszarPlanszy = new ObszarPlanszy();
-	ui->graphicsView->setScene(obszarPlanszy);
+	graphicsView->setScene(obszarPlanszy);
 	obszarPlanszy->setPlansza(plansza);
 }
 
 MainWindow::~MainWindow()
 {
-	delete ui;
 }
 
 /**

@@ -1,5 +1,5 @@
-#ifndef NEWGAMEDIALOG_H
-#define NEWGAMEDIALOG_H
+#ifndef OKNONOWEJGRY_H
+#define OKNONOWEJGRY_H
 
 #include <QDialog>
 #include <QList>
@@ -10,23 +10,26 @@
 #include <QCheckBox>
 #include <QMessageBox>
 #include <QStringList>
+#include <QMainWindow>
 #include "gra.h"
 #include "gracz.h"
 #include "cyklgry.h"
 
-class NewGameDialog : public QDialog
+class OknoNowejGry : public QDialog
 {
 	Q_OBJECT
 public:
-	explicit NewGameDialog(QWidget *parent = 0);
-	~NewGameDialog();
+	explicit OknoNowejGry(QWidget *parent = 0);
+	~OknoNowejGry();
 	void setCyklGry(CyklGry* cykl);
+	void setMainWindow(QMainWindow* mainWindow);
 signals:
 
 public slots:
 
 private:
 	CyklGry* cyklGry;
+	QMainWindow* mainWindow;
 	quint8 liczbaGraczy;
 
 	struct wierszWyboru{
@@ -59,4 +62,4 @@ private slots:
 	void usunWiersz();
 };
 
-#endif // NEWGAMEDIALOG_H
+#endif //OKNONOWEJGRY_H

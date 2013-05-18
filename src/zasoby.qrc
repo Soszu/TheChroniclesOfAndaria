@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ikonki/percepcja.png</file>
+        <file>ikonki/zloto.png</file>
+        <file>ikonki/dystans.png</file>
+        <file>ikonki/magia.png</file>
+        <file>ikonki/obrona.png</file>
+        <file>ikonki/ruch.png</file>
+        <file>ikonki/wrecz.png</file>
+        <file>ikonki/regeneracja.png</file>
+    </qresource>
+</RCC>
