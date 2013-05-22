@@ -2,6 +2,13 @@
 
 Plansza::Plansza()
 {
+	ParserUkladu pu(this);
+	if(pu.bladWczytywania())
+	{
+		qDebug()<< "blad wczytywania";
+	}
+	qDebug()<< "blad wczytywania planszy: " <<pu.bladWczytywania();
+
 }
 
 void Plansza::setObszarPlanszy(ObszarPlanszy *obszar)

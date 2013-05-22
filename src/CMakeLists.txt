@@ -5,6 +5,7 @@ set (SOURCES
 	cyklgry.cpp
 	mistrzgry.cpp
 	plansza.cpp
+	parserukladu.cpp
 	panelakcji.cpp
 	oknogracza.cpp
 	mojpasek.cpp
@@ -18,6 +19,7 @@ set (SOURCES
 	przedmiot.cpp
 	zadanie.cpp
 	przeciwnik.cpp
+	pole.cpp
 )
 
 set (HEADERS
@@ -27,6 +29,7 @@ set (HEADERS
 	cyklgry.h
 	mistrzgry.h
 	plansza.h
+	parserukladu.h
 	panelakcji.h
 	oknogracza.h
 	mojpasek.h
@@ -40,8 +43,8 @@ set (HEADERS
 	ekwipunek.h
 	nagroda.h
 	przeciwnik.h
+	pole.h
 )
-
 
 set (RESOURCES
 	zasoby.qrc

@@ -21,7 +21,7 @@ public:
 protected:
 	void paintEvent(QPaintEvent *e);
 private:
-	static const int DLUGOSC_MINIMUM = 100;
+	static const int DLUGOSC_MINIMUM = 105;
 	static const int GRUBOSC = 20;
 	qreal sprawdzWartosc(qreal x, qreal a, qreal b);
 	int wysokosc;

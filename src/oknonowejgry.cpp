@@ -145,8 +145,6 @@ void OknoNowejGry::przekazDane()
 					 (Klasa)gracze[i].klasa->currentIndex(),
 					 KOLORY[gracze[i].kolor->currentIndex()],
 					 gracze[i].ai->checkState()));
-		qDebug() <<"# rasy gracza "<<i + 1 <<": " <<(Rasa)gracze[i].rasa->currentIndex();
-		qDebug() <<"# klasy gracza "<<i + 1 <<": " <<(Klasa)gracze[i].klasa->currentIndex();
 	}
 	//korzystam tutaj z faktu, że pola w przyciskach są w takiej kolejności jak w tablicy,
 	//a tam, są w takiej kolejności jak w enumach

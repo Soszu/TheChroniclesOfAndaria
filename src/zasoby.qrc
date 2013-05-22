@@ -8,5 +8,6 @@
         <file>ikonki/ruch.png</file>
         <file>ikonki/wrecz.png</file>
         <file>ikonki/regeneracja.png</file>
+        <file>dane/plansza.txt</file>
     </qresource>
 </RCC>
