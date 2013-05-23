@@ -130,7 +130,7 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 				return false;
 			}
 			info dane = legenda[symbol];
-			IDPola miejsce = {i,j}; //sprawdzić czy napewno jest dostępny, bo jeżeli przekazywany jest wskaźnik to może nie być
+			IDPola miejsce = {j,i}; //sprawdzić czy napewno jest dostępny, bo jeżeli przekazywany jest wskaźnik to może nie być
 			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.plik));
 		}
 	}

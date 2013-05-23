@@ -96,4 +96,74 @@ Gra kończy się w przypadku, gdy jeden z graczy osiągnie określony poziom i w
 
 \end{figure}
 
+\noindent\textbf{Postać plików na dysku:}
+
+\textbf{Format zapisu przedmiotów:}
+\begin{verbatim}
+123 baba java patrzy	
+\end{verbatim}
+
+\textbf{Format zapisu nagród:}
+\begin{verbatim}
+123 baba java patrzy	
+\end{verbatim}
+
+\textbf{Format zapisów zadań:}
+\begin{verbatim}
+123 baba java patrzy	
+\end{verbatim}
+
+\textbf{Format zapisu przeciwników:}
+\begin{verbatim}
+123 baba java patrzy	
+\end{verbatim}
+
+\newpage
+
+\textbf{Format zapisu planszy:}
+\begin{verbatim}
+szerokość;wysokość           (2 liczby całkowite dodatnie)
+
+liczba wpisów w legendzie    (liczba całkowite dodatnie)
+
+symbol; nazwa; plik z obrazkiem; czy jest przeciwnik; współczynnik ruchu 
+    Format linii legendy:    (tekst(bez spacji);tekst;tekst;1 lub 0; liczba całkowita)
+
+Następnie znajduje się tyle wierszy ile plansza ma wysokości, 
+zawierające tyle pól ile szerokości ma plansza.
+Pola poodzielane są średnikami i zawierają symbole pól na odpowiednich pozycjach
+
+\end{verbatim}
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[scale=0.3]{plansza.png}
+
+\caption{Przykładowa plansza.} 
+
+\label{Klasy}
+
+\end{figure}
+
+Zawartość pliku z ustawieniem dla powyższej planszy
+\begin{verbatim}
+5;4
+9
+B;;bagno.png;1;3
+1;ISENGARD;zamek.png;0;0
+l;;las.png;0;2
+L;;las.png;1;2
+d;;dolina.png;0;1
+G;;gora.png;1;2
+a;;droga.png;0;1
+2;WĄCHOCK;zamek.png;0;0
+w;;woda.png;0;2
+B;1;l;d;G
+ a;l;l;d;G
+a;G;d;w;w
+ a;2;w;w;w	
+\end{verbatim}
+
 \end{document}
