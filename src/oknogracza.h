@@ -19,7 +19,6 @@ public:
 	OknoGracza(QFrame *rama);
 	~OknoGracza();
 	void wyswietlGracza(Gracz* gracz);
-	void wyswietlMonitAI();
 private:
 	QVBoxLayout* layoutGlowny;
 	QHBoxLayout* reputacja;

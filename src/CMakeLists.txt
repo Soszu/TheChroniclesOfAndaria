@@ -12,7 +12,7 @@ set (SOURCES
 	oknoekwipunek.cpp
 	oknozadania.cpp
 	obszarplanszy.cpp
-	mybutton.cpp
+	mojprzycisk.cpp
 	gracz.cpp
 	ekwipunek.cpp
 	nagroda.cpp
@@ -36,7 +36,7 @@ set (HEADERS
 	oknoekwipunek.h
 	oknozadania.h
 	obszarplanszy.h
-	mybutton.h
+	mojprzycisk.h
 	gracz.h
 	przedmiot.h
 	zadanie.h

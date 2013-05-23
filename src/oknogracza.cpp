@@ -95,6 +95,7 @@ OknoGracza::OknoGracza(QFrame* rama)
 	oknoZadania = new OknoZadania();
 	connect(ekwipunek, SIGNAL(clicked()), oknoEkwipunek, SLOT(show()));
 	connect(zadania, SIGNAL(clicked()), oknoZadania, SLOT(show()));
+
 //------------------------------
 	layoutGlowny->addWidget(pierwszaLinijka);
 	layoutGlowny->addLayout(linijkaZdrowia);
@@ -139,12 +140,20 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	magia->setText(QString::number(gracz->atakMagiczny));
 //------------------------------
 	zloto->setText(QString::number(gracz->zloto) + odmiana(gracz->zloto));
+//------------------------------
 
-}
+	if(gracz->czyAI)
+	{
+		zadania->setEnabled(false);
+		ekwipunek->setEnabled(false);
+	}
+	else
+	{
+		zadania->setEnabled(true);
+		ekwipunek->setEnabled(true);
+	}
 
-void OknoGracza::wyswietlMonitAI()
-{
-
+	qDebug() <<"Okno Gracza wyswietlilo dane: " <<gracz->nazwa;
 }
 
 /**

@@ -13,12 +13,12 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 {
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->nazwa;
 
-	//panelAkcji->wyswietlAkcje(mozliweAkcje(gracz));
-	//wybranoAkcje(QString::fromUtf8("Zakończ turę"));
-	if(gracz->czyAI)
-		oknoGracza ->wyswietlMonitAI();
-	else
-		oknoGracza->wyswietlGracza(gracz);
+	oknoGracza->wyswietlGracza(gracz);
+
+	panelAkcji->wyswietlAkcje(mozliweAkcje(gracz));
+
+	//jeśli to AI to zapytaj o decyzje
+
 }
 
 /**
@@ -26,22 +26,30 @@ void MistrzGry::ruszGracza(Gracz *gracz)
  * @param gracz aktualny gracz
  * @return lista QString zawierająca nazwy możliwych akcji
  */
-QList<QString> MistrzGry::mozliweAkcje(Gracz *gracz)
+QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 {
-	QList<QString> test;
+	QList<Akcja> test;
 
 	if(gracz->czyAI)
 		return test; //pusta lista akcji
 
-	test.push_back("okno");
-	test.push_back("dupa");
-	test.push_back("chuj");
-	test.push_back("hipster");
-	test.push_back("okno");
-	test.push_back("dupa");
-	test.push_back(QString::fromUtf8("Zakończ turę")); //można zrobić enum
+	test.push_back(koniecTury);
+	test.push_back(testowa);
 
 	return test;
+}
+
+/**
+ * @brief MistrzGry::wybranoAkcje Jeżeli ta metoda została wywołana, to grafika zgłasza kliknięcie na przycisk
+ * @param nazwa nazwa akcji, która została wybrana (Tekst przycisku)
+ */
+void MistrzGry::wybranoAkcje(Akcja nazwa)
+{
+	qDebug() << "wybrano akcje: " << AKCJE[nazwa];
+
+	//switch ?
+	if(nazwa == koniecTury)
+		cyklGry->zakonczTure();
 }
 
 /**
@@ -53,6 +61,10 @@ void MistrzGry::setCyklGry(CyklGry *cykl)
 	this->cyklGry = cykl;
 }
 
+/**
+ * @brief MistrzGry::setPlansza Ustawia planszę, żeb ypowiedzieć jej o ewentualnej zmianie punktów ruchu (wtedy plansza może chcieć podświetlić więcej)
+ * @param plansza
+ */
 void MistrzGry::setPlansza(Plansza *plansza)
 {
 	this->plansza = plansza;
@@ -74,15 +86,4 @@ void MistrzGry::setPanelAkcji(PanelAkcji *panel)
 void MistrzGry::setOknoGracza(OknoGracza *okno)
 {
 	this->oknoGracza = okno;
-}
-
-/**
- * @brief MistrzGry::wybranoAkcje Jeżeli ta metoda została wywołana, to grafika zgłasza kliknięcie na przycisk
- * @param nazwa nazwa akcji, która została wybrana (Tekst przycisku)
- */
-void MistrzGry::wybranoAkcje(QString nazwa)
-{
-	qDebug() << "wybrano akcje: " << nazwa;
-	if(nazwa == QString::fromUtf8("Zakończ turę"))
-		cyklGry->zakonczTure();
 }

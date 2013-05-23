@@ -18,23 +18,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	layoutBoczny->addWidget(panel);
 
 	panelAkcji = new PanelAkcji(panel);
-	panelAkcji->setMistrzGry(mistrzGry);
 
 	oknoGracza = new OknoGracza(ramka);
 
 	obszarPlanszy = new ObszarPlanszy();
 	graphicsView->setScene(obszarPlanszy);
-	obszarPlanszy->setPlansza(plansza);
 }
 
-MainWindow::~MainWindow()
-{
-}
-
-/**
- * @brief MainWindow::getPanelAkcji Udostępnia
- * @return
- */
 PanelAkcji *MainWindow::getPanelAkcji()
 {
 	return panelAkcji;
@@ -51,16 +41,19 @@ ObszarPlanszy *MainWindow::getObszarPlanszy()
 }
 
 /**
- * @brief MainWindow::setMistrzGry
- * @param cykl
+ * @brief MainWindow::setMistrzGry Ustawia mistrza dla podelementów, które go potrzebują
+ * @param mistrz
  */
 void MainWindow::setMistrzGry(MistrzGry *mistrz)
 {
-	this->mistrzGry = mistrz;
+	panelAkcji->setMistrzGry(mistrz);
 }
 
-
+/**
+ * @brief MainWindow::setPlansza Ustawia planszę dla elementów które jej potrzebują.
+ * @param plansza
+ */
 void MainWindow::setPlansza(Plansza *plansza)
 {
-	this->plansza = plansza;
+	obszarPlanszy->setPlansza(plansza);
 }

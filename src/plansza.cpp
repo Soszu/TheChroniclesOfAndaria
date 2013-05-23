@@ -7,7 +7,9 @@ Plansza::Plansza()
 	{
 		qDebug()<< "blad wczytywania";
 	}
-	qDebug()<< "blad wczytywania planszy: " <<pu.bladWczytywania();
+	if(pu.bladWczytywania())
+		qDebug() << QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy");
+	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
 
 }
 

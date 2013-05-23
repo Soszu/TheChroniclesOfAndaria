@@ -3,26 +3,26 @@
 #include <QString>
 #include <QColor>
 
-const int MAX_GRACZY = 8;
-const int MIN_GRACZY = 2;
+static const int MAX_GRACZY = 8;
+static const int MIN_GRACZY = 2;
 
-const quint8 LICZBA_KROLESTW = 4;
-const quint8 LICZBA_RAS = 4;
-const quint8 LICZBA_KLAS = 4;
+static const quint8 LICZBA_KROLESTW = 4;
+static const quint8 LICZBA_RAS = 4;
+static const quint8 LICZBA_KLAS = 4;
 
-const quint16 MAKSYMALNY_POZIOM = 10;
-const quint16 GRANICE_POZIOMOW[]={0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
-const quint8 POCZATKOWY_POZIOM = 1;
-const quint8 POCZATKOWA_REPUTACJA = 0;
-const quint8 MAX_REPUTACJA = 5;
-const quint8 POCZATKOWE_ZLOTO = 10;
-const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
-const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;
+static const quint16 MAKSYMALNY_POZIOM = 10;
+static const quint16 GRANICE_POZIOMOW[]={0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
+static const quint8 POCZATKOWY_POZIOM = 1;
+static const quint8 POCZATKOWA_REPUTACJA = 0;
+static const quint8 MAX_REPUTACJA = 5;
+static const quint8 POCZATKOWE_ZLOTO = 10;
+static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
+static const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;
 
-const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
-const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
+static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
+static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
 
-const QString KROLESTWA[] = {
+static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
 	"Elfy",
 	"Krasnoludy",
@@ -30,7 +30,7 @@ const QString KROLESTWA[] = {
 };
 
 //index nazwy rasy jest równoznaczny z wartością enumeratora Rasa, dla tej rasy
-const QString RASY[] = {
+static const QString RASY[LICZBA_RAS] = {
 	QString::fromUtf8("Człowiek"),
 	"Elf",
 	"Krasnolud",
@@ -39,14 +39,14 @@ const QString RASY[] = {
 
 enum Rasa
 {
-	czlowiek =0,
+	czlowiek = 0,
 	elf = 1,
 	krasnolud = 2,
 	niziolek = 3
 };
 
 //index nazwy klasy jest równoznaczny z wartością enumeratora Klasa, dla tej rasy
-const QString KLASY[] = {
+static const QString KLASY[LICZBA_KLAS] = {
 	"Wojownik",
 	"Mag",
 	QString::fromUtf8("Łowca"),
@@ -120,8 +120,8 @@ enum RodzajPrzedmiotu
 	artefakt
 };
 
-const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
-const QString MOZLIWE_KOLORY[] = {
+static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
+static const QString MOZLIWE_KOLORY[] = {
 	"Zielony",
 	"Czerwony",
 	QString::fromUtf8("Żółty"),
@@ -133,7 +133,7 @@ const QString MOZLIWE_KOLORY[] = {
 	"Szary"
 };
 
-const QColor KOLORY[]= {
+static const QColor KOLORY[]= {
 	Qt::green,
 	Qt::red,
 	Qt::yellow,
@@ -145,4 +145,15 @@ const QColor KOLORY[]= {
 	Qt::gray
 };
 
+//index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
+enum Akcja
+{
+	koniecTury = 0,
+	testowa = 1
+};
+
+static const QString AKCJE[] = {
+	QString::fromUtf8("Zakończ turę"),
+	"Akcja testowa"
+};
 #endif // GRA_H

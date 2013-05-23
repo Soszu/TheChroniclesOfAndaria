@@ -46,6 +46,7 @@ QList<Gracz *> CyklGry::getGracze()
  */
 void CyklGry::rozpocznij()
 {
+	qDebug() <<"Liczba graczy: " <<gracze.size();
 	ruszGracza(indeksAktualnego);
 }
 
@@ -59,6 +60,7 @@ void CyklGry::zakonczGre()
  */
 void CyklGry::ruszGracza(int indeks)
 {
+	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
 	mistrzGry->ruszGracza(gracze[indeks]);
 	plansza->ruszGracza(gracze[indeks]);
 }
@@ -68,8 +70,6 @@ void CyklGry::ruszGracza(int indeks)
  */
 void CyklGry::zakonczTure()
 {
-	qDebug() <<"Zakonczono ture, indeks aktualnego gracza: " <<indeksAktualnego;
-
 	++indeksAktualnego;
 	if(indeksAktualnego >= gracze.size())
 		indeksAktualnego = 0;

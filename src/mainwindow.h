@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 
 public:
 	explicit MainWindow(QWidget *parent = 0);
-	~MainWindow();
 	PanelAkcji* getPanelAkcji();
 	OknoGracza* getOknoGracza();
 	ObszarPlanszy* getObszarPlanszy();
@@ -37,14 +36,9 @@ private:
 	QFrame* ramka;
 	QGroupBox* panel;
 
-
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;
 	ObszarPlanszy* obszarPlanszy;
-
-	MistrzGry* mistrzGry;
-	Plansza* plansza;
-
 };
 
 #endif // MAINWINDOW_H

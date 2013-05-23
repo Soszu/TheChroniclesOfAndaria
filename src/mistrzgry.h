@@ -8,6 +8,7 @@
 #include "plansza.h"
 #include "oknogracza.h"
 #include "panelakcji.h"
+#include "gra.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -18,12 +19,12 @@ class MistrzGry
 public:
 	MistrzGry();
 	void ruszGracza(Gracz* gracz);
-	QList<QString> mozliweAkcje(Gracz* gracz);
+	QList<Akcja> mozliweAkcje(Gracz* gracz);
 	void setCyklGry(CyklGry* cykl);
 	void setPlansza(Plansza* plansza);
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
-	void wybranoAkcje(QString nazwa);
+	void wybranoAkcje(Akcja nazwa);
 private:
 	CyklGry* cyklGry;
 	PanelAkcji* panelAkcji;
