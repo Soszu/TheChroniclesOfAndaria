@@ -13,7 +13,32 @@ class Gracz
 public:
 	Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI);
 	virtual ~Gracz();
+	QString getNazwa();
+	Rasa getRasa();
+	Klasa getKlasa();
+	QColor getKolor();
+	bool getCzyAI();
+	IDPola getPozycja();
+	void setPozycja(IDPola id);
+	Ekwipunek* getEkwipunek();
+	QList<Zadanie*> getZadania();
+	QList<IDPola> getPolaSzczegolne();
+	quint8 getPoziom();
+	quint8* getReputacja();
+	quint8 getZdrowieMaks();
+	quint8 getZdrowieAktualne();
+	quint8 getRegeneracja();
+	quint8 getAtakWrecz();
+	quint8 getAtakDystansowy();
+	quint8 getAtakMagiczny();
+	quint8 getObrona();
+	quint8 getPercepcja();
+	quint8 getPunktyRuchu();
+	quint16 getZloto();
+	quint16 getDoswiadczenie();
 
+
+private:
 	QString nazwa;
 	Rasa rasa;
 	Klasa klasa;
@@ -36,8 +61,6 @@ public:
 	quint8 punktyRuchu;
 	quint16 zloto;
 	quint16 doswiadczenie;
-
-private:
 	void przepiszStaty(statystyka konkret);
 
 };

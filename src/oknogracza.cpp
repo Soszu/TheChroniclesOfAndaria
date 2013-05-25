@@ -117,32 +117,32 @@ OknoGracza::~OknoGracza()
 
 void OknoGracza::wyswietlGracza(Gracz *gracz)
 {
-	pierwszaLinijka->setText(gracz->nazwa + ", " + RASY[gracz->rasa] + ", " + KLASY[gracz->klasa]);
+	pierwszaLinijka->setText(gracz->getNazwa() + ", " + RASY[gracz->getRasa()] + ", " + KLASY[gracz->getKlasa()]);
 //------------------------------
-	wskaznikZdrowia->wypelnijPierwszy(gracz->zdrowieAktualne / gracz->zdrowieMaks);
-	wskaznikZdrowia->wypelnijDrugi((qreal)gracz->regeneracja / gracz->zdrowieMaks);
-	opisPoZdrowiu->setText(QString::number(gracz->zdrowieAktualne) + QString("/") + QString::number(gracz ->zdrowieMaks)
-			       + QString(" (") + QString::number(gracz->regeneracja) + QString(")") );
-//	regeneracja ->setText(QString::number(gracz->regeneracja) + QString::fromUtf8("/turę"));
+	wskaznikZdrowia->wypelnijPierwszy(gracz->getZdrowieAktualne() / gracz->getZdrowieMaks());
+	wskaznikZdrowia->wypelnijDrugi((qreal)gracz->getRegeneracja() / gracz->getZdrowieMaks());
+	opisPoZdrowiu->setText(QString::number(gracz->getZdrowieAktualne()) + QString("/") + QString::number(gracz ->getZdrowieMaks())
+				+ QString(" (") + QString::number(gracz->getRegeneracja()) + QString(")") );
+//	regeneracja ->setText(QString::number(gracz->getRegeneracja()) + QString::fromUtf8("/turę"));
 //------------------------------
-	opisPrzedDoswiadczeniem->setText(QString("Poziom: ") + QString::number(gracz->poziom));
-	int ileDoswNaAktualnyPoziom = GRANICE_POZIOMOW[gracz->poziom] - GRANICE_POZIOMOW[gracz->poziom - 1];
-	int ileDoswZebranoNaAktPoziomie = gracz-> doswiadczenie - GRANICE_POZIOMOW[gracz->poziom - 1];
+	opisPrzedDoswiadczeniem->setText(QString("Poziom: ") + QString::number(gracz->getPoziom()));
+	int ileDoswNaAktualnyPoziom = GRANICE_POZIOMOW[gracz->getPoziom()] - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
+	int ileDoswZebranoNaAktPoziomie = gracz->getDoswiadczenie() - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
 	wskaznikDoswiadczenia->wypelnij((qreal)ileDoswZebranoNaAktPoziomie / ileDoswNaAktualnyPoziom );
 	opisPoDoswiadczeniu->setText(QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
 //------------------------------
-	obrona->setText(QString::number(gracz->obrona));
-	percepcja->setText(QString::number(gracz->percepcja));
-	ruch->setText(QString::number(gracz->punktyRuchu));
+	obrona->setText(QString::number(gracz->getObrona()));
+	percepcja->setText(QString::number(gracz->getPercepcja()));
+	ruch->setText(QString::number(gracz->getPunktyRuchu()));
 //------------------------------
-	wrecz->setText(QString::number(gracz->atakWrecz));
-	dystans->setText(QString::number(gracz->atakDystansowy));
-	magia->setText(QString::number(gracz->atakMagiczny));
+	wrecz->setText(QString::number(gracz->getAtakWrecz()));
+	dystans->setText(QString::number(gracz->getAtakDystansowy()));
+	magia->setText(QString::number(gracz->getAtakMagiczny()));
 //------------------------------
-	zloto->setText(QString::number(gracz->zloto) + odmiana(gracz->zloto));
+	zloto->setText(QString::number(gracz->getZloto()) + odmiana(gracz->getZloto()));
 //------------------------------
 
-	if(gracz->czyAI)
+	if(gracz->getCzyAI())
 	{
 		zadania->setEnabled(false);
 		ekwipunek->setEnabled(false);
@@ -153,7 +153,7 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 		ekwipunek->setEnabled(true);
 	}
 
-	qDebug() <<"Okno Gracza wyswietlilo dane: " <<gracz->nazwa;
+	qDebug() <<"Okno Gracza wyswietlilo dane: " <<gracz->getNazwa();
 }
 
 /**

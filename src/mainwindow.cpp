@@ -4,6 +4,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
+
 	widget = new QWidget();
 	this->setCentralWidget(widget);
 	layoutGlowny = new QHBoxLayout(widget);
@@ -20,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	panelAkcji = new PanelAkcji(panel);
 
 	oknoGracza = new OknoGracza(ramka);
-
 	obszarPlanszy = new ObszarPlanszy();
 	graphicsView->setScene(obszarPlanszy);
 }

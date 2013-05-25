@@ -11,7 +11,7 @@ MistrzGry::MistrzGry()
  */
 void MistrzGry::ruszGracza(Gracz *gracz)
 {
-	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->nazwa;
+	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
 	oknoGracza->wyswietlGracza(gracz);
 
@@ -30,7 +30,7 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 {
 	QList<Akcja> test;
 
-	if(gracz->czyAI)
+	if(gracz->getCzyAI())
 		return test; //pusta lista akcji
 
 	test.push_back(koniecTury);
@@ -50,6 +50,11 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 	//switch ?
 	if(nazwa == koniecTury)
 		cyklGry->zakonczTure();
+}
+
+void MistrzGry::wykonanoRuch()
+{
+	//wyswietl nowe akcje
 }
 
 /**

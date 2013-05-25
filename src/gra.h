@@ -21,6 +21,8 @@ static const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
+static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 700; //w milisekundach
+
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
@@ -63,7 +65,6 @@ enum Klasa
 
 struct IDPola
 {
-	//wstępnie
 	int x;
 	int y;
 };
@@ -156,4 +157,14 @@ static const QString AKCJE[] = {
 	QString::fromUtf8("Zakończ turę"),
 	"Akcja testowa"
 };
+
+//modyfikatory służące do przesuwania pionków jeśli kilka stoi na tym samym polu
+struct modyfikator{
+	int x;
+	int y;
+};
+static const int LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW = 9;
+static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW]= {
+	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
+
 #endif // GRA_H

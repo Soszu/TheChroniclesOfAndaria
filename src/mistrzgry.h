@@ -25,6 +25,7 @@ public:
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
 	void wybranoAkcje(Akcja nazwa);
+	void wykonanoRuch();
 private:
 	CyklGry* cyklGry;
 	PanelAkcji* panelAkcji;

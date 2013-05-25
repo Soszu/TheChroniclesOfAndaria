@@ -12,6 +12,8 @@ set (SOURCES
 	oknoekwipunek.cpp
 	oknozadania.cpp
 	obszarplanszy.cpp
+	hex.cpp
+	pionek.cpp
 	mojprzycisk.cpp
 	gracz.cpp
 	ekwipunek.cpp
@@ -36,6 +38,8 @@ set (HEADERS
 	oknoekwipunek.h
 	oknozadania.h
 	obszarplanszy.h
+	hex.h
+	pionek.h
 	mojprzycisk.h
 	gracz.h
 	przedmiot.h

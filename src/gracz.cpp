@@ -26,6 +26,121 @@ Gracz::~Gracz()
 	delete ekwipunek;
 }
 
+QString Gracz::getNazwa()
+{
+	return nazwa;
+}
+
+Rasa Gracz::getRasa()
+{
+	return rasa;
+}
+
+Klasa Gracz::getKlasa()
+{
+	return klasa;
+}
+
+QColor Gracz::getKolor()
+{
+	return kolor;
+}
+
+bool Gracz::getCzyAI()
+{
+	return czyAI;
+}
+
+IDPola Gracz::getPozycja()
+{
+	return pozycja;
+}
+
+void Gracz::setPozycja(IDPola id)
+{
+	this->pozycja = id;
+}
+
+Ekwipunek *Gracz::getEkwipunek()
+{
+	return ekwipunek;
+}
+
+QList<Zadanie *> Gracz::getZadania()
+{
+	return zadania;
+}
+
+QList<IDPola> Gracz::getPolaSzczegolne()
+{
+	return polaSzczegolne;
+}
+
+quint8 Gracz::getPoziom()
+{
+	return poziom;
+}
+
+quint8 *Gracz::getReputacja()
+{
+	return reputacja;
+}
+
+quint8 Gracz::getZdrowieMaks()
+{
+	return zdrowieMaks;
+}
+
+quint8 Gracz::getZdrowieAktualne()
+{
+	return zdrowieAktualne;
+}
+
+quint8 Gracz::getRegeneracja()
+{
+	return regeneracja;
+}
+
+quint8 Gracz::getAtakWrecz()
+{
+	return atakWrecz;
+}
+
+quint8 Gracz::getAtakDystansowy()
+{
+	return atakDystansowy;
+}
+
+quint8 Gracz::getAtakMagiczny()
+{
+	return atakMagiczny;
+}
+
+quint8 Gracz::getObrona()
+{
+	return obrona;
+}
+
+quint8 Gracz::getPercepcja()
+{
+	return percepcja;
+}
+
+quint8 Gracz::getPunktyRuchu()
+{
+	return punktyRuchu;
+}
+
+quint16 Gracz::getZloto()
+{
+	return zloto;
+}
+
+quint16 Gracz::getDoswiadczenie()
+{
+	return doswiadczenie;
+}
+
 void Gracz::przepiszStaty(statystyka konkret)
 {
 	this->zdrowieMaks = konkret.zdrowieMaks;

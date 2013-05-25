@@ -11,7 +11,8 @@ CyklGry::CyklGry()
  */
 void CyklGry::setGracze(QList<Gracz *> gracze)
 {
-	this->gracze = gracze;
+	this->gracze = gracze; //tu jest przekazywana przez przepisanie, bo lepiej jest, żeby lista była zapisana w cyklu.
+	plansza->setGracze(&this->gracze);
 }
 
 /**
@@ -62,7 +63,7 @@ void CyklGry::ruszGracza(int indeks)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
 	mistrzGry->ruszGracza(gracze[indeks]);
-	plansza->ruszGracza(gracze[indeks]);
+	plansza->ruszGracza(gracze[indeks], indeks);
 }
 
 /**

@@ -9,5 +9,13 @@
         <file>ikonki/wrecz.png</file>
         <file>ikonki/regeneracja.png</file>
         <file>dane/plansza.txt</file>
+        <file>hexy/bagno.png</file>
+        <file>hexy/dolina.png</file>
+        <file>hexy/droga.png</file>
+        <file>hexy/gora.png</file>
+        <file>hexy/las.png</file>
+        <file>hexy/symbol.png</file>
+        <file>hexy/woda.png</file>
+        <file>hexy/zamek.png</file>
     </qresource>
 </RCC>
