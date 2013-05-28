@@ -52,47 +52,78 @@ void Plansza::ruszGracza(Gracz *gracz, int indeks)
 void Plansza::kliknietoHex(IDPola id)
 {
 	qDebug() <<"kliknieto: " <<id.x <<" "<<id.y;
-	if(!graczWykonalRuch) //i osiągalny
+	if(!graczWykonalRuch && poprzednie.contains(IDToIndeks(id)))
 	{
 		aktualnyGracz->setPozycja(id);
 		obszarPlanszy->wykonajRuch(odtworzDroge(id), indeksAktualnego);
 		mistrzGry->wykonanoRuch();
 		graczWykonalRuch = true;
 	}
+	if(!poprzednie.contains(IDToIndeks(id)))
+		qDebug() <<"nieosiągalny";
 }
 
 void Plansza::ustalOsiagalne(Gracz *gracz)
 {
-	//TODO
+	QQueue<QPair<int, IDPola> >doPrzejrzenia;
+
+	poprzednie.clear();
+
+	doPrzejrzenia.push_back(qMakePair(0, gracz->getPozycja() ));
+
+	while(!doPrzejrzenia.empty())
+	{
+		QPair<int, IDPola> badany = doPrzejrzenia.front();
+		doPrzejrzenia.pop_front();
+		QList<IDPola> najblizsze = sasiedniePola(badany.second);
+		for(int i = 0; i < najblizsze.size(); ++i)
+		{
+			int indeks = IDToIndeks(najblizsze[i]);
+			int koszt = badany.first + pola->at(indeks)->getWspolczynnik();
+			if(koszt > gracz->getPunktyRuchu() || poprzednie.contains(indeks))
+				continue;
+			else
+			{
+				doPrzejrzenia.push_back(qMakePair(koszt, indeksToID(indeks)));
+				poprzednie.insert(indeks, badany.second);
+			}
+		}
+	}
+
+	poprzednie.remove(IDToIndeks(gracz->getPozycja()));
 	osiagalne.clear();
-	//BFS
-	//tymczasowo
-	/*
-	IDPola start = gracz->getPozycja();
-	IDPola tmp1 = {start.x + 1, start.y};
-	IDPola tmp2 = {start.x - 1, start.y};
-	IDPola tmp3 = {start.x, start.y + 1};
-	IDPola tmp4 = {start.x, start.y - 1};
-	osiagalne->push_back(QPair<IDPola, IDPola>(tmp1, start));
-	osiagalne->push_back(QPair<IDPola, IDPola>(tmp2, start));
-	osiagalne->push_back(QPair<IDPola, IDPola>(tmp3, start));
-	osiagalne->push_back(QPair<IDPola, IDPola>(tmp4, start));
-	*/
+	QList<int> indeksyOsiagalnych = poprzednie.keys();
+	for (int i = 0; i < indeksyOsiagalnych.size(); ++i)
+		osiagalne.push_back(indeksToID(indeksyOsiagalnych[i]));
+}
+
+/**
+ * @brief Plansza::czyTrwaAnimacja Podaje informację, czy ruch jest własnie animowany. Z myśą o mistrzu gry.
+ * @return Jeśli ruch jest właśnie animowany, to zwraca true, w.p.p false.
+ */
+bool Plansza::czyTrwaAnimacja()
+{
+	return obszarPlanszy->animacjaTrwa();
 }
 
 QList<IDPola> Plansza::pokazOsiagalne()
 {
-	//TODO
-	QList<IDPola> tmp;
-	tmp.push_back(aktualnyGracz->getPozycja());
-	return tmp;
+	return osiagalne;
 }
 
 QList<IDPola> Plansza::odtworzDroge(IDPola pole)
 {
-	//TODO
 	QList<IDPola> droga;
-	droga.push_back(pole);
+	IDPola aktualny = pole;
+	droga.push_back(aktualny);
+
+	while(poprzednie.contains(IDToIndeks(aktualny)))
+	{
+		aktualny = poprzednie[IDToIndeks(aktualny)];
+		droga.push_back(aktualny);
+	}
+	droga.pop_back(); //usuwam hex na którym teraz znajduje się pionek, a który został dodany
+
 	return droga;
 }
 
@@ -118,3 +149,92 @@ void Plansza::ruchAI(IDPola pole)
 {
 	kliknietoHex(pole);
 }
+
+/**
+ * @brief Plansza::IdToIndeks Zamienia ID pola zapisane w 2 intach na indeks pola na liście pól czyli 1 int. Efekt uboczny zapisania ID jako 2 x int.
+ * @param pole ID pola do zamiany
+ * @return indeks pola na liście pól (numerowanie od 0)
+ */
+int Plansza::IDToIndeks(IDPola pole)
+{
+	return pole.y * szerokoscPlanszy + pole.x;
+}
+
+/**
+ * @brief Plansza::indeksToID Zamienia indeks na struct IDPola.
+ * @param indeks indeks do zamiany
+ * @return
+ */
+IDPola Plansza::indeksToID(int indeks)
+{
+	IDPola tmp;
+	tmp.x = indeks % szerokoscPlanszy;
+	tmp.y = indeks / szerokoscPlanszy;
+
+	return tmp;
+}
+
+/**
+ * @brief Plansza::sasiedniePola Zwraca listę pól sąsiadujących z zadanym polem.
+ * @param pole
+ * @return
+ */
+QList<IDPola> Plansza::sasiedniePola(IDPola pole)
+{
+	QList<IDPola> wynik;
+	IDPola tmp = pole;
+	if(pole.x > 0)
+	{
+		tmp.x = pole.x - 1;
+			wynik.push_back(tmp);
+	}
+	if(pole.x < szerokoscPlanszy - 1)
+	{
+		tmp.x = pole.x + 1;
+			wynik.push_back(tmp);
+	}
+	tmp.x = pole.x;
+
+	if(pole.y < wysokoscPlanszy - 1)
+	{
+		tmp.y = pole.y + 1;
+		wynik.push_back(tmp);
+		if(pole.y % 2 == 1)
+		{
+			if(pole.x < szerokoscPlanszy - 1)
+			{
+				tmp.x = pole.x + 1;
+				wynik.push_back(tmp);
+			}
+		}
+		else
+			if(pole.x > 0)
+			{
+				tmp.x = pole.x - 1;
+				wynik.push_back(tmp);
+			}
+	}
+	tmp.x = pole.x;
+	if(pole.y > 0)
+	{
+		tmp.y = pole.y - 1;
+		wynik.push_back(tmp);
+		if(pole.y % 2 == 1)
+		{
+			if(pole.x < szerokoscPlanszy - 1)
+			{
+				tmp.x = pole.x + 1;
+				wynik.push_back(tmp);
+			}
+		}
+		else
+			if(pole.x > 0)
+			{
+				tmp.x = pole.x - 1;
+				wynik.push_back(tmp);
+			}
+	}
+
+	return wynik;
+}
+

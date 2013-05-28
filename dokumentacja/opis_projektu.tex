@@ -96,26 +96,105 @@ Gra kończy się w przypadku, gdy jeden z graczy osiągnie określony poziom i w
 
 \end{figure}
 
+\noindent\textbf{Możliwe rasy w grze:} \textit{Człowiek, Krasnolud, Elf, Niziołek}
+
+\noindent\textbf{Możliwe klasy w grze:} \textit{Wojownik, Łowca, Mag, Druid }
+
+\vspace{0.5cm}
 \noindent\textbf{Postać plików na dysku:}
 
 \textbf{Format zapisu przedmiotów:}
-\begin{verbatim}
-123 baba java patrzy	
-\end{verbatim}
 
+Każdy przedmiot zapisany jest w oddzielnej linii. \underline{Kolejność informacji:}
+
+\textit{identyfikator;nazwa przedmiotu;typ;bonus do walki wrecz;b.d.w. dystansowej;b.d.w. magicznej; modyfikator obrony;m. percepcji; m. zdrowia;m. regeneracji ;ograniczenie względem klasy;czy bron jednoreczna;czy dostępna od 5 poziomu;wartość;kolor czcionki;
+}
+
+Ograniczenia względem klas podawane są w tej kolejności: wojownik, łowca, mag, druid\\ (1 może , 0 nie może nosić) np. 1010.
+
+\underline{Typy przedmiotow} (odpowiadające miejscu założenia): 
+\begin{itemize}
+	\item w - bron (prawa reka)
+	\item t - tarcza lub aura (nie można łączyć z bronią dwuręczną)
+	\item p - pancerz lekki 
+	\item h - hełm
+	\item a - artefakt
+	\item m - mikstura
+\end{itemize}
+
+\underline{Możliwe kolory czcionki:} b-biały, n-niebieski, c-czerwony.
+
+Przedmioty przynależą do grup. Linie postaci $ \$nazwaGrupy $ rozpoczynają przypisywanie przedmiotów do danej grupy. Przypisane zostają do niej wszystkie przedmioty, aż do końca pliku lub zdefiniowania kolejnej grupy.
+\begin{verbatim}
+Przykład:
+$M1B
+3;DOBRY MIECZ;w;1;0;0;0;0;0;0;1100;1;0;1;b
+4;WYWAŻONY MIECZ;w;2;0;0;0;0;0;0;1100;1;0;1;b
+\end{verbatim}
 \textbf{Format zapisu nagród:}
+
+Każda nagroda zapisana jest w oddzielnej linii. \underline{Kolejność informacji:}
+
+\textit{identyfikator;zmiana reputacji(ludzie, krasnoludy, elfy, niziołki);złoto;doświadczenie;grupa z której losowany jest przedmiot; ID konkretnego przedmiotu}
+
+\underline{Format:}
+liczba całkowita;4 l. całkowite oddzielone przecinkami;l. całkowita;l. całkowita, tekst, l. całkowita
 \begin{verbatim}
-123 baba java patrzy	
+Przykład:
+1;1,0,0,1;5;200;AN;
+2;0,0,0,-1;2;100;;122
+3;0,0,2,0;5;300;;
 \end{verbatim}
 
-\textbf{Format zapisów zadań:}
+\noindent\textbf{Format zapisów zadań:}
+
+Każde zadanie zapisane jest w oddzielnej linii. \underline{Kolejność informacji:}
+
+\textit{identyfikator;typ zadania; tytuł; treść; czy powrót wymagany; kolor czcionki; pole celu;id nagrody; lista przeciwników}
+
+\underline{Format:}
+liczba całkowita;tekst; tekst;0 albo 1; znak; 2 l. całkowite oddzielone przecinikiem; l. całkowita; liczby całkowite oddzielone przecinkami
+
+\underline{Typy zadań:} 
+\begin{itemize}
+	\item 1 - Idź i pokonaj przeciwnika(ów)
+	\item 2 - Idź gdzieś / Zbierz kilka przedmiotów
+	\item 3 - Odnajdź kogoś (dotrzyj na pole i rzuć kością czy się udało)
+\end{itemize}
+
+\underline{Możliwe kolory czcionki:} b-biały, n-niebieski, c-czerwony.
+
 \begin{verbatim}
-123 baba java patrzy	
+Przykład:
+1;Potrzebne lekarstwo;Młody chłopak z wioski został ukąszony przez żądlika. Jedynym
+lekarstwem jest mikstura z dodatkiem jadu. Mama chłopca prosi cię o zebranie 2 żądeł.
+Żądliki znajdziesz nieopodal lasu na polu 30,17.;1;b;30,17;1;4,4
+2;Pastuszkowie, przybywajcie;Chłop prosi cię, abyś sprawdził, co atakuje bydło
+pasące się na łące. Będziesz musiał pokonać młodego wilka niepokojącego stado.
+Udaj się na pole 21,2;0;z;21,2;90;3
+3;Bunt;Kilku żołnierzy zbuntowało się przeciw swojemu dowódcy. Pokonaj przywódcę
+buntu na polu 11,15.;0;c;11,15;3;45
 \end{verbatim}
 
-\textbf{Format zapisu przeciwników:}
+\noindent\textbf{Format zapisu przeciwników:}
+
+Każdy przeciwnik zapisany jest w oddzielnej linii. \underline{Kolejność informacji:}
+
+\textit{identyfikator; nazwa; nazwa pliku ze zdjęciem; opis; atak; obrona; zdrowie; id nagrody}
+
+\underline{Format:}
+liczba całkowita;tekst; tekst; tekst; l. całkowita; l. całkowita l. całkowita; l. całkowita
+
+Atak jest reprezentowany jako dwie liczby całkowite stanowiące granice przedziału z którego losowana jest wartość.
+
 \begin{verbatim}
-123 baba java patrzy	
+Przykład:
+1;Smok Spiro;smok5.jpg;Jeden z pięciu potężnych smoków i najtrudniejszych 
+przeciwników w całej krainie.;40,46;48;30;2
+2;Goblin zwiadowca;goblin1.png;Zwiadowca niedużej grupy goblinów ukrywającej
+się w lasach.;8,12;16;10;1
+3;Szkielet niszczyciel;szkiel3.jpg;Mocna, zaprawiona w boju jednostka bojowa
+nieumarłych.;20,25;30;22;3
 \end{verbatim}
 
 \newpage

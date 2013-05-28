@@ -62,7 +62,7 @@ void Hex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 		painter->drawText(ograniczenieTekstu, Qt::AlignHCenter, pole->getNazwa());
 	}
 	if(podswietlenie)
-		painter->fillPath(shape(),QBrush(Qt::white, Qt::Dense7Pattern));
+		painter->fillPath(shape(),QBrush(Qt::gray, Qt::Dense7Pattern));
 }
 
 void Hex::setBok(qreal bok)

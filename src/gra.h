@@ -11,17 +11,17 @@ static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
 
 static const quint16 MAKSYMALNY_POZIOM = 10;
-static const quint16 GRANICE_POZIOMOW[]={0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
+static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 static const quint8 POCZATKOWY_POZIOM = 1;
 static const quint8 POCZATKOWA_REPUTACJA = 0;
 static const quint8 MAX_REPUTACJA = 5;
 static const quint8 POCZATKOWE_ZLOTO = 10;
 static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
-static const quint8 POCZATKOWE_PUNKTY_RUCHU = 10;
+static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
-static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 700; //w milisekundach
+static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
 
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
@@ -71,10 +71,10 @@ struct IDPola
 
 //index ustawienia początkowego jest równoznaczna z wartością enumeratora Rasa, dla tej rasy
 static const IDPola POCZATKOWE_USTAWIENIE[LICZBA_RAS] = {
-	{19,4}, //czlowiek
-	{29,9}, //elf
-	{15,19}, //krasnolud
-	{3,9}  //niziołek
+	{18,3}, //czlowiek
+	{28,8}, //elf
+	{14,18}, //krasnolud
+	{2,8}  //niziołek
 };
 
 struct statystyka

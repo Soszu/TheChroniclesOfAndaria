@@ -3,7 +3,8 @@
 
 #include <QList>
 #include <QPair>
-#include <map>
+#include <QMap>
+#include <QQueue>
 #include "gra.h"
 #include "plansza.h"
 #include "mistrzgry.h"
@@ -11,6 +12,8 @@
 #include "gracz.h"
 #include "obszarplanszy.h"
 #include "pole.h"
+
+using namespace std;
 
 class ObszarPlanszy;
 class MistrzGry;
@@ -27,6 +30,7 @@ public:
 	void ruszGracza(Gracz* gracz, int indeks);
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
+	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();
 	QList<IDPola> odtworzDroge(IDPola pole);
 	QList<QPair<QColor, IDPola> >* spiszPozycje();
@@ -34,16 +38,24 @@ public:
 private:
 	ObszarPlanszy* obszarPlanszy;
 	MistrzGry* mistrzGry;
+
 	QList<QPair<QColor, IDPola> >* pozycjeGraczy;
-	std::map<IDPola, IDPola> osiagalne;
 	QList<Gracz*>* gracze;
+	QList<Pole*>* pola;
+	QList<IDPola> osiagalne;
+	QMap<int, IDPola> poprzednie;
+
 	quint8 szerokoscPlanszy;
 	quint8 wysokoscPlanszy;
-	QList<Pole*>* pola;
 	Gracz* aktualnyGracz;
 	int indeksAktualnego;
+
 	bool graRozpoczeta;
 	bool graczWykonalRuch;
+
+	int IDToIndeks(IDPola pole);
+	IDPola indeksToID(int indeks);
+	QList<IDPola> sasiedniePola(IDPola pole);
 };
 
 #endif // PLANSZA_H

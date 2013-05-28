@@ -60,7 +60,6 @@ void ObszarPlanszy::kliknietoHex(IDPola id)
  */
 void ObszarPlanszy::wykonajRuch(QList<IDPola> droga, int indeks)
 {
-	qDebug() <<"ruch; droga; " <<droga.size();
 	doAnimacji = droga;
 	indeksAnimowanego = indeks;
 
@@ -94,7 +93,7 @@ void ObszarPlanszy::podswietl(QList<IDPola> lista)
 }
 
 /**
- * @brief ObszarPlanszy::animacjaTrwa Informuje czy trwa animacja. Z myślą o wykonywaniu akcji przez mistrza gry.
+ * @brief ObszarPlanszy::animacjaTrwa Informuje czy trwa animacja.
  * @return
  */
 bool ObszarPlanszy::animacjaTrwa()
@@ -220,7 +219,6 @@ void ObszarPlanszy::keyReleaseEvent(QKeyEvent *event)
  */
 void ObszarPlanszy::kolejnePrzejscie()
 {
-	qDebug() <<"wywolanie";
 	if(doAnimacji.empty())
 	{
 		for(int i = 0; i < pionki.size(); ++i)
