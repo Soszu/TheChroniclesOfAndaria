@@ -1,11 +1,10 @@
-#include "panelakcji.h"
+﻿#include "panelakcji.h"
 #include <QDebug>
 
 PanelAkcji::PanelAkcji(QGroupBox* box)
 {
 	uklad = NULL;
 	panel = box;
-	informacja = new QLabel(QString::fromUtf8("AI myśli..."));
 }
 
 /**

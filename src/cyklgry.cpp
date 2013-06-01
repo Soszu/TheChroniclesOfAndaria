@@ -5,6 +5,14 @@ CyklGry::CyklGry()
 	indeksAktualnego = 0;
 }
 
+CyklGry::~CyklGry()
+{
+	Gracz* it;
+	foreach (it, gracze) {
+		delete it;
+	}
+}
+
 /**
  * @brief CyklGry::setGracze Przyjmuje dane graczy
  * @param gracze

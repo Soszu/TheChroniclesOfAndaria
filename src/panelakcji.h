@@ -1,4 +1,4 @@
-#ifndef PANELAKCJI_H
+﻿#ifndef PANELAKCJI_H
 #define PANELAKCJI_H
 #include <QGroupBox>
 #include <QVBoxLayout>
@@ -27,7 +27,6 @@ private:
 	QGroupBox* panel;
 	MistrzGry* mistrzGry;
 	QList<MojPrzycisk*> przyciski;
-	QLabel* informacja;
 };
 
 #endif // PANELAKCJI_H

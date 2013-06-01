@@ -1,4 +1,4 @@
-#ifndef OKNOGRACZA_H
+﻿#ifndef OKNOGRACZA_H
 #define OKNOGRACZA_H
 
 #include "gracz.h"
@@ -17,7 +17,6 @@ class OknoGracza : public QObject
 
 public:
 	OknoGracza(QFrame *rama);
-	~OknoGracza();
 	void wyswietlGracza(Gracz* gracz);
 private:
 	QVBoxLayout* layoutGlowny;

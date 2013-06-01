@@ -1,4 +1,4 @@
-#ifndef NAGRODA_H
+﻿#ifndef NAGRODA_H
 #define NAGRODA_H
 #include "przedmiot.h"
 #include "gra.h"	 //dlaczego przy wstawieniu przed przedmiot nie działa?
@@ -7,20 +7,20 @@
 class Nagroda
 {
 public:
-	Nagroda(quint8 reputacja[], quint16 zloto, quint16 doswiadczenie, quint8 ileLosowych, QList<Przedmiot*> konkrety);
+	Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int>* konkrety);
 
 	quint8* getReputacja();
 	quint16 getZloto();
 	quint16 getDoswiadczenie();
-	quint8 getIleLosowych();
-	QList<Przedmiot*>* getKonkretnePrzedmioty();
+	QStringList getNazwyGrup();
+	QList<int>* getKonkretnePrzedmioty();
 
 private:
-	quint8 reputacja[LICZBA_KROLESTW];
+	quint8* reputacja;
 	quint16 zloto;
 	quint16 doswiadczenie;
-	quint8 ileLosowych;
-	QList<Przedmiot*> konkretnePrzedmioty;
+	QStringList nazwyGrup;
+	QList<int>* konkretnePrzedmioty;
 };
 
 #endif // NAGRODA_H

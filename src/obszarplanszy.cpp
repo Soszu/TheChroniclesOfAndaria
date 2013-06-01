@@ -1,4 +1,4 @@
-#include "obszarplanszy.h"
+﻿#include "obszarplanszy.h"
 
 ObszarPlanszy::ObszarPlanszy()
 {
@@ -8,6 +8,17 @@ ObszarPlanszy::ObszarPlanszy()
 	ticTac->setFrameRange(0,100);
 	connect(ticTac, SIGNAL(frameChanged(int)), this, SLOT(krokAnimacji(int)));
 	connect(ticTac, SIGNAL(finished()),this, SLOT(kolejnePrzejscie()));
+}
+
+ObszarPlanszy::~ObszarPlanszy()
+{
+	Pionek* it;
+	foreach (it, pionki)
+		delete it;
+	Hex* it2;
+	foreach (it2, hexy) {
+		delete it2;
+	}
 }
 
 void ObszarPlanszy::setPlansza(Plansza *plansza)

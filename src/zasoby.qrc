@@ -19,5 +19,6 @@
         <file>hexy/zamek.png</file>
         <file>dane/przeciwnicy.txt</file>
         <file>dane/przedmioty.txt</file>
+        <file>dane/nagrody.txt</file>
     </qresource>
 </RCC>

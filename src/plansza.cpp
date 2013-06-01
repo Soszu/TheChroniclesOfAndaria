@@ -2,6 +2,9 @@
 
 Plansza::Plansza()
 {
+	graRozpoczeta = false;
+	pozycjeGraczy = new QList<QPair<QColor, IDPola> >;
+	pola = NULL;
 	ParserUkladu pu(this);
 	if(pu.bladWczytywania())
 	{
@@ -9,8 +12,17 @@ Plansza::Plansza()
 		return;
 	}
 	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
-	graRozpoczeta = false;
-	pozycjeGraczy = new QList<QPair<QColor, IDPola> >;
+}
+
+Plansza::~Plansza()
+{
+	delete pozycjeGraczy;
+	if(pola != NULL)
+	{
+		for(int i = 0; i < pola->size(); ++i)
+			delete pola->at(i);
+		delete pola;
+	}
 }
 
 void Plansza::setObszarPlanszy(ObszarPlanszy *obszar)

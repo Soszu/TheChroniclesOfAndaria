@@ -1,4 +1,4 @@
-#include "oknogracza.h"
+﻿#include "oknogracza.h"
 
 OknoGracza::OknoGracza(QFrame* rama)
 {
@@ -105,14 +105,6 @@ OknoGracza::OknoGracza(QFrame* rama)
 	layoutGlowny->addLayout(linijkaAtakow);
 	layoutGlowny->addLayout(linijkaZlota);
 	layoutGlowny->addLayout(linijkaPrzyciskow);
-}
-
-OknoGracza::~OknoGracza()
-{
-	//wszystko powinno się samo składać bo jest podpięte pod layout glowny, który się składa razem z QFrame
-	//mozna to potem sprawdzić valgrindem
-	delete layoutGlowny;
-	delete reputacja; //sprawdz czy dzieci nie trzeba
 }
 
 void OknoGracza::wyswietlGracza(Gracz *gracz)

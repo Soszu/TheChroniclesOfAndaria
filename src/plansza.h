@@ -26,6 +26,7 @@ class Plansza
 	friend class ParserUkladu;
 public:
 	Plansza();
+	~Plansza();
 	void setObszarPlanszy(ObszarPlanszy* obszar);
 	void setMistrzGry(MistrzGry* mistrz);
 	void setCyklGry(CyklGry* cykl);

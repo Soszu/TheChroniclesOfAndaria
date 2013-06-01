@@ -1,11 +1,11 @@
-#include "nagroda.h"
+﻿#include "nagroda.h"
 
-Nagroda::Nagroda(quint8 reputacja[], quint16 zloto, quint16 doswiadczenie, quint8 ileLosowych, QList<Przedmiot *> konkrety)
+Nagroda::Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int> *konkrety)
 {
 	this->doswiadczenie = doswiadczenie;
-//FIX	this->reputacja = reputacja;
+	this->reputacja = reputacja;
 	this->zloto = zloto;
-	this->ileLosowych = ileLosowych;
+	this->nazwyGrup = nazwyGrup;
 	this->konkretnePrzedmioty = konkrety;
 }
 
@@ -24,12 +24,12 @@ quint16 Nagroda::getDoswiadczenie()
 	return doswiadczenie;
 }
 
-quint8 Nagroda::getIleLosowych()
+QStringList Nagroda::getNazwyGrup()
 {
-	return ileLosowych;
+	return nazwyGrup;
 }
 
-QList<Przedmiot *>* Nagroda::getKonkretnePrzedmioty()
+QList<int> *Nagroda::getKonkretnePrzedmioty()
 {
-	return &konkretnePrzedmioty;
+	return konkretnePrzedmioty;
 }

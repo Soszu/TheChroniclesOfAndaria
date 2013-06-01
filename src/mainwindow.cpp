@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include <QtCore>
 #include <QtGui>
 
@@ -23,6 +23,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	oknoGracza = new OknoGracza(ramka);
 	obszarPlanszy = new ObszarPlanszy();
 	graphicsView->setScene(obszarPlanszy);
+}
+
+MainWindow::~MainWindow()
+{
+	//reszta zwalnia się po kolei przy zwalnianiu "widget"
+	delete panelAkcji;
+	delete oknoGracza; //zwalnia się razew z ramką
+	delete obszarPlanszy;
 }
 
 PanelAkcji *MainWindow::getPanelAkcji()

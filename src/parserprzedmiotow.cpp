@@ -39,6 +39,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 	int numerLinii = 1;
 	while((linia = nastepny(wejscie)) != "")
 	{
+//-----------NAZWA GRUPY
 		if(linia[0] == '$')
 		{
 			aktualnaGrupa = linia.right(linia.size() - 1);

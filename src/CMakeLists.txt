@@ -8,6 +8,7 @@ set (SOURCES
 	parserukladu.cpp
 	parserprzeciwnikow.cpp
 	parserprzedmiotow.cpp
+	parsernagrod.cpp
 	panelakcji.cpp
 	oknogracza.cpp
 	mojpasek.cpp
@@ -36,6 +37,7 @@ set (HEADERS
 	parserukladu.h
 	parserprzeciwnikow.h
 	parserprzedmiotow.h
+	parsernagrod.h
 	panelakcji.h
 	oknogracza.h
 	mojpasek.h

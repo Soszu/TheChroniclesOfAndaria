@@ -14,6 +14,7 @@ class CyklGry
 {
 public:
 	CyklGry();
+	~CyklGry();
 
 	void setMistrzGry(MistrzGry* mistrz);
 	void setPlansza(Plansza* plansza);

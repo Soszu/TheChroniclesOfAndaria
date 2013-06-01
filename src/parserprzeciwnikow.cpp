@@ -38,22 +38,26 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 
 	while((linia = nastepny(wejscie)) != "")
 	{
+//-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != 8)
 		{
-			qDebug() << "Wystapil blad przy wczytaniu przeciwnika. Zla ilosc pol. Wadliwa linia: " <<numerLinii;
+			qDebug() << "Zla ilosc pol. Wadliwa linia: " <<numerLinii;
 			return true;
 		}
-		informacje info;
-		info.nazwa = podzial.at(1);
-		info.nazwaObrazka = podzial.at(2);
-		info.opis = podzial.at(3);
+
 		QStringList atak = podzial.at(4).split(",");
 		if (atak.size() != 2)
 		{
 			qDebug() <<"Niepoprawne dane dot. ataku w wierszu " <<numerLinii;
 			return true;
 		}
+//-----------ZAPISANIE TEKSTÓW
+		informacje info;
+		info.nazwa = podzial.at(1);
+		info.nazwaObrazka = podzial.at(2);
+		info.opis = podzial.at(3);
+//-----------LICZBY CAŁKOWITE
 		bool okID;
 		bool okMin;
 		bool okMaks;
@@ -73,12 +77,20 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 
+		if(!mistrzGry->nagrody.contains(info.idNagrody))
+		{
+			qDebug() <<"Niepoprawny identyfikator nagrody w linii " <<numerLinii;
+			return true;
+		}
+
 		if(info.atakMin > info.atakMaks || info.atakMin < 0 || info.obrona < 0 || info.zdrowie <= 0)
 		{
 			qDebug() <<"Niepoprawne wartosci w linii " <<numerLinii;
 			return true;
 		}
-		mistrzGry->przeciwnicy.insert(info.id, new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.zdrowie, mistrzGry->podajNagrode(info.idNagrody)));
+//-----------ZAPISANIE DANYCH
+		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.zdrowie, mistrzGry->podajNagrode(info.idNagrody));
+		mistrzGry->przeciwnicy.insert(info.id, nowy);
 
 		++numerLinii;
 	}

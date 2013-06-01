@@ -10,6 +10,14 @@ MistrzGry::MistrzGry()
 	}
 	qDebug() << QString::fromUtf8("Informacje o przedmiotach wczytano poprawnie");
 
+	ParserNagrod parserNagrod(this);
+	if(parserNagrod.bladWczytywania())
+	{
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych nagród"));
+		return;
+	}
+	qDebug() << QString::fromUtf8("Informacje o nagrodach wczytano poprawnie");
+
 	ParserPrzeciwnikow parserPrzeciwnikow(this);
 	if(parserPrzeciwnikow.bladWczytywania())
 	{
@@ -17,6 +25,26 @@ MistrzGry::MistrzGry()
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
+
+}
+
+MistrzGry::~MistrzGry()
+{
+	QMap<int, Przedmiot*>::iterator it;
+	for (it = przedmioty.begin(); it != przedmioty.end(); ++it)
+		delete it.value();
+
+	QMap<int, Przeciwnik*>::iterator it2;
+	for (it2 = przeciwnicy.begin(); it2 != przeciwnicy.end(); ++it2)
+		delete it2.value();
+
+	QMap<int, Nagroda*>::iterator it3;
+	for (it3 = nagrody.begin(); it3 != nagrody.end(); ++it3)
+		delete it3.value();
+
+	QMap<QString, QSet<int>*>::iterator it4;
+	for (it4 = grupy.begin(); it4 != grupy.end(); ++it4)
+		delete it4.value();
 }
 
 /**
@@ -77,9 +105,23 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 {
 	qDebug() << "wybrano akcje: " << AKCJE[nazwa];
 
-	//switch ?
-	if(nazwa == koniecTury)
+	switch (nazwa) {
+	case koniecTury:
 		cyklGry->zakonczTure();
+		break;
+	case przeciwnikLatwy:
+		walka(nazwa);
+		break;
+	case przeciwnikTrudny:
+		walka(nazwa);
+		break;
+	case bazar:
+		break;
+	case tawerna:
+		break;
+	default:
+		break;
+	}
 }
 
 void MistrzGry::wykonanoRuch()
@@ -91,6 +133,16 @@ Nagroda *MistrzGry::podajNagrode(int id)
 {
 	//TODO
 	return NULL;
+}
+
+void MistrzGry::walka(Akcja opcja)
+{
+	Przeciwnik* przeciwnik;
+	if(opcja == przeciwnikLatwy)
+	{}//losowanie
+	else
+	{}//losowanie
+	//Stocz walkę gracz, przeciwnik
 }
 
 /**

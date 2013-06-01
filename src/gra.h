@@ -150,16 +150,14 @@ static const QColor KOLORY[]= {
 enum Akcja
 {
 	koniecTury = 0,
-	testowa = 1,
-	przeciwnikLatwy = 2,
-	przeciwnikTrudny = 3,
-	bazar = 4,
-	tawerna = 5
+	przeciwnikLatwy = 1,
+	przeciwnikTrudny = 2,
+	bazar = 3,
+	tawerna = 4
 };
 
 static const QString AKCJE[] = {
 	QString::fromUtf8("Zakończ turę"),
-	QString::fromUtf8("Akcja testowa"),
 	QString::fromUtf8("Walcz ze słabszym przeciwnikiem"),
 	QString::fromUtf8("Walcz z mocnym przeciwnikiem"),
 	QString::fromUtf8("Idź na bazar handlować ekwipunkiem"),

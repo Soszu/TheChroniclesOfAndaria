@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 
 public:
 	explicit MainWindow(QWidget *parent = 0);
+	~MainWindow();
 	PanelAkcji* getPanelAkcji();
 	OknoGracza* getOknoGracza();
 	ObszarPlanszy* getObszarPlanszy();

@@ -1,4 +1,4 @@
-#ifndef OBSZARPLANSZY_H
+﻿#ifndef OBSZARPLANSZY_H
 #define OBSZARPLANSZY_H
 
 #include <QGraphicsScene>
@@ -24,6 +24,7 @@ class ObszarPlanszy : public QGraphicsScene
 	Q_OBJECT
 public:
 	explicit ObszarPlanszy();
+	~ObszarPlanszy();
 	void setPlansza(Plansza* plansza);
 	void narysujPlansze(QList<Pole*>* pola, int kolumny, int wiersze, QList<QPair<QColor, IDPola> > *pozycjeGraczy);
 
