@@ -6,6 +6,8 @@ set (SOURCES
 	mistrzgry.cpp
 	plansza.cpp
 	parserukladu.cpp
+	parserprzeciwnikow.cpp
+	parserprzedmiotow.cpp
 	panelakcji.cpp
 	oknogracza.cpp
 	mojpasek.cpp
@@ -32,6 +34,8 @@ set (HEADERS
 	mistrzgry.h
 	plansza.h
 	parserukladu.h
+	parserprzeciwnikow.h
+	parserprzedmiotow.h
 	panelakcji.h
 	oknogracza.h
 	mojpasek.h

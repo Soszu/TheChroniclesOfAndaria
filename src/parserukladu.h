@@ -16,10 +16,7 @@ class ParserUkladu
 {
 public:
 	ParserUkladu(Plansza* plansza);
-	qint8 GetSzerokoscPlanszy();
-	qint8 getWysokoscPlanszy();
 	bool bladWczytywania();
-
 private:
 	bool bylBlad;
 	Plansza* plansza;
@@ -37,6 +34,7 @@ private:
 		QString nazwa;
 		QString plik;
 		bool czyPoleZPrzeciwnikiem;
+		bool czyPoleZMiastem;
 		quint8 wspolczynnik;
 	};
 	QMap<QString, info> legenda;

@@ -1,4 +1,4 @@
-#ifndef CYKLGRY_H
+﻿#ifndef CYKLGRY_H
 #define CYKLGRY_H
 
 #include "gracz.h"
@@ -18,6 +18,7 @@ public:
 	void setMistrzGry(MistrzGry* mistrz);
 	void setPlansza(Plansza* plansza);
 	void setGracze(QList<Gracz*> gracze);
+	void wystapilBlad(QString komunikat);
 
 	QList<Gracz*> getGracze();
 

@@ -1,27 +1,31 @@
-#ifndef PRZECIWNIK_H
+﻿#ifndef PRZECIWNIK_H
 #define PRZECIWNIK_H
 #include <QString>
 #include "nagroda.h"
 class Przeciwnik
 {
 public:
-	Przeciwnik(QString nazwa, quint8 atak, quint8 obrona, quint8 zdrowieMaks, quint8 zdrowieAktualne, Nagroda* nagroda);
+	Przeciwnik(QString nazwa, QString nazwaObrazka, QString opis, quint8 atakMinimalny, quint8 atakMaksymalny, quint8 obrona, quint8 zdrowieMaks, Nagroda* nagroda);
 
 	QString getNazwa();
-	quint8 getAtak();
+	QString getNazwaObrazka();
+	QString getOpis();
+	quint8 getAtakMinimalny();
+	quint8 getAtakMaksymalny();
 	quint8 getObrona();
 	quint8 getZdrowieMaks();
 	quint8 getZdrowieAktualne();
 	Nagroda* getNagroda();
-
 private:
 	QString nazwa;
-	quint8 atak;
+	QString nazwaObrazka;
+	QString opis;
+	quint8 atakMinimalny;
+	quint8 atakMaksymalny;
 	quint8 obrona;
 	quint8 zdrowieMaks;
 	quint8 zdrowieAktualne;
 	Nagroda* nagroda;
-
 };
 
 #endif // PRZECIWNIK_H

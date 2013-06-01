@@ -1,12 +1,11 @@
-#include "plansza.h"
+﻿#include "plansza.h"
 
 Plansza::Plansza()
 {
 	ParserUkladu pu(this);
 	if(pu.bladWczytywania())
 	{
-		qDebug() << QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy");
-		//zrób coś
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy"));
 		return;
 	}
 	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
@@ -22,6 +21,11 @@ void Plansza::setObszarPlanszy(ObszarPlanszy *obszar)
 void Plansza::setMistrzGry(MistrzGry *mistrz)
 {
 	this->mistrzGry = mistrz;
+}
+
+void Plansza::setCyklGry(CyklGry *cykl)
+{
+	this->cyklGry = cykl;
 }
 
 void Plansza::setGracze(QList<Gracz *> *gracze)
@@ -95,6 +99,16 @@ void Plansza::ustalOsiagalne(Gracz *gracz)
 	QList<int> indeksyOsiagalnych = poprzednie.keys();
 	for (int i = 0; i < indeksyOsiagalnych.size(); ++i)
 		osiagalne.push_back(indeksToID(indeksyOsiagalnych[i]));
+}
+
+/**
+ * @brief Plansza::pokazPole Pokazuje na życzenie pole spod podanego indeksu. (Z myślą o mistrzu gry, żeby mógł sprawdzać, na jakim polu stoi gracz)
+ * @param pole Indeks pola do pokazania
+ * @return Kopia pola z podanego indeksu
+ */
+Pole*	 Plansza::pokazPole(IDPola pole)
+{
+	return pola->at(IDToIndeks(pole));
 }
 
 /**

@@ -1,0 +1,7 @@
+//liczba_porządkowa; nazwa; nazwa_zdjęcia; opis; atak; obrona; HP; ID_nagrody
+
+//atak- to randomowa liczba z domkniętego przedzia?u a,b
+
+1;Smok Spiro;smok5.jpg;Jeden z pięciu potężnych smoków i najtrudniejszych przeciwników w całej krainie.;40,46;48;30;2
+2;Goblin zwiadowca;goblin1.png;Zwiadowca niedużej grupy goblinów ukrywającej się gdzieś w pobliskim lesie.;8,12;16;10;1
+3;Szkielet niszczyciel;szkiel3.jpg;Mocna jednostka bojowa nieumarłych, zaprawiona w boju.;20,25;30;22;3

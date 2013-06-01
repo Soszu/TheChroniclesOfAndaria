@@ -1,4 +1,4 @@
-#include <QApplication>
+﻿#include <QApplication>
 #include "mainwindow.h"
 #include "cyklgry.h"
 #include "mistrzgry.h"
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	cykl.setPlansza(&plansza);
 	mistrz.setCyklGry(&cykl);
 	mistrz.setPlansza(&plansza);
+	plansza.setCyklGry(&cykl);
 	plansza.setMistrzGry(&mistrz);
 	nowaGra.setCyklGry(&cykl);
 	nowaGra.setMainWindow(&okno);

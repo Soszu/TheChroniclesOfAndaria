@@ -1,33 +1,33 @@
 //wymiary planszy
 30;20
 
-//postać legendy: symbol;nazwa;plik;czyPoleZPrzeciwnikiem;współczynnik
+//postać legendy: symbol;nazwa;plik;czyPoleZPrzeciwnikiem;czyPoleZMiastem;współczynnik
 
 //liczba wpisów w legendzie
 21
-1;SIRENSEL;zamek.png;0;0
-2;VISERIA;zamek.png;0;0
-3;NODOR;zamek.png;0;0
-4;FEDWICK;zamek.png;0;0
-5;KYON MEREH;zamek.png;0;0
-6;SENTRIA;zamek.png;0;0
-7;TERIA;zamek.png;0;0
-8;VYS'LEAH;zamek.png;0;0
-9;MERENGARD;zamek.png;0;0
+1;SIRENSEL;zamek.png;0;1;0
+2;VISERIA;zamek.png;0;1;0
+3;NODOR;zamek.png;0;1;0
+4;FEDWICK;zamek.png;0;1;0
+5;KYON MEREH;zamek.png;0;1;0
+6;SENTRIA;zamek.png;0;1;0
+7;TERIA;zamek.png;0;1;0
+8;VYS'LEAH;zamek.png;0;1;0
+9;MERENGARD;zamek.png;0;1;0
 
-g;;gora.png;0;2
-d;;dolina.png;0;1
-a;;droga.png;0;1
-b;;bagno.png;0;3
-l;;las.png;0;2
-w;;woda.png;0;2
+g;;gora.png;0;0;2
+d;;dolina.png;0;0;1
+a;;droga.png;0;0;1
+b;;bagno.png;0;0;3
+l;;las.png;0;0;2
+w;;woda.png;0;0;2
 
-G;;gora.png;1;2
-D;;dolina.png;1;1
-A;;droga.png;1;1
-B;;bagno.png;1;3
-L;;las.png;1;2
-W;;woda.png;1;2
+G;;gora.png;1;0;2
+D;;dolina.png;1;0;1
+A;;droga.png;1;0;1
+B;;bagno.png;1;0;3
+L;;las.png;1;0;2
+W;;woda.png;1;0;2
 
 //można używać spacji by uwidocznić wygląd planszy
 //z tego samego względu symbole nie powinny zawierać spacji

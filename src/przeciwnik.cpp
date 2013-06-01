@@ -1,9 +1,12 @@
-#include "przeciwnik.h"
+﻿#include "przeciwnik.h"
 
-Przeciwnik::Przeciwnik(QString nazwa, quint8 atak, quint8 obrona, quint8 zdrowieMaks, quint8 zdrowieAktualne, Nagroda *nagroda)
+Przeciwnik::Przeciwnik(QString nazwa, QString nazwaObrazka, QString opis, quint8 atakMinimalny, quint8 atakMaksymalny, quint8 obrona, quint8 zdrowieMaks, Nagroda *nagroda)
 {
 	this->nazwa = nazwa;
-	this->atak = atak;
+	this->nazwaObrazka = nazwaObrazka;
+	this->opis = opis;
+	this->atakMaksymalny = atakMaksymalny;
+	this->atakMinimalny = atakMinimalny;
 	this->obrona = obrona;
 	this->zdrowieMaks = zdrowieMaks;
 	this->zdrowieAktualne = zdrowieAktualne;
@@ -15,9 +18,24 @@ QString Przeciwnik::getNazwa()
 	return nazwa;
 }
 
-quint8 Przeciwnik::getAtak()
+QString Przeciwnik::getNazwaObrazka()
 {
-	return atak;
+	return nazwaObrazka;
+}
+
+QString Przeciwnik::getOpis()
+{
+	return opis;
+}
+
+quint8 Przeciwnik::getAtakMinimalny()
+{
+	return atakMinimalny;
+}
+
+quint8 Przeciwnik::getAtakMaksymalny()
+{
+	return atakMaksymalny;
 }
 
 quint8 Przeciwnik::getObrona()

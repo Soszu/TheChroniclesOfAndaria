@@ -15,11 +15,11 @@ ParserUkladu::ParserUkladu(Plansza* plansza)
 	}
 	QTextStream wejscie(&ustawienie);
 
-	bylBlad = !wczytajWymiary(&wejscie);
+	bylBlad = wczytajWymiary(&wejscie);
 	if(!bylBlad)
-		bylBlad = !wczytajLegende(&wejscie);
+		bylBlad = wczytajLegende(&wejscie);
 	if(!bylBlad)
-		bylBlad = !wczytajUstawienie(&wejscie);
+		bylBlad = wczytajUstawienie(&wejscie);
 
 	if(!bylBlad && !nastepny(&wejscie).isEmpty())
 	{
@@ -46,7 +46,7 @@ bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 	if(podzial.size() != 2)
 	{
 		qDebug() << "Wystapil blad przy wczytaniu wymiarow";
-		return false;
+		return true;
 	}
 
 	bool ok1 = true;
@@ -58,9 +58,9 @@ bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 	if(!ok1 || !ok2 || szerokosc < 1 || wysokosc < 1)
 	{
 		qDebug() << "Podane wymiary nie są poprawne.";
-		return false;
+		return true;
 	}
-	return true;
+	return false;
 }
 
 bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
@@ -71,7 +71,7 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 	if(!ok)
 	{
 		qDebug() << "Wystapil blad przy wczytaniu dlugosci legendy";
-		return false;
+		return true;
 	}
 
 	for(int i = 0; i < dlLegendy; ++i)
@@ -79,31 +79,38 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 		QString linia = nastepny(wejscie);
 		QStringList podzial = linia.split(";");
 
-		if(podzial.size() != 5)
+		if(podzial.size() != 6)
 		{
 			qDebug() << "Wystapil blad przy wczytaniu legendy. Zla ilosc pol. Wadliwy element: " <<i + 1;
-			return false;
+			return true;
 		}
 
 		bool bezBledu = true;
 		info informacje;
 		informacje.nazwa = podzial.at(1);
 		informacje.plik = podzial.at(2);
-		informacje.wspolczynnik = podzial.at(4).toInt(&bezBledu);
+		informacje.wspolczynnik = podzial.at(5).toInt(&bezBledu);
+
 		if(podzial.at(3) == "1")
 			informacje.czyPoleZPrzeciwnikiem = true;
 		else if(podzial.at(3) == "0")
 			informacje.czyPoleZPrzeciwnikiem = false;
-		else bezBledu == true;
+		else bezBledu == false;
+
+		if(podzial.at(4) == "1")
+			informacje.czyPoleZMiastem = true;
+		else if(podzial.at(4) == "0")
+			informacje.czyPoleZMiastem = false;
+		else bezBledu == false;
 
 		if(!bezBledu || podzial.at(0).isEmpty())
 		{
 			qDebug() << "Wystapil blad przy wczytaniu legendy. Zly element: " <<i + 1;
-			return false;
+			return true;
 		}
 		legenda.insert(podzial.at(0), informacje); //sprawdzić, czy nie zapisuje po adresie i nie likwiduje zawartości
 	}
-	return true;
+	return false;
 }
 
 bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
@@ -117,7 +124,7 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 		if(podzial.size() != szerokosc)
 		{
 			qDebug() << "Wystapil blad przy wczytaniu ustawienia. Zla ilosc danych. Wadliwy wiersz: " <<i + 1;
-			return false;
+			return true;
 		}
 		for(int j = 0; j < szerokosc; ++j)
 		{
@@ -127,15 +134,15 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 			if(!legenda.contains(symbol))
 			{
 				qDebug() << "Wystapil blad przy wczytaniu ustawienia. Nie znaleniono odpowiedniego symbolu. Wadliwy wiersz: " <<i + 1 <<"Symbol: " <<symbol;;
-				return false;
+				return true;
 			}
 			info dane = legenda[symbol];
 			IDPola miejsce = {j,i}; //sprawdzić czy napewno jest dostępny, bo jeżeli przekazywany jest wskaźnik to może nie być
-			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.plik));
+			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.czyPoleZMiastem, dane.plik));
 		}
 	}
 	plansza->pola = listaPol;
-	return true;
+	return false;
 }
 
 /**

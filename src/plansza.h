@@ -1,4 +1,4 @@
-#ifndef PLANSZA_H
+﻿#ifndef PLANSZA_H
 #define PLANSZA_H
 
 #include <QList>
@@ -8,6 +8,7 @@
 #include "gra.h"
 #include "plansza.h"
 #include "mistrzgry.h"
+#include "cyklgry.h"
 #include "parserukladu.h"
 #include "gracz.h"
 #include "obszarplanszy.h"
@@ -17,6 +18,7 @@ using namespace std;
 
 class ObszarPlanszy;
 class MistrzGry;
+class CyklGry;
 class ParserUkladu;
 
 class Plansza
@@ -26,18 +28,19 @@ public:
 	Plansza();
 	void setObszarPlanszy(ObszarPlanszy* obszar);
 	void setMistrzGry(MistrzGry* mistrz);
+	void setCyklGry(CyklGry* cykl);
 	void setGracze(QList<Gracz*>* gracze);
 	void ruszGracza(Gracz* gracz, int indeks);
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
+	Pole *pokazPole(IDPola pole);
 	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();
-	QList<IDPola> odtworzDroge(IDPola pole);
-	QList<QPair<QColor, IDPola> >* spiszPozycje();
 	void ruchAI(IDPola pole);
 private:
 	ObszarPlanszy* obszarPlanszy;
 	MistrzGry* mistrzGry;
+	CyklGry* cyklGry;
 
 	QList<QPair<QColor, IDPola> >* pozycjeGraczy;
 	QList<Gracz*>* gracze;
@@ -52,6 +55,9 @@ private:
 
 	bool graRozpoczeta;
 	bool graczWykonalRuch;
+
+	QList<IDPola> odtworzDroge(IDPola pole);
+	QList<QPair<QColor, IDPola> >* spiszPozycje();
 
 	int IDToIndeks(IDPola pole);
 	IDPola indeksToID(int indeks);

@@ -17,5 +17,7 @@
         <file>hexy/symbol.png</file>
         <file>hexy/woda.png</file>
         <file>hexy/zamek.png</file>
+        <file>dane/przeciwnicy.txt</file>
+        <file>dane/przedmioty.txt</file>
     </qresource>
 </RCC>

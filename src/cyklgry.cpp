@@ -1,4 +1,4 @@
-#include "cyklgry.h"
+﻿#include "cyklgry.h"
 
 CyklGry::CyklGry()
 {
@@ -13,6 +13,12 @@ void CyklGry::setGracze(QList<Gracz *> gracze)
 {
 	this->gracze = gracze; //tu jest przekazywana przez przepisanie, bo lepiej jest, żeby lista była zapisana w cyklu.
 	plansza->setGracze(&this->gracze);
+}
+
+void CyklGry::wystapilBlad(QString komunikat)
+{
+	qDebug() <<komunikat;
+	//zakonczGre(); zakoncz Gre -> koniec(1), wystapilBlad -> koniec(0)
 }
 
 /**
