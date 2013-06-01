@@ -2,14 +2,6 @@
 
 MistrzGry::MistrzGry()
 {
-	ParserPrzeciwnikow parserPrzeciwnikow(this);
-	if(parserPrzeciwnikow.bladWczytywania())
-	{
-		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przeciwników"));
-		return;
-	}
-	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
-
 	ParserPrzedmiotow parserPrzedmiotow(this);
 	if(parserPrzedmiotow.bladWczytywania())
 	{
@@ -17,6 +9,14 @@ MistrzGry::MistrzGry()
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o przedmiotach wczytano poprawnie");
+
+	ParserPrzeciwnikow parserPrzeciwnikow(this);
+	if(parserPrzeciwnikow.bladWczytywania())
+	{
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przeciwników"));
+		return;
+	}
+	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
 }
 
 /**

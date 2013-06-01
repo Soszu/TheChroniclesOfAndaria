@@ -2,7 +2,10 @@
 #define PARSERPRZEDMIOTOW_H
 
 #include <QMap>
+#include <QSet>
 #include "mistrzgry.h"
+#include "przedmiot.h"
+#include "gra.h"
 
 class MistrzGry;
 
@@ -19,7 +22,21 @@ private:
 	QString aktualnaGrupa;
 
 	struct informacje{
-
+		int id;
+		QString nazwa;
+		char typ;
+		quint8 wrecz;
+		quint8 dystans;
+		quint8 magia;
+		quint8 obrona;
+		quint8 percepcja;
+		quint8 HP;
+		quint8 HPregen;
+		int ograniczenie;
+		bool czy1Reczna;
+		bool czyOd5Poziom;
+		quint8 wartosc;
+		char kolorCzcionki;
 	};
 };
 

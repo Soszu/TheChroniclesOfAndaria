@@ -1,13 +1,20 @@
-#include "przedmiot.h"
+﻿#include "przedmiot.h"
 
-Przedmiot::Przedmiot(QString nazwa, quint8 wartosc, QString opis, bool czyPo5Lvlu, quint8 ograniczenia, RodzajPrzedmiotu rodzaj)
+Przedmiot::Przedmiot(QString nazwa, RodzajPrzedmiotu rodzaj, quint8 bonusAWrecz, quint8 bonusADystansowy, quint8 bonusAMagiczny, quint8 bonusObrona, quint8 bonusPercepcja, quint8 bonusHP, quint8 bonusHPregen, int ograniczenia, quint8 wartosc, bool czyPo5Lvlu)
 {
+
 	this->nazwa = nazwa;
-	this->wartosc = wartosc;
-	this->opis = opis;
-	this->czyPo5Lvlu = czyPo5Lvlu;
-	this->ograniczenia = ograniczenia;
 	this->rodzaj = rodzaj;
+	this->bonusAWrecz = bonusAWrecz;
+	this->bonusADystansowy = bonusADystansowy;
+	this->bonusAMagiczny = bonusAMagiczny;
+	this->bonusObrona = bonusObrona;
+	this->bonusPercepcja = bonusPercepcja;
+	this->bonusHP = bonusHP;
+	this->bonusHPregen = bonusHPregen;
+	this->ograniczenia = ograniczenia;
+	this->wartosc = wartosc;
+	this->czyPo5Lvlu = czyPo5Lvlu;
 }
 
 QString Przedmiot::getNazwa()
@@ -15,27 +22,42 @@ QString Przedmiot::getNazwa()
 	return nazwa;
 }
 
+RodzajPrzedmiotu Przedmiot::getRodzaj()
+{
+	return rodzaj;
+}
+
+quint8 Przedmiot::getBonusAWrecz()
+{
+	return bonusAWrecz;
+}
+
+quint8 Przedmiot::getBonusADystansowy()
+{
+	return bonusADystansowy;
+}
+
+quint8 Przedmiot::getBonusAMagiczny()
+{
+	return bonusAMagiczny;
+}
+
+quint8 Przedmiot::getBonusObrona()
+{
+	return bonusHPregen;
+}
+
+int Przedmiot::getOgraniczenia()
+{
+	return ograniczenia;
+}
+
 quint8 Przedmiot::getWartosc()
 {
 	return wartosc;
 }
 
-QString Przedmiot::getOpis()
-{
-	return opis;
-}
-
 bool Przedmiot::getCzyPo5Lvlu()
 {
 	return czyPo5Lvlu;
-}
-
-quint8 Przedmiot::getOgraniczenia()
-{
-	return ograniczenia;
-}
-
-RodzajPrzedmiotu Przedmiot::getRodzaj()
-{
-	return rodzaj;
 }

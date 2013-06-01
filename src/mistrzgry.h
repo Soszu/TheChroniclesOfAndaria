@@ -36,6 +36,9 @@ public:
 	void wykonanoRuch();
 private:
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
+	QMap<QString, QSet<int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
+	QMap<int, Przedmiot*> przedmioty;
+	//dla każdego identyfikatora trzymany jest opis przedmiotu.
 	Gracz* aktualnyGracz;
 	CyklGry* cyklGry;
 	PanelAkcji* panelAkcji;

@@ -1,4 +1,4 @@
-#ifndef GRA_H
+﻿#ifndef GRA_H
 #define GRA_H
 #include <QString>
 #include <QColor>
@@ -112,13 +112,13 @@ static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {
 
 enum RodzajPrzedmiotu
 {
-	helm,
-	zbrojaLekka,
-	zbrojaCiezka,
-	bronJednoreczna,
 	bronDwureczna,
+	bronJednoreczna,
 	tarcza,
-	artefakt
+	pancerz,
+	helm,
+	artefakt,
+	mikstura
 };
 
 static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
