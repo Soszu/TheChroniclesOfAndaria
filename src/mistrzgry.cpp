@@ -2,6 +2,7 @@
 
 MistrzGry::MistrzGry()
 {
+
 	ParserPrzedmiotow parserPrzedmiotow(this);
 	if(parserPrzedmiotow.bladWczytywania())
 	{
@@ -30,6 +31,7 @@ MistrzGry::MistrzGry()
 
 MistrzGry::~MistrzGry()
 {
+
 	QMap<int, Przedmiot*>::iterator it;
 	for (it = przedmioty.begin(); it != przedmioty.end(); ++it)
 		delete it.value();
@@ -56,6 +58,9 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
 	aktualnyGracz = gracz;
+
+	//regeneracja
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
 
 	oknoGracza->wyswietlGracza(aktualnyGracz);
 
@@ -129,20 +134,40 @@ void MistrzGry::wykonanoRuch()
 	panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
 }
 
-Nagroda *MistrzGry::podajNagrode(int id)
+void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 {
-	//TODO
-	return NULL;
+	if(rezultat = wygrana)
+	{
+		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
+		cyklGry->zakonczTure();
+	}
+	if(rezultat = przegrana)
+		cyklGry->wykreslGracza(aktualnyGracz);
+
+	if(rezultat = ucieczka)
+		cyklGry->zakonczTure();
+}
+
+void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
+{
+	//TODO: przydzielanie
+	qDebug("przydzielanie nagrody");
 }
 
 void MistrzGry::walka(Akcja opcja)
 {
-	Przeciwnik* przeciwnik;
+//TODO: Losowanie
 	if(opcja == przeciwnikLatwy)
 	{}//losowanie
 	else
 	{}//losowanie
 	//Stocz walkę gracz, przeciwnik
+	qsrand( QDateTime::currentDateTime().toTime_t() );
+	int los = qrand() % przeciwnicy.size() + 1;
+
+	oknoWalki = new Walka(aktualnyGracz, przeciwnicy[los], this);
+	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
+	oknoWalki->show();
 }
 
 /**

@@ -1,4 +1,4 @@
-#include "gracz.h"
+﻿#include "gracz.h"
 
 Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 {
@@ -94,6 +94,11 @@ quint8 Gracz::getZdrowieMaks()
 quint8 Gracz::getZdrowieAktualne()
 {
 	return zdrowieAktualne;
+}
+
+void Gracz::setZdrowieAktualne(quint8 zdrowie)
+{
+	zdrowieAktualne = zdrowie;
 }
 
 quint8 Gracz::getRegeneracja()

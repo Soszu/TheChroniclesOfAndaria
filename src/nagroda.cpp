@@ -9,6 +9,12 @@ Nagroda::Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswi
 	this->konkretnePrzedmioty = konkrety;
 }
 
+Nagroda::~Nagroda()
+{
+	delete [] reputacja;
+	delete konkretnePrzedmioty;
+}
+
 quint8 *Nagroda::getReputacja()
 {
 	return reputacja;

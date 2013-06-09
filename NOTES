@@ -2,7 +2,12 @@ Przypuszczalnie coś złego dzieje się w parserze przeciwników, bo gdy parserp
 
 Warto by na koniec przejrzeć tyle kodu ile się da i ponaprawiać
 
-MEMLEAKI!!!!!!!!!!!
-
-nadal nie działa przepisywanie reputacji w nagrodzie.
+problem z wybieraniem przeciwników.
+zamykanie /focus dla okien.
+memleak, gdy wystąpił bląd przy wczytywaniu danych.
+Sprawdzanie czy jest wystarcza ilość zadań i przeciwników
+wygląd mojego paska,
+odpowiednie granice hexa.
+odpowiadanie na zgłaszanie błędów przez parser.
+KONIEC GRY
 

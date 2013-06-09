@@ -1,4 +1,4 @@
-#ifndef GRACZ_H
+﻿#ifndef GRACZ_H
 #define GRACZ_H
 #include <QColor>
 #include <QString>
@@ -27,6 +27,7 @@ public:
 	quint8* getReputacja();
 	quint8 getZdrowieMaks();
 	quint8 getZdrowieAktualne();
+	void setZdrowieAktualne(quint8 zdrowie);
 	quint8 getRegeneracja();
 	quint8 getAtakWrecz();
 	quint8 getAtakDystansowy();

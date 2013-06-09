@@ -5,6 +5,7 @@
 
 static const int MAX_GRACZY = 8;
 static const int MIN_GRACZY = 2;
+static const quint16 MAKSYMALNA_DLUGOSC_NAZWY = 20;
 
 static const quint8 LICZBA_KROLESTW = 4;
 static const quint8 LICZBA_RAS = 4;
@@ -20,9 +21,14 @@ static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
+static const quint8 DZIALANIE_MALYCH_POTOW = 10; //nieco konfliktuje z danymi w pliku przeciwnicy
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
+static const quint8 DZIALANIE_DUZYCH_POTOW = 20;
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
 
+static const qreal POCZATKOWY_ROZMIAR_HEXA = 20;
+static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
+static const qreal MINIMALNY_ROZMIAR_HEXA = 10;
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
@@ -162,6 +168,12 @@ static const QString AKCJE[] = {
 	QString::fromUtf8("Walcz z mocnym przeciwnikiem"),
 	QString::fromUtf8("Idź na bazar handlować ekwipunkiem"),
 	QString::fromUtf8("Idź do tawerny \nposzukać nowych zadań")
+};
+
+enum WynikWalki {
+	wygrana,
+	przegrana,
+	ucieczka
 };
 
 //modyfikatory służące do przesuwania pionków jeśli kilka stoi na tym samym polu

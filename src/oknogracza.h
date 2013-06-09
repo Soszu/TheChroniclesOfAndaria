@@ -19,6 +19,10 @@ public:
 	OknoGracza(QFrame *rama);
 	void wyswietlGracza(Gracz* gracz);
 private:
+	OknoEkwipunek* oknoEkwipunek;
+	OknoZadania* oknoZadania;
+	Gracz* aktualnyGracz;
+
 	QVBoxLayout* layoutGlowny;
 	QHBoxLayout* reputacja;
 	QHBoxLayout* linijkaZdrowia;
@@ -62,12 +66,13 @@ private:
 	QLabel* zlotoIkona;
 
 	QPushButton* ekwipunek;
-	OknoEkwipunek* oknoEkwipunek;
 	QPushButton* zadania;
-	OknoZadania* oknoZadania;
 
 	QString odmiana(int n);
 
+private slots:
+	void pokazEkwipunek();
+	void pokazZadania();
 };
 
 #endif // OKNOGRACZA_H

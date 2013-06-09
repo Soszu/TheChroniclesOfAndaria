@@ -91,10 +91,8 @@ OknoGracza::OknoGracza(QFrame* rama)
 	linijkaPrzyciskow->addWidget(ekwipunek);
 	linijkaPrzyciskow->addWidget(zadania);
 
-	oknoEkwipunek = new OknoEkwipunek();
-	oknoZadania = new OknoZadania();
-	connect(ekwipunek, SIGNAL(clicked()), oknoEkwipunek, SLOT(show()));
-	connect(zadania, SIGNAL(clicked()), oknoZadania, SLOT(show()));
+	connect(ekwipunek, SIGNAL(clicked()), this, SLOT(pokazEkwipunek()));
+	connect(zadania, SIGNAL(clicked()), this, SLOT(pokazZadania()));
 
 //------------------------------
 	layoutGlowny->addWidget(pierwszaLinijka);
@@ -109,9 +107,10 @@ OknoGracza::OknoGracza(QFrame* rama)
 
 void OknoGracza::wyswietlGracza(Gracz *gracz)
 {
+	aktualnyGracz = gracz;
 	pierwszaLinijka->setText(gracz->getNazwa() + ", " + RASY[gracz->getRasa()] + ", " + KLASY[gracz->getKlasa()]);
 //------------------------------
-	wskaznikZdrowia->wypelnijPierwszy(gracz->getZdrowieAktualne() / gracz->getZdrowieMaks());
+	wskaznikZdrowia->wypelnijPierwszy((qreal)gracz->getZdrowieAktualne() / gracz->getZdrowieMaks());
 	wskaznikZdrowia->wypelnijDrugi((qreal)gracz->getRegeneracja() / gracz->getZdrowieMaks());
 	opisPoZdrowiu->setText(QString::number(gracz->getZdrowieAktualne()) + QString("/") + QString::number(gracz ->getZdrowieMaks())
 				+ QString(" (") + QString::number(gracz->getRegeneracja()) + QString(")") );
@@ -160,4 +159,15 @@ QString OknoGracza::odmiana(int n)
 	if(n > 1 && n < 5)
 		return QString(" sztuki");
 	return QString(" sztuk");
+}
+
+void OknoGracza::pokazEkwipunek()
+{
+	oknoEkwipunek = new OknoEkwipunek(aktualnyGracz);
+	oknoEkwipunek->setAttribute(Qt::WA_DeleteOnClose);
+	oknoEkwipunek->show();
+}
+
+void OknoGracza::pokazZadania()
+{
 }

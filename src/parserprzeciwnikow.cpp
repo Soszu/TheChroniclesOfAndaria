@@ -88,8 +88,9 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 			qDebug() <<"Niepoprawne wartosci w linii " <<numerLinii;
 			return true;
 		}
+
 //-----------ZAPISANIE DANYCH
-		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.zdrowie, mistrzGry->podajNagrode(info.idNagrody));
+		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.percepcja, info.zdrowie, mistrzGry->nagrody[info.idNagrody]);
 		mistrzGry->przeciwnicy.insert(info.id, nowy);
 
 		++numerLinii;

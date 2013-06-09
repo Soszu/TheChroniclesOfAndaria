@@ -25,6 +25,7 @@ set (SOURCES
 	zadanie.cpp
 	przeciwnik.cpp
 	pole.cpp
+	walka.cpp
 )
 
 set (HEADERS
@@ -54,6 +55,7 @@ set (HEADERS
 	nagroda.h
 	przeciwnik.h
 	pole.h
+	walka.h
 )
 
 set (RESOURCES

@@ -1,4 +1,4 @@
-#include "oknonowejgry.h"
+﻿#include "oknonowejgry.h"
 
 OknoNowejGry::OknoNowejGry(QWidget *parent) : QDialog(parent)
 {
@@ -49,7 +49,6 @@ OknoNowejGry::OknoNowejGry(QWidget *parent) : QDialog(parent)
 	layoutGlowny->addStretch();
 	layoutGlowny->addLayout(&layoutNaPrzyciski);
 
-//	connect(ok,SIGNAL(clicked()), mainWindow,SLOT(show());
 }
 
 OknoNowejGry::~OknoNowejGry()
@@ -122,9 +121,9 @@ void OknoNowejGry::przekazDane()
 			komunikat->show();
 			return;
 		}
-		if(gracze[i].nazwa->text().size() > 20)
+		if(gracze[i].nazwa->text().size() > MAKSYMALNA_DLUGOSC_NAZWY)
 		{
-			komunikat->setText(QString::fromUtf8("Nazwa conajmniej jednego z graczy jest za długa. Limit to 20 znaków."));
+			komunikat->setText(QString::fromUtf8("Nazwa conajmniej jednego z graczy jest za długa. Limit to ") + QString::number(MAKSYMALNA_DLUGOSC_NAZWY)+ QString::fromUtf8("znaków."));
 			komunikat->show();
 			return;
 		}

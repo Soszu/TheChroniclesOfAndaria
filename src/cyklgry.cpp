@@ -56,6 +56,12 @@ QList<Gracz *> CyklGry::getGracze()
 	return gracze;
 }
 
+void CyklGry::wykreslGracza(Gracz *gracz)
+{
+	//TODO
+	//jesli jest to przedostatni gracz -> ogłoś zwycięzcę jeśli nie to poprostu wykreśl, można dodać komunikat że odpadł ktoś
+}
+
 /**
  * @brief CyklGry::rozpocznij Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
  */
@@ -89,5 +95,4 @@ void CyklGry::zakonczTure()
 	if(indeksAktualnego >= gracze.size())
 		indeksAktualnego = 0;
 	ruszGracza(indeksAktualnego);
-
 }

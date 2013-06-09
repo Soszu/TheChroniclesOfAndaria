@@ -20,5 +20,10 @@
         <file>dane/przeciwnicy.txt</file>
         <file>dane/przedmioty.txt</file>
         <file>dane/nagrody.txt</file>
+        <file>przeciwnicy/goblin1.png</file>
+        <file>przeciwnicy/smok5.jpg</file>
+        <file>przeciwnicy/szkiel3.jpg</file>
+        <file>ikonki/duza_mikstura.png</file>
+        <file>ikonki/mala_mikstura.png</file>
     </qresource>
 </RCC>

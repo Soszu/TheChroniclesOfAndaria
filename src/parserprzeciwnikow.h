@@ -1,4 +1,4 @@
-#ifndef PARSERPRZECIWNIKOW_H
+﻿#ifndef PARSERPRZECIWNIKOW_H
 #define PARSERPRZECIWNIKOW_H
 
 #include <QMap>
@@ -26,6 +26,7 @@ private:
 		int atakMin;
 		int atakMaks;
 		int obrona;
+		int percepcja = 4;
 		int zdrowie;
 		int idNagrody;
 	};

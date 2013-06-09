@@ -23,6 +23,7 @@ public:
 
 	QList<Gracz*> getGracze();
 
+	void wykreslGracza(Gracz* gracz);
 	void rozpocznij();
 	void zakonczGre();
 	void zakonczTure();

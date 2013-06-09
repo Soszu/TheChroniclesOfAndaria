@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
 	okno.setPlansza(&plansza);
 
 	//ustalanie kogo mistrz gry ma prosić o wyświetlanie informacji
-	//zamiast tego można to zrobić pośrednio przez mainwindow
 	mistrz.setPanelAkcji(okno.getPanelAkcji());
 	mistrz.setOknoGracza(okno.getOknoGracza());
 	plansza.setObszarPlanszy(okno.getObszarPlanszy());

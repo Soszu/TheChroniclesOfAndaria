@@ -27,10 +27,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 MainWindow::~MainWindow()
 {
-	//reszta zwalnia się po kolei przy zwalnianiu "widget"
-	delete panelAkcji;
-	delete oknoGracza; //zwalnia się razew z ramką
+	//czy rzeczywiście muszę zwalniać wskaźniki na te klasy,
+	//scena razem z q graphics view.
+	//delete panelAkcji;
+	delete oknoGracza; //zwalnia się razem z ramką
 	delete obszarPlanszy;
+	//reszta zwalnia się po kolei przy zwalnianiu "widget"
 }
 
 PanelAkcji *MainWindow::getPanelAkcji()

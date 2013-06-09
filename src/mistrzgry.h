@@ -16,6 +16,7 @@
 #include "oknogracza.h"
 #include "panelakcji.h"
 #include "gra.h"
+#include "walka.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -23,6 +24,7 @@ class Plansza;
 class ParserPrzeciwnikow;
 class ParserPrzedmiotow;
 class ParserNagrod;
+class Walka;
 
 class MistrzGry
 {
@@ -40,6 +42,8 @@ public:
 	void setOknoGracza(OknoGracza* okno);
 	void wybranoAkcje(Akcja nazwa);
 	void wykonanoRuch();
+	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
+	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
 private:
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
 	QMap<QString, QSet<int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
@@ -51,8 +55,8 @@ private:
 	OknoGracza* oknoGracza;
 	Plansza* plansza;
 
-	Nagroda* podajNagrode(int id);
 	void walka(Akcja opcja);
+	Walka* oknoWalki;
 };
 
 #endif // MISTRZGRY_H

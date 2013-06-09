@@ -8,6 +8,7 @@ class Nagroda
 {
 public:
 	Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int>* konkrety);
+	~Nagroda();
 
 	quint8* getReputacja();
 	quint16 getZloto();

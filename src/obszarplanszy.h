@@ -36,9 +36,6 @@ public:
 	static QPointF podajSrodek(const IDPola id, const qreal bok);
 	static qreal podajWysokosc(qreal bok);
 private:
-	static const qreal POCZATKOWY_ROZMIAR_HEXA = 20;
-	static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
-	static const qreal MINIMALNY_ROZMIAR_HEXA = 10;
 
 	qreal bokHexa;
 	Plansza *plansza;
