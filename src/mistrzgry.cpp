@@ -1,12 +1,13 @@
 ﻿#include "mistrzgry.h"
 
-MistrzGry::MistrzGry()
+MistrzGry::MistrzGry(CyklGry* cykl)
 {
+	this->cyklGry = cykl;
 
 	ParserPrzedmiotow parserPrzedmiotow(this);
 	if(parserPrzedmiotow.bladWczytywania())
 	{
-		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przedmiotow"));
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przedmiotow\n\n") + parserPrzedmiotow.trescBledu, blad_parsera_przedmiotow);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o przedmiotach wczytano poprawnie");
@@ -14,7 +15,7 @@ MistrzGry::MistrzGry()
 	ParserNagrod parserNagrod(this);
 	if(parserNagrod.bladWczytywania())
 	{
-		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych nagród"));
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych nagród\n\n") + parserNagrod.trescBledu, blad_parsera_nagrod);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o nagrodach wczytano poprawnie");
@@ -22,16 +23,19 @@ MistrzGry::MistrzGry()
 	ParserPrzeciwnikow parserPrzeciwnikow(this);
 	if(parserPrzeciwnikow.bladWczytywania())
 	{
-		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przeciwników"));
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przeciwników\n\n") + parserPrzeciwnikow.trescBledu, blad_parsera_przeciwnikow);
+		return;
+	}else if(grupyPrzeciwnikow.size() != LICZBA_GRUP_PRZECIWNIKOW)
+	{
+		cyklGry->wystapilBlad(QString::fromUtf8("Wczytano za mało albo za dużo grup przedmiotów.\n\n"), blad_liczby_grup_przeciwnikow);
 		return;
 	}
-	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
 
+	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
 }
 
 MistrzGry::~MistrzGry()
 {
-
 	QMap<int, Przedmiot*>::iterator it;
 	for (it = przedmioty.begin(); it != przedmioty.end(); ++it)
 		delete it.value();
@@ -44,9 +48,13 @@ MistrzGry::~MistrzGry()
 	for (it3 = nagrody.begin(); it3 != nagrody.end(); ++it3)
 		delete it3.value();
 
-	QMap<QString, QSet<int>*>::iterator it4;
+	QMap<QString, QList<int>*>::iterator it4;
 	for (it4 = grupy.begin(); it4 != grupy.end(); ++it4)
 		delete it4.value();
+
+	QMap<int, QList<int>*>::iterator it5;
+	for (it5 = grupyPrzeciwnikow.begin(); it5 != grupyPrzeciwnikow.end(); ++it5)
+		delete it5.value();
 }
 
 /**
@@ -66,8 +74,7 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 
 	panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
 
-	//jeśli to AI to zapytaj o decyzje
-
+	//TODO: jeśli to AI to zapytaj o decyzje
 }
 
 /**
@@ -82,7 +89,8 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 
 	if(gracz->getCzyAI())
 	{
-		akcje.push_front(koniecTury);
+		//NOTE: do zmiany
+akcje.push_front(koniecTury);
 		return akcje; //pusta lista akcji (tymczasowo jest też zakończ turę, żeby się nie zwieszał)
 	}
 
@@ -129,54 +137,111 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 	}
 }
 
+/**
+ * @brief MistrzGry::wykonanoRuch	Funkcja wywoływana przez Planszę, żeby oznajmić, że gracz jest teraz w innym miejscu
+ */
 void MistrzGry::wykonanoRuch()
 {
 	panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
 }
 
+/**
+ * @brief MistrzGry::koniecWalki	Funkcja wywoływana przez klasę Walka po zakończeniu walki.
+ * @param przeciwnik	przeciwnik, który brał udział w walce (żeby można było np. przydzielić nagrodę)
+ * @param rezultat	enumerator opisany w gra.h reprezentujacy wynik walki
+ */
 void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 {
-	if(rezultat = wygrana)
-	{
-		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
-		cyklGry->zakonczTure();
-	}
-	if(rezultat = przegrana)
+	switch (rezultat) {
+	case przegrana:
 		cyklGry->wykreslGracza(aktualnyGracz);
-
-	if(rezultat = ucieczka)
+		break;
+	case wygrana:
+		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
+	case ucieczka:
 		cyklGry->zakonczTure();
+		break;
+	}
 }
 
 void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 {
-	//TODO: przydzielanie
-	qDebug("przydzielanie nagrody");
+//Zloto
+	gracz->setZloto(qMax(0, gracz->getZloto() + nagroda->getZloto()));
+
+//Doswiadczenie
+	gracz->setDoswiadczenie(gracz->getDoswiadczenie() + nagroda->getDoswiadczenie());
+	if(gracz->getPoziom() < MAKSYMALNY_POZIOM &&
+	   gracz->getDoswiadczenie() >= GRANICE_POZIOMOW[gracz->getPoziom()])
+	{
+		gracz->setPoziom(gracz->getPoziom() + 1);
+		rozdzielPunkty(gracz);
+	}
+
+//Losowy przedmiot
+	QList<int> pula;
+	for(int i = 0; i < nagroda->getNazwyGrup().size(); ++i)
+		pula.append(*grupy[nagroda->getNazwyGrup()[i]]);
+
+	if(pula.size() > 0)
+	{
+		qsrand( QDateTime::currentDateTime().toTime_t() );
+		int los = qrand() % pula.size();
+
+		gracz->getEkwipunek()->getPlecak()->push_back(przedmioty[pula[los]]);
+		//NOTE: informacja ?
+
+	}
+//Reputacja
+	for(int i = 0; i < LICZBA_KROLESTW; ++i)
+	{
+		quint8 suma = nagroda->getReputacja()[i] + gracz->getReputacja()[i];
+		quint8 nowaWartosc = qMin(MAX_REPUTACJA, suma);
+		nowaWartosc = qMax(0, (int)nowaWartosc);
+		gracz->setKonkretnaReputacja(nowaWartosc, i);
+	}
+//Konkretne Przedmioty
+	for(int i = 0; i < nagroda->getKonkretnePrzedmioty()->size(); ++i)
+	{
+		Przedmiot* wkladany = przedmioty[nagroda->getKonkretnePrzedmioty()->at(i)];
+		gracz->getEkwipunek()->getPlecak()->push_back(wkladany);
+		//NOTE: informacja ?
+	}
+
+	qDebug("Przydzielono nagrode");
 }
 
-void MistrzGry::walka(Akcja opcja)
+void MistrzGry::rozdzielPunkty(Gracz *gracz)
 {
-//TODO: Losowanie
-	if(opcja == przeciwnikLatwy)
-	{}//losowanie
-	else
-	{}//losowanie
-	//Stocz walkę gracz, przeciwnik
-	qsrand( QDateTime::currentDateTime().toTime_t() );
-	int los = qrand() % przeciwnicy.size() + 1;
 
-	oknoWalki = new Walka(aktualnyGracz, przeciwnicy[los], this);
-	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
-	oknoWalki->show();
+}
+
+Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
+{
+	qsrand( QDateTime::currentDateTime().toTime_t() );
+
+	int los = qrand() % grupyPrzeciwnikow[grupa]->size();
+
+	return przeciwnicy[grupyPrzeciwnikow[grupa]->at(los)];
 }
 
 /**
- * @brief MistrzGry::setCyklGry Ustawia cykl gry, żeby powiedzieć mu o końcy tury/gry
- * @param cykl
+ * @brief MistrzGry::walka Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
+ * @param opcja		jaka opcja walki (jaki przeciwnik) została wybrana
  */
-void MistrzGry::setCyklGry(CyklGry *cykl)
+void MistrzGry::walka(Akcja opcja)
 {
-	this->cyklGry = cykl;
+	int poziomLatwy = (aktualnyGracz->getPoziom() + 1 ) / 2;
+	Przeciwnik* przeciwnik;
+
+	if(opcja == przeciwnikLatwy)
+		przeciwnik = losujPrzeciwnika(poziomLatwy);
+	else
+		przeciwnik = losujPrzeciwnika(poziomLatwy + 1);
+
+	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
+	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
+	oknoWalki->rozpocznij();
 }
 
 /**

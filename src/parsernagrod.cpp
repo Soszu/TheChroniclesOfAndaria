@@ -7,7 +7,7 @@ ParserNagrod::ParserNagrod(MistrzGry *mistrz)
 	QFile plik(QString(":/dane/nagrody.txt"));
 	if(!plik.open(QIODevice::ReadOnly))
 	{
-		qDebug() << "Nie udalo sie wczytac pliku z danymi nagrod";
+		trescBledu = QString::fromUtf8( "Nie udało się wczytać pliku.");
 		bylBlad = true;
 		plik.close();
 		return;
@@ -43,13 +43,13 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != 6)
 		{
-			qDebug() << "Zla ilosc pol. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8( "Zła ilość pól. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 		QStringList reputacja = podzial.at(1).split(",");
 		if(reputacja.size() != LICZBA_KROLESTW)
 		{
-			qDebug() << "Zla ilosc pol reputacji. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8( "Zła ilość pól reputacji. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 //LICZBY CAŁKOWITE I GRUPY
@@ -66,13 +66,13 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 
 		if(!okID ||!okZloto || !okDoswiadczenie)
 		{
-			qDebug() <<"Niepoprawne dane w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
 		if(info.doswiadczenie < 0)
 		{
-			qDebug() <<"Niepoprawne wartosci w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne wartości w linii ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------REPUTACJA
@@ -87,7 +87,7 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 		}
 		if(blad)
 		{
-			qDebug() <<"Niepoprawne wartosci reputacji  w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne wartości reputacji  w linii ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------KONKRETNE PRZEDMIOTY
@@ -105,7 +105,7 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 				else
 					if(!mistrzGry->przedmioty.contains(info.przedmioty->back()))
 					{
-						qDebug() <<"Niepoprawny identyfikator przedmiotu w linii " <<numerLinii;
+						trescBledu = QString::fromUtf8("Niepoprawny identyfikator przedmiotu w linii ") + QString::number(numerLinii);
 						return true;
 					}
 			}

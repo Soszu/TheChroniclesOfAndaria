@@ -5,11 +5,12 @@
 
 static const int MAX_GRACZY = 8;
 static const int MIN_GRACZY = 2;
-static const quint16 MAKSYMALNA_DLUGOSC_NAZWY = 20;
+static const quint16 MAKSYMALNA_DLUGOSC_NAZWY = 20; //chodzi o nazwę gracza
 
 static const quint8 LICZBA_KROLESTW = 4;
 static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
+static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
 
 static const quint16 MAKSYMALNY_POZIOM = 10;
 static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
@@ -24,6 +25,7 @@ static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 static const quint8 DZIALANIE_MALYCH_POTOW = 10; //nieco konfliktuje z danymi w pliku przeciwnicy
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
 static const quint8 DZIALANIE_DUZYCH_POTOW = 20;
+
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
 
 static const qreal POCZATKOWY_ROZMIAR_HEXA = 20;
@@ -184,5 +186,15 @@ struct modyfikator{
 static const int LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW = 9;
 static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW]= {
 	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
+
+enum Blad
+{
+	blad_parsera_przedmiotow= 11,
+	blad_parsera_nagrod = 12,
+	blad_parsera_przeciwnikow = 13,
+	blad_liczby_grup_przeciwnikow = 131,
+	blad_parsera_zadan = 14,
+	blad_parsera_ustawienia_planszy = 21
+};
 
 #endif // GRA_H

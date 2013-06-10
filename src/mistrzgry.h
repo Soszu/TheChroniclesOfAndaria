@@ -32,11 +32,10 @@ class MistrzGry
 	friend class ParserPrzedmiotow;
 	friend class ParserNagrod;
 public:
-	MistrzGry();
+	MistrzGry(CyklGry *cykl);
 	~MistrzGry();
 	void ruszGracza(Gracz* gracz);
 	QList<Akcja> mozliweAkcje(Gracz* gracz);
-	void setCyklGry(CyklGry* cykl);
 	void setPlansza(Plansza* plansza);
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
@@ -44,9 +43,11 @@ public:
 	void wykonanoRuch();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
+	void rozdzielPunkty(Gracz* gracz);
 private:
+	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
-	QMap<QString, QSet<int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
+	QMap<QString, QList <int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
 	QMap<int, Przedmiot*> przedmioty; //dla każdego identyfikatora trzymany jest opis przedmiotu.
 	QMap<int, Nagroda*> nagrody;//dla każdego identyfikatora trzymany jest opis nagrody.
 	Gracz* aktualnyGracz;
@@ -55,6 +56,7 @@ private:
 	OknoGracza* oknoGracza;
 	Plansza* plansza;
 
+	Przeciwnik* losujPrzeciwnika(int grupa);
 	void walka(Akcja opcja);
 	Walka* oknoWalki;
 };

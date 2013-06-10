@@ -1,6 +1,6 @@
 //indeks;reputacja(ludz,krasn,elfy,niz);zloto;exp;nazwaGrupyzKtorejLosowy;konkretnyItem
 //JESLI MIEDZY SREDNIKAMI NIC NIE MA TO BRAK NAGRODY TEGO TYPU- DOTYCZY 2-OCH OSTATNICH RODZAJOW
 
-1;1,0,0,1;5;200;AN;
+1;1,0,0,1;5;200;AN;100
 2;0,0,0,-1;2;100;;122
 3;0,0,2,0;5;300;;

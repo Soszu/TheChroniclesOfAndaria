@@ -72,6 +72,11 @@ private:
 	quint8 aktualneZdrowiePrzeciwnika;
 	void ruchPrzeciwnika();
 	void atakGracza(int atak);
+	void wpisGracza(Gracz* gracz, QString tekst);
+	void wpisPrzeciwnika(Przeciwnik* przeciwnik, QString tekst);
+
+public slots:
+	void rozpocznij();
 
 signals:
 
@@ -82,7 +87,6 @@ private slots:
 	void uciekaj();
 	void uzyjDuzejMikstury();
 	void uzyjMalejMikstury();
-
 };
 
 #endif // WALKA_H

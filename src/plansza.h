@@ -25,11 +25,10 @@ class Plansza
 {
 	friend class ParserUkladu;
 public:
-	Plansza();
+	Plansza(CyklGry *cykl);
 	~Plansza();
 	void setObszarPlanszy(ObszarPlanszy* obszar);
 	void setMistrzGry(MistrzGry* mistrz);
-	void setCyklGry(CyklGry* cykl);
 	void setGracze(QList<Gracz*>* gracze);
 	void ruszGracza(Gracz* gracz, int indeks);
 	void kliknietoHex(IDPola id);

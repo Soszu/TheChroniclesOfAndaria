@@ -1,4 +1,4 @@
-#include "mojpasek.h"
+﻿#include "mojpasek.h"
 
 /**
  * @brief MojPasek::MojPasek Tworzy poziomy pasek ustalonego koloru c. O jego wypełnieniu decyduje wartość d.
@@ -110,8 +110,11 @@ void MojPasek::wypelnijDrugi(qreal newD)
  */
 void MojPasek::ustaw(int a)
 {
-	if(czyPodzialka)
+	if(czyPodzialka && liczbaZnacznikow != a)
+	{
 		liczbaZnacznikow = a;
+		update();
+	}
 }
 
 /**

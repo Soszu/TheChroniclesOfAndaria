@@ -24,19 +24,31 @@ public:
 	QList<Zadanie*> getZadania();
 	QList<IDPola> getPolaSzczegolne();
 	quint8 getPoziom();
+	void setPoziom(quint8 poziom);
 	quint8* getReputacja();
+	void setKonkretnaReputacja(int wartosc, int indeks);
 	quint8 getZdrowieMaks();
+	void setZdrowieMaks(quint8 wartosc);
 	quint8 getZdrowieAktualne();
 	void setZdrowieAktualne(quint8 zdrowie);
 	quint8 getRegeneracja();
+	void setRegeneracja(quint8 wartosc);
 	quint8 getAtakWrecz();
+	void setAtakWrecz(quint8 wartosc);
 	quint8 getAtakDystansowy();
+	void setAtakDystansowy(quint8 wartosc);
 	quint8 getAtakMagiczny();
+	void setAtakMagiczny(quint8 wartosc);
 	quint8 getObrona();
+	void setObrona(quint8 wartosc);
 	quint8 getPercepcja();
+	void setPercepcja(quint8 wartosc);
 	quint8 getPunktyRuchu();
+	void setPunktyRuchu(quint8 wartosc);
 	quint16 getZloto();
+	void setZloto(quint16 wartosc);
 	quint16 getDoswiadczenie();
+	void setDoswiadczenie(quint16 wartosc);
 
 
 private:

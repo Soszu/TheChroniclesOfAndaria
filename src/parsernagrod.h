@@ -13,6 +13,7 @@ class ParserNagrod
 public:
 	ParserNagrod(MistrzGry* mistrz);
 	bool bladWczytywania();
+	QString trescBledu;
 private:
 	bool bylBlad;
 	MistrzGry* mistrzGry;

@@ -1,14 +1,16 @@
 ﻿#include "plansza.h"
 
-Plansza::Plansza()
+Plansza::Plansza(CyklGry* cykl)
 {
+	this->cyklGry = cykl;
+
 	graRozpoczeta = false;
 	pozycjeGraczy = new QList<QPair<QColor, IDPola> >;
 	pola = NULL;
 	ParserUkladu pu(this);
 	if(pu.bladWczytywania())
 	{
-		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy"));
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy\n\n") + pu.trescBledu, blad_parsera_ustawienia_planszy);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
@@ -33,11 +35,6 @@ void Plansza::setObszarPlanszy(ObszarPlanszy *obszar)
 void Plansza::setMistrzGry(MistrzGry *mistrz)
 {
 	this->mistrzGry = mistrz;
-}
-
-void Plansza::setCyklGry(CyklGry *cykl)
-{
-	this->cyklGry = cykl;
 }
 
 void Plansza::setGracze(QList<Gracz *> *gracze)

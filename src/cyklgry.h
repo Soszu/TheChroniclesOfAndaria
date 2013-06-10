@@ -4,6 +4,7 @@
 #include "gracz.h"
 #include <QList>
 #include <QString>
+#include <QMainWindow>
 #include "mistrzgry.h"
 #include "plansza.h"
 
@@ -13,26 +14,29 @@ class Plansza;
 class CyklGry
 {
 public:
-	CyklGry();
+	CyklGry(int *wynikParsowania);
 	~CyklGry();
 
 	void setMistrzGry(MistrzGry* mistrz);
 	void setPlansza(Plansza* plansza);
 	void setGracze(QList<Gracz*> gracze);
-	void wystapilBlad(QString komunikat);
+	void setMainWindow(QMainWindow* okno);
+	void wystapilBlad(QString komunikat, int blad);
 
 	QList<Gracz*> getGracze();
 
 	void wykreslGracza(Gracz* gracz);
+	void graczWygral(Gracz* gracz);
 	void rozpocznij();
-	void zakonczGre();
 	void zakonczTure();
 private:
 	void ruszGracza(int indeks);
 	QList<Gracz*> gracze;
 	int indeksAktualnego;
 
-
+	int* wynikParsowania;
+	QDialog* komunikatOBledzie;
+	QMainWindow* mainWindow;
 	Plansza* plansza;
 	MistrzGry* mistrzGry;
 };

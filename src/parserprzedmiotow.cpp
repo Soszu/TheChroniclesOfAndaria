@@ -9,7 +9,7 @@ ParserPrzedmiotow::ParserPrzedmiotow(MistrzGry *mistrz)
 	QFile plik(QString(":/dane/przedmioty.txt"));
 		if(!plik.open(QIODevice::ReadOnly))
 		{
-			qDebug() << "Nie udalo sie wczytac pliku z danymi przedmiotow";
+			trescBledu = QString::fromUtf8("Nie udało się wczytać pliku");
 			bylBlad = true;
 			plik.close();
 			return;
@@ -49,7 +49,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != 15)
 		{
-			qDebug() << "Wystapil blad przy wczytywaniu przedmiotu. Zla ilosc pol. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8("Zła ilość pól. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 		informacje info;
@@ -57,7 +57,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 		info.nazwa = podzial.at(1);
 		if(podzial.at(2).size()!= 1 && podzial.at(14).size() != 1)
 		{
-			qDebug() << "Wystapil blad przy wczytywaniu przedmiotu. Niepoprawne symbole. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne symbole. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 		info.typ = podzial.at(2)[0].toAscii();
@@ -84,7 +84,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 
 		if(blad)
 		{
-			qDebug() << "Wystapil blad przy wczytywaniu przedmiotu. Zle wartosci. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne wartości. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------LICZBY CAŁKOWITE
@@ -112,13 +112,13 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 
 		if(!okID ||!okWrecz || !okDystans || !okMagia || !okObrona || !okPercepcja || !okHP || !okHPRegen || !okOgraniczenia || !okWartosc)
 		{
-			qDebug() <<"Niepoprawne dane w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
 		if( info.wartosc < 0)
 		{
-			qDebug() <<"Niepoprawna wartosc w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawna wartość w linii ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------POPRAWNOŚĆ OGRANICZENIA
@@ -129,7 +129,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 				blad = true;
 		if(blad || podzial.at(10).size() != LICZBA_KLAS)
 		{
-			qDebug() <<"Niepoprawne ograniczenia w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne ograniczenia w linii ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------POPRAWNOŚĆ TYPU
@@ -158,7 +158,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 			rodzaj = mikstura;
 			break;
 		default:
-			qDebug() <<"Niepoprawny symbol typu w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawny symbol typu w linii ") + QString::number(numerLinii);
 			return true;
 			break;
 		}
@@ -171,20 +171,20 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 		else if(info.kolorCzcionki == 'c')
 			kolorCzcionki = Qt::darkRed;
 		else{
-			qDebug() <<"Niepoprawny symbol koloru w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawny symbol koloru w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
 //-----------ZAPISANIE DANYCH
-		QSet<int>* poprzednie;
+		QList<int>* poprzednie;
 		if(mistrzGry->grupy.contains(aktualnaGrupa))
 			poprzednie = mistrzGry->grupy[aktualnaGrupa];
 		else
 		{
-			poprzednie = new QSet<int>;
+			poprzednie = new QList<int>;
 			mistrzGry->grupy.insert(aktualnaGrupa, poprzednie);
 		}
-		poprzednie->insert(info.id);
+		poprzednie->push_back(info.id);
 		Przedmiot* nowy = new Przedmiot(info.nazwa, rodzaj, info.wrecz, info.dystans, info.magia, info.obrona, info.percepcja, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyOd5Poziom);
 		mistrzGry->przedmioty.insert(info.id, nowy);
 

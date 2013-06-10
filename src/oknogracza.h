@@ -11,8 +11,11 @@
 #include "oknoekwipunek.h"
 #include "oknozadania.h"
 
+class OknoEkwipunek;
+
 class OknoGracza : public QObject
 {
+	friend class OknoEkwipunek;
 	Q_OBJECT
 
 public:

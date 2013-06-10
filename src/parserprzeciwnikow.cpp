@@ -3,18 +3,28 @@
 ParserPrzeciwnikow::ParserPrzeciwnikow(MistrzGry *mistrzGry)
 {
 	this->mistrzGry = mistrzGry;
+	aktualnaGrupa = -1;
 	bylBlad = false;
+
 	QFile plik(QString(":/dane/przeciwnicy.txt"));
 	if(!plik.open(QIODevice::ReadOnly))
 	{
-		qDebug() << "Nie udalo sie wczytac pliku z danymi przeciwnikow";
+		trescBledu = QString::fromUtf8( "Nie udało się wczytać pliku");
 		bylBlad = true;
 		plik.close();
 		return;
 	}
 	QTextStream wejscie(&plik);
+
 	bylBlad = wczytajDane(&wejscie);
 	plik.close();
+
+	if(!bylBlad && aktualnaGrupa != -1 && !mistrzGry->grupyPrzeciwnikow.contains(aktualnaGrupa))
+	{
+		trescBledu = QString::fromUtf8("Grupa nie może być pusta.\n Pusta jest grupa: ") + aktualnaGrupa;
+		bylBlad = true;
+	}
+
 }
 
 /**
@@ -38,18 +48,42 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 
 	while((linia = nastepny(wejscie)) != "")
 	{
+//-----------NAZWA GRUPY
+		if(linia[0] == '$')
+		{
+			if(aktualnaGrupa != -1 && !mistrzGry->grupyPrzeciwnikow.contains(aktualnaGrupa))
+			{
+				trescBledu = QString::fromUtf8("Grupa nie może być pusta.\nPusta jest grupa: ") + aktualnaGrupa;
+				return true;
+			}
+			QString grupa = linia.right(linia.size() - 1);
+			bool okGrupa;
+			aktualnaGrupa = grupa.toInt(&okGrupa);
+			if(!okGrupa)
+			{
+				trescBledu = QString::fromUtf8("Nieprawidłowa nazwa grupy.\nPodano: ") + grupa;
+				return true;
+			}
+
+			continue;
+		} else if(aktualnaGrupa == -1)
+		{
+			trescBledu = QString::fromUtf8("Nie podano nazwy grupy.");
+			return true;
+		}
+
 //-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
-		if(podzial.size() != 8)
+		if(podzial.size() != 9)
 		{
-			qDebug() << "Zla ilosc pol. Wadliwa linia: " <<numerLinii;
+			trescBledu = QString::fromUtf8( "Zła ilość pol. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 
 		QStringList atak = podzial.at(4).split(",");
 		if (atak.size() != 2)
 		{
-			qDebug() <<"Niepoprawne dane dot. ataku w wierszu " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne dane dot. ataku w wierszu ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------ZAPISANIE TEKSTÓW
@@ -64,32 +98,42 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 		bool okObrona;
 		bool okHP;
 		bool okIDNagrody;
+		bool okPercepcja;
 		info.id = podzial.at(0).toInt(&okID);
 		info.atakMin = atak.at(0).toInt(&okMin);
 		info.atakMaks = atak.at(1).toInt(&okMaks);
 		info.obrona = podzial.at(5).toInt(&okObrona);
 		info.zdrowie = podzial.at(6).toInt(&okHP);
 		info.idNagrody = podzial.at(7).toInt(&okIDNagrody);
+		info.percepcja = podzial.at(8).toInt(&okPercepcja);
 
-		if(!okID ||!okMin || !okMaks || !okObrona || !okHP || !okID)
+		if(!okID ||!okMin || !okMaks || !okObrona || !okHP || !okIDNagrody || !okPercepcja)
 		{
-			qDebug() <<"Niepoprawne dane w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
 		}
-
 		if(!mistrzGry->nagrody.contains(info.idNagrody))
 		{
-			qDebug() <<"Niepoprawny identyfikator nagrody w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawny identyfikator nagrody w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
-		if(info.atakMin > info.atakMaks || info.atakMin < 0 || info.obrona < 0 || info.zdrowie <= 0)
+		if(info.atakMin > info.atakMaks || info.atakMin < 0 || info.obrona < 0 || info.zdrowie <= 0 || info.percepcja < 0)
 		{
-			qDebug() <<"Niepoprawne wartosci w linii " <<numerLinii;
+			trescBledu = QString::fromUtf8("Niepoprawne wartosci w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
 //-----------ZAPISANIE DANYCH
+		QList<int>* poprzednia;
+		if(mistrzGry->grupyPrzeciwnikow.contains(aktualnaGrupa))
+			poprzednia = mistrzGry->grupyPrzeciwnikow[aktualnaGrupa];
+		else
+		{
+			poprzednia = new QList<int>;
+			mistrzGry->grupyPrzeciwnikow.insert(aktualnaGrupa, poprzednia);
+		}
+		poprzednia->push_back(info.id);
 		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.percepcja, info.zdrowie, mistrzGry->nagrody[info.idNagrody]);
 		mistrzGry->przeciwnicy.insert(info.id, nowy);
 

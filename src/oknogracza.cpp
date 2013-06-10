@@ -122,6 +122,9 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	wskaznikDoswiadczenia->wypelnij((qreal)ileDoswZebranoNaAktPoziomie / ileDoswNaAktualnyPoziom );
 	opisPoDoswiadczeniu->setText(QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
 //------------------------------
+	for(int i = 0; i < LICZBA_KROLESTW; ++i)
+		slupki[i]->ustaw(gracz->getReputacja()[i]);
+//------------------------------
 	obrona->setText(QString::number(gracz->getObrona()));
 	percepcja->setText(QString::number(gracz->getPercepcja()));
 	ruch->setText(QString::number(gracz->getPunktyRuchu()));
@@ -163,7 +166,7 @@ QString OknoGracza::odmiana(int n)
 
 void OknoGracza::pokazEkwipunek()
 {
-	oknoEkwipunek = new OknoEkwipunek(aktualnyGracz);
+	oknoEkwipunek = new OknoEkwipunek(aktualnyGracz, this);
 	oknoEkwipunek->setAttribute(Qt::WA_DeleteOnClose);
 	oknoEkwipunek->show();
 }

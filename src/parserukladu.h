@@ -1,4 +1,4 @@
-#ifndef PARSERUKLADU_H
+﻿#ifndef PARSERUKLADU_H
 #define PARSERUKLADU_H
 
 #include <QFile>
@@ -17,6 +17,7 @@ class ParserUkladu
 public:
 	ParserUkladu(Plansza* plansza);
 	bool bladWczytywania();
+	QString trescBledu;
 private:
 	bool bylBlad;
 	Plansza* plansza;

@@ -44,7 +44,7 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	ikonkaObronyPrzeciwnika->setPixmap(QString(":/ikonki/obrona.png"));
 	obronaPrzeciwnika = new QLabel(QString::number(przeciwnik->getObrona()));
 	ikonkaPercepcjiPrzeciwnika = new QLabel();
-	ikonkaPercepcjiPrzeciwnika->setPixmap(QString(":ikonki/percepcja.png"));
+	ikonkaPercepcjiPrzeciwnika->setPixmap(QString(":/ikonki/percepcja.png"));
 	percepcjaPrzeciwnika = new QLabel(QString::number(przeciwnik->getPercepcja()));
 	linijkaDanychPrzeciwnika = new QHBoxLayout();
 	linijkaDanychPrzeciwnika->addWidget(ikonkaAtakuPrzeciwnika);
@@ -129,16 +129,20 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	connect(przyciskUcieczki, SIGNAL(clicked()), this, SLOT(uciekaj()));
 }
 
+/**
+ * @brief Walka::ruchPrzeciwnika	Wykonuje atak przeciwnika, a po nim sprawdza czy koniec walki
+ */
 void Walka::ruchPrzeciwnika()
 {
 	qsrand( QDateTime::currentDateTime().toTime_t() );
 	quint8 atak = qrand() % (przeciwnik->getAtakMaksymalny() - przeciwnik->getAtakMinimalny()) + przeciwnik->getAtakMinimalny();
 
-	log->insertPlainText(QString::fromUtf8("Przeciwnik atakuje z siłą ") + QString::number(atak) + QString("\n"));
+	wpisPrzeciwnika(przeciwnik, QString::fromUtf8("atakuje z siłą ") + QString::number(atak));
+	log->verticalScrollBar()->setSliderPosition(log->verticalScrollBar()->maximum());
 
 	int obrazenia = qMax(atak - gracz->getObrona(), 0);
 
-	log->insertPlainText(QString::fromUtf8("Obrażenia gracza: ") + QString::number(obrazenia) + QString("\n"));
+	log->insertPlainText(QString::fromUtf8("Zadane obrażenia: ") + QString::number(obrazenia) + QString("\n"));
 
 	gracz->setZdrowieAktualne(qMax(gracz->getZdrowieAktualne() - obrazenia, 0));
 	punktyZdrowiaGracza->setText(QString::number(gracz ->getZdrowieAktualne()) + "/" + QString::number(gracz->getZdrowieMaks()));
@@ -147,16 +151,27 @@ void Walka::ruchPrzeciwnika()
 
 	if(gracz->getZdrowieAktualne() == 0)
 	{
+		QString tekst(przeciwnik->getNazwa() + QString::fromUtf8(" wygrał walkę"));
+		QMessageBox::information(
+			this,
+			QString::fromUtf8("Zakończono walkę"),
+			tekst);
+		qDebug() <<gracz->getNazwa() <<" przegrywa walke.";
+		close();
 		mistrzGry->koniecWalki(przeciwnik, przegrana);
-	close();
 	}
 }
 
+/**
+ * @brief Walka::atakGracza	Wykonuje atak gracza z daną siłą, a po nim sprawdza czy koniec walki
+ * @param atak		siła z jaką atakuje gracz
+ */
 void Walka::atakGracza(int atak)
 {
 	int obrazenia = qMax(atak - przeciwnik->getObrona(), 0);
 
 	log->insertPlainText(QString::fromUtf8("Zadane obrażenia: ") + QString::number(obrazenia) + QString("\n"));
+	log->verticalScrollBar()->setSliderPosition(log->verticalScrollBar()->maximum());
 
 	aktualneZdrowiePrzeciwnika = qMax(0, aktualneZdrowiePrzeciwnika - obrazenia);
 	punktyZdrowiaPrzeciwnika->setText(QString::number(aktualneZdrowiePrzeciwnika) + "/" + QString::number(przeciwnik->getZdrowieMaks()));
@@ -165,42 +180,115 @@ void Walka::atakGracza(int atak)
 
 	if(aktualneZdrowiePrzeciwnika == 0)
 	{
-		mistrzGry->koniecWalki(przeciwnik, wygrana);
+		QString tekst(gracz->getNazwa() + QString::fromUtf8(" wygrał walkę"));
+		QMessageBox::information(
+			this,
+			QString::fromUtf8("Zakończono walkę"),
+			tekst);
+		qDebug() <<gracz->getNazwa() <<"Wygrywa walke.";
 		close();
+		mistrzGry->koniecWalki(przeciwnik, wygrana);
 	}
 	else
 		ruchPrzeciwnika();
+
 }
 
+/**
+ * @brief Walka::wpisGracza	Wpisuje czynność wykonaną przez gracza podaną jako tekst do loga.
+ * @param gracz		Gracz, który wykonuje działanie.
+ * @param tekst		tekst będący opisem czynności
+ */
+void Walka::wpisGracza(Gracz *gracz, QString tekst)
+{
+	log->setTextColor(QColor(Qt::green));
+	log->setFontWeight(QFont::Bold);
+	log->insertPlainText(QString("\n") + gracz->getNazwa());
+	log->setFontWeight(QFont::Normal);
+	log->setTextColor(QColor(Qt::black));
+	log->insertPlainText(QString(" ") + tekst + "\n");
+	log->verticalScrollBar()->setSliderPosition(log->verticalScrollBar()->maximum());
+
+}
+
+/**
+ * @brief Walka::wpisPrzeciwnika	Wpisuje czynność wykonaną przez przeciwnika podaną jako tekst do loga.
+ * @param przeciwnik	Przeciwnik który wykonuje działanie.
+ * @param tekst		tekst będący opisem czynności
+ */
+void Walka::wpisPrzeciwnika(Przeciwnik *przeciwnik, QString tekst)
+{
+	log->setTextColor(QColor(Qt::red));
+	log->setFontWeight(QFont::Bold);
+	log->insertPlainText(QString("\n") + przeciwnik->getNazwa());
+	log->setFontWeight(QFont::Normal);
+	log->setTextColor(QColor(Qt::black));
+	log->insertPlainText(QString(" ") + tekst + "\n");
+	log->verticalScrollBar()->setSliderPosition(log->verticalScrollBar()->maximum());
+}
+
+/**
+ * @brief Walka::rozpocznij	Rozpoczyna walkę wyświetlając informacje o rozpoczynającym.
+ */
+void Walka::rozpocznij()
+{
+	show();
+	QMessageBox::information(
+		this,
+		QString::fromUtf8("Rozpoczynający"),
+		przeciwnik->getPercepcja() > gracz->getPercepcja() ?
+			QString::fromUtf8("Walkę rozpoczyna ") + przeciwnik->getNazwa() + QString(".") :
+			QString::fromUtf8("Walkę rozpoczyna ") + gracz->getNazwa() + QString(".") );
+
+	if(przeciwnik->getPercepcja() > gracz->getPercepcja())
+		ruchPrzeciwnika();
+
+}
+
+/**
+ * @brief Walka::atakWrecz	Zleca wykonanie ataku wręcz, jako następne działanie gracza.
+ */
 void Walka::atakWrecz()
 {
-	log->insertPlainText(QString::fromUtf8("Gracz atakuje wręcz z siłą ") + QString::number(gracz->getAtakWrecz()) + QString("\n"));
-
+	wpisGracza(gracz, QString::fromUtf8(" atakuje wręcz z siłą ") + QString::number(gracz->getAtakWrecz()));
 	atakGracza(gracz->getAtakWrecz());
 }
 
+/**
+ * @brief Walka::atakDystansowy		Zleca wykonanie ataku bronią dystansową, jako następne działanie gracza.
+ */
 void Walka::atakDystansowy()
 {
-	log->insertPlainText(QString::fromUtf8("Gracz atakuje bronią dystansową z siłą ") + QString::number(gracz->getAtakDystansowy()) + QString("\n"));
-
+	wpisGracza(gracz, QString::fromUtf8(" atakuje bronią dystansową z siłą ") + QString::number(gracz->getAtakDystansowy()));
 	atakGracza(gracz->getAtakDystansowy());
 }
 
+/**
+ * @brief Walka::atakMagiczny		Zleca wykonanie ataku magicznego, jako następne działanie gracza.
+ */
 void Walka::atakMagiczny()
 {
-	log->insertPlainText(QString::fromUtf8("Gracz atakuje magicznie z siłą ") + QString::number(gracz->getAtakMagiczny()) + QString("\n"));
-
+	wpisGracza(gracz, QString::fromUtf8(" atakuje magicznie z siłą ") + QString::number(gracz->getAtakMagiczny()));
 	atakGracza(gracz->getAtakMagiczny());
 }
 
+/**
+ * @brief Walka::uciekaj	Wykonuje ucieczke gracza z walki i zamyka okno.
+ */
 void Walka::uciekaj()
 {
+	qDebug() <<gracz->getNazwa() <<"Ucieka z pola walki.";
 	close();
 	mistrzGry->koniecWalki(przeciwnik, ucieczka);
 }
 
+/**
+ * @brief Walka::uzyjDuzejMikstury	Zleca użycie dużej mikstury zdrowia.
+ */
 void Walka::uzyjDuzejMikstury()
 {
+	wpisGracza(gracz, QString::fromUtf8("używa dużej mikstury zdrowia.\n"));
+
 	gracz->getEkwipunek()->setDuzePoty(gracz->getEkwipunek()->getDuzePoty() - 1);
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
@@ -209,8 +297,13 @@ void Walka::uzyjDuzejMikstury()
 	ruchPrzeciwnika();
 }
 
+/**
+ * @brief Walka::uzyjMalejMikstury	Zleca użycie małej mikstury zdrowia.
+ */
 void Walka::uzyjMalejMikstury()
 {
+	wpisGracza(gracz, QString::fromUtf8("używa małej mikstury zdrowia.\n"));
+
 	gracz->getEkwipunek()->setMalePoty(gracz->getEkwipunek()->getMalePoty() - 1);
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getMalePoty() == 0)

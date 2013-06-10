@@ -1,4 +1,4 @@
-#include "parserukladu.h"
+﻿#include "parserukladu.h"
 
 ParserUkladu::ParserUkladu(Plansza* plansza)
 {
@@ -8,7 +8,7 @@ ParserUkladu::ParserUkladu(Plansza* plansza)
 
 	if(!ustawienie.open(QIODevice::ReadOnly))
 	{
-		qDebug() << "Nie udalo sie wczytac pliku z ustawieniami planszy";
+		trescBledu = QString::fromUtf8("Nie udało się wczytać pliku.");
 		bylBlad = true;
 		ustawienie.close();
 		return;
@@ -23,7 +23,7 @@ ParserUkladu::ParserUkladu(Plansza* plansza)
 
 	if(!bylBlad && !nastepny(&wejscie).isEmpty())
 	{
-		qDebug() << "Plik wejsciowy jest za dlugi.";
+		trescBledu = QString::fromUtf8("Plik wejściowy jest za długi.");
 		bylBlad = true;
 	}
 	ustawienie.close();
@@ -45,7 +45,7 @@ bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 	QStringList podzial = linia.split(";");
 	if(podzial.size() != 2)
 	{
-		qDebug() << "Wystapil blad przy wczytaniu wymiarow";
+		trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytaniu wymiarów");
 		return true;
 	}
 
@@ -57,7 +57,7 @@ bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 	plansza->wysokoscPlanszy = wysokosc;
 	if(!ok1 || !ok2 || szerokosc < 1 || wysokosc < 1)
 	{
-		qDebug() << "Podane wymiary nie są poprawne.";
+		trescBledu = QString::fromUtf8("Podane wymiary nie są poprawne.");
 		return true;
 	}
 	return false;
@@ -70,7 +70,7 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 
 	if(!ok)
 	{
-		qDebug() << "Wystapil blad przy wczytaniu dlugosci legendy";
+		trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu długości legendy");
 		return true;
 	}
 
@@ -81,7 +81,7 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 
 		if(podzial.size() != 6)
 		{
-			qDebug() << "Wystapil blad przy wczytaniu legendy. Zla ilosc pol. Wadliwy element: " <<i + 1;
+			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu legendy.\nZła ilość pol. Wadliwy element: ") + QString::number(i + 1);
 			return true;
 		}
 
@@ -105,10 +105,10 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 
 		if(!bezBledu || podzial.at(0).isEmpty())
 		{
-			qDebug() << "Wystapil blad przy wczytaniu legendy. Zly element: " <<i + 1;
+			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu legendy.\nZły element: ") + QString::number(i + 1);
 			return true;
 		}
-		legenda.insert(podzial.at(0), informacje); //sprawdzić, czy nie zapisuje po adresie i nie likwiduje zawartości
+		legenda.insert(podzial.at(0), informacje);
 	}
 	return false;
 }
@@ -123,7 +123,7 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != szerokosc)
 		{
-			qDebug() << "Wystapil blad przy wczytaniu ustawienia. Zla ilosc danych. Wadliwy wiersz: " <<i + 1;
+			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu odwzorowania.\nZła ilosc danych. Wadliwy wiersz: ") + QString::number(i + 1);
 			return true;
 		}
 		for(int j = 0; j < szerokosc; ++j)
@@ -133,11 +133,11 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 
 			if(!legenda.contains(symbol))
 			{
-				qDebug() << "Wystapil blad przy wczytaniu ustawienia. Nie znaleniono odpowiedniego symbolu. Wadliwy wiersz: " <<i + 1 <<"Symbol: " <<symbol;;
+				trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu odwzorowania.\nNie znaleniono odpowiedniego symbolu.\nWadliwy wiersz: ")  + QString::number(i + 1) + QString(". Symbol: ") + symbol;
 				return true;
 			}
 			info dane = legenda[symbol];
-			IDPola miejsce = {j,i}; //sprawdzić czy napewno jest dostępny, bo jeżeli przekazywany jest wskaźnik to może nie być
+			IDPola miejsce = {j,i};
 			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.czyPoleZMiastem, dane.plik));
 		}
 	}

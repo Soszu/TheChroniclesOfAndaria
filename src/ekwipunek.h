@@ -8,18 +8,21 @@ class Ekwipunek
 {
 public:
 	Ekwipunek();
+	~Ekwipunek();
 
 	quint8 getMalePoty();
-	quint8 getDuzePoty();
 	void setMalePoty(quint8 ilosc);
+	quint8 getDuzePoty();
 	void setDuzePoty(quint8 ilosc);
+	QList<Przedmiot*>* getPlecak();
+
 
 private:
 	Przedmiot* glowa;
 	Przedmiot* tulw;
 	Przedmiot* lewaReka;
 	Przedmiot* prawaReka;
-	QList<Przedmiot> plecak;
+	QList<Przedmiot*>* plecak;
 	quint8 malePoty;
 	quint8 duzePoty;
 };

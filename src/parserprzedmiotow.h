@@ -2,7 +2,7 @@
 #define PARSERPRZEDMIOTOW_H
 
 #include <QMap>
-#include <QSet>
+#include <QList>
 #include "mistrzgry.h"
 #include "przedmiot.h"
 #include "gra.h"
@@ -14,6 +14,7 @@ class ParserPrzedmiotow
 public:
 	ParserPrzedmiotow(MistrzGry* mistrz);
 	bool bladWczytywania();
+	QString trescBledu;
 private:
 	bool bylBlad;
 	MistrzGry* mistrzGry;

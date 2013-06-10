@@ -1,12 +1,15 @@
 ﻿#include "cyklgry.h"
 
-CyklGry::CyklGry()
+CyklGry::CyklGry(int* wynikParsowania)
 {
+	this->wynikParsowania = wynikParsowania;
 	indeksAktualnego = 0;
+	komunikatOBledzie = new QDialog;
 }
 
 CyklGry::~CyklGry()
 {
+	delete komunikatOBledzie;
 	Gracz* it;
 	foreach (it, gracze) {
 		delete it;
@@ -23,10 +26,21 @@ void CyklGry::setGracze(QList<Gracz *> gracze)
 	plansza->setGracze(&this->gracze);
 }
 
-void CyklGry::wystapilBlad(QString komunikat)
+void CyklGry::setMainWindow(QMainWindow *okno)
+{
+	this->mainWindow = okno;
+}
+
+void CyklGry::wystapilBlad(QString komunikat, int blad)
 {
 	qDebug() <<komunikat;
-	//zakonczGre(); zakoncz Gre -> koniec(1), wystapilBlad -> koniec(0)
+
+	QMessageBox::critical(
+		komunikatOBledzie,
+		QString::fromUtf8("Napotkano błąd"),
+		komunikat + QString::fromUtf8("\n\nNastąpi zamknięcie programu.") );
+
+	*wynikParsowania = blad;
 }
 
 /**
@@ -58,8 +72,31 @@ QList<Gracz *> CyklGry::getGracze()
 
 void CyklGry::wykreslGracza(Gracz *gracz)
 {
-	//TODO
-	//jesli jest to przedostatni gracz -> ogłoś zwycięzcę jeśli nie to poprostu wykreśl, można dodać komunikat że odpadł ktoś
+	QMessageBox::information(
+		mainWindow,
+		QString::fromUtf8("Przykro mi, ale ..."),
+		gracz->getNazwa() + QString::fromUtf8(" wypadł z gry.") );
+
+	gracze.removeAt(indeksAktualnego);
+
+	if(gracze.size() == 1)
+	{
+		QMessageBox::information(
+			mainWindow,
+			QString::fromUtf8("Gratulacje!"),
+			gracze.first()->getNazwa() + QString::fromUtf8(" jest teraz jedynym żywym graczem i tym samym zwycięża.") );
+		mainWindow->close();
+	}
+
+}
+
+void CyklGry::graczWygral(Gracz *gracz)
+{
+	QMessageBox::information(
+		mainWindow,
+		QString::fromUtf8("Gratulacje!"),
+		gracz->getNazwa() + QString::fromUtf8(" zwyciężył.") );
+	mainWindow->close();
 }
 
 /**
@@ -69,10 +106,6 @@ void CyklGry::rozpocznij()
 {
 	qDebug() <<"Liczba graczy: " <<gracze.size();
 	ruszGracza(indeksAktualnego);
-}
-
-void CyklGry::zakonczGre()
-{
 }
 
 /**
