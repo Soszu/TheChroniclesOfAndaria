@@ -1,10 +1,12 @@
 ﻿#ifndef OKNOEKWIPUNEK_H
 #define OKNOEKWIPUNEK_H
 
-#include <QDialog>
 #include <QtGui>
+#include <QDialog>
+#include "zarzadzanieekwipunkiem.h"
 #include "gracz.h"
 #include "oknogracza.h"
+#include "przedmiot.h"
 
 class OknoGracza;
 
@@ -15,9 +17,9 @@ public:
 	explicit OknoEkwipunek(Gracz* gracz, OknoGracza* okno);
 
 private:
-	Gracz* gracz;
-	OknoGracza* oknoGracza;
 
+	Gracz* gracz;
+	OknoGracza* okno;
 	QVBoxLayout* layoutGlowny;
 	QListWidget* listaPrzedmiotow;
 	QTextBrowser* opisPrzedmiotu;
@@ -31,18 +33,11 @@ private:
 	QPushButton* przyciskZaloz;
 	QPushButton* ok;
 
-	void dezaktywujBonusy(Przedmiot* przedmiot);
-	void aktywujBonusy(Przedmiot* przedmiot);
-
-signals:
-
 private slots:
-	void zaloz();
-	void wygenerujOpis(QModelIndex element);
 	void uzyjDuzejMikstury();
 	void uzyjMalejMikstury();
-
-
+	void wyswietlOpis(QModelIndex element);
+	void zaloz();
 };
 
 #endif // OKNOEKWIPUNEK_H

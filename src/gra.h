@@ -12,14 +12,17 @@ static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
 static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
 
-static const quint16 MAKSYMALNY_POZIOM = 10;
+static const quint8 MAKSYMALNY_POZIOM = 10;
 static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 static const quint8 POCZATKOWY_POZIOM = 1;
+static const quint8 POZIOM_GRANICZNY = 5;
 static const quint8 POCZATKOWA_REPUTACJA = 0;
 static const quint8 MAX_REPUTACJA = 5;
 static const quint8 POCZATKOWE_ZLOTO = 10;
 static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
+
+static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 4;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 static const quint8 DZIALANIE_MALYCH_POTOW = 10; //nieco konfliktuje z danymi w pliku przeciwnicy
@@ -58,16 +61,16 @@ enum Rasa
 //index nazwy klasy jest równoznaczny z wartością enumeratora Klasa, dla tej rasy
 static const QString KLASY[LICZBA_KLAS] = {
 	"Wojownik",
-	"Mag",
 	QString::fromUtf8("Łowca"),
+	"Mag",
 	"Druid"
 };
 
 enum Klasa
 {
 	wojownik = 0,
-	mag = 1,
-	lowca = 2,
+	lowca = 1,
+	mag = 2,
 	druid = 3
 };
 
@@ -98,25 +101,27 @@ struct statystyka
 
 static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {
 	{{15,2,10,3,1,10,1},	//Człowiek wojownik:
-	{11,3,2,1,11,7,4},	//Człowiek mag
 	{13,3,5,9,1,8,7},	//Człowiek łowca
+	{11,3,2,1,11,7,4},	//Człowiek mag
 	{13,4,2,2,7,10,3}},	//Człowiek druid:
 
 	{{15,2,10,5,1,10,1},	//Elf wojownik
-	{11,3,2,1,11,7,4},	//Elf mag
 	{13,3,5,9,1,8,7},	//Elf łowca
+	{11,3,2,1,11,7,4},	//Elf mag
 	{13,4,2,2,7,9,3}},	//Elf druid
 
 	{{15,2,10,5,1,10,1},	//Krasnolud wojownik
-	{11,3,2,1,11,7,4},	//Krasnolud mag
 	{13,3,5,9,1,8,7},	//Krasnolud łowca
+	{11,3,2,1,11,7,4},	//Krasnolud mag
 	{13,4,2,2,7,9,3}},	//Krasnolud druid
 
 	{{15,2,10,5,1,10,1},	//Niziołek wojownik
-	{11,3,2,1,11,7,4},	//Niziołek mag
 	{13,3,5,9,1,8,7},	//Niziołek łowca
+	{11,3,2,1,11,7,4},	//Niziołek mag
 	{13,4,2,2,7,9,3}}	//Niziołek druid
 };
+
+static const quint8 LICZBA_RODZAJOW = 7;
 
 enum RodzajPrzedmiotu
 {
@@ -127,6 +132,16 @@ enum RodzajPrzedmiotu
 	helm,
 	artefakt,
 	mikstura
+};
+
+static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW] = {
+	QString::fromUtf8("broń dwuręczna"),
+	QString::fromUtf8("broń jednoręczna"),
+	QString::fromUtf8("tarcza"),
+	QString::fromUtf8("pancerz"),
+	QString::fromUtf8("hełm"),
+	QString::fromUtf8("artefakt"),
+	QString::fromUtf8("mikstura"),
 };
 
 static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;

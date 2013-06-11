@@ -94,13 +94,13 @@ akcje.push_front(koniecTury);
 		return akcje; //pusta lista akcji (tymczasowo jest też zakończ turę, żeby się nie zwieszał)
 	}
 
-	if(zajmowanePole->getCzyPoleZMiastem())
+//	if(zajmowanePole->getCzyPoleZMiastem())
 	{
 		akcje.push_back(bazar);
 		akcje.push_back(tawerna);
 	}
 
-	if(zajmowanePole->getCzyPoleZPrzeciwnikiem())
+//	if(zajmowanePole->getCzyPoleZPrzeciwnikiem())
 	{
 		akcje.push_back(przeciwnikLatwy);
 		akcje.push_back(przeciwnikTrudny);
@@ -129,6 +129,7 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 		walka(nazwa);
 		break;
 	case bazar:
+		handelNaBazarze();
 		break;
 	case tawerna:
 		break;
@@ -225,6 +226,20 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 	return przeciwnicy[grupyPrzeciwnikow[grupa]->at(los)];
 }
 
+QList<Przedmiot*> *MistrzGry::towaryNaBazarze(IDPola pole)
+{
+	//TODO:
+	int los = qrand() % przedmioty.size();
+
+	towaryBazarow.push_back(przedmioty[los]);
+
+	los = qrand() % przedmioty.size();
+
+	towaryBazarow.push_back(przedmioty[los]);
+
+	return &towaryBazarow;
+}
+
 /**
  * @brief MistrzGry::walka Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
  * @param opcja		jaka opcja walki (jaki przeciwnik) została wybrana
@@ -242,6 +257,13 @@ void MistrzGry::walka(Akcja opcja)
 	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
 	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
 	oknoWalki->rozpocznij();
+}
+
+void MistrzGry::handelNaBazarze()
+{
+	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryNaBazarze(aktualnyGracz->getPozycja()));
+	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
+	oknoBazaru->show();
 }
 
 /**

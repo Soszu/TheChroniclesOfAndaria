@@ -17,6 +17,7 @@
 #include "panelakcji.h"
 #include "gra.h"
 #include "walka.h"
+#include "oknobazaru.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -25,6 +26,7 @@ class ParserPrzeciwnikow;
 class ParserPrzedmiotow;
 class ParserNagrod;
 class Walka;
+class OknoBazaru;
 
 class MistrzGry
 {
@@ -57,8 +59,12 @@ private:
 	Plansza* plansza;
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
+	QList<Przedmiot *> *towaryNaBazarze(IDPola pole);
 	void walka(Akcja opcja);
+	void handelNaBazarze();
 	Walka* oknoWalki;
+	OknoBazaru* oknoBazaru;
+	QList<Przedmiot*> towaryBazarow;
 };
 
 #endif // MISTRZGRY_H

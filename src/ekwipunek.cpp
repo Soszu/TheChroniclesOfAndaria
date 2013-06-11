@@ -3,7 +3,7 @@
 Ekwipunek::Ekwipunek()
 {
 	this->glowa = NULL;
-	this->tulw = NULL;
+	this->tuluw = NULL;
 	this->lewaReka = NULL;
 	this->prawaReka= NULL;
 
@@ -16,6 +16,46 @@ Ekwipunek::Ekwipunek()
 Ekwipunek::~Ekwipunek()
 {
 	delete plecak;
+}
+
+Przedmiot *Ekwipunek::getGlowa()
+{
+	return glowa;
+}
+
+void Ekwipunek::setGlowa(Przedmiot *rzecz)
+{
+	glowa = rzecz;
+}
+
+Przedmiot *Ekwipunek::getTuluw()
+{
+	return tuluw;
+}
+
+void Ekwipunek::setTuluw(Przedmiot *rzecz)
+{
+	tuluw = rzecz;
+}
+
+Przedmiot *Ekwipunek::getLewaReka()
+{
+	return lewaReka;
+}
+
+void Ekwipunek::setLewaReka(Przedmiot *rzecz)
+{
+	lewaReka = rzecz;
+}
+
+Przedmiot *Ekwipunek::getPrawaReka()
+{
+	return prawaReka;
+}
+
+void Ekwipunek::setPrawaReka(Przedmiot *rzecz)
+{
+	prawaReka = rzecz;
 }
 
 quint8 Ekwipunek::getMalePoty()
@@ -43,4 +83,9 @@ void Ekwipunek::setDuzePoty(quint8 ilosc)
 QList<Przedmiot *> *Ekwipunek::getPlecak()
 {
 	return plecak;
+}
+
+QList<Przedmiot *> *Ekwipunek::getZalozoneArtefakty()
+{
+	return &zalozoneArtefakty;
 }

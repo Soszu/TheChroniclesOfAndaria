@@ -116,7 +116,7 @@ void CyklGry::ruszGracza(int indeks)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
 	mistrzGry->ruszGracza(gracze[indeks]);
-	plansza->ruszGracza(gracze[indeks], indeks);
+	//plansza->ruszGracza(gracze[indeks], indeks);
 }
 
 /**

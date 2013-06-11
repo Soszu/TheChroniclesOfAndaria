@@ -4,7 +4,6 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-
 	widget = new QWidget();
 	this->setCentralWidget(widget);
 	layoutGlowny = new QHBoxLayout(widget);

@@ -30,7 +30,7 @@ public:
 	quint8 getBonusHPregen();
 	int getOgraniczenia();
 	quint8 getWartosc();
-	bool getCzyPo5Lvlu();
+	bool getCzyPo5Lvlu(); //TODO: rename
 
 private:
 	QString nazwa;

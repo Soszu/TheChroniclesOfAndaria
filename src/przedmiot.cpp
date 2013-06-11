@@ -44,7 +44,12 @@ quint8 Przedmiot::getBonusAMagiczny()
 
 quint8 Przedmiot::getBonusObrona()
 {
-	return bonusHPregen;
+	return bonusObrona;
+}
+
+quint8 Przedmiot::getBonusPercepcja()
+{
+	return bonusPercepcja;
 }
 
 int Przedmiot::getOgraniczenia()
@@ -60,4 +65,16 @@ quint8 Przedmiot::getWartosc()
 bool Przedmiot::getCzyPo5Lvlu()
 {
 	return czyPo5Lvlu;
+}
+
+
+quint8 Przedmiot::getBonusHPregen()
+{
+	return bonusHPregen;
+}
+
+
+quint8 Przedmiot::getBonusHP()
+{
+	return bonusHP;
 }

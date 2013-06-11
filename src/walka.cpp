@@ -287,7 +287,7 @@ void Walka::uciekaj()
  */
 void Walka::uzyjDuzejMikstury()
 {
-	wpisGracza(gracz, QString::fromUtf8("używa dużej mikstury zdrowia.\n"));
+	wpisGracza(gracz, QString::fromUtf8("używa dużej mikstury zdrowia."));
 
 	gracz->getEkwipunek()->setDuzePoty(gracz->getEkwipunek()->getDuzePoty() - 1);
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
@@ -302,7 +302,7 @@ void Walka::uzyjDuzejMikstury()
  */
 void Walka::uzyjMalejMikstury()
 {
-	wpisGracza(gracz, QString::fromUtf8("używa małej mikstury zdrowia.\n"));
+	wpisGracza(gracz, QString::fromUtf8("używa małej mikstury zdrowia."));
 
 	gracz->getEkwipunek()->setMalePoty(gracz->getEkwipunek()->getMalePoty() - 1);
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));

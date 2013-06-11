@@ -12,7 +12,9 @@ set (SOURCES
 	panelakcji.cpp
 	oknogracza.cpp
 	mojpasek.cpp
+	zarzadzanieekwipunkiem.cpp
 	oknoekwipunek.cpp
+	oknobazaru.cpp
 	oknozadania.cpp
 	obszarplanszy.cpp
 	hex.cpp
@@ -42,7 +44,9 @@ set (HEADERS
 	panelakcji.h
 	oknogracza.h
 	mojpasek.h
+	zarzadzanieekwipunkiem.h
 	oknoekwipunek.h
+	oknobazaru.h
 	oknozadania.h
 	obszarplanszy.h
 	hex.h
