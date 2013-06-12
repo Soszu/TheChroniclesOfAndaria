@@ -16,6 +16,9 @@ static const quint8 MAKSYMALNY_POZIOM = 10;
 static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 static const quint8 POCZATKOWY_POZIOM = 1;
 static const quint8 POZIOM_GRANICZNY = 5;
+static const quint8 LICZBA_PUNKTOW_NA_POZIOM = 3;
+static const quint8 LICZBA_ATRYBOTOW_DO_AWANSU = 5;
+static const quint8 BONUS_DO_HP_PRZY_AWANSIE = 3;
 static const quint8 POCZATKOWA_REPUTACJA = 0;
 static const quint8 MAX_REPUTACJA = 5;
 static const quint8 POCZATKOWE_ZLOTO = 10;
@@ -25,9 +28,11 @@ static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 4;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
-static const quint8 DZIALANIE_MALYCH_POTOW = 10; //nieco konfliktuje z danymi w pliku przeciwnicy
+static const quint8 DZIALANIE_MALYCH_POTOW = 5; //nieco konfliktuje z danymi w pliku przeciwnicy
+static const quint8 CENA_MALEJ_MIKSTURY = 1;
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
 static const quint8 DZIALANIE_DUZYCH_POTOW = 20;
+static const quint8 CENA_DUZEJ_MIKSTURY = 3;
 
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
 
@@ -68,10 +73,10 @@ static const QString KLASY[LICZBA_KLAS] = {
 
 enum Klasa
 {
-	wojownik = 0,
-	lowca = 1,
-	mag = 2,
-	druid = 3
+	wojownik,
+	lowca,
+	mag,
+	druid
 };
 
 struct IDPola
@@ -169,7 +174,6 @@ static const QColor KOLORY[]= {
 	Qt::gray
 };
 
-//index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
 enum Akcja
 {
 	koniecTury = 0,
@@ -179,6 +183,7 @@ enum Akcja
 	tawerna = 4
 };
 
+//index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
 static const QString AKCJE[] = {
 	QString::fromUtf8("Zakończ turę"),
 	QString::fromUtf8("Walcz ze słabszym przeciwnikiem"),
@@ -191,6 +196,26 @@ enum WynikWalki {
 	wygrana,
 	przegrana,
 	ucieczka
+};
+
+enum atrybut
+{
+	Awrecz,
+	Adystansowy,
+	Amagiczny,
+	obrona,
+	percepcja,
+	zdrowie
+};
+
+//index nazwy mozliwych atrybutow do awansu jest równoznaczny z wartością enumeratora atrybut
+static const QString MOZLIWE_AWANSE[] = {
+	QString::fromUtf8("Atak wręcz"),
+	"Atak dystansowy",
+	"Atak magiczny",
+	"Obrona",
+	"Percepcja",
+	"Zdrowie"
 };
 
 //modyfikatory służące do przesuwania pionków jeśli kilka stoi na tym samym polu

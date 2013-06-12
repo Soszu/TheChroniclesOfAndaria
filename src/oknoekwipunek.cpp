@@ -75,18 +75,36 @@ void OknoEkwipunek::wyswietlOpis(QModelIndex element)
 {
 	Przedmiot* rzecz = gracz->getEkwipunek()->getPlecak()->at(element.row());
 	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz));
+
 	if(czyDozwolony(rzecz, gracz))
+	{
 		przyciskZaloz->setEnabled(true);
+		if(czyZalozony(rzecz, gracz))
+			przyciskZaloz->setText("Zdejmij");
+		else
+			przyciskZaloz->setText(QString::fromUtf8("Załóż"));
+	}
 	else
+	{
+		przyciskZaloz->setText(QString::fromUtf8("Załóż"));
 		przyciskZaloz->setEnabled(false);
+	}
 }
 
 void OknoEkwipunek::zaloz()
 {
 	Przedmiot* rzecz = gracz->getEkwipunek()->getPlecak()->at(listaPrzedmiotow->currentRow());
-	if (!czyZalozony(rzecz, gracz))
+
+	if(czyZalozony(rzecz, gracz))
+	{
+		zdejmijPrzedmiot(rzecz, gracz);
+		przyciskZaloz->setText(QString::fromUtf8("Załóż"));
+	}
+	else
 	{
 		zalozPrzedmiot(rzecz, gracz);
-		przyciskZaloz->setEnabled(false);
+		przyciskZaloz->setText("Zdejmij");
 	}
+	okno->uaktualnijInformacje();
+	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz)); //żeby pokazać założony: Tak
 }

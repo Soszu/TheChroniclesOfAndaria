@@ -23,9 +23,11 @@ private:
 
 	QVBoxLayout* layoutGlowny;
 
+	QLabel* tytulPrzedmiotow;
 	QListWidget* listaPrzedmiotow;
 
 	QList<Przedmiot*> dostepneTowary;
+	QLabel* tytulTowarow;
 	QListWidget* listaTowarow;
 
 	QTextBrowser* opisPrzedmiotu;
@@ -34,13 +36,27 @@ private:
 	QHBoxLayout* layoutGorny;
 	QHBoxLayout* layoutDolny;
 
+	QLabel* ikonaMalejMikstury;
+	QLabel* iloscMalychMisktur;
+	QPushButton* przyciskMalejMikstury;
+
+	QLabel* ikonaDuzejMikstury;
+	QLabel* iloscDuzychMisktur;
+	QPushButton* przyciskDuzejMikstury;
+
 	QPushButton* przyciskZaloz;
+	QPushButton* przyciskKup;
 	QPushButton* ok;
+
+	void wypelnijListy();
 
 private slots:
 	void wyswietlOpisDlaGracza(QModelIndex element);
 	void wyswietlOpisDlaBazaru(QModelIndex element);
+	void kupMalaMiksture();
+	void kupDuzaMiksture();
 	void zaloz();
+	void kup();
 };
 
 #endif // OKNOBAZARU_H

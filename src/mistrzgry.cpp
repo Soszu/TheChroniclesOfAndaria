@@ -66,6 +66,7 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
 	aktualnyGracz = gracz;
+	bazarOdwiedzony = false;
 
 	//regeneracja
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
@@ -129,7 +130,8 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 		walka(nazwa);
 		break;
 	case bazar:
-		handelNaBazarze();
+		if(!bazarOdwiedzony)
+			handelNaBazarze();
 		break;
 	case tawerna:
 		break;
@@ -159,6 +161,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 		break;
 	case wygrana:
 		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
+		break;
 	case ucieczka:
 		cyklGry->zakonczTure();
 		break;
@@ -167,19 +170,15 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 
 void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 {
-//Zloto
+	QList<Przedmiot*> przydzielonePrzedmioty;
+
+	//Zloto
 	gracz->setZloto(qMax(0, gracz->getZloto() + nagroda->getZloto()));
 
-//Doswiadczenie
+	//Doswiadczenie
 	gracz->setDoswiadczenie(gracz->getDoswiadczenie() + nagroda->getDoswiadczenie());
-	if(gracz->getPoziom() < MAKSYMALNY_POZIOM &&
-	   gracz->getDoswiadczenie() >= GRANICE_POZIOMOW[gracz->getPoziom()])
-	{
-		gracz->setPoziom(gracz->getPoziom() + 1);
-		rozdzielPunkty(gracz);
-	}
 
-//Losowy przedmiot
+	//Losowy przedmiot
 	QList<int> pula;
 	for(int i = 0; i < nagroda->getNazwyGrup().size(); ++i)
 		pula.append(*grupy[nagroda->getNazwyGrup()[i]]);
@@ -189,11 +188,9 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 		qsrand( QDateTime::currentDateTime().toTime_t() );
 		int los = qrand() % pula.size();
 
-		gracz->getEkwipunek()->getPlecak()->push_back(przedmioty[pula[los]]);
-		//NOTE: informacja ?
-
+		przydzielonePrzedmioty.push_back(przedmioty[pula[los]]);
 	}
-//Reputacja
+	//Reputacja
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 	{
 		quint8 suma = nagroda->getReputacja()[i] + gracz->getReputacja()[i];
@@ -201,20 +198,20 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 		nowaWartosc = qMax(0, (int)nowaWartosc);
 		gracz->setKonkretnaReputacja(nowaWartosc, i);
 	}
-//Konkretne Przedmioty
+	//Konkretne Przedmioty
 	for(int i = 0; i < nagroda->getKonkretnePrzedmioty()->size(); ++i)
-	{
-		Przedmiot* wkladany = przedmioty[nagroda->getKonkretnePrzedmioty()->at(i)];
-		gracz->getEkwipunek()->getPlecak()->push_back(wkladany);
-		//NOTE: informacja ?
-	}
+		przydzielonePrzedmioty.push_back(przedmioty[nagroda->getKonkretnePrzedmioty()->at(i)]);
 
-	qDebug("Przydzielono nagrode");
-}
+	//Przypisanie przedmiotów
+	Przedmiot* rzecz;
+	foreach (rzecz, przydzielonePrzedmioty)
+		gracz->getEkwipunek()->getPlecak()->push_back(rzecz);
 
-void MistrzGry::rozdzielPunkty(Gracz *gracz)
-{
+	oknoGracza->uaktualnijInformacje();
 
+	oknoNagrody = new OknoNagrody(aktualnyGracz, nagroda, przydzielonePrzedmioty, cyklGry);
+	oknoNagrody->setAttribute(Qt::WA_DeleteOnClose);
+	oknoNagrody->show();
 }
 
 Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
@@ -226,18 +223,16 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 	return przeciwnicy[grupyPrzeciwnikow[grupa]->at(los)];
 }
 
-QList<Przedmiot*> *MistrzGry::towaryNaBazarze(IDPola pole)
+QList<Przedmiot*> *MistrzGry::towaryNaBazarze()
 {
-	//TODO:
-	int los = qrand() % przedmioty.size();
+	towaryBazar.clear();
+	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
+	{
+		int los = qrand() % przedmioty.size();
+		towaryBazar.push_back(przedmioty[los]);
+	}
 
-	towaryBazarow.push_back(przedmioty[los]);
-
-	los = qrand() % przedmioty.size();
-
-	towaryBazarow.push_back(przedmioty[los]);
-
-	return &towaryBazarow;
+	return &towaryBazar;
 }
 
 /**
@@ -261,7 +256,8 @@ void MistrzGry::walka(Akcja opcja)
 
 void MistrzGry::handelNaBazarze()
 {
-	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryNaBazarze(aktualnyGracz->getPozycja()));
+	bazarOdwiedzony = true;
+	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryNaBazarze());
 	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
 	oknoBazaru->show();
 }

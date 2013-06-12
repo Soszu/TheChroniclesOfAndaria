@@ -18,6 +18,7 @@
 #include "gra.h"
 #include "walka.h"
 #include "oknobazaru.h"
+#include "oknonagrody.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -27,6 +28,7 @@ class ParserPrzedmiotow;
 class ParserNagrod;
 class Walka;
 class OknoBazaru;
+class OknoNagrody;
 
 class MistrzGry
 {
@@ -45,7 +47,6 @@ public:
 	void wykonanoRuch();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
-	void rozdzielPunkty(Gracz* gracz);
 private:
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
@@ -59,12 +60,14 @@ private:
 	Plansza* plansza;
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
-	QList<Przedmiot *> *towaryNaBazarze(IDPola pole);
+	QList<Przedmiot *> *towaryNaBazarze();
 	void walka(Akcja opcja);
-	void handelNaBazarze();
 	Walka* oknoWalki;
+	bool bazarOdwiedzony;
+	void handelNaBazarze();
 	OknoBazaru* oknoBazaru;
-	QList<Przedmiot*> towaryBazarow;
+	OknoNagrody* oknoNagrody;
+	QList<Przedmiot*> towaryBazar;
 };
 
 #endif // MISTRZGRY_H

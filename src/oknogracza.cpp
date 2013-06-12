@@ -150,6 +150,11 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	qDebug() <<"Okno Gracza wyswietlilo dane: " <<gracz->getNazwa();
 }
 
+void OknoGracza::uaktualnijInformacje()
+{
+	wyswietlGracza(aktualnyGracz);
+}
+
 /**
  * @brief OknoGracza::odmiana Odmienia słowo "sztuka" zależnie od liczby sztuk złota
  * @param n ile sztuk

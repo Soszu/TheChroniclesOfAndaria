@@ -21,6 +21,7 @@ class OknoGracza : public QObject
 public:
 	OknoGracza(QFrame *rama);
 	void wyswietlGracza(Gracz* gracz);
+	void uaktualnijInformacje();
 private:
 	OknoEkwipunek* oknoEkwipunek;
 	OknoZadania* oknoZadania;

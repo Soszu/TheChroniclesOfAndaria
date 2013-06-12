@@ -21,8 +21,13 @@ bool czyDozwolony(Przedmiot* przedmiot, Gracz* gracz)
 	if(przedmiot->getCzyPo5Lvlu() && gracz->getPoziom() <= POZIOM_GRANICZNY)
 		return false;
 
+	return czyBrakOgraniczenia(przedmiot, gracz->getKlasa());
+}
+
+bool czyBrakOgraniczenia(Przedmiot* przedmiot, int indeks)
+{
 	int ograniczenie = przedmiot->getOgraniczenia();
-	ograniczenie /= qPow(10, LICZBA_KLAS - gracz->getKlasa() - 1);
+	ograniczenie /= qPow(10, LICZBA_KLAS - indeks - 1);
 	ograniczenie %= 10;
 	if(ograniczenie == 0)
 		return false;
@@ -56,11 +61,20 @@ QString wygenerujOpis(Przedmiot* rzecz, Gracz* gracz)
 
 	QString zalozony = czyZalozony(rzecz, gracz) ? "Tak" : "Nie";
 	QString dozwolony = czyDozwolony(rzecz, gracz) ? "Tak" : "Nie";
+	QString dozwolonyOd = rzecz->getCzyPo5Lvlu() ? QString::number(POZIOM_GRANICZNY) : "1";
+	QString mozliweKlasy;
+	for(int i = 0; i < LICZBA_KLAS; ++i)
+		if(czyBrakOgraniczenia(rzecz, i))
+			mozliweKlasy += KLASY[i] + ". ";
+	if(mozliweKlasy.size() > 2)
+		mozliweKlasy.replace(mozliweKlasy.size() - 2, 2, "");
 
 	opis += rzecz->getNazwa() + QString("\n\n");
 
 	opis += QString("typ: ") + RODZAJE_PRZEDMIOTOW[rzecz->getRodzaj()] + QString("\n\n");
 
+	opis += QString::fromUtf8("dozwolony od poziomu: ") + dozwolonyOd +  QString("\n");
+	opis += QString::fromUtf8("klasy zdolne używać przedmiotu: ") + mozliweKlasy +  QString("\n");
 	opis += QString::fromUtf8("czy dozwolony: ") + dozwolony +  QString("\n");
 	opis += QString::fromUtf8("czy założony: ") + zalozony +  QString("\n\n");
 
@@ -72,7 +86,8 @@ QString wygenerujOpis(Przedmiot* rzecz, Gracz* gracz)
 	opis += dzialanie(rzecz->getBonusHP(), QString::fromUtf8("zdrowie"));
 	opis += dzialanie(rzecz->getBonusHPregen(), QString::fromUtf8("regeneracja"));
 
-	opis += QString::fromUtf8("\nwartość:  ") + QString::number(rzecz->getWartosc()) + QString("\n");
+	opis += QString::fromUtf8("\nwartość kupna:  ") + QString::number(rzecz->getWartosc()) + QString("\n");
+	opis += QString::fromUtf8("\nwartość sprzedarzy:  ") + QString::number(rzecz->getWartosc() / 2) + QString("\n");
 
 	return opis;
 }
@@ -81,7 +96,7 @@ void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
 
-	if(czyZalozony(rzecz, gracz) || rzecz != NULL)
+	if(czyZalozony(rzecz, gracz) || rzecz == NULL)
 		return;
 
 	switch (rzecz->getRodzaj()) {

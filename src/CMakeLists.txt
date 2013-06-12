@@ -28,6 +28,7 @@ set (SOURCES
 	przeciwnik.cpp
 	pole.cpp
 	walka.cpp
+	oknonagrody.cpp
 )
 
 set (HEADERS
@@ -60,6 +61,7 @@ set (HEADERS
 	przeciwnik.h
 	pole.h
 	walka.h
+	oknonagrody.h
 )
 
 set (RESOURCES
