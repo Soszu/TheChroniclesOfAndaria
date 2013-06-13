@@ -227,6 +227,14 @@ static const int LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW = 9;
 static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW]= {
 	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
+static const int LICZBA_RODZAJOW_ZADAN = 3;
+enum RodzajZadania
+{
+	pokonaj = 1,
+	przynies = 2,
+	odnajdz = 3
+};
+
 enum Blad
 {
 	blad_parsera_przedmiotow= 11,
@@ -236,5 +244,13 @@ enum Blad
 	blad_parsera_zadan = 14,
 	blad_parsera_ustawienia_planszy = 21
 };
+
+static const QString PLIK_PRZEDMIOTOW = QString(":/dane/przedmioty.txt");
+static const QString PLIK_PRZECIWNIKOW = QString(":/dane/przeciwnicy.txt");
+static const QString PLIK_NAGROD = QString(":/dane/nagrody.txt");
+static const QString PLIK_ZADAN = QString(":/dane/zadania.txt");
+static const QString PLIK_USTAWIENIA_PLANSZY = QString(":/dane/plansza.txt");
+
+//ikonki
 
 #endif // GRA_H

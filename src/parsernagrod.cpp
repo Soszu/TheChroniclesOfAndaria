@@ -4,18 +4,16 @@ ParserNagrod::ParserNagrod(MistrzGry *mistrz)
 {
 	bylBlad = false;
 	this->mistrzGry = mistrz;
-	QFile plik(QString(":/dane/nagrody.txt"));
+	QFile plik(PLIK_NAGROD);
 	if(!plik.open(QIODevice::ReadOnly))
 	{
 		trescBledu = QString::fromUtf8( "Nie udało się wczytać pliku.");
 		bylBlad = true;
-		plik.close();
 		return;
 	}
 	QTextStream wejscie(&plik);
 	bylBlad = wczytajDane(&wejscie);
 	plik.close();
-
 }
 
 /**
@@ -49,7 +47,7 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 		QStringList reputacja = podzial.at(1).split(",");
 		if(reputacja.size() != LICZBA_KROLESTW)
 		{
-			trescBledu = QString::fromUtf8( "Zła ilość pól reputacji. Wadliwa linia: ") + QString::number(numerLinii);
+			trescBledu = QString::fromUtf8( "Zła ilość pól reputacji.\nWadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 //LICZBY CAŁKOWITE I GRUPY

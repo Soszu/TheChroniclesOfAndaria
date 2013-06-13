@@ -9,10 +9,12 @@
 #include "przeciwnik.h"
 #include "nagroda.h"
 #include "przedmiot.h"
+#include "zadanie.h"
 #include "plansza.h"
 #include "parserprzeciwnikow.h"
 #include "parserprzedmiotow.h"
 #include "parsernagrod.h"
+#include "parserzadan.h"
 #include "oknogracza.h"
 #include "panelakcji.h"
 #include "gra.h"
@@ -26,6 +28,7 @@ class Plansza;
 class ParserPrzeciwnikow;
 class ParserPrzedmiotow;
 class ParserNagrod;
+class ParserZadan;
 class Walka;
 class OknoBazaru;
 class OknoNagrody;
@@ -35,6 +38,7 @@ class MistrzGry
 	friend class ParserPrzeciwnikow;
 	friend class ParserPrzedmiotow;
 	friend class ParserNagrod;
+	friend class ParserZadan;
 public:
 	MistrzGry(CyklGry *cykl);
 	~MistrzGry();
@@ -53,6 +57,7 @@ private:
 	QMap<QString, QList <int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
 	QMap<int, Przedmiot*> przedmioty; //dla każdego identyfikatora trzymany jest opis przedmiotu.
 	QMap<int, Nagroda*> nagrody;//dla każdego identyfikatora trzymany jest opis nagrody.
+	QMap<int, Zadanie*> zadania;//dla każdego identyfikatora trzymany jest opis zadania.
 	Gracz* aktualnyGracz;
 	CyklGry* cyklGry;
 	PanelAkcji* panelAkcji;

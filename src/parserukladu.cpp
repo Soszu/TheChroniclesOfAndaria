@@ -4,13 +4,12 @@ ParserUkladu::ParserUkladu(Plansza* plansza)
 {
 	bylBlad = false;
 	this->plansza = plansza;
-	QFile ustawienie(QString(":/dane/plansza.txt"));
+	QFile ustawienie(PLIK_USTAWIENIA_PLANSZY);
 
 	if(!ustawienie.open(QIODevice::ReadOnly))
 	{
 		trescBledu = QString::fromUtf8("Nie udało się wczytać pliku.");
 		bylBlad = true;
-		ustawienie.close();
 		return;
 	}
 	QTextStream wejscie(&ustawienie);

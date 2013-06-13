@@ -30,8 +30,15 @@ MistrzGry::MistrzGry(CyklGry* cykl)
 		cyklGry->wystapilBlad(QString::fromUtf8("Wczytano za mało albo za dużo grup przedmiotów.\n\n"), blad_liczby_grup_przeciwnikow);
 		return;
 	}
-
 	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
+
+	ParserZadan parserZadan(this);
+	if(parserZadan.bladWczytywania())
+	{
+		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych zadań\n\n") + parserZadan.trescBledu, blad_parsera_zadan);
+		return;
+	}
+	qDebug() << QString::fromUtf8("Informacje o zadaniach wczytano poprawnie");
 }
 
 MistrzGry::~MistrzGry()
@@ -55,6 +62,10 @@ MistrzGry::~MistrzGry()
 	QMap<int, QList<int>*>::iterator it5;
 	for (it5 = grupyPrzeciwnikow.begin(); it5 != grupyPrzeciwnikow.end(); ++it5)
 		delete it5.value();
+
+	QMap<int, Zadanie*>::iterator it6;
+	for (it6 = zadania.begin(); it6 != zadania.end(); ++it6)
+		delete it6.value();
 }
 
 /**
@@ -205,6 +216,13 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 	//Przypisanie przedmiotów
 	Przedmiot* rzecz;
 	foreach (rzecz, przydzielonePrzedmioty)
+		//TODO: do zmiany
+		if(rzecz->getRodzaj() == mikstura)
+			if(rzecz->getNazwa() == "MNIEJSZA MIKSTURA ZDROWIA")
+				gracz->getEkwipunek()->setMalePoty(gracz->getEkwipunek()->getMalePoty() + 1);
+			else
+				gracz->getEkwipunek()->setDuzePoty(gracz->getEkwipunek()->getDuzePoty() + 1);
+		else
 		gracz->getEkwipunek()->getPlecak()->push_back(rzecz);
 
 	oknoGracza->uaktualnijInformacje();

@@ -6,12 +6,11 @@ ParserPrzeciwnikow::ParserPrzeciwnikow(MistrzGry *mistrzGry)
 	aktualnaGrupa = -1;
 	bylBlad = false;
 
-	QFile plik(QString(":/dane/przeciwnicy.txt"));
+	QFile plik(PLIK_PRZECIWNIKOW);
 	if(!plik.open(QIODevice::ReadOnly))
 	{
 		trescBledu = QString::fromUtf8( "Nie udało się wczytać pliku");
 		bylBlad = true;
-		plik.close();
 		return;
 	}
 	QTextStream wejscie(&plik);

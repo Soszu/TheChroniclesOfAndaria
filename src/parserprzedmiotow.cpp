@@ -6,12 +6,11 @@ ParserPrzedmiotow::ParserPrzedmiotow(MistrzGry *mistrz)
 	aktualnaGrupa = "";
 	bylBlad = false;
 
-	QFile plik(QString(":/dane/przedmioty.txt"));
+	QFile plik(PLIK_PRZEDMIOTOW);
 		if(!plik.open(QIODevice::ReadOnly))
 		{
 			trescBledu = QString::fromUtf8("Nie udało się wczytać pliku");
 			bylBlad = true;
-			plik.close();
 			return;
 		}
 		QTextStream wejscie(&plik);

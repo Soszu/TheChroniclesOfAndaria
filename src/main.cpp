@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
 
 	int wynikParsowania = 0;
 	CyklGry cykl(&wynikParsowania);
-	MistrzGry mistrz(&cykl);
 	Plansza plansza(&cykl);
+	MistrzGry mistrz(&cykl);
 	MainWindow okno;
 	OknoNowejGry nowaGra;
 
