@@ -152,6 +152,8 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 			trescBledu = QString::fromUtf8("Podane współrzędne nie są poprawne. Linia: ") + QString::number(numerLinii);
 			return true;
 		}
+		info.cel.x = celX;
+		info.cel.y = celY;
 //-----------PRZECIWNICY
 		//TODO:
 		info.idPrzeciwnikow = new QList<Przeciwnik*>;
@@ -180,7 +182,6 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 		Nagroda* nagroda = mistrzGry->nagrody[info.idNagrody];
 		Zadanie* nowy = new Zadanie(info.rodzaj, info.tytul, info.tresc, info.czyPowrot, info.cel, info.kolorCzcionki, nagroda, info.idPrzeciwnikow);
 		mistrzGry->zadania.insert(info.id, nowy);
-
 		++numerLinii;
 	}
 	return false;

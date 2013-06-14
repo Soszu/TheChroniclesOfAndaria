@@ -9,6 +9,7 @@
 #include "przedmiot.h"
 
 class MistrzGry;
+class OknoGracza;
 
 class OknoBazaru : public QDialog
 {
@@ -26,7 +27,6 @@ private:
 	QLabel* tytulPrzedmiotow;
 	QListWidget* listaPrzedmiotow;
 
-	QList<Przedmiot*> dostepneTowary;
 	QLabel* tytulTowarow;
 	QListWidget* listaTowarow;
 

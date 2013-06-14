@@ -16,6 +16,8 @@ set (SOURCES
 	zarzadzanieekwipunkiem.cpp
 	oknoekwipunek.cpp
 	oknobazaru.cpp
+	zarzadzaniezadaniami.cpp
+	oknotawerny.cpp
 	oknozadania.cpp
 	obszarplanszy.cpp
 	hex.cpp
@@ -50,6 +52,8 @@ set (HEADERS
 	zarzadzanieekwipunkiem.h
 	oknoekwipunek.h
 	oknobazaru.h
+	zarzadzaniezadaniami.h
+	oknotawerny.h
 	oknozadania.h
 	obszarplanszy.h
 	hex.h

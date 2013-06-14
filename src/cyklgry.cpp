@@ -99,6 +99,18 @@ void CyklGry::graczWygral(Gracz *gracz)
 	mainWindow->close();
 }
 
+bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
+{
+	int wymaksowaneReputacje = 0;
+	for(int i = 0; i < LICZBA_KROLESTW; ++i)
+		if(gracz->getReputacja()[i] == MAX_REPUTACJA)
+			++wymaksowaneReputacje;
+
+	if(gracz->getPoziom() == MAKSYMALNY_POZIOM && wymaksowaneReputacje >= LICZBA_POTRZEBNYCH_REPUTACJI)
+		return true;
+
+}
+
 /**
  * @brief CyklGry::rozpocznij Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
  */
@@ -115,8 +127,8 @@ void CyklGry::rozpocznij()
 void CyklGry::ruszGracza(int indeks)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
-	mistrzGry->ruszGracza(gracze[indeks]);
 	plansza->ruszGracza(gracze[indeks], indeks);
+	mistrzGry->ruszGracza(gracze[indeks]);
 }
 
 /**
@@ -124,6 +136,9 @@ void CyklGry::ruszGracza(int indeks)
  */
 void CyklGry::zakonczTure()
 {
+	if(czySpelnionyWarunekZwyciestwa(gracze[indeksAktualnego]))
+		graczWygral(gracze[indeksAktualnego]);
+
 	++indeksAktualnego;
 	if(indeksAktualnego >= gracze.size())
 		indeksAktualnego = 0;

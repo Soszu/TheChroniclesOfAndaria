@@ -173,6 +173,18 @@ void Plansza::ruchAI(IDPola pole)
 	kliknietoHex(pole);
 }
 
+void Plansza::pokazHex(IDPola id)
+{
+	obszarPlanszy->pokazHex(IDToIndeks(id));
+}
+
+void Plansza::blokujRuch()
+{
+	graczWykonalRuch = true;
+	QList<IDPola> pustaLista;
+	obszarPlanszy->podswietl(pustaLista);
+}
+
 /**
  * @brief Plansza::IdToIndeks Zamienia ID pola zapisane w 2 intach na indeks pola na liście pól czyli 1 int. Efekt uboczny zapisania ID jako 2 x int.
  * @param pole ID pola do zamiany

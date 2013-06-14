@@ -65,6 +65,7 @@ OknoNagrody::OknoNagrody(Gracz *gracz, Nagroda *nagroda, QList<Przedmiot *> prze
 	layoutGlowny->addLayout(layoutPrzyciskow);
 
 
+
 	connect(ok, SIGNAL(clicked()), this, SLOT(zakoncz()));
 	connect(listaPrzedmiotow, SIGNAL(clicked(QModelIndex)), this, SLOT(wyswietlOpis(QModelIndex)));
 }
@@ -91,7 +92,6 @@ void OknoNagrody::zwiekszAtrybut(int indeks)
 		gracz->setZdrowieMaks(gracz->getZdrowieMaks() + BONUS_DO_HP_PRZY_AWANSIE);
 		gracz->setZdrowieAktualne(gracz->getZdrowieAktualne() + BONUS_DO_HP_PRZY_AWANSIE);
 		break;
-
 	}
 }
 
@@ -121,10 +121,20 @@ QString OknoNagrody::generujOpisNagrody()
 	return wynik;
 }
 
+void OknoNagrody::rozpocznij()
+{
+	if(czyAwans)
+	QMessageBox::information(
+		this,
+		QString("Awans"),
+		QString::fromUtf8("Awansowałeś na kolejny poziom.\nPamiętaj o rozdzieleniu punktów."));
+	show();
+}
+
 void OknoNagrody::wyswietlOpis(QModelIndex element)
 {
 	Przedmiot* rzecz = przydzielonePrzedmioty[element.row()];
-	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz));
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
 void OknoNagrody::zakoncz()

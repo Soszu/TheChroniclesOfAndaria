@@ -78,6 +78,7 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 
 	aktualnyGracz = gracz;
 	bazarOdwiedzony = false;
+	tawernaOdwiedzona = false;
 
 	//regeneracja
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
@@ -101,18 +102,19 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 
 	if(gracz->getCzyAI())
 	{
-		//NOTE: do zmiany
 akcje.push_front(koniecTury);
 		return akcje; //pusta lista akcji (tymczasowo jest też zakończ turę, żeby się nie zwieszał)
 	}
 
-//	if(zajmowanePole->getCzyPoleZMiastem())
+	if(zajmowanePole->getCzyPoleZMiastem())
 	{
-		akcje.push_back(bazar);
-		akcje.push_back(tawerna);
+		if(!bazarOdwiedzony)
+			akcje.push_back(bazar);
+		if(!tawernaOdwiedzona)
+			akcje.push_back(tawerna);
 	}
 
-//	if(zajmowanePole->getCzyPoleZPrzeciwnikiem())
+	if(zajmowanePole->getCzyPoleZPrzeciwnikiem())
 	{
 		akcje.push_back(przeciwnikLatwy);
 		akcje.push_back(przeciwnikTrudny);
@@ -129,6 +131,8 @@ akcje.push_front(koniecTury);
 void MistrzGry::wybranoAkcje(Akcja nazwa)
 {
 	qDebug() << "wybrano akcje: " << AKCJE[nazwa];
+	if(plansza->czyTrwaAnimacja())
+		return;
 
 	switch (nazwa) {
 	case koniecTury:
@@ -141,12 +145,16 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
 		walka(nazwa);
 		break;
 	case bazar:
+		plansza->blokujRuch();
 		if(!bazarOdwiedzony)
 			handelNaBazarze();
+		panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
 		break;
 	case tawerna:
-		break;
-	default:
+		plansza->blokujRuch();
+		if(!tawernaOdwiedzona)
+			idzDoTawerny();
+		panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
 		break;
 	}
 }
@@ -169,6 +177,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 	switch (rezultat) {
 	case przegrana:
 		cyklGry->wykreslGracza(aktualnyGracz);
+		cyklGry->zakonczTure();
 		break;
 	case wygrana:
 		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
@@ -229,7 +238,7 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 
 	oknoNagrody = new OknoNagrody(aktualnyGracz, nagroda, przydzielonePrzedmioty, cyklGry);
 	oknoNagrody->setAttribute(Qt::WA_DeleteOnClose);
-	oknoNagrody->show();
+	oknoNagrody->rozpocznij();
 }
 
 Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
@@ -239,18 +248,6 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 	int los = qrand() % grupyPrzeciwnikow[grupa]->size();
 
 	return przeciwnicy[grupyPrzeciwnikow[grupa]->at(los)];
-}
-
-QList<Przedmiot*> *MistrzGry::towaryNaBazarze()
-{
-	towaryBazar.clear();
-	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
-	{
-		int los = qrand() % przedmioty.size();
-		towaryBazar.push_back(przedmioty[los]);
-	}
-
-	return &towaryBazar;
 }
 
 /**
@@ -272,10 +269,45 @@ void MistrzGry::walka(Akcja opcja)
 	oknoWalki->rozpocznij();
 }
 
+void MistrzGry::idzDoTawerny()
+{
+	srand( QDateTime::currentDateTime().toTime_t() );
+
+	zadaniaWTawernie.clear();
+	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
+	{
+		int los = qrand() % zadania.size() + 1;
+		//FIXME: dodanie losowych nie bazujących na ciągłości przedziału + bez powtórzeń
+		QMap<int, Zadanie*>::iterator iter = zadania.begin();
+		for (int i = 0; i < los; ++i)
+			++iter;
+		zadaniaWTawernie.push_back(zadania[los]);
+	}
+
+	tawernaOdwiedzona = true;
+	oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, &zadaniaWTawernie);
+	oknoTawerny->setAttribute(Qt::WA_DeleteOnClose);
+	oknoTawerny->show();
+}
+
 void MistrzGry::handelNaBazarze()
 {
+	srand( QDateTime::currentDateTime().toTime_t() );
+
+	towaryNaBazarze.clear();
+	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
+	{
+		int los = qrand() % przedmioty.size();
+		//FIXME: dodanie losowych nie bazujących na ciągłości przedziału + bez powtórzeń
+
+		QMap<int, Przedmiot*>::iterator iter = przedmioty.begin();
+		for(int i = 0; i < los; ++i)
+			++iter;
+		towaryNaBazarze.push_back(przedmioty[los]);
+	}
+
 	bazarOdwiedzony = true;
-	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryNaBazarze());
+	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, &towaryNaBazarze);
 	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
 	oknoBazaru->show();
 }
@@ -287,6 +319,11 @@ void MistrzGry::handelNaBazarze()
 void MistrzGry::setPlansza(Plansza *plansza)
 {
 	this->plansza = plansza;
+}
+
+Plansza *MistrzGry::getPlansza()
+{
+	return plansza;
 }
 
 /**

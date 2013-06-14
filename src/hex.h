@@ -1,4 +1,4 @@
-#ifndef HEX_H
+﻿#ifndef HEX_H
 #define HEX_H
 
 #include <QGraphicsItem>
@@ -18,6 +18,8 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	void setBok(qreal bok);
 	void setPodswietlenie(bool opcja);
+	void zaznacz();
+	void odznacz();
 private:
 	static const int MAX_SIZE_PRZED_SCISKANIEM = 8;
 	qreal bok;
@@ -25,6 +27,8 @@ private:
 	Pole* pole;
 	ObszarPlanszy* obszarPlanszy;
 	bool podswietlenie;
+	bool zaznaczenie;
+	QPainterPath ksztaltZaznaczenia();
 	QVector<QPointF> podajWierzcholki();
 
 protected:

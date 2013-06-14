@@ -31,6 +31,7 @@ public:
 	void kliknietoHex(IDPola id);
 	void wykonajRuch(QList<IDPola> droga, int indeks);
 	void podswietl(QList<IDPola> lista);
+	void pokazHex(int indeks);
 	bool animacjaTrwa();
 
 	static QPointF podajSrodek(const IDPola id, const qreal bok);
@@ -48,11 +49,14 @@ private:
 	QList<int> podswietlone; //indeksy podswietlonych pol
 	QList<QPair<QColor, IDPola> >* pozycjeGraczy;
 
+	Hex* zaznaczony;
+
 	QRectF podajOgraniczenie();
 	void zmienRozmiar(int d);
 	QPointF podajSrodekPionka(int indeks);
 
 	QTimeLine* ticTac;
+	QTimeLine* zegarPodswietlenia;
 	int indeksAnimowanego;
 	QList<IDPola> doAnimacji;
 	QPointF poczatekAnimacji;
@@ -65,6 +69,7 @@ signals:
 private slots:
 	void kolejnePrzejscie();
 	void krokAnimacji(int faza);
+	void usunZaznaczenie();
 
 };
 

@@ -21,13 +21,13 @@ OknoEkwipunek::OknoEkwipunek(Gracz *gracz, OknoGracza *okno)
 	layoutGlowny->addLayout(layoutGorny);
 
 	przyciskMalejMikstury = new QPushButton();
-	przyciskMalejMikstury->setIcon(QIcon(":/ikonki/mala_mikstura.png"));
+	przyciskMalejMikstury->setIcon(QIcon(IKONKA_MALA_MIKSTURA_ZDROWIA));
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getMalePoty() == 0)
 		przyciskMalejMikstury->setEnabled(false);
 
 	przyciskDuzejMikstury = new QPushButton();
-	przyciskDuzejMikstury->setIcon(QIcon(":/ikonki/duza_mikstura.png"));
+	przyciskDuzejMikstury->setIcon(QIcon(IKONKA_DUZA_MIKSTURA_ZDROWIA));
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
 		przyciskDuzejMikstury->setEnabled(false);
@@ -74,7 +74,7 @@ void OknoEkwipunek::uzyjMalejMikstury()
 void OknoEkwipunek::wyswietlOpis(QModelIndex element)
 {
 	Przedmiot* rzecz = gracz->getEkwipunek()->getPlecak()->at(element.row());
-	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz));
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 
 	if(czyDozwolony(rzecz, gracz))
 	{
@@ -106,5 +106,5 @@ void OknoEkwipunek::zaloz()
 		przyciskZaloz->setText("Zdejmij");
 	}
 	okno->uaktualnijInformacje();
-	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz)); //żeby pokazać założony: Tak
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }

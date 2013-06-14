@@ -21,6 +21,7 @@
 #include "walka.h"
 #include "oknobazaru.h"
 #include "oknonagrody.h"
+#include "oknotawerny.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -32,6 +33,8 @@ class ParserZadan;
 class Walka;
 class OknoBazaru;
 class OknoNagrody;
+class OknoTawerny;
+
 
 class MistrzGry
 {
@@ -45,6 +48,7 @@ public:
 	void ruszGracza(Gracz* gracz);
 	QList<Akcja> mozliweAkcje(Gracz* gracz);
 	void setPlansza(Plansza* plansza);
+	Plansza* getPlansza();
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
 	void wybranoAkcje(Akcja nazwa);
@@ -58,21 +62,27 @@ private:
 	QMap<int, Przedmiot*> przedmioty; //dla każdego identyfikatora trzymany jest opis przedmiotu.
 	QMap<int, Nagroda*> nagrody;//dla każdego identyfikatora trzymany jest opis nagrody.
 	QMap<int, Zadanie*> zadania;//dla każdego identyfikatora trzymany jest opis zadania.
+
 	Gracz* aktualnyGracz;
 	CyklGry* cyklGry;
+	Plansza* plansza;
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;
-	Plansza* plansza;
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
-	QList<Przedmiot *> *towaryNaBazarze();
 	void walka(Akcja opcja);
 	Walka* oknoWalki;
+	OknoNagrody* oknoNagrody;
+
+	bool tawernaOdwiedzona;
+	void idzDoTawerny();
+	OknoTawerny* oknoTawerny;
+	QList<Zadanie*> zadaniaWTawernie;
+
 	bool bazarOdwiedzony;
 	void handelNaBazarze();
 	OknoBazaru* oknoBazaru;
-	OknoNagrody* oknoNagrody;
-	QList<Przedmiot*> towaryBazar;
+	QList<Przedmiot*> towaryNaBazarze;
 };
 
 #endif // MISTRZGRY_H

@@ -8,6 +8,9 @@ ObszarPlanszy::ObszarPlanszy()
 	ticTac->setFrameRange(0,100);
 	connect(ticTac, SIGNAL(frameChanged(int)), this, SLOT(krokAnimacji(int)));
 	connect(ticTac, SIGNAL(finished()),this, SLOT(kolejnePrzejscie()));
+
+	zegarPodswietlenia = new QTimeLine(CZAS_TRWANIA_PODSWIETLENIA, this);
+	connect(zegarPodswietlenia, SIGNAL(finished()), this, SLOT(usunZaznaczenie()));
 }
 
 ObszarPlanszy::~ObszarPlanszy()
@@ -103,13 +106,20 @@ void ObszarPlanszy::podswietl(QList<IDPola> lista)
 	}
 }
 
+void ObszarPlanszy::pokazHex(int indeks)
+{
+	zaznaczony = hexy[indeks];
+	zaznaczony->zaznacz();
+	zegarPodswietlenia->start();
+}
+
 /**
  * @brief ObszarPlanszy::animacjaTrwa Informuje czy trwa animacja.
  * @return
  */
 bool ObszarPlanszy::animacjaTrwa()
 {
-	return ticTac->state() == QTimeLine::Running;
+	return (ticTac->state() == QTimeLine::Running || zegarPodswietlenia->state() == QTimeLine::Running);
 }
 
 /**
@@ -258,4 +268,10 @@ void ObszarPlanszy::krokAnimacji(int faza)
 	qreal posY = poczatekAnimacji.y() + (koniecAnimacji.y() - poczatekAnimacji.y()) * faza / 100;
 
 	pionki[indeksAnimowanego]->setPos(posX, posY);
+}
+
+void ObszarPlanszy::usunZaznaczenie()
+{
+	zaznaczony->odznacz();
+	zaznaczony = NULL;
 }

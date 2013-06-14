@@ -184,7 +184,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 			mistrzGry->grupy.insert(aktualnaGrupa, poprzednie);
 		}
 		poprzednie->push_back(info.id);
-		Przedmiot* nowy = new Przedmiot(info.nazwa, rodzaj, info.wrecz, info.dystans, info.magia, info.obrona, info.percepcja, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyOd5Poziom);
+		Przedmiot* nowy = new Przedmiot(info.nazwa, rodzaj, info.wrecz, info.dystans, info.magia, info.obrona, info.percepcja, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyOd5Poziom, kolorCzcionki);
 		mistrzGry->przedmioty.insert(info.id, nowy);
 
 		++numerLinii;

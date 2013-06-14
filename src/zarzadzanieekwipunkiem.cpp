@@ -55,9 +55,9 @@ bool czyZalozony(Przedmiot* rzecz, Gracz* gracz)
 	return (ekw->getGlowa() == rzecz || ekw->getTuluw() == rzecz || ekw->getLewaReka() == rzecz || ekw->getPrawaReka() == rzecz || ekw->getZalozoneArtefakty()->contains(rzecz));
 }
 
-QString wygenerujOpis(Przedmiot* rzecz, Gracz* gracz)
+void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 {
-	QString opis;
+	miejsce->clear();
 
 	QString zalozony = czyZalozony(rzecz, gracz) ? "Tak" : "Nie";
 	QString dozwolony = czyDozwolony(rzecz, gracz) ? "Tak" : "Nie";
@@ -69,7 +69,13 @@ QString wygenerujOpis(Przedmiot* rzecz, Gracz* gracz)
 	if(mozliweKlasy.size() > 2)
 		mozliweKlasy.replace(mozliweKlasy.size() - 2, 2, "");
 
-	opis += rzecz->getNazwa() + QString("\n\n");
+	miejsce->setTextColor(rzecz->getKolorCzcionki());
+	miejsce->setFontWeight(QFont::Bold);
+	miejsce->insertPlainText(rzecz->getNazwa() + QString("\n\n"));
+	miejsce->setFontWeight(QFont::Normal);
+	miejsce->setTextColor(Qt::black);
+
+	QString opis;
 
 	opis += QString("typ: ") + RODZAJE_PRZEDMIOTOW[rzecz->getRodzaj()] + QString("\n\n");
 
@@ -86,10 +92,10 @@ QString wygenerujOpis(Przedmiot* rzecz, Gracz* gracz)
 	opis += dzialanie(rzecz->getBonusHP(), QString::fromUtf8("zdrowie"));
 	opis += dzialanie(rzecz->getBonusHPregen(), QString::fromUtf8("regeneracja"));
 
-	opis += QString::fromUtf8("\nwartość kupna:  ") + QString::number(rzecz->getWartosc()) + QString("\n");
+	opis += QString::fromUtf8("\nwartość kupna:  ") + QString::number(rzecz->getWartosc());
 	opis += QString::fromUtf8("\nwartość sprzedarzy:  ") + QString::number(rzecz->getWartosc() / 2) + QString("\n");
 
-	return opis;
+	miejsce->insertPlainText(opis);
 }
 
 void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)

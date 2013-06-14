@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
+	MainWindow okno;
+	OknoNowejGry nowaGra;
 	int wynikParsowania = 0;
 	CyklGry cykl(&wynikParsowania);
 	Plansza plansza(&cykl);
 	MistrzGry mistrz(&cykl);
-	MainWindow okno;
-	OknoNowejGry nowaGra;
 
 	okno.setMistrzGry(&mistrz); //potem mainwindow pokazuje swoim komponentom komu mają zgłaszać zmiany/ informace
 	okno.setPlansza(&plansza);

@@ -12,6 +12,7 @@ static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
 static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
 
+static const quint8 LICZBA_POTRZEBNYCH_REPUTACJI = 2; //ile reputacji trzeba wymaksować, żeby wygrać.
 static const quint8 MAKSYMALNY_POZIOM = 10;
 static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 static const quint8 POCZATKOWY_POZIOM = 1;
@@ -19,13 +20,15 @@ static const quint8 POZIOM_GRANICZNY = 5;
 static const quint8 LICZBA_PUNKTOW_NA_POZIOM = 3;
 static const quint8 LICZBA_ATRYBOTOW_DO_AWANSU = 5;
 static const quint8 BONUS_DO_HP_PRZY_AWANSIE = 3;
-static const quint8 POCZATKOWA_REPUTACJA = 0;
 static const quint8 MAX_REPUTACJA = 5;
-static const quint8 POCZATKOWE_ZLOTO = 10;
+static const quint8 POCZATKOWA_REPUTACJA = 0;
+static const quint8 POCZATKOWE_ZLOTO = 3;
 static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 
 static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 4;
+static const quint8 LICZBA_ZADAN_W_TAWERNIE = 3;
+static const quint8 MAKSYMALNA_LICZBA_ZADAN = 5;
 
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
 static const quint8 DZIALANIE_MALYCH_POTOW = 5; //nieco konfliktuje z danymi w pliku przeciwnicy
@@ -35,10 +38,31 @@ static const quint8 DZIALANIE_DUZYCH_POTOW = 20;
 static const quint8 CENA_DUZEJ_MIKSTURY = 3;
 
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
+static const int CZAS_TRWANIA_PODSWIETLENIA = 1500; //w milisekundach
 
 static const qreal POCZATKOWY_ROZMIAR_HEXA = 20;
 static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
 static const qreal MINIMALNY_ROZMIAR_HEXA = 10;
+
+static const QString PLIK_PRZEDMIOTOW = QString(":/dane/przedmioty.txt");
+static const QString PLIK_PRZECIWNIKOW = QString(":/dane/przeciwnicy.txt");
+static const QString PLIK_NAGROD = QString(":/dane/nagrody.txt");
+static const QString PLIK_ZADAN = QString(":/dane/zadania.txt");
+static const QString PLIK_USTAWIENIA_PLANSZY = QString(":/dane/plansza.txt");
+
+static const QString IKONKA_WRECZ = QString(":/ikonki/wrecz.png");
+static const QString IKONKA_DYSTANSOWY = QString(":/ikonki/dystans.png");
+static const QString IKONKA_MAGICZNY = QString(":/ikonki/magia.png");
+static const QString IKONKA_OBRONA = QString(":/ikonki/obrona.png");
+static const QString IKONKA_ATAK = QString(":/ikonki/wrecz.png");
+static const QString IKONKA_PERCEPCJA = QString(":/ikonki/percepcja.png");
+static const QString IKONKA_RUCH = QString(":/ikonki/ruch.png");
+static const QString IKONKA_MALA_MIKSTURA_ZDROWIA = QString(":/ikonki/mala_mikstura.png");
+static const QString IKONKA_DUZA_MIKSTURA_ZDROWIA = QString(":/ikonki/duza_mikstura.png");
+static const QString IKONKA_ZLOTO = QString(":/ikonki/zloto.png");
+static const QString IKONKA_REGENERACJA = QString(":/ikonki/regeneracja.png");
+
+static const QString PREFIX_PRZECIWNIKOW = QString(":/przeciwnicy/");
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
@@ -126,7 +150,7 @@ static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {
 	{13,4,2,2,7,9,3}}	//Niziołek druid
 };
 
-static const quint8 LICZBA_RODZAJOW = 7;
+static const quint8 LICZBA_RODZAJOW_PRZEDMIOTOW = 7;
 
 enum RodzajPrzedmiotu
 {
@@ -139,7 +163,7 @@ enum RodzajPrzedmiotu
 	mikstura
 };
 
-static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW] = {
+static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW_PRZEDMIOTOW] = {
 	QString::fromUtf8("broń dwuręczna"),
 	QString::fromUtf8("broń jednoręczna"),
 	QString::fromUtf8("tarcza"),
@@ -150,7 +174,7 @@ static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW] = {
 };
 
 static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
-static const QString MOZLIWE_KOLORY[] = {
+static const QString MOZLIWE_KOLORY[LICZBA_MOZLIWYCH_KOLOROW] = {
 	"Zielony",
 	"Czerwony",
 	QString::fromUtf8("Żółty"),
@@ -162,7 +186,7 @@ static const QString MOZLIWE_KOLORY[] = {
 	"Szary"
 };
 
-static const QColor KOLORY[]= {
+static const QColor KOLORY[LICZBA_MOZLIWYCH_KOLOROW]= {
 	Qt::green,
 	Qt::red,
 	Qt::yellow,
@@ -244,13 +268,4 @@ enum Blad
 	blad_parsera_zadan = 14,
 	blad_parsera_ustawienia_planszy = 21
 };
-
-static const QString PLIK_PRZEDMIOTOW = QString(":/dane/przedmioty.txt");
-static const QString PLIK_PRZECIWNIKOW = QString(":/dane/przeciwnicy.txt");
-static const QString PLIK_NAGROD = QString(":/dane/nagrody.txt");
-static const QString PLIK_ZADAN = QString(":/dane/zadania.txt");
-static const QString PLIK_USTAWIENIA_PLANSZY = QString(":/dane/plansza.txt");
-
-//ikonki
-
 #endif // GRA_H

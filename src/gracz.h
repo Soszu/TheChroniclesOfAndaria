@@ -21,7 +21,7 @@ public:
 	IDPola getPozycja();
 	void setPozycja(IDPola id);
 	Ekwipunek* getEkwipunek();
-	QList<Zadanie*> getZadania();
+	QList<Zadanie*>* getZadania();
 	QList<IDPola> getPolaSzczegolne();
 	quint8 getPoziom();
 	void setPoziom(quint8 poziom);

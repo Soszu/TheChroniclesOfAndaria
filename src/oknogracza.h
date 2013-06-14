@@ -12,6 +12,7 @@
 #include "oknozadania.h"
 
 class OknoEkwipunek;
+class OknoZadania;
 
 class OknoGracza : public QObject
 {
@@ -22,7 +23,9 @@ public:
 	OknoGracza(QFrame *rama);
 	void wyswietlGracza(Gracz* gracz);
 	void uaktualnijInformacje();
+	void setMistrzGry(MistrzGry* mistrz);
 private:
+	MistrzGry* mistrz;
 	OknoEkwipunek* oknoEkwipunek;
 	OknoZadania* oknoZadania;
 	Gracz* aktualnyGracz;

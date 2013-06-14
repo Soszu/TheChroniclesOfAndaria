@@ -12,7 +12,7 @@ OknoGracza::OknoGracza(QFrame* rama)
 	opisPoZdrowiu = new QLabel("_/_");
 //	regeneracja = new QLabel();
 //	regeneracjaIkona = new QLabel();
-//	regeneracjaIkona->setPixmap(QString(":/ikonki/regeneracja.png"));
+//	regeneracjaIkona->setPixmap(QString(IKONKA_REGENERACJA));
 
 	linijkaZdrowia = new QHBoxLayout();
 	linijkaZdrowia->addWidget(opisPrzedZdrowiem);
@@ -42,13 +42,13 @@ OknoGracza::OknoGracza(QFrame* rama)
 	}
 //------------------------------
 	obronaIkona = new QLabel();
-	obronaIkona->setPixmap(QString(":/ikonki/obrona.png"));
+	obronaIkona->setPixmap(IKONKA_OBRONA);
 	obrona = new QLabel();
 	percepcjaIkona = new QLabel();
-	percepcjaIkona->setPixmap(QString(":/ikonki/percepcja.png"));
+	percepcjaIkona->setPixmap(IKONKA_PERCEPCJA);
 	percepcja = new QLabel();
 	ruchIkona = new QLabel();
-	ruchIkona->setPixmap(QString(":/ikonki/ruch.png"));
+	ruchIkona->setPixmap(IKONKA_RUCH);
 	ruch = new QLabel();
 
 	linijkaObrony = new QHBoxLayout();
@@ -60,13 +60,13 @@ OknoGracza::OknoGracza(QFrame* rama)
 	linijkaObrony->addWidget(ruch);
 //------------------------------
 	wreczIkona = new QLabel();
-	wreczIkona->setPixmap(QString(":/ikonki/wrecz.png"));
+	wreczIkona->setPixmap(IKONKA_WRECZ);
 	wrecz = new QLabel();
 	dystansIkona = new QLabel();
-	dystansIkona->setPixmap(QString(":/ikonki/dystans.png"));
+	dystansIkona->setPixmap(IKONKA_DYSTANSOWY);
 	dystans = new QLabel();
 	magiaIkona = new QLabel();
-	magiaIkona->setPixmap(QString(":/ikonki/magia.png"));
+	magiaIkona->setPixmap(IKONKA_MAGICZNY);
 	magia = new QLabel();
 
 	linijkaAtakow = new QHBoxLayout();
@@ -78,7 +78,7 @@ OknoGracza::OknoGracza(QFrame* rama)
 	linijkaAtakow->addWidget(magia);
 //------------------------------
 	zlotoIkona = new QLabel();
-	zlotoIkona->setPixmap(QString(":/ikonki/zloto.png"));
+	zlotoIkona->setPixmap(IKONKA_ZLOTO);
 	zloto = new QLabel();
 
 	linijkaZlota = new QHBoxLayout();
@@ -155,6 +155,11 @@ void OknoGracza::uaktualnijInformacje()
 	wyswietlGracza(aktualnyGracz);
 }
 
+void OknoGracza::setMistrzGry(MistrzGry *mistrz)
+{
+	this->mistrz = mistrz;
+}
+
 /**
  * @brief OknoGracza::odmiana Odmienia słowo "sztuka" zależnie od liczby sztuk złota
  * @param n ile sztuk
@@ -178,4 +183,7 @@ void OknoGracza::pokazEkwipunek()
 
 void OknoGracza::pokazZadania()
 {
+	oknoZadania = new OknoZadania(aktualnyGracz, mistrz->getPlansza());
+	oknoZadania->setAttribute(Qt::WA_DeleteOnClose);
+	oknoZadania->show();
 }

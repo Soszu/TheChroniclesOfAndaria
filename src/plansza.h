@@ -37,6 +37,8 @@ public:
 	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();
 	void ruchAI(IDPola pole);
+	void pokazHex(IDPola id);
+	void blokujRuch();
 private:
 	ObszarPlanszy* obszarPlanszy;
 	MistrzGry* mistrzGry;

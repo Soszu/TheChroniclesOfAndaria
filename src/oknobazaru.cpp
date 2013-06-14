@@ -28,7 +28,7 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	layoutGlowny->addLayout(layoutGorny);
 
 	ikonaMalejMikstury = new QLabel();
-	ikonaMalejMikstury->setPixmap(QString(":ikonki/mala_mikstura.png"));
+	ikonaMalejMikstury->setPixmap(IKONKA_MALA_MIKSTURA_ZDROWIA);
 	iloscMalychMisktur = new QLabel(QString::number(gracz->getEkwipunek()->getMalePoty()));
 	przyciskMalejMikstury = new QPushButton(QString("Kup(") +
 						QString::number(CENA_MALEJ_MIKSTURY) +
@@ -36,7 +36,7 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	przyciskMalejMikstury->setEnabled(gracz->getZloto() >= CENA_MALEJ_MIKSTURY);
 
 	ikonaDuzejMikstury = new QLabel();
-	ikonaDuzejMikstury->setPixmap(QString(":ikonki/duza_mikstura.png"));
+	ikonaDuzejMikstury->setPixmap(IKONKA_DUZA_MIKSTURA_ZDROWIA);
 	iloscDuzychMisktur = new QLabel(QString::number(gracz->getEkwipunek()->getDuzePoty()));
 	przyciskDuzejMikstury = new QPushButton(QString("Kup(") +
 						QString::number(CENA_DUZEJ_MIKSTURY) +
@@ -70,6 +70,8 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	connect(ok, SIGNAL(clicked()), this, SLOT(close()));
 	connect(przyciskZaloz, SIGNAL(clicked()), this, SLOT(zaloz()));
 	connect(przyciskKup, SIGNAL(clicked()), this, SLOT(kup()));
+
+	zalozPrzedmiot(towary->front(), gracz);
 }
 
 void OknoBazaru::wypelnijListy()
@@ -102,7 +104,7 @@ void OknoBazaru::wyswietlOpisDlaGracza(QModelIndex element)
 
 	przyciskZaloz->setEnabled(czyDozwolony(rzecz, gracz));
 
-	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz));
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
 void OknoBazaru::wyswietlOpisDlaBazaru(QModelIndex element)
@@ -117,7 +119,7 @@ void OknoBazaru::wyswietlOpisDlaBazaru(QModelIndex element)
 	przyciskKup->setEnabled(gracz->getZloto() >= rzecz->getWartosc());
 
 	przyciskZaloz->setVisible(false);
-	opisPrzedmiotu->setText(wygenerujOpis(rzecz, gracz));
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
 void OknoBazaru::kupMalaMiksture()

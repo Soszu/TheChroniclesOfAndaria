@@ -26,10 +26,11 @@ public:
 	QList<Gracz*> getGracze();
 
 	void wykreslGracza(Gracz* gracz);
-	void graczWygral(Gracz* gracz);
 	void rozpocznij();
 	void zakonczTure();
 private:
+	void graczWygral(Gracz* gracz);
+	bool czySpelnionyWarunekZwyciestwa(Gracz* gracz);
 	void ruszGracza(int indeks);
 	QList<Gracz*> gracze;
 	int indeksAktualnego;

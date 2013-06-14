@@ -66,9 +66,9 @@ Ekwipunek *Gracz::getEkwipunek()
 	return ekwipunek;
 }
 
-QList<Zadanie *> Gracz::getZadania()
+QList<Zadanie *> *Gracz::getZadania()
 {
-	return zadania;
+	return &zadania;
 }
 
 QList<IDPola> Gracz::getPolaSzczegolne()

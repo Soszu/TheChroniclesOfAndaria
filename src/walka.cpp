@@ -17,7 +17,7 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 
 	obrazekPrzeciwnika = new QLabel();
 	obrazekPrzeciwnika->setAlignment(Qt::AlignCenter);
-	obrazekPrzeciwnika->setPixmap(QString(":/przeciwnicy/" + przeciwnik->getNazwaObrazka()));
+	obrazekPrzeciwnika->setPixmap(QString(PREFIX_PRZECIWNIKOW + przeciwnik->getNazwaObrazka()));
 	//obrazekPrzeciwnika->setMaximumSize(QSize(320, 320));
 	layoutPrzeciwnika->addWidget(obrazekPrzeciwnika);
 
@@ -38,13 +38,13 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 
 //linjka danych
 	ikonkaAtakuPrzeciwnika = new QLabel();
-	ikonkaAtakuPrzeciwnika->setPixmap(QString(":/ikonki/wrecz.png"));
+	ikonkaAtakuPrzeciwnika->setPixmap(IKONKA_WRECZ);
 	atakPrzeciwnika = new QLabel(QString::number(przeciwnik->getAtakMinimalny()) + " - " + QString::number(przeciwnik->getAtakMaksymalny()));
 	ikonkaObronyPrzeciwnika = new QLabel();
-	ikonkaObronyPrzeciwnika->setPixmap(QString(":/ikonki/obrona.png"));
+	ikonkaObronyPrzeciwnika->setPixmap(IKONKA_OBRONA);
 	obronaPrzeciwnika = new QLabel(QString::number(przeciwnik->getObrona()));
 	ikonkaPercepcjiPrzeciwnika = new QLabel();
-	ikonkaPercepcjiPrzeciwnika->setPixmap(QString(":/ikonki/percepcja.png"));
+	ikonkaPercepcjiPrzeciwnika->setPixmap(IKONKA_PERCEPCJA);
 	percepcjaPrzeciwnika = new QLabel(QString::number(przeciwnik->getPercepcja()));
 	linijkaDanychPrzeciwnika = new QHBoxLayout();
 	linijkaDanychPrzeciwnika->addWidget(ikonkaAtakuPrzeciwnika);
@@ -72,11 +72,11 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	layoutGracza->addLayout(linijkaZdrowiaGracza);
 
 	ikonkaObronyGracza = new QLabel();
-	ikonkaObronyGracza->setPixmap(QString(":/ikonki/obrona.png"));
+	ikonkaObronyGracza->setPixmap(IKONKA_OBRONA);
 	obronaGracza = new QLabel(QString::number(gracz->getObrona()));
 
 	ikonkaPercepcjiGracza = new QLabel();
-	ikonkaPercepcjiGracza->setPixmap(QString(":/ikonki/percepcja.png"));
+	ikonkaPercepcjiGracza->setPixmap(IKONKA_PERCEPCJA);
 	percepcjaGracza = new QLabel(QString::number(gracz->getPercepcja()));
 	linijkaDanychGracza = new QHBoxLayout();
 	linijkaDanychGracza->addWidget(ikonkaObronyGracza);
@@ -87,15 +87,15 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	layoutGracza->addLayout(linijkaDanychGracza);
 
 	przyciskAtakuWrecz = new QPushButton();
-	przyciskAtakuWrecz->setIcon(QIcon(":/ikonki/wrecz.png") );
+	przyciskAtakuWrecz->setIcon(QIcon(IKONKA_WRECZ) );
 	przyciskAtakuWrecz->setText(QString::number(gracz->getAtakWrecz()));
 
 	przyciskAtakuDystansowego = new QPushButton();
-	przyciskAtakuDystansowego->setIcon(QIcon(":/ikonki/dystans.png"));
+	przyciskAtakuDystansowego->setIcon(QIcon(IKONKA_DYSTANSOWY));
 	przyciskAtakuDystansowego->setText(QString::number(gracz->getAtakDystansowy()));
 
 	przyciskAtakuMagicznego = new QPushButton();
-	przyciskAtakuMagicznego->setIcon(QIcon(":/ikonki/magia.png"));
+	przyciskAtakuMagicznego->setIcon(QIcon(IKONKA_MAGICZNY));
 	przyciskAtakuMagicznego->setText(QString::number(gracz->getAtakMagiczny()));
 
 	linijkaAtakowGracza = new QHBoxLayout();
@@ -105,12 +105,12 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	layoutGracza->addLayout(linijkaAtakowGracza);
 
 	przyciskMalejMikstury = new QPushButton();
-	przyciskMalejMikstury->setIcon(QIcon(":/ikonki/mala_mikstura.png"));
+	przyciskMalejMikstury->setIcon(QIcon(IKONKA_MALA_MIKSTURA_ZDROWIA));
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getMalePoty() == 0)
 		przyciskMalejMikstury->setEnabled(false);
 	przyciskDuzejMikstury = new QPushButton();
-	przyciskDuzejMikstury->setIcon(QIcon(":/ikonki/duza_mikstura.png"));
+	przyciskDuzejMikstury->setIcon(QIcon(IKONKA_DUZA_MIKSTURA_ZDROWIA));
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
 		przyciskDuzejMikstury->setEnabled(false);

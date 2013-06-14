@@ -6,18 +6,19 @@
 class Przedmiot
 {
 public:
-	Przedmiot( QString nazwa,
-		   RodzajPrzedmiotu rodzaj,
-		   quint8 bonusAWrecz,
-		   quint8 bonusADystansowy,
-		   quint8 bonusAMagiczny,
-		   quint8 bonusObrona,
-		   quint8 bonusPercepcja,
-		   quint8 bonusHP,
-		   quint8 bonusHPregen,
-		   int ograniczenia,
-		   quint8 wartosc,
-		   bool czyPo5Lvlu);
+	Przedmiot(QString nazwa,
+		  RodzajPrzedmiotu rodzaj,
+		  quint8 bonusAWrecz,
+		  quint8 bonusADystansowy,
+		  quint8 bonusAMagiczny,
+		  quint8 bonusObrona,
+		  quint8 bonusPercepcja,
+		  quint8 bonusHP,
+		  quint8 bonusHPregen,
+		  int ograniczenia,
+		  quint8 wartosc,
+		  bool czyPo5Lvlu,
+		  QColor kolorCzcionki);
 
 	QString getNazwa();
 	RodzajPrzedmiotu getRodzaj();
@@ -31,6 +32,7 @@ public:
 	int getOgraniczenia();
 	quint8 getWartosc();
 	bool getCzyPo5Lvlu(); //TODO: rename
+	QColor getKolorCzcionki();
 
 private:
 	QString nazwa;
@@ -45,6 +47,7 @@ private:
 	int ograniczenia;
 	quint8 wartosc;
 	bool czyPo5Lvlu;
+	QColor kolorCzcionki;
 
 };
 

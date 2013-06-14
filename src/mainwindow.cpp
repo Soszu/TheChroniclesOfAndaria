@@ -53,6 +53,7 @@ ObszarPlanszy *MainWindow::getObszarPlanszy()
 void MainWindow::setMistrzGry(MistrzGry *mistrz)
 {
 	panelAkcji->setMistrzGry(mistrz);
+	oknoGracza->setMistrzGry(mistrz);
 }
 
 /**

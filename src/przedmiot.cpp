@@ -1,8 +1,19 @@
 ﻿#include "przedmiot.h"
 
-Przedmiot::Przedmiot(QString nazwa, RodzajPrzedmiotu rodzaj, quint8 bonusAWrecz, quint8 bonusADystansowy, quint8 bonusAMagiczny, quint8 bonusObrona, quint8 bonusPercepcja, quint8 bonusHP, quint8 bonusHPregen, int ograniczenia, quint8 wartosc, bool czyPo5Lvlu)
+Przedmiot::Przedmiot(QString nazwa,
+		     RodzajPrzedmiotu rodzaj,
+		     quint8 bonusAWrecz,
+		     quint8 bonusADystansowy,
+		     quint8 bonusAMagiczny,
+		     quint8 bonusObrona,
+		     quint8 bonusPercepcja,
+		     quint8 bonusHP,
+		     quint8 bonusHPregen,
+		     int ograniczenia,
+		     quint8 wartosc,
+		     bool czyPo5Lvlu,
+		     QColor kolorCzcionki)
 {
-
 	this->nazwa = nazwa;
 	this->rodzaj = rodzaj;
 	this->bonusAWrecz = bonusAWrecz;
@@ -15,6 +26,7 @@ Przedmiot::Przedmiot(QString nazwa, RodzajPrzedmiotu rodzaj, quint8 bonusAWrecz,
 	this->ograniczenia = ograniczenia;
 	this->wartosc = wartosc;
 	this->czyPo5Lvlu = czyPo5Lvlu;
+	this->kolorCzcionki = kolorCzcionki;
 }
 
 QString Przedmiot::getNazwa()
@@ -67,12 +79,15 @@ bool Przedmiot::getCzyPo5Lvlu()
 	return czyPo5Lvlu;
 }
 
+QColor Przedmiot::getKolorCzcionki()
+{
+	return kolorCzcionki;
+}
 
 quint8 Przedmiot::getBonusHPregen()
 {
 	return bonusHPregen;
 }
-
 
 quint8 Przedmiot::getBonusHP()
 {

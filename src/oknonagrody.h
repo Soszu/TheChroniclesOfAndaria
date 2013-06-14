@@ -44,6 +44,9 @@ private:
 	void zwiekszAtrybut(int indeks);
 	QString generujOpisNagrody();
 
+public slots:
+	void rozpocznij();
+
 private slots:
 	void wyswietlOpis(QModelIndex element);
 	void zakoncz();

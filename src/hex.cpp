@@ -1,4 +1,4 @@
-#include "hex.h"
+﻿#include "hex.h"
 
 Hex::Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar)
 {
@@ -7,7 +7,8 @@ Hex::Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar)
 	this->wysokosc = ObszarPlanszy::podajWysokosc(bok);
 	this->pole = pole;
 	setPos(ObszarPlanszy::podajSrodek(pole->getMiejsce(), bok));
-	this->podswietlenie = false;
+	podswietlenie = false;
+	zaznaczenie = false;
 }
 
 /**
@@ -29,6 +30,7 @@ QPainterPath Hex::shape()
 {
 	QPainterPath figura;
 	figura.addPolygon(QPolygonF(podajWierzcholki()));
+	figura.closeSubpath();
 	return figura;
 }
 
@@ -63,6 +65,11 @@ void Hex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 	}
 	if(podswietlenie)
 		painter->fillPath(shape(),QBrush(Qt::gray, Qt::Dense7Pattern));
+	if(zaznaczenie)
+	{
+		painter->setPen(QPen(QBrush(Qt::white), bok / 10));
+		painter->drawPath(ksztaltZaznaczenia());
+	}
 }
 
 void Hex::setBok(qreal bok)
@@ -85,9 +92,21 @@ void Hex::setPodswietlenie(bool opcja)
 QVector<QPointF> Hex::podajWierzcholki()
 {
 	QVector<QPointF> wierzcholki;
-	wierzcholki << QPointF(0, -bok) << QPointF(wysokosc,  -bok / 2) << QPointF( wysokosc, bok / 2)
-		    << QPointF(0, bok ) << QPointF(-wysokosc, bok /2) <<QPointF(-wysokosc, -bok/2);
+	wierzcholki << QPointF(0, -bok) << QPointF(wysokosc, -bok / 2) <<QPointF( wysokosc, bok / 2)
+		    << QPointF(0, bok ) << QPointF(-wysokosc, bok / 2) <<QPointF(-wysokosc, -bok/ 2);
 	return wierzcholki;
+}
+
+void Hex::zaznacz()
+{
+	zaznaczenie = true;
+	update(boundingRect());
+}
+
+void Hex::odznacz()
+{
+	zaznaczenie = false;
+	update(boundingRect());
 }
 
 /**
@@ -97,4 +116,18 @@ QVector<QPointF> Hex::podajWierzcholki()
 void Hex::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	obszarPlanszy->kliknietoHex(pole->getMiejsce());
+}
+
+
+QPainterPath Hex::ksztaltZaznaczenia()
+{
+	QPainterPath krzyz;
+	krzyz.moveTo(QPointF(0, -bok));
+	krzyz.lineTo(QPointF(0, bok ));
+	krzyz.moveTo(QPointF(wysokosc, -bok / 2));
+	krzyz.lineTo(QPointF(-wysokosc, bok /2));
+	krzyz.moveTo(QPointF( wysokosc, bok / 2));
+	krzyz.lineTo(QPointF(-wysokosc, -bok/2));
+
+	return krzyz;
 }
