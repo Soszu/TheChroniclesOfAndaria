@@ -200,11 +200,12 @@ static const QColor KOLORY[LICZBA_MOZLIWYCH_KOLOROW]= {
 
 enum Akcja
 {
-	koniecTury = 0,
-	przeciwnikLatwy = 1,
-	przeciwnikTrudny = 2,
-	bazar = 3,
-	tawerna = 4
+	koniecTury,
+	przeciwnikLatwy,
+	przeciwnikTrudny,
+	bazar,
+	tawerna,
+	przeciwnikZZadania
 };
 
 //index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
@@ -252,10 +253,11 @@ static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATORO
 	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
 static const int LICZBA_RODZAJOW_ZADAN = 3;
+static const int SZANSA_NA_ODNALEZIENIE = 66; // w procentach
 enum RodzajZadania
 {
 	pokonaj = 1,
-	przynies = 2,
+	przynies = 2, //realizuje też "dotrzyj na miejsce" jeśli czyPowrótWymagany == false
 	odnajdz = 3
 };
 

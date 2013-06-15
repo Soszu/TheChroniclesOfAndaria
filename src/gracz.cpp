@@ -9,6 +9,7 @@ Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 	this->czyAI = czyAI;
 	this->pozycja = POCZATKOWE_USTAWIENIE[this->rasa];
 	przepiszStaty(POCZATKOWE_STATYSTYKI[this->rasa][this->klasa]);
+
 	this->ekwipunek = new Ekwipunek();
 
 	this->poziom = POCZATKOWY_POZIOM;
@@ -66,9 +67,23 @@ Ekwipunek *Gracz::getEkwipunek()
 	return ekwipunek;
 }
 
-QList<Zadanie *> *Gracz::getZadania()
+QList<Zadanie> *Gracz::getZadania()
 {
 	return &zadania;
+}
+
+Zadanie *Gracz::getKonkretneZadanie(int indeks)
+{
+	return &zadania[indeks];
+}
+
+void Gracz::usunZadanie(int id)
+{
+	int i = 0;
+	while (i < zadania.size() && zadania[i].getId() != id)
+		++i;
+	if(i != zadania.size())
+		zadania.removeAt(i);
 }
 
 QList<IDPola> Gracz::getPolaSzczegolne()

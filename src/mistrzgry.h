@@ -46,15 +46,16 @@ public:
 	MistrzGry(CyklGry *cykl);
 	~MistrzGry();
 	void ruszGracza(Gracz* gracz);
-	QList<Akcja> mozliweAkcje(Gracz* gracz);
 	void setPlansza(Plansza* plansza);
 	Plansza* getPlansza();
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
-	void wybranoAkcje(Akcja nazwa);
+	void wybranoDzialanie(int nazwa);
 	void wykonanoRuch();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
+	void wykonajAkcje(Akcja opcja);
+	void wykonajZadanie(int opcja);
 private:
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
@@ -83,6 +84,11 @@ private:
 	void handelNaBazarze();
 	OknoBazaru* oknoBazaru;
 	QList<Przedmiot*> towaryNaBazarze;
+
+	Zadanie* realizowaneZadanie;
+	QList<Akcja> mozliweAkcje(Gracz* gracz);
+	QList<Zadanie*>mozliweZadania(Gracz* gracz);
+	Nagroda* polaczNagrody(Nagroda* pierwsza, Nagroda* druga);
 };
 
 #endif // MISTRZGRY_H

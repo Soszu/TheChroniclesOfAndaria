@@ -8,7 +8,8 @@
 class Zadanie
 {
 public:
-	Zadanie(RodzajZadania rodzaj,
+	Zadanie(int id,
+		RodzajZadania rodzaj,
 		QString tytul,
 		QString tresc,
 		bool czyPowrot,
@@ -18,17 +19,23 @@ public:
 		QList<Przeciwnik*>* przeciwnicy);
 	~Zadanie();
 
+	int getId();
 	RodzajZadania getRodzaj();
 	QString getTytul();
 	QString getTresc();
 	bool getCzyPowrot();
 	IDPola getPoleCelu();
+	void setPoleCelu(IDPola pole);
 	char getKolorCzcionki();
 	Nagroda* getNagroda();
 	QList<Przeciwnik*>* getPrzeciwnicy();
+	void setZeceniodawca(IDPola pole);
+	IDPola getZleceniodawca();
+	void setCzyWykonanoCzesc(bool wartosc);
+	bool getCzyWykonanoCzesc();
 
 private:
-
+	int id;
 	RodzajZadania rodzaj;
 	QString tytul;
 	QString tresc;
@@ -37,6 +44,8 @@ private:
 	char kolorCzcionki;
 	Nagroda* nagroda;
 	QList<Przeciwnik*>* przeciwnicy;
+	IDPola zleceniodawca;
+	bool czyWykonanoCzesc;
 };
 
 #endif // ZADANIE_H

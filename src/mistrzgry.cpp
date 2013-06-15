@@ -79,13 +79,15 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 	aktualnyGracz = gracz;
 	bazarOdwiedzony = false;
 	tawernaOdwiedzona = false;
+	realizowaneZadanie = NULL;
 
 	//regeneracja
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
 
 	oknoGracza->wyswietlGracza(aktualnyGracz);
-
-	panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
+	panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
+	panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+	panelAkcji->wyswietl();
 
 	//TODO: jeśli to AI to zapytaj o decyzje
 }
@@ -124,38 +126,145 @@ akcje.push_front(koniecTury);
 	return akcje;
 }
 
+QList<Zadanie *> MistrzGry::mozliweZadania(Gracz *gracz)
+{
+	QList<Zadanie*> zadania;
+
+	for(int i = 0; i < gracz->getZadania()->size(); ++i)
+	{
+		IDPola cel = gracz->getKonkretneZadanie(i)->getPoleCelu();
+		if(gracz->getPozycja().x == cel.x && gracz->getPozycja().y == cel.y)
+			zadania.push_back(gracz->getKonkretneZadanie(i));
+	}
+
+	return zadania;
+}
+
+Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
+{
+	QList<int>* konkrety = new QList<int>();
+	konkrety->append(*pierwsza->getKonkretnePrzedmioty());
+	konkrety->append(*druga->getKonkretnePrzedmioty());
+
+	quint8* reputacja = new quint8[LICZBA_KROLESTW];
+	for(int i = 0; i < LICZBA_KROLESTW; ++i)
+		reputacja[i] = pierwsza->getReputacja()[i] + druga->getReputacja()[i];
+
+	return new Nagroda(reputacja,
+			   pierwsza->getZloto() + druga->getZloto(),
+			   pierwsza->getDoswiadczenie() + druga->getDoswiadczenie(),
+			   pierwsza->getNazwyGrup() + druga->getNazwyGrup(),
+			   konkrety);
+
+}
+
 /**
  * @brief MistrzGry::wybranoAkcje Jeżeli ta metoda została wywołana, to grafika zgłasza kliknięcie na przycisk
  * @param nazwa nazwa akcji, która została wybrana (Tekst przycisku)
  */
-void MistrzGry::wybranoAkcje(Akcja nazwa)
+void MistrzGry::wykonajAkcje(Akcja opcja)
 {
-	qDebug() << "wybrano akcje: " << AKCJE[nazwa];
-	if(plansza->czyTrwaAnimacja())
-		return;
-
-	switch (nazwa) {
+	switch ((Akcja)opcja) {
 	case koniecTury:
 		cyklGry->zakonczTure();
 		break;
 	case przeciwnikLatwy:
-		walka(nazwa);
+		walka((Akcja)opcja);
 		break;
 	case przeciwnikTrudny:
-		walka(nazwa);
+		walka((Akcja)opcja);
 		break;
 	case bazar:
 		plansza->blokujRuch();
 		if(!bazarOdwiedzony)
 			handelNaBazarze();
-		panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
+		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
+		panelAkcji->wyswietl();
 		break;
 	case tawerna:
 		plansza->blokujRuch();
 		if(!tawernaOdwiedzona)
 			idzDoTawerny();
-		panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
+		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
+		panelAkcji->wyswietl();
 		break;
+	}
+}
+
+void MistrzGry::wykonajZadanie(int opcja)
+{
+	bool sukces;
+	int indeks = 0;
+	while(aktualnyGracz->getKonkretneZadanie(indeks)->getId() != opcja)
+		++indeks;
+
+	Zadanie* zadanie = aktualnyGracz->getKonkretneZadanie(indeks);
+
+	switch (zadanie->getRodzaj()) {
+	case przynies:
+		if(!zadanie->getCzyPowrot() || zadanie->getCzyWykonanoCzesc())
+		{
+			przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
+			aktualnyGracz->getZadania()->removeAt(indeks);
+		}
+		else
+		{
+			zadanie->setCzyWykonanoCzesc(true);
+			zadanie->setPoleCelu(zadanie->getZleceniodawca());
+			cyklGry->zakonczTure();
+		}
+		break;
+	case odnajdz:
+		if(zadanie->getCzyWykonanoCzesc())
+		{
+			przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
+			aktualnyGracz->getZadania()->removeAt(indeks);
+			break;
+		}
+		qsrand( QDateTime::currentDateTime().toTime_t() );
+		sukces = qrand() % 100 < SZANSA_NA_ODNALEZIENIE;
+		QMessageBox::information(
+			cyklGry->getMainWindow(),
+			zadanie->getTytul(),
+			sukces ?
+			QString::fromUtf8("Udało Ci się wykonać zadanie.") :
+			QString::fromUtf8("Niestety, nie udało Ci się wykonać zadania.") );
+		if(sukces)
+		{
+			if(zadanie->getCzyPowrot())
+			{
+				zadanie->setCzyWykonanoCzesc(true);
+				zadanie->setPoleCelu(zadanie->getZleceniodawca());
+			}
+			else
+			{
+				przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
+				aktualnyGracz->getZadania()->removeAt(indeks);
+			}
+		}
+		cyklGry->zakonczTure();
+		break;
+	case pokonaj:
+		realizowaneZadanie = zadanie;
+		walka(przeciwnikZZadania);
+		break;
+	}
+}
+
+void MistrzGry::wybranoDzialanie(int opcja)
+{
+	if(plansza->czyTrwaAnimacja())
+		return;
+
+	if(opcja >= 0)
+	{
+		qDebug() << "wybrano akcje: " << AKCJE[opcja];
+		wykonajAkcje((Akcja)opcja);
+	}
+	else
+	{
+		qDebug()<<"wybrano zadanie: " << zadania[opcja * -1]->getTytul();
+		wykonajZadanie(opcja * -1);
 	}
 }
 
@@ -164,7 +273,9 @@ void MistrzGry::wybranoAkcje(Akcja nazwa)
  */
 void MistrzGry::wykonanoRuch()
 {
-	panelAkcji->wyswietlAkcje(mozliweAkcje(aktualnyGracz));
+	panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
+	panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+	panelAkcji->wyswietl();
 }
 
 /**
@@ -180,6 +291,19 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 		cyklGry->zakonczTure();
 		break;
 	case wygrana:
+		if(realizowaneZadanie != NULL)
+		{
+			realizowaneZadanie->getPrzeciwnicy()->removeFirst();
+			if(realizowaneZadanie->getPrzeciwnicy()->isEmpty());
+			{
+				Nagroda* nagroda = polaczNagrody(przeciwnik->getNagroda(), realizowaneZadanie->getNagroda());
+				przydzielNagrode(aktualnyGracz, nagroda);
+				delete nagroda;
+				aktualnyGracz->usunZadanie(realizowaneZadanie->getId());
+				realizowaneZadanie = NULL;
+				break;
+			}
+		}
 		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
 		break;
 	case ucieczka:
@@ -259,10 +383,16 @@ void MistrzGry::walka(Akcja opcja)
 	int poziomLatwy = (aktualnyGracz->getPoziom() + 1 ) / 2;
 	Przeciwnik* przeciwnik;
 
-	if(opcja == przeciwnikLatwy)
+	switch(opcja) {
+	case przeciwnikLatwy:
 		przeciwnik = losujPrzeciwnika(poziomLatwy);
-	else
+		break;
+	case przeciwnikTrudny:
 		przeciwnik = losujPrzeciwnika(poziomLatwy + 1);
+		break;
+	case przeciwnikZZadania:
+		przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
+	}
 
 	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
 	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);

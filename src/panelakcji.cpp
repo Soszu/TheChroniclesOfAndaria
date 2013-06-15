@@ -7,14 +7,23 @@ PanelAkcji::PanelAkcji(QGroupBox* box)
 	panel = box;
 }
 
-/**
- * @brief PanelAkcji::wyswietlAkcje Wyświetla przyciski akcji których indeksy z tablicy AKCJE zostały podane jako wartości enumetatora Akcja.
- * @param akcje Lista nazw akcji do wyświetlenia
- */
-void PanelAkcji::wyswietlAkcje(QList<Akcja> akcje)
+void PanelAkcji::ustawAkcje(QList<Akcja> akcje)
+{
+	this->akcje = akcje;
+}
+
+void PanelAkcji::wyswietl()
 {
 	wyczyscPanel();
 	uklad = new QVBoxLayout(panel);
+
+	foreach(Zadanie* i, zadania)
+	{
+		przyciski.push_back(new MojPrzycisk(-1 * (i->getId()) ));
+		przyciski.back()->setText( QString("Wykonaj zadanie:\n") + i->getTytul());
+		uklad->addWidget(przyciski.back());
+		connect(przyciski.back(), SIGNAL(kliknietyID(int)), this, SLOT(kliknietoPrzycisk(int)));
+	}
 
 	foreach(int i, akcje)
 	{
@@ -23,6 +32,7 @@ void PanelAkcji::wyswietlAkcje(QList<Akcja> akcje)
 		uklad->addWidget(przyciski.back());
 		connect(przyciski.back(), SIGNAL(kliknietyID(int)), this, SLOT(kliknietoPrzycisk(int)));
 	}
+
 	qDebug() << "Panel Akcji wyswietlil zadane akcje";
 }
 
@@ -41,7 +51,7 @@ void PanelAkcji::setMistrzGry(MistrzGry *mistrz)
  */
 void PanelAkcji::kliknietoPrzycisk(int n)
 {
-	mistrzGry->wybranoAkcje((Akcja)n);
+	mistrzGry->wybranoDzialanie(n);
 }
 
 void PanelAkcji::wyczyscPanel()
@@ -55,3 +65,7 @@ void PanelAkcji::wyczyscPanel()
 	delete uklad;
 }
 
+void PanelAkcji::ustawZadania(QList<Zadanie *> zadania)
+{
+	this->zadania = zadania;
+}

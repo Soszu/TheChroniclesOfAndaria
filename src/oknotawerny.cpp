@@ -56,7 +56,7 @@ void OknoTawerny::wypelnijListy()
 {
 	listaWlasnychZadan->clear();
 	for(int i = 0; i < gracz->getZadania()->size(); ++i)
-		listaWlasnychZadan->addItem(gracz->getZadania()->at(i)->getTytul());
+		listaWlasnychZadan->addItem(gracz->getKonkretneZadanie(i)->getTytul());
 
 	listaMozliwychZadan->clear();
 	for(int i = 0; i < dostepneZadania->size(); ++i)
@@ -66,7 +66,7 @@ void OknoTawerny::wypelnijListy()
 void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
 {
 
-	Zadanie* zadanie = gracz->getZadania()->at(element.row());
+	Zadanie* zadanie = gracz->getKonkretneZadanie(element.row());
 	ostatnioWyswietlone = zadanie;
 
 	przyciskPokazCel->setEnabled(true);
@@ -94,7 +94,9 @@ void OknoTawerny::przyjmij()
 	if(przyciskPrzyjmij->text() == "Przyjmij")
 	{
 		int indeks = listaMozliwychZadan->currentRow();
-		gracz->getZadania()->push_back(dostepneZadania->at(indeks));
+
+		gracz->getZadania()->push_back(*(dostepneZadania->at(indeks)));
+		gracz->getKonkretneZadanie(gracz->getZadania()->size() - 1)->setZeceniodawca(gracz->getPozycja());
 		dostepneZadania->removeAt(indeks);
 	}
 	else

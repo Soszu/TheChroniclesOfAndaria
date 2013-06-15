@@ -147,15 +147,15 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 			return true;
 		}
 //-----------POPRAWNOSC CELU
-		if(celX > szerokoscPlanszy || celX < 1 || celY > wysokoscPlanszy || celY <1) //CHECK: indeksowanie od 0 czy od 1
+		if(celX > szerokoscPlanszy || celX < 1 || celY > wysokoscPlanszy || celY <1)
 		{
 			trescBledu = QString::fromUtf8("Podane współrzędne nie są poprawne. Linia: ") + QString::number(numerLinii);
 			return true;
 		}
-		info.cel.x = celX;
-		info.cel.y = celY;
+		//NOTE: trzeba przesunąć indeksowanie w pliku (zostało za późno doprecyzowane)
+		info.cel.x = celX - 1;
+		info.cel.y = celY - 1;
 //-----------PRZECIWNICY
-		//TODO:
 		info.idPrzeciwnikow = new QList<Przeciwnik*>;
 		bool blad = false;
 		if(!podzial.at(8).isEmpty())
@@ -180,7 +180,15 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 		}
 //-----------ZAPISANIE DANYCH
 		Nagroda* nagroda = mistrzGry->nagrody[info.idNagrody];
-		Zadanie* nowy = new Zadanie(info.rodzaj, info.tytul, info.tresc, info.czyPowrot, info.cel, info.kolorCzcionki, nagroda, info.idPrzeciwnikow);
+		Zadanie* nowy = new Zadanie(info.id,
+					    info.rodzaj,
+					    info.tytul,
+					    info.tresc,
+					    info.czyPowrot,
+					    info.cel,
+					    info.kolorCzcionki,
+					    nagroda,
+					    info.idPrzeciwnikow);
 		mistrzGry->zadania.insert(info.id, nowy);
 		++numerLinii;
 	}

@@ -31,6 +31,11 @@ void CyklGry::setMainWindow(QMainWindow *okno)
 	this->mainWindow = okno;
 }
 
+QMainWindow *CyklGry::getMainWindow()
+{
+	return mainWindow;
+}
+
 void CyklGry::wystapilBlad(QString komunikat, int blad)
 {
 	qDebug() <<komunikat;

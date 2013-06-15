@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "mistrzgry.h"
 #include "mojprzycisk.h"
+#include "zadanie.h"
 #include "gra.h"
 
 class MistrzGry;
@@ -15,13 +16,17 @@ class PanelAkcji : public QObject
 	Q_OBJECT
 public:
 	PanelAkcji(QGroupBox* box);
-	void wyswietlAkcje(QList<Akcja> akcje);
+	void ustawAkcje(QList<Akcja> akcje);
+	void ustawZadania(QList<Zadanie*> zadania);
+	void wyswietl();
 	void setMistrzGry(MistrzGry* mistrz);
-
 private slots:
 	void kliknietoPrzycisk(int n);
 
 private:
+	QList<Akcja> akcje;
+	QList<Zadanie*> zadania;
+
 	void wyczyscPanel();
 	QVBoxLayout* uklad;
 	QGroupBox* panel;

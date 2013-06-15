@@ -1,7 +1,16 @@
 ﻿#include "zadanie.h"
 
-Zadanie::Zadanie(RodzajZadania rodzaj, QString tytul, QString tresc, bool czyPowrot, IDPola poleCelu, char kolorCzcionki, Nagroda* nagroda, QList<Przeciwnik *> *przeciwnicy)
+Zadanie::Zadanie(int id,
+		 RodzajZadania rodzaj,
+		 QString tytul,
+		 QString tresc,
+		 bool czyPowrot,
+		 IDPola poleCelu,
+		 char kolorCzcionki,
+		 Nagroda* nagroda,
+		 QList<Przeciwnik *> *przeciwnicy)
 {
+	this->id = id;
 	this->rodzaj = rodzaj;
 	this->tytul = tytul;
 	this->tresc = tresc;
@@ -10,11 +19,18 @@ Zadanie::Zadanie(RodzajZadania rodzaj, QString tytul, QString tresc, bool czyPow
 	this->kolorCzcionki = kolorCzcionki;
 	this->nagroda = nagroda;
 	this->przeciwnicy = przeciwnicy;
+
+	czyWykonanoCzesc = false;
 }
 
 Zadanie::~Zadanie()
 {
 	delete przeciwnicy;
+}
+
+int Zadanie::getId()
+{
+	return id;
 }
 
 RodzajZadania Zadanie::getRodzaj()
@@ -42,6 +58,11 @@ IDPola Zadanie::getPoleCelu()
 	return poleCelu;
 }
 
+void Zadanie::setPoleCelu(IDPola pole)
+{
+	this->poleCelu = pole;
+}
+
 char Zadanie::getKolorCzcionki()
 {
 	return kolorCzcionki;
@@ -55,4 +76,24 @@ Nagroda *Zadanie::getNagroda()
 QList<Przeciwnik *> *Zadanie::getPrzeciwnicy()
 {
 	return przeciwnicy;
+}
+
+void Zadanie::setZeceniodawca(IDPola pole)
+{
+	zleceniodawca = pole;
+}
+
+IDPola Zadanie::getZleceniodawca()
+{
+	return zleceniodawca;
+}
+
+void Zadanie::setCzyWykonanoCzesc(bool wartosc)
+{
+	czyWykonanoCzesc = wartosc;
+}
+
+bool Zadanie::getCzyWykonanoCzesc()
+{
+	return czyWykonanoCzesc;
 }

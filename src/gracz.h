@@ -21,7 +21,9 @@ public:
 	IDPola getPozycja();
 	void setPozycja(IDPola id);
 	Ekwipunek* getEkwipunek();
-	QList<Zadanie*>* getZadania();
+	QList<Zadanie>* getZadania();
+	Zadanie* getKonkretneZadanie(int indeks);
+	void usunZadanie(int id);
 	QList<IDPola> getPolaSzczegolne();
 	quint8 getPoziom();
 	void setPoziom(quint8 poziom);
@@ -59,7 +61,7 @@ private:
 	bool czyAI;
 	IDPola pozycja;
 	Ekwipunek* ekwipunek;
-	QList<Zadanie*> zadania;
+	QList<Zadanie> zadania;
 	QList<IDPola> polaSzczegolne;
 	quint8 poziom;
 	quint8 reputacja[LICZBA_KROLESTW];

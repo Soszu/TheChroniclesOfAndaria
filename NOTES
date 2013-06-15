@@ -1,5 +1,3 @@
-Przypuszczalnie coś złego dzieje się w parserze przeciwników, bo gdy parserprzedmiotów był uruchamiany przed parserem przedmiotów to program przerywał pracę
-
 Warto by na koniec przejrzeć tyle kodu ile się da i ponaprawiać
 
 problem z wybieraniem przeciwników.
@@ -8,6 +6,9 @@ memleak, gdy wystąpił bląd przy wczytywaniu danych.
 Sprawdzanie czy jest wystarcza ilość zadań i przeciwników
 wygląd mojego paska,
 odpowiednie granice hexa.
-odpowiadanie na zgłaszanie błędów przez parser.
-KONIEC GRY
 
+losowanie zadań, przeciwników i przedmiotów.
+naprawić zamykanie.
+napisać zasady
+zrobić zapisywanie
+napisać bota

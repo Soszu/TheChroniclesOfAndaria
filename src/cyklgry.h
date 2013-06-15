@@ -21,6 +21,7 @@ public:
 	void setPlansza(Plansza* plansza);
 	void setGracze(QList<Gracz*> gracze);
 	void setMainWindow(QMainWindow* okno);
+	QMainWindow* getMainWindow();
 	void wystapilBlad(QString komunikat, int blad);
 
 	QList<Gracz*> getGracze();
