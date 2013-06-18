@@ -1,5 +1,10 @@
 ﻿#include "zarzadzaniezadaniami.h"
 
+/**
+ * @brief wygenerujOpis		Generuje opis dla podanego zadania.
+ * @param zadanie
+ * @param miejsce	QTextBrowser którego tekst ma zostać podmieniony na wygenerowany opis.
+ */
 void wygenerujOpis(Zadanie* zadanie, QTextBrowser* miejsce)
 {
 	miejsce->clear();

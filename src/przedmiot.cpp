@@ -11,7 +11,7 @@ Przedmiot::Przedmiot(QString nazwa,
 		     quint8 bonusHPregen,
 		     int ograniczenia,
 		     quint8 wartosc,
-		     bool czyPo5Lvlu,
+		     bool czyMocny,
 		     QColor kolorCzcionki)
 {
 	this->nazwa = nazwa;
@@ -25,7 +25,7 @@ Przedmiot::Przedmiot(QString nazwa,
 	this->bonusHPregen = bonusHPregen;
 	this->ograniczenia = ograniczenia;
 	this->wartosc = wartosc;
-	this->czyPo5Lvlu = czyPo5Lvlu;
+	this->czyMocny = czyMocny;
 	this->kolorCzcionki = kolorCzcionki;
 }
 
@@ -74,9 +74,9 @@ quint8 Przedmiot::getWartosc()
 	return wartosc;
 }
 
-bool Przedmiot::getCzyPo5Lvlu()
+bool Przedmiot::getCzyMocny()
 {
-	return czyPo5Lvlu;
+	return czyMocny;
 }
 
 QColor Przedmiot::getKolorCzcionki()

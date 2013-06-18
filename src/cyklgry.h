@@ -6,10 +6,12 @@
 #include <QString>
 #include <QMainWindow>
 #include "mistrzgry.h"
+#include "sztucznainteligencja.h"
 #include "plansza.h"
 
 class MistrzGry;
 class Plansza;
+class MainWindow;
 
 class CyklGry
 {
@@ -20,13 +22,13 @@ public:
 	void setMistrzGry(MistrzGry* mistrz);
 	void setPlansza(Plansza* plansza);
 	void setGracze(QList<Gracz*> gracze);
-	void setMainWindow(QMainWindow* okno);
-	QMainWindow* getMainWindow();
+	void setMainWindow(MainWindow *okno);
+	MainWindow* getMainWindow();
 	void wystapilBlad(QString komunikat, int blad);
 
 	QList<Gracz*> getGracze();
 
-	void wykreslGracza(Gracz* gracz);
+	void wykreslAktualnego();
 	void rozpocznij();
 	void zakonczTure();
 private:
@@ -34,11 +36,12 @@ private:
 	bool czySpelnionyWarunekZwyciestwa(Gracz* gracz);
 	void ruszGracza(int indeks);
 	QList<Gracz*> gracze;
+	QMap<int, SztucznaInteligencja*> boty;
 	int indeksAktualnego;
 
 	int* wynikParsowania;
 	QDialog* komunikatOBledzie;
-	QMainWindow* mainWindow;
+	MainWindow* mainWindow;
 	Plansza* plansza;
 	MistrzGry* mistrzGry;
 };

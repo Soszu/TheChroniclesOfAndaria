@@ -52,6 +52,9 @@ OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, QList<Zadanie *> *doste
 	connect(przyciskPrzyjmij, SIGNAL(clicked()), this, SLOT(przyjmij()));
 }
 
+/**
+ * @brief OknoTawerny::wypelnijListy	Wypełnia listy własnych i oferowanych zadań nazwami.
+ */
 void OknoTawerny::wypelnijListy()
 {
 	listaWlasnychZadan->clear();
@@ -63,9 +66,12 @@ void OknoTawerny::wypelnijListy()
 		listaMozliwychZadan->addItem(dostepneZadania->at(i)->getTytul());
 }
 
+/**
+ * @brief OknoTawerny::wyswietlOpisDlaWlasnych		Wyświetla opis dla wykonywanego zadania.
+ * @param element	dane zaznaczonego elementu
+ */
 void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
 {
-
 	Zadanie* zadanie = gracz->getKonkretneZadanie(element.row());
 	ostatnioWyswietlone = zadanie;
 
@@ -76,6 +82,10 @@ void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
 	wygenerujOpis(zadanie, opisZadania);
 }
 
+/**
+ * @brief OknoTawerny::wyswietlOpisDlaMozliwych		Wyświetla opis dla zadania oferowanego.
+ * @param element	dane zaznaczonego elementu
+ */
 void OknoTawerny::wyswietlOpisDlaMozliwych(QModelIndex element)
 {
 	Zadanie* zadanie = dostepneZadania->at(element.row());
@@ -89,6 +99,9 @@ void OknoTawerny::wyswietlOpisDlaMozliwych(QModelIndex element)
 	wygenerujOpis(zadanie, opisZadania);
 }
 
+/**
+ * @brief OknoTawerny::przyjmij		Zależnie od zaznaczenia przyjmuje oferowane zadanie albo odrzuca jedno z podjętych
+ */
 void OknoTawerny::przyjmij()
 {
 	if(przyciskPrzyjmij->text() == "Przyjmij")
@@ -106,6 +119,9 @@ void OknoTawerny::przyjmij()
 	przyciskPokazCel->setEnabled(false);
 }
 
+/**
+ * @brief OknoTawerny::pokaz	Wysyła do planszy żądanie podświetlenia przycisku.
+ */
 void OknoTawerny::pokaz()
 {
 	plansza->pokazHex(ostatnioWyswietlone->getPoleCelu());

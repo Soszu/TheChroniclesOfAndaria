@@ -70,10 +70,11 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	connect(ok, SIGNAL(clicked()), this, SLOT(close()));
 	connect(przyciskZaloz, SIGNAL(clicked()), this, SLOT(zaloz()));
 	connect(przyciskKup, SIGNAL(clicked()), this, SLOT(kup()));
-
-	zalozPrzedmiot(towary->front(), gracz);
 }
 
+/**
+ * @brief OknoBazaru::wypelnijListy	Wypełnia listę przedmiotów własnych i do kupienia odpowiednimi nazwami.
+ */
 void OknoBazaru::wypelnijListy()
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
@@ -88,6 +89,10 @@ void OknoBazaru::wypelnijListy()
 		listaTowarow->addItem(towary->at(i)->getNazwa());
 }
 
+/**
+ * @brief OknoBazaru::wyswietlOpisDlaGracza	Wyświetla opis przedmiotu z listy posiadanych przez gracza
+ * @param element	dane wpisu, który został wybrany.
+ */
 void OknoBazaru::wyswietlOpisDlaGracza(QModelIndex element)
 {
 	przyciskKup->setText("Sprzedaj");
@@ -107,6 +112,10 @@ void OknoBazaru::wyswietlOpisDlaGracza(QModelIndex element)
 	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
+/**
+ * @brief OknoBazaru::wyswietlOpisDlaBazaru	Wyświetla opis przedmiotu z listy dostępnych na bazarze.
+ * @param element	dane wpisu, który został wybrany
+ */
 void OknoBazaru::wyswietlOpisDlaBazaru(QModelIndex element)
 {
 	Przedmiot* rzecz = towary->at(element.row());
@@ -122,6 +131,9 @@ void OknoBazaru::wyswietlOpisDlaBazaru(QModelIndex element)
 	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
+/**
+ * @brief OknoBazaru::kupMalaMiksture	Przeprowadza kupno małej mikstury zdrowia.
+ */
 void OknoBazaru::kupMalaMiksture()
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
@@ -135,6 +147,9 @@ void OknoBazaru::kupMalaMiksture()
 	przyciskMalejMikstury->setEnabled(gracz->getZloto() >= CENA_MALEJ_MIKSTURY);
 }
 
+/**
+ * @brief OknoBazaru::kupDuzaMiksture	Przeprowadza kupno dużej mikstury zdrowia.
+ */
 void OknoBazaru::kupDuzaMiksture()
 {
 
@@ -149,6 +164,9 @@ void OknoBazaru::kupDuzaMiksture()
 	przyciskMalejMikstury->setEnabled(gracz->getZloto() >= CENA_MALEJ_MIKSTURY);
 }
 
+/**
+ * @brief OknoBazaru::zaloz	Odpowiednio zakłada lub zdejmuje aktualnie zaznaczony przedmiot z listy						przedmiotów gracza
+ */
 void OknoBazaru::zaloz()
 {
 	QList<Przedmiot*>* plecak = gracz->getEkwipunek()->getPlecak();
@@ -160,6 +178,9 @@ void OknoBazaru::zaloz()
 	okno->uaktualnijInformacje();
 }
 
+/**
+ * @brief OknoBazaru::kup	Kupuje lub sprzedaje aktualnie zaznaczony przedmiot z listy przedmiotów na					bazarze.
+ */
 void OknoBazaru::kup()
 {
 	QList<Przedmiot*>* plecak = gracz->getEkwipunek()->getPlecak();

@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include <QtCore>
 #include <QTimeLine>
+#include "mainwindow.h"
 #include "plansza.h"
 #include "gracz.h"
 #include "gra.h"
@@ -18,12 +19,13 @@
 class Plansza;
 class Hex;
 class Pionek;
+class MainWindow;
 
 class ObszarPlanszy : public QGraphicsScene
 {
 	Q_OBJECT
 public:
-	explicit ObszarPlanszy();
+	explicit ObszarPlanszy(MainWindow* mainWindow);
 	~ObszarPlanszy();
 	void setPlansza(Plansza* plansza);
 	void narysujPlansze(QList<Pole*>* pola, int kolumny, int wiersze, QList<QPair<QColor, IDPola> > *pozycjeGraczy);
@@ -37,6 +39,7 @@ public:
 	static QPointF podajSrodek(const IDPola id, const qreal bok);
 	static qreal podajWysokosc(qreal bok);
 private:
+	MainWindow* mainWindow;
 
 	qreal bokHexa;
 	Plansza *plansza;
@@ -70,7 +73,6 @@ private slots:
 	void kolejnePrzejscie();
 	void krokAnimacji(int faza);
 	void usunZaznaczenie();
-
 };
 
 #endif // OBSZARPLANSZY_H

@@ -76,9 +76,9 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 		tmp2 = podzial.at(12);
 		tmp2.remove(" ");
 		if(tmp2 == "0")
-			info.czyOd5Poziom = false;
+			info.czyMocny = false;
 		else if(tmp2 == "1")
-			info.czyOd5Poziom = true;
+			info.czyMocny = true;
 		else blad = true;
 
 		if(blad)
@@ -164,11 +164,13 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 //-----------POPRAWNOŚĆ KOLORU
 		QColor kolorCzcionki;
 		if(info.kolorCzcionki == 'b')
-			kolorCzcionki = Qt::black; //żeby nie zlewało się z jasnym tłem zamiana biały na czarny
+			kolorCzcionki = Qt::darkGreen; //żeby nie zlewało się z tłem
 		else if(info.kolorCzcionki == 'n')
 			kolorCzcionki = Qt::darkBlue;
 		else if(info.kolorCzcionki == 'c')
 			kolorCzcionki = Qt::darkRed;
+		else if(info.kolorCzcionki == 'z')
+			kolorCzcionki = Qt::darkYellow;
 		else{
 			trescBledu = QString::fromUtf8("Niepoprawny symbol koloru w linii ") + QString::number(numerLinii);
 			return true;
@@ -184,7 +186,7 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 			mistrzGry->grupy.insert(aktualnaGrupa, poprzednie);
 		}
 		poprzednie->push_back(info.id);
-		Przedmiot* nowy = new Przedmiot(info.nazwa, rodzaj, info.wrecz, info.dystans, info.magia, info.obrona, info.percepcja, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyOd5Poziom, kolorCzcionki);
+		Przedmiot* nowy = new Przedmiot(info.nazwa, rodzaj, info.wrecz, info.dystans, info.magia, info.obrona, info.percepcja, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyMocny, kolorCzcionki);
 		mistrzGry->przedmioty.insert(info.id, nowy);
 
 		++numerLinii;

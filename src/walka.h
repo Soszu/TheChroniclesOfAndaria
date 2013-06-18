@@ -30,7 +30,6 @@ private:
 //------Przeciwnik
 	QLabel* obrazekPrzeciwnika;
 	QLabel* nazwaPrzeciwnika;
-	QLabel* opisPrzeciwnika;
 
 	MojPasek* pasekZdrowiaPrzeciwnika;
 	QLabel* punktyZdrowiaPrzeciwnika;

@@ -33,6 +33,7 @@ public:
 	void ruszGracza(Gracz* gracz, int indeks);
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
+	void uaktualnijOsiagalne();
 	Pole *pokazPole(IDPola pole);
 	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();

@@ -18,16 +18,12 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 	obrazekPrzeciwnika = new QLabel();
 	obrazekPrzeciwnika->setAlignment(Qt::AlignCenter);
 	obrazekPrzeciwnika->setPixmap(QString(PREFIX_PRZECIWNIKOW + przeciwnik->getNazwaObrazka()));
-	//obrazekPrzeciwnika->setMaximumSize(QSize(320, 320));
 	layoutPrzeciwnika->addWidget(obrazekPrzeciwnika);
 
 	nazwaPrzeciwnika = new QLabel(przeciwnik->getNazwa());
 	layoutPrzeciwnika->addWidget(nazwaPrzeciwnika);
 
-	opisPrzeciwnika = new QLabel(przeciwnik->getOpis());
-	layoutPrzeciwnika->addWidget(opisPrzeciwnika);
 //---linjka zdrowia
-
 	pasekZdrowiaPrzeciwnika = new MojPasek(1, Qt::darkRed);
 	aktualneZdrowiePrzeciwnika = przeciwnik->getZdrowieMaks();
 	punktyZdrowiaPrzeciwnika = new QLabel(QString::number(aktualneZdrowiePrzeciwnika) + "/" + QString::number(przeciwnik->getZdrowieMaks()));
@@ -88,15 +84,21 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
 
 	przyciskAtakuWrecz = new QPushButton();
 	przyciskAtakuWrecz->setIcon(QIcon(IKONKA_WRECZ) );
-	przyciskAtakuWrecz->setText(QString::number(gracz->getAtakWrecz()));
+	przyciskAtakuWrecz->setText(QString::number(gracz->getAtakWrecz()) +
+				    QString(" - ") +
+				    QString::number(KOSTKA_GRACZA + gracz->getAtakWrecz()));
 
 	przyciskAtakuDystansowego = new QPushButton();
 	przyciskAtakuDystansowego->setIcon(QIcon(IKONKA_DYSTANSOWY));
-	przyciskAtakuDystansowego->setText(QString::number(gracz->getAtakDystansowy()));
+	przyciskAtakuDystansowego->setText(QString::number(gracz->getAtakDystansowy()) +
+					   QString(" - ") +
+					   QString::number(KOSTKA_GRACZA + gracz->getAtakDystansowy()));
 
 	przyciskAtakuMagicznego = new QPushButton();
 	przyciskAtakuMagicznego->setIcon(QIcon(IKONKA_MAGICZNY));
-	przyciskAtakuMagicznego->setText(QString::number(gracz->getAtakMagiczny()));
+	przyciskAtakuMagicznego->setText(QString::number(gracz->getAtakMagiczny()) +
+					 QString(" - ") +
+					 QString::number(KOSTKA_GRACZA + gracz->getAtakMagiczny()));
 
 	linijkaAtakowGracza = new QHBoxLayout();
 	linijkaAtakowGracza->addWidget(przyciskAtakuWrecz);
@@ -134,7 +136,6 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
  */
 void Walka::ruchPrzeciwnika()
 {
-	qsrand( QDateTime::currentDateTime().toTime_t() );
 	quint8 atak = qrand() % (przeciwnik->getAtakMaksymalny() - przeciwnik->getAtakMinimalny()) + przeciwnik->getAtakMinimalny();
 
 	wpisPrzeciwnika(przeciwnik, QString::fromUtf8("atakuje z siłą ") + QString::number(atak));
@@ -250,8 +251,9 @@ void Walka::rozpocznij()
  */
 void Walka::atakWrecz()
 {
-	wpisGracza(gracz, QString::fromUtf8(" atakuje wręcz z siłą ") + QString::number(gracz->getAtakWrecz()));
-	atakGracza(gracz->getAtakWrecz());
+	int atak = qrand() % KOSTKA_GRACZA  + gracz->getAtakWrecz() + 1;
+	wpisGracza(gracz, QString::fromUtf8(" atakuje wręcz z siłą ") + QString::number(atak));
+	atakGracza(atak);
 }
 
 /**
@@ -259,8 +261,9 @@ void Walka::atakWrecz()
  */
 void Walka::atakDystansowy()
 {
-	wpisGracza(gracz, QString::fromUtf8(" atakuje bronią dystansową z siłą ") + QString::number(gracz->getAtakDystansowy()));
-	atakGracza(gracz->getAtakDystansowy());
+	int atak = qrand() % KOSTKA_GRACZA + gracz->getAtakDystansowy() + 1;
+	wpisGracza(gracz, QString::fromUtf8(" atakuje bronią dystansową z siłą ") + QString::number(atak));
+	atakGracza(atak);
 }
 
 /**
@@ -268,8 +271,9 @@ void Walka::atakDystansowy()
  */
 void Walka::atakMagiczny()
 {
-	wpisGracza(gracz, QString::fromUtf8(" atakuje magicznie z siłą ") + QString::number(gracz->getAtakMagiczny()));
-	atakGracza(gracz->getAtakMagiczny());
+	int atak = qrand() % KOSTKA_GRACZA + gracz->getAtakMagiczny() + 1;
+	wpisGracza(gracz, QString::fromUtf8(" atakuje magicznie z siłą ") + QString::number(atak));
+	atakGracza(atak);
 }
 
 /**

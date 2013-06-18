@@ -14,6 +14,9 @@ CyklGry::~CyklGry()
 	foreach (it, gracze) {
 		delete it;
 	}
+	QMap<int, SztucznaInteligencja*>::iterator it2;
+	for (it2 = boty.begin(); it2 != boty.end(); ++it2)
+		delete it2.value();
 }
 
 /**
@@ -24,18 +27,27 @@ void CyklGry::setGracze(QList<Gracz *> gracze)
 {
 	this->gracze = gracze; //tu jest przekazywana przez przepisanie, bo lepiej jest, żeby lista była zapisana w cyklu.
 	plansza->setGracze(&this->gracze);
+	for(int i = 0; i < gracze.size(); ++i)
+		if(gracze[i]->getCzyAI())
+			boty.insert(i, new SztucznaInteligencja(gracze[i]));
+	mistrzGry->setBoty(boty);
 }
 
-void CyklGry::setMainWindow(QMainWindow *okno)
+void CyklGry::setMainWindow(MainWindow *okno)
 {
 	this->mainWindow = okno;
 }
 
-QMainWindow *CyklGry::getMainWindow()
+MainWindow *CyklGry::getMainWindow()
 {
 	return mainWindow;
 }
 
+/**
+ * @brief CyklGry::wystapilBlad	Metoda wywoływana przez Mistrza Gry lub Planszę, żeby zgłosić błąd i przerwać pracę.
+ * @param komunikat	komunikat z opisem błądu który ma zostać wyświetlony
+ * @param blad		numer błędu do zwrócenia przez program
+ */
 void CyklGry::wystapilBlad(QString komunikat, int blad)
 {
 	qDebug() <<komunikat;
@@ -48,39 +60,30 @@ void CyklGry::wystapilBlad(QString komunikat, int blad)
 	*wynikParsowania = blad;
 }
 
-/**
- * @brief CyklGry::setMistrzGry Ustawia mistrza gry
- * @param mistrz
- */
 void CyklGry::setMistrzGry(MistrzGry *mistrz)
 {
 	this->mistrzGry = mistrz;
 }
 
-/**
- * @brief CyklGry::setPlansza Ustawia planszę.
- * @param plansza
- */
 void CyklGry::setPlansza(Plansza *plansza)
 {
 	this->plansza = plansza;
 }
 
-/**
- * @brief CyklGry::getGracze Metoda dająca dostęp do danych graczy
- * @return
- */
 QList<Gracz *> CyklGry::getGracze()
 {
 	return gracze;
 }
 
-void CyklGry::wykreslGracza(Gracz *gracz)
+/**
+ * @brief CyklGry::wykreslGracza Wykreśla aktualnego gracza z listy, i sprawdza, czy nie został przypadkiem tylko 1 gracz - zwycięzca
+ */
+void CyklGry::wykreslAktualnego()
 {
 	QMessageBox::information(
 		mainWindow,
 		QString::fromUtf8("Przykro mi, ale ..."),
-		gracz->getNazwa() + QString::fromUtf8(" wypadł z gry.") );
+		gracze[indeksAktualnego]->getNazwa() + QString::fromUtf8(" wypadł z gry.") );
 
 	gracze.removeAt(indeksAktualnego);
 
@@ -95,6 +98,10 @@ void CyklGry::wykreslGracza(Gracz *gracz)
 
 }
 
+/**
+ * @brief CyklGry::graczWygral	ogłasza Zwycięzcę i kończy grę.
+ * @param gracz		dane zwycięzcy
+ */
 void CyklGry::graczWygral(Gracz *gracz)
 {
 	QMessageBox::information(
@@ -104,6 +111,11 @@ void CyklGry::graczWygral(Gracz *gracz)
 	mainWindow->close();
 }
 
+/**
+ * @brief CyklGry::czySpelnionyWarunekZwyciestwa	Sprawdza, czy został spełniony warunek zwycięstwa.
+ * @param gracz		dane gracza, który jest sprawdzany
+ * @return	true jeśli warunek jest spełniony, w p.p. false
+ */
 bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
 {
 	int wymaksowaneReputacje = 0;
@@ -121,23 +133,24 @@ bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
  */
 void CyklGry::rozpocznij()
 {
+	mainWindow->wyswietlZasady();
 	qDebug() <<"Liczba graczy: " <<gracze.size();
 	ruszGracza(indeksAktualnego);
 }
 
 /**
- * @brief CyklGry::ruszGracza
- * @param indeks
+ * @brief CyklGry::ruszGracza	Przekazuje mistrzowi gry i planszy, że zaczyna się ruch gracza o zadanym indeksie
+ * @param indeks	indeks poruszanego gracza na liście graczy
  */
 void CyklGry::ruszGracza(int indeks)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
 	plansza->ruszGracza(gracze[indeks], indeks);
-	mistrzGry->ruszGracza(gracze[indeks]);
+	mistrzGry->ruszGracza(gracze[indeks], indeks);
 }
 
 /**
- * @brief CyklGry::zakonczTure Kończy turę aktualnego gracza, wyświetla następnego
+ * @brief CyklGry::zakonczTure Kończy turę aktualnego gracza, sprawdza, czy spełnił warunek zwycięstwa, jeśli nie wyświetla następnego
  */
 void CyklGry::zakonczTure()
 {

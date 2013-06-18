@@ -7,11 +7,9 @@ PanelAkcji::PanelAkcji(QGroupBox* box)
 	panel = box;
 }
 
-void PanelAkcji::ustawAkcje(QList<Akcja> akcje)
-{
-	this->akcje = akcje;
-}
-
+/**
+ * @brief PanelAkcji::wyswietl	Wyświetla Panel zgodnie z obecnymi ustawieniami
+ */
 void PanelAkcji::wyswietl()
 {
 	wyczyscPanel();
@@ -36,10 +34,6 @@ void PanelAkcji::wyswietl()
 	qDebug() << "Panel Akcji wyswietlil zadane akcje";
 }
 
-/**
- * @brief PanelAkcji::setMistrzGry Ustawia mistrza gry, którego panel powiadomi o kliknięciu
- * @param mistrz
- */
 void PanelAkcji::setMistrzGry(MistrzGry *mistrz)
 {
 	this->mistrzGry = mistrz;
@@ -54,6 +48,9 @@ void PanelAkcji::kliknietoPrzycisk(int n)
 	mistrzGry->wybranoDzialanie(n);
 }
 
+/**
+ * @brief PanelAkcji::wyczyscPanel	Usuwa wszystkie przyciski z panelu.
+ */
 void PanelAkcji::wyczyscPanel()
 {
 	for(int i = 0; i < przyciski.size(); ++i)
@@ -65,6 +62,19 @@ void PanelAkcji::wyczyscPanel()
 	delete uklad;
 }
 
+/**
+ * @brief PanelAkcji::ustawAkcje	Ustawia akcje do wyświetlenia
+ * @param akcje		Lista akcji, które powinny zostać wyświetlone.
+ */
+void PanelAkcji::ustawAkcje(QList<Akcja> akcje)
+{
+	this->akcje = akcje;
+}
+
+/**
+ * @brief PanelAkcji::ustawZadania	Ustawia zadania do wyświetlenia.
+ * @param zadania	Lista zadań, które powinny zostać wyswietlone
+ */
 void PanelAkcji::ustawZadania(QList<Zadanie *> zadania)
 {
 	this->zadania = zadania;

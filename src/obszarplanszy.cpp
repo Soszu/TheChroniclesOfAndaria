@@ -1,7 +1,9 @@
 ﻿#include "obszarplanszy.h"
 
-ObszarPlanszy::ObszarPlanszy()
+ObszarPlanszy::ObszarPlanszy(MainWindow *mainWindow)
 {
+	this->mainWindow = mainWindow;
+
 	bokHexa = POCZATKOWY_ROZMIAR_HEXA;
 
 	ticTac = new QTimeLine(CZAS_TRWANIA_JEDNEGO_PRZEJSCIA, this);
@@ -106,6 +108,10 @@ void ObszarPlanszy::podswietl(QList<IDPola> lista)
 	}
 }
 
+/**
+ * @brief ObszarPlanszy::pokazHex	Zaznacza hex znajdujący się na liście pod wskazanym indeksem.
+ * @param indeks
+ */
 void ObszarPlanszy::pokazHex(int indeks)
 {
 	zaznaczony = hexy[indeks];
@@ -232,6 +238,9 @@ void ObszarPlanszy::keyReleaseEvent(QKeyEvent *event)
 		if(event->modifiers() == Qt::CTRL)
 			zmienRozmiar(POCZATKOWY_ROZMIAR_HEXA - bokHexa);
 		break;
+	case Qt::Key_F1:
+		mainWindow->wyswietlZasady();
+		break;
 	}
 }
 
@@ -270,6 +279,10 @@ void ObszarPlanszy::krokAnimacji(int faza)
 	pionki[indeksAnimowanego]->setPos(posX, posY);
 }
 
+/**
+ * @brief ObszarPlanszy::usunZaznaczenie	Usuwa zaznaczenie z przycisku, który jest podświetlony.
+ *						(Jest tylko 1 taki przycisk)
+ */
 void ObszarPlanszy::usunZaznaczenie()
 {
 	zaznaczony->odznacz();

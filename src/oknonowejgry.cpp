@@ -87,6 +87,7 @@ void OknoNowejGry::wypelnij(OknoNowejGry::wierszWyboru *wiersz, int numer)
 	wiersz->klasa = new QComboBox();
 	wiersz->kolor = new QComboBox();
 	wiersz->ai = new QCheckBox();
+	wiersz->ai->setVisible(false); //TODO: implementacja bota
 
 	for(int i = 0; i < LICZBA_RAS; ++i)
 		wiersz->rasa->addItem(RASY[i]);

@@ -12,7 +12,7 @@ Hex::Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar)
 }
 
 /**
- * @brief Hex::boundingRect Zwraca prostokąt, stanowiący granice hexa.
+ * @brief Hex::boundingRect	Zwraca prostokąt, stanowiący granice hexa.
  * @return
  */
 QRectF Hex::boundingRect() const
@@ -23,8 +23,8 @@ QRectF Hex::boundingRect() const
 }
 
 /**
- * @brief Hex::shape Zwraca dokładne ograniczenie hexa, sześciąkąt foremny, który zawiera hex
- * @return QPainterPath z ograniczeniem hexa
+ * @brief Hex::shape	Zwraca dokładne ograniczenie hexa, sześciąkąt foremny, który zawiera hex.
+ * @return		QPainterPath z ograniczeniem hexa.
  */
 QPainterPath Hex::shape()
 {
@@ -35,7 +35,7 @@ QPainterPath Hex::shape()
 }
 
 /**
- * @brief Hex::paint Rysuje hex.
+ * @brief Hex::paint	Rysuje hex.
  * @param painter
  * @param option
  * @param widget
@@ -72,6 +72,10 @@ void Hex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 	}
 }
 
+/**
+ * @brief Hex::setBok	Ustawia bok i wielkości od niego zależne, a następnie się przerysowuje
+ * @param bok		długość nowego boku
+ */
 void Hex::setBok(qreal bok)
 {
 	this->bok = bok;
@@ -79,6 +83,10 @@ void Hex::setBok(qreal bok)
 	setPos(ObszarPlanszy::podajSrodek(pole->getMiejsce(), bok));
 }
 
+/**
+ * @brief Hex::setPodswietlenie	Ustawia odpowiednią opcję podświetlenia, po czym się przerysowuje
+ * @param opcja
+ */
 void Hex::setPodswietlenie(bool opcja)
 {
 	this->podswietlenie = opcja;
@@ -86,8 +94,8 @@ void Hex::setPodswietlenie(bool opcja)
 }
 
 /**
- * @brief Hex::podajWierzcholki Zwraca wierzchołki hexa.
- * @return QVector wierzchołków hexa
+ * @brief Hex::podajWierzcholki		Zwraca wierzchołki hexa.
+ * @return	QVector wierzchołków hexa
  */
 QVector<QPointF> Hex::podajWierzcholki()
 {
@@ -97,12 +105,18 @@ QVector<QPointF> Hex::podajWierzcholki()
 	return wierzcholki;
 }
 
+/**
+ * @brief Hex::zaznacz	Włącza podświetlenie danego hexa, po czym się przerysowywuje.
+ */
 void Hex::zaznacz()
 {
 	zaznaczenie = true;
 	update(boundingRect());
 }
 
+/**
+ * @brief Hex::odznacz	Wyłącza podświetlenie danego hexa, po czym się przerysowywuje.
+ */
 void Hex::odznacz()
 {
 	zaznaczenie = false;
@@ -110,7 +124,7 @@ void Hex::odznacz()
 }
 
 /**
- * @brief Hex::mousePressEvent Informuje o kliknięciu na siebie
+ * @brief Hex::mousePressEvent	Informuje o kliknięciu na siebie
  * @param event
  */
 void Hex::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -118,7 +132,10 @@ void Hex::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	obszarPlanszy->kliknietoHex(pole->getMiejsce());
 }
 
-
+/**
+ * @brief Hex::ksztaltZaznaczenia	Definuje sposób zaznaczenia hexa, reprezentowany jako QPainterPath
+ * @return	ścieżka stanowiąca sposób zaznaczenia hexa.
+ */
 QPainterPath Hex::ksztaltZaznaczenia()
 {
 	QPainterPath krzyz;

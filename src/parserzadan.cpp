@@ -33,11 +33,20 @@ ParserZadan::ParserZadan(MistrzGry *mistrz)
 	plik.close();
 }
 
+/**
+ * @brief ParserZadan::bladWczytywania		Informuje czy wystąpił błąd podczas wczytywania
+ * @return		true - jeżeli wystąpił, false, w p.p.
+ */
 bool ParserZadan::bladWczytywania()
 {
 	return bylBlad;
 }
 
+/**
+ * @brief ParserZadan::wczytajWymiary	Wczytuje wymiary planszy, znajdujące się w pierwszej linijce pliku z						układem planszy
+ * @param wejscie	QTextStream, z którego odczytywane są dane
+ * @return		true, jeśli wystąpił błąd, false w p.p.
+ */
 bool ParserZadan::wczytajWymiary(QTextStream *wejscie)
 {
 	QString linia = nastepny(wejscie);
@@ -60,7 +69,12 @@ bool ParserZadan::wczytajWymiary(QTextStream *wejscie)
 	}
 	return false;
 }
-
+/**
+ * @brief ParserZadan::wczytajDane	Wczytuje dane zadań z podanego wejścia
+ *					i informuje o ewentualnym błędzie
+ * @param wejscie	QTextStream, z którego odczytywane są dane
+ * @return		true - jeżeli wystąpił, false, w p.p.
+ */
 bool ParserZadan::wczytajDane(QTextStream *wejscie)
 {
 	QString linia;
@@ -95,7 +109,7 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 //-----------POPRAWNOŚĆ KOLORU
 		QColor kolorCzcionki;
 		if(info.kolorCzcionki == 'b')
-			kolorCzcionki = Qt::black; //żeby nie zlewało się z jasnym tłem zamiana biały na czarny
+			kolorCzcionki = Qt::green; //żeby nie zlewało się z jasnym tłem
 		else if(info.kolorCzcionki == 'n')
 			kolorCzcionki = Qt::darkBlue;
 		else if(info.kolorCzcionki == 'c')
@@ -195,6 +209,11 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 	return false;
 }
 
+/**
+ * @brief ParserZadan::nastepny Zwraca linię z podanego strumienia, która nie jest komentarzem, oraz nie jest pusta
+ * @param wejscie Strumień wejścia z danymi
+ * @return QString z oczekiwaną zawartością, w przypadku błędu zwraca pusty QString
+ */
 QString ParserZadan::nastepny(QTextStream *wejscie)
 {
 	while(!wejscie->atEnd())

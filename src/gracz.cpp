@@ -20,6 +20,7 @@ Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 		this->reputacja[i] = POCZATKOWA_REPUTACJA;
 
 	this->zdrowieAktualne = this->zdrowieMaks;
+	ostatnioWalczyl = false;
 }
 
 Gracz::~Gracz()
@@ -219,6 +220,16 @@ quint16 Gracz::getDoswiadczenie()
 void Gracz::setDoswiadczenie(quint16 wartosc)
 {
 	doswiadczenie = wartosc;
+}
+
+bool Gracz::getOstatnioWalczyl()
+{
+	return ostatnioWalczyl;
+}
+
+void Gracz::setOstatnioWalczyl(bool wartosc)
+{
+	ostatnioWalczyl = wartosc;
 }
 
 /**

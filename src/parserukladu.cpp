@@ -37,6 +37,11 @@ bool ParserUkladu::bladWczytywania()
 	return bylBlad;
 }
 
+/**
+ * @brief ParserUkladu::wczytajWymiary	Wczytuje wymiary planszy, znajdujące się w pierwszej linijce
+ * @param wejscie	QTextStream, z którego odczytywane są dane
+ * @return		true, jeśli wystąpił błąd, false w p.p.
+ */
 bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 {
 	QString linia = nastepny(wejscie);
@@ -62,6 +67,11 @@ bool ParserUkladu::wczytajWymiary(QTextStream* wejscie)
 	return false;
 }
 
+/**
+ * @brief ParserUkladu::wczytajLegende		Wczytuje legendę zawierającą symbole hexów
+ * @param wejscie	QTextStream, z którego odczytywane są dane
+ * @return		true, jeśli wystąpił błąd, false w p.p.
+ */
 bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 {
 	bool ok = true;
@@ -112,6 +122,12 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 	return false;
 }
 
+/**
+ * @brief ParserUkladu::wczytajUstawienie	Wczytuje ustawienie planszy
+ *						zgodnie z wcześniej wczytaną legendą i wymiarami.
+ * @param wejscie	QTextStream, z którego odczytywane są dane
+ * @return		true, jeśli wystąpił błąd, false w p.p.
+ */
 bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 {
 	QList<Pole*>* listaPol = new QList<Pole*>;

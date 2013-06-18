@@ -1,5 +1,11 @@
 ﻿#include "zarzadzanieekwipunkiem.h"
 
+/**
+ * @brief aktywujBonusy		Metoda przypisująca bonusy przedmiotu podanemu graczowi
+ * @param przedmiot	przedmiot, którego bonusy mają zostać przepisane graczowi.
+ * @param gracz		dane gracza, który zakłada podany przedmiot
+ * @param m		modyfikator dla każdego bonusu (domyślnie 1)
+ */
 void aktywujBonusy(Przedmiot* przedmiot, Gracz* gracz, int m)
 {
 	gracz->setAtakWrecz(gracz->getAtakWrecz() + (przedmiot->getBonusAWrecz() * m));
@@ -11,19 +17,36 @@ void aktywujBonusy(Przedmiot* przedmiot, Gracz* gracz, int m)
 	gracz->setRegeneracja(gracz->getRegeneracja() + (przedmiot->getBonusHPregen() * m ));
 }
 
+/**
+ * @brief dezaktywujBonusy	Metoda ujmująca bonusy przedmiotu podanemu graczowi
+ * @param przedmiot	przedmiot, którego bonusy mają zostać przepisane graczowi.
+ * @param gracz		dane gracza, który zakłada podany przedmiot
+ */
 void dezaktywujBonusy(Przedmiot* przedmiot, Gracz* gracz)
 {
 	aktywujBonusy(przedmiot, gracz, -1);
 }
 
+/**
+ * @brief czyDozwolony		Stwierdza, czy gracz może aktualnie założyć podany przedmiot.
+ * @param przedmiot	przedmiot, którego dotyczy pytanie
+ * @param gracz		gracz, ktorego dot. pytanie
+ * @return		true, jeśli przedmiot jest dozwolony, false w p.p.
+ */
 bool czyDozwolony(Przedmiot* przedmiot, Gracz* gracz)
 {
-	if(przedmiot->getCzyPo5Lvlu() && gracz->getPoziom() <= POZIOM_GRANICZNY)
+	if(przedmiot->getCzyMocny() && gracz->getPoziom() <= POZIOM_GRANICZNY)
 		return false;
 
 	return czyBrakOgraniczenia(przedmiot, gracz->getKlasa());
 }
 
+/**
+ * @brief czyBrakOgraniczenia	Stwierdza, czy klasa o podanym indeksie może używać podanego przedmiotu.
+ * @param przedmiot	przedmiot, którego dot. pytanie
+ * @param indeks	indeks klasy, której dot. pytanie (gra.h)
+ * @return		true, jeśli dana klasa może używać przedmiotu, false w p.p.
+ */
 bool czyBrakOgraniczenia(Przedmiot* przedmiot, int indeks)
 {
 	int ograniczenie = przedmiot->getOgraniczenia();
@@ -35,6 +58,12 @@ bool czyBrakOgraniczenia(Przedmiot* przedmiot, int indeks)
 	return true;
 }
 
+/**
+ * @brief dzialanie	Dodaje + albo - przed opisem działania, jeżeli opis jest niezerowy
+ * @param bonus
+ * @param dzialanie
+ * @return		Opis działania, jeżeli bonus jest niezerowy, napis pusty w p.p.``
+ */
 QString dzialanie(quint8 bonus, QString dzialanie)
 {
 	QString wynik;
@@ -48,6 +77,12 @@ QString dzialanie(quint8 bonus, QString dzialanie)
 	return wynik;
 }
 
+/**
+ * @brief czyZalozony	Stierdza, czy dany przedmiot jest już założony.
+ * @param rzecz
+ * @param gracz
+ * @return		true jeśli założony, false w p.p.
+ */
 bool czyZalozony(Przedmiot* rzecz, Gracz* gracz)
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
@@ -55,13 +90,19 @@ bool czyZalozony(Przedmiot* rzecz, Gracz* gracz)
 	return (ekw->getGlowa() == rzecz || ekw->getTuluw() == rzecz || ekw->getLewaReka() == rzecz || ekw->getPrawaReka() == rzecz || ekw->getZalozoneArtefakty()->contains(rzecz));
 }
 
+/**
+ * @brief wygenerujOpis		Generuje opis dla danego przedmiotu.
+ * @param rzecz
+ * @param gracz		Gracz, który miałby dany przedmiot nosić (do stwierdzenia czy może)
+ * @param miejsce	QTextBrowser którego tekst ma być podmieniony na wygenerowany opis.
+ */
 void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 {
 	miejsce->clear();
 
 	QString zalozony = czyZalozony(rzecz, gracz) ? "Tak" : "Nie";
 	QString dozwolony = czyDozwolony(rzecz, gracz) ? "Tak" : "Nie";
-	QString dozwolonyOd = rzecz->getCzyPo5Lvlu() ? QString::number(POZIOM_GRANICZNY) : "1";
+	QString dozwolonyOd = rzecz->getCzyMocny() ? QString::number(POZIOM_GRANICZNY) : "1";
 	QString mozliweKlasy;
 	for(int i = 0; i < LICZBA_KLAS; ++i)
 		if(czyBrakOgraniczenia(rzecz, i))
@@ -98,6 +139,11 @@ void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 	miejsce->insertPlainText(opis);
 }
 
+/**
+ * @brief zalozPrzedmiot	W miarę możliwości zakłada dany przedmiot na gracza
+ * @param rzecz		przedmiot do założenia
+ * @param gracz		gracz, który zakłada przedmiot
+ */
 void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
@@ -130,12 +176,18 @@ void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 		ekw->setGlowa(rzecz);
 		break;
 	case artefakt:
-		ekw->getZalozoneArtefakty()->push_back(rzecz);
+		if(ekw->getZalozoneArtefakty()->size() < LIMIT_ARTEFAKTOW)
+			ekw->getZalozoneArtefakty()->push_back(rzecz);
 	}
 
 	aktywujBonusy(rzecz, gracz);
 }
 
+/**
+ * @brief zdejmijPrzedmiot	W miarę możliwości zdejmuje dany przedmiot z gracza.
+ * @param rzecz		Przedmiot do zdjęcia
+ * @param gracz		gracz, który zdjejmuje przedmiot
+ */
 void zdejmijPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 {
 	if(!czyZalozony(rzecz, gracz) || rzecz == NULL)

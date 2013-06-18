@@ -1,17 +1,60 @@
-//liczba_porządkowa; nazwa; nazwa_zdjęcia; opis; atak; obrona; HP; ID_nagrody; percepcja
+﻿//PRZECIWNICY
 
-//atak- to randomowa liczba z domkniętego przedzia?u a,b
+//- plik tekstowy:
+//Spis przeciwników w pliku w postaci: 
+//liczba_porządkowa ;nazwa; nazwa_zdjęcia; atak; obrona; HP;nagroda(indeks);percepcja
+//atak- to randomowa liczba z domknietego przedzialu a,b
+
+
 $1
-1;Goblin zwiadowca;goblin1.png;Zwiadowca niedużej grupy goblinów ukrywającej się gdzieś w pobliskim lesie.;8,12;5;10;1;1
+1;Goblin zwiadowca;goblin1.png;8,13;16;10;6;3
+2;Bagienna osa;bagosa.png;6,9;15;10;3;6
+3;Chmara nietoperzy;chmniet.png;9,12;13;15;2;4
+4;Diablik;diablik.png;7,10;15;10;7;2
+5;Diger;diger.png;11,14;17;12;23;7
+6;Gigantyczna mrówka;gigmr.png;8,13;16;9;4;3
+7;Gremliny;greml.png;6,11;16;12;14;6
+8;Imp;imp.png;6,9;14;8;1;2
+9;Krwawy kruk;kruk.png;9,14;18;10;15;6
+10;Leśna wróżka;wroz.png;7,10;13;11;3;3
+11;Lew skalisty;lewsk.png;10,13;17;13;17;5
+12;Mglisty rogacz;rogacz.png;9,12;16;8;20;3
+13;Młoda pantera;pant.png;7,12;15;12;7;7
+14;Myszołak;mysz.png;7,10;14;8;3;4
+15;Olbrzymi żuk;zuk.png;6,11;17;10;18;1
+16;Pajęczak;pajecz.png;10,13;16;13;17;4
+17;Płaziniec;plaz.png;6,9;16;15;28;1
+18;Przerośnięta żaba;zaba.png;9,12;15;9;7;5
+19;Rusałka;rus.png;7,10;13;8;3;3
+20;Saren;saren.png;7,12;16;11;26;7
+21;Szkielet strzelec;szkstrz.png;6,9;14;10;10;3
+22;Uzbrojony goblin;uzbgob.png;11,14;17;12;8;5
+23;Slergh;slergh.png;8,13;15;6;9;3
+24;Smocza ważka;smowaz.png;6,9;14;9;4;2
+25;Tęczowa wróżka;teczwr.png;7,10;13;12;3;5
+26;Wilk równinny;wilkrow.png;8,13;16;11;13;4
+27;Włochaty chochlik;wloch.png;6,9;13;7;3;2
+28;Wygłodniałe ghule;wyggh.png;9,14;18;13;29;2
+29;Żądlik;zadl.png;8,11;15;12;4;4
+30;Żmija trawiasta;zmija.png;7,10;15;10;1;6
 
 $2
-2;Szkielet niszczyciel;szkiel3.jpg;Mocna jednostka bojowa nieumarłych, zaprawiona w boju.;10,15;30;22;3;3
+31;Beholder;behol.png;13,16;26;16;41;5
+32;Cerber;cerb.png;12,17;25;15;43;4
+33;Drzewiec;drzew.png;15,20;30;17;57;6
 
 $3
-3;Smok Spiro;smok5.jpg;Jeden z pięciu potężnych smoków i najtrudniejszych przeciwników w całej krainie.;40,46;48;30;2;10
+34;Szkielet niszczyciel;szkiel3.png;20,25;30;22;68;5
+35;Gryf;gryf.png;20,25;35;20;59;6
+36;Harpia;harp.png;17,22;32;18;73;4
 
 $4
-100;Smok Spiro;smok5.jpg;Jeden z pięciu potężnych smoków i najtrudniejszych przeciwników w całej krainie.;40,46;48;30;2;10
+37;Nieumarły bohater;nieumboh.png;19,24;39;26;80;8
+38;Piekielny Behemot;piekbeh.png;22,29;42;27;92;9
+39;Terren;terren.png;24,31;44;28;95;10
+
 
 $5
-99;Smok Spiro;smok5.jpg;Jeden z pięciu potężnych smoków i najtrudniejszych przeciwników w całej krainie.;40,46;48;30;2;10
+40;Smok Spiro;smok5.png;40,46;48;30;99;10
+41;Smok Aceiro;smok4.png;41,48;46;30;110;7
+42;Arcylicz;arcyl.png;35,42;45;30;87;3

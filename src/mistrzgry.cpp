@@ -2,6 +2,8 @@
 
 MistrzGry::MistrzGry(CyklGry* cykl)
 {
+	qsrand( QDateTime::currentDateTime().toTime_t() );
+
 	this->cyklGry = cykl;
 
 	ParserPrzedmiotow parserPrzedmiotow(this);
@@ -72,7 +74,7 @@ MistrzGry::~MistrzGry()
  * @brief MistrzGry::ruszGracza Wykonuje wymagane operacje dla momentu, gdy rozpoczyna się tura kolejnego gracza
  * @param gracz aktualny gracz
  */
-void MistrzGry::ruszGracza(Gracz *gracz)
+void MistrzGry::ruszGracza(Gracz *gracz, int indeks)
 {
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
@@ -85,17 +87,24 @@ void MistrzGry::ruszGracza(Gracz *gracz)
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
 
 	oknoGracza->wyswietlGracza(aktualnyGracz);
-	panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
-	panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-	panelAkcji->wyswietl();
-
-	//TODO: jeśli to AI to zapytaj o decyzje
+	if(gracz->getCzyAI())
+	{
+		boty[indeks]->ustawAkcje(mozliweAkcje(aktualnyGracz));
+		boty[indeks]->ustawZadania(mozliweZadania(aktualnyGracz));
+		wybranoDzialanie(boty[indeks]->decyduj());
+	}
+	else
+	{
+		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
+		panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+		panelAkcji->wyswietl();
+	}
 }
 
 /**
- * @brief MistrzGry::mozliweAkcje Na podstawie aktualnej pozycji /sytuacji ustala możliwe akcje.
- * @param gracz aktualny gracz
- * @return lista QString zawierająca nazwy możliwych akcji
+ * @brief MistrzGry::mozliweAkcje	Zwraca listę możliwych do wykonania akcji zależnie od rodzaju pola na którym znajduje się gracz.
+ * @param gracz		Gracz, którego akcje mają być wyświetlone.
+ * @return		QList<Akcja> zawierająca możliwe akcje
  */
 QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 {
@@ -116,7 +125,7 @@ akcje.push_front(koniecTury);
 			akcje.push_back(tawerna);
 	}
 
-	if(zajmowanePole->getCzyPoleZPrzeciwnikiem())
+	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !gracz->getOstatnioWalczyl())
 	{
 		akcje.push_back(przeciwnikLatwy);
 		akcje.push_back(przeciwnikTrudny);
@@ -126,6 +135,11 @@ akcje.push_front(koniecTury);
 	return akcje;
 }
 
+/**
+ * @brief MistrzGry::mozliweZadania	Zwraca listę zadań możliwych do wykonania na polu, na którym znajduje się gracz.
+ * @param gracz		dane gracza, którego zadania mają być wyświetlone.
+ * @return		QList<Zadanie*> zawierające możliwe akcje
+ */
 QList<Zadanie *> MistrzGry::mozliweZadania(Gracz *gracz)
 {
 	QList<Zadanie*> zadania;
@@ -140,6 +154,12 @@ QList<Zadanie *> MistrzGry::mozliweZadania(Gracz *gracz)
 	return zadania;
 }
 
+/**
+ * @brief MistrzGry::polaczNagrody	Łączy 2 nagrody w jedną i daje do niej wskaźnik, należy zatroszczyć się						o jej własnoręczne usunięcie
+ * @param pierwsza	dane pierwszej nagrody
+ * @param druga		dane drugiej nagrody
+ * @return		zwraca wskaźnik do nowo utworzonej nagrody
+ */
 Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
 {
 	QList<int>* konkrety = new QList<int>();
@@ -159,13 +179,15 @@ Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
 }
 
 /**
- * @brief MistrzGry::wybranoAkcje Jeżeli ta metoda została wywołana, to grafika zgłasza kliknięcie na przycisk
- * @param nazwa nazwa akcji, która została wybrana (Tekst przycisku)
+ * @brief MistrzGry::wybranoAkcje	Jeżeli ta metoda została wywołana,
+ *					to grafika zgłasza kliknięcie na przycisk
+ * @param nazwa		opcja, która została wybrana
  */
 void MistrzGry::wykonajAkcje(Akcja opcja)
 {
 	switch ((Akcja)opcja) {
 	case koniecTury:
+		aktualnyGracz->setOstatnioWalczyl(false);
 		cyklGry->zakonczTure();
 		break;
 	case przeciwnikLatwy:
@@ -191,21 +213,29 @@ void MistrzGry::wykonajAkcje(Akcja opcja)
 	}
 }
 
-void MistrzGry::wykonajZadanie(int opcja)
+/**
+ * @brief MistrzGry::wykonajZadanie	Wykonuje zadanie o podanym id.
+ *					Działanie jest uzależnione od stopnia wykonania zadania.
+ *					Metoda zakłada, że zadanie o podany
+ * @param gracz		dane gracza, wykonującego zadanie
+ * @param id		id zadania
+ */
+void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 {
+	gracz->setOstatnioWalczyl(false);
 	bool sukces;
 	int indeks = 0;
-	while(aktualnyGracz->getKonkretneZadanie(indeks)->getId() != opcja)
+	while(gracz->getKonkretneZadanie(indeks)->getId() != id)
 		++indeks;
 
-	Zadanie* zadanie = aktualnyGracz->getKonkretneZadanie(indeks);
+	Zadanie* zadanie = gracz->getKonkretneZadanie(indeks);
 
 	switch (zadanie->getRodzaj()) {
 	case przynies:
 		if(!zadanie->getCzyPowrot() || zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
-			aktualnyGracz->getZadania()->removeAt(indeks);
+			przydzielNagrode(gracz, zadanie->getNagroda());
+			gracz->getZadania()->removeAt(indeks);
 		}
 		else
 		{
@@ -217,11 +247,10 @@ void MistrzGry::wykonajZadanie(int opcja)
 	case odnajdz:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
-			aktualnyGracz->getZadania()->removeAt(indeks);
+			przydzielNagrode(gracz, zadanie->getNagroda());
+			gracz->getZadania()->removeAt(indeks);
 			break;
 		}
-		qsrand( QDateTime::currentDateTime().toTime_t() );
 		sukces = qrand() % 100 < SZANSA_NA_ODNALEZIENIE;
 		QMessageBox::information(
 			cyklGry->getMainWindow(),
@@ -238,8 +267,8 @@ void MistrzGry::wykonajZadanie(int opcja)
 			}
 			else
 			{
-				przydzielNagrode(aktualnyGracz, zadanie->getNagroda());
-				aktualnyGracz->getZadania()->removeAt(indeks);
+				przydzielNagrode(gracz, zadanie->getNagroda());
+				gracz->getZadania()->removeAt(indeks);
 			}
 		}
 		cyklGry->zakonczTure();
@@ -251,6 +280,12 @@ void MistrzGry::wykonajZadanie(int opcja)
 	}
 }
 
+/**
+ * @brief MistrzGry::wybranoDzialanie		Metoda wywoływana z zewnątrz.
+ *						Sprawdza i obsługuje działanie gracza.
+ *						Zadanie: opcja < 0; Akcja: opcja >= 0
+ * @param opcja
+ */
 void MistrzGry::wybranoDzialanie(int opcja)
 {
 	if(plansza->czyTrwaAnimacja())
@@ -264,22 +299,32 @@ void MistrzGry::wybranoDzialanie(int opcja)
 	else
 	{
 		qDebug()<<"wybrano zadanie: " << zadania[opcja * -1]->getTytul();
-		wykonajZadanie(opcja * -1);
+		wykonajZadanie(aktualnyGracz, opcja * -1);
 	}
 }
 
 /**
- * @brief MistrzGry::wykonanoRuch	Funkcja wywoływana przez Planszę, żeby oznajmić, że gracz jest teraz w innym miejscu
+ * @brief MistrzGry::wykonanoRuch	Metoda wywoływana z zewnątrz.
+ *					Informuje, że gracz jest teraz w innym miejscu.
  */
 void MistrzGry::wykonanoRuch()
 {
+	aktualnyGracz->setOstatnioWalczyl(false);
 	panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
 	panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
 	panelAkcji->wyswietl();
 }
 
 /**
- * @brief MistrzGry::koniecWalki	Funkcja wywoływana przez klasę Walka po zakończeniu walki.
+ * @brief MistrzGry::poinformujPlansze	Informuje planszę o zmianie statystyk (przerysowanie osiągalnych pól)
+ */
+void MistrzGry::poinformujPlansze()
+{
+	plansza->uaktualnijOsiagalne();
+}
+
+/**
+ * @brief MistrzGry::koniecWalki	Metoda wywoływana z zewnątrz. Informuje o wyniku walki.
  * @param przeciwnik	przeciwnik, który brał udział w walce (żeby można było np. przydzielić nagrodę)
  * @param rezultat	enumerator opisany w gra.h reprezentujacy wynik walki
  */
@@ -287,7 +332,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 {
 	switch (rezultat) {
 	case przegrana:
-		cyklGry->wykreslGracza(aktualnyGracz);
+		cyklGry->wykreslAktualnego();
 		cyklGry->zakonczTure();
 		break;
 	case wygrana:
@@ -312,6 +357,12 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 	}
 }
 
+/**
+ * @brief MistrzGry::przydzielNagrode	Zmienia dane gracze stosownie do podanej nagrody.
+ *					Zmiana poziomu jest wykonywana w Oknie Nagrody.
+ * @param gracz		Gracz, któremu ma zostać przydzielona nagroda.
+ * @param nagroda	Nagroda, która ma zostać przydzielona.
+ */
 void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 {
 	QList<Przedmiot*> przydzielonePrzedmioty;
@@ -329,7 +380,6 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 
 	if(pula.size() > 0)
 	{
-		qsrand( QDateTime::currentDateTime().toTime_t() );
 		int los = qrand() % pula.size();
 
 		przydzielonePrzedmioty.push_back(przedmioty[pula[los]]);
@@ -356,7 +406,7 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 			else
 				gracz->getEkwipunek()->setDuzePoty(gracz->getEkwipunek()->getDuzePoty() + 1);
 		else
-		gracz->getEkwipunek()->getPlecak()->push_back(rzecz);
+			gracz->getEkwipunek()->getPlecak()->push_back(rzecz);
 
 	oknoGracza->uaktualnijInformacje();
 
@@ -365,9 +415,13 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 	oknoNagrody->rozpocznij();
 }
 
+/**
+ * @brief MistrzGry::losujPrzeciwnika Metoda losująca przeciwnika z zadanej grupy.
+ * @param grupa		indeks grupy, z której ma być losowany przeciwnik.
+ * @return		Wskaźnik na wylosowanego przeciwnika.
+ */
 Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 {
-	qsrand( QDateTime::currentDateTime().toTime_t() );
 
 	int los = qrand() % grupyPrzeciwnikow[grupa]->size();
 
@@ -375,8 +429,8 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 }
 
 /**
- * @brief MistrzGry::walka Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
- * @param opcja		jaka opcja walki (jaki przeciwnik) została wybrana
+ * @brief MistrzGry::walka	Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
+ * @param opcja		informacja jaka opcja walki (jaki przeciwnik) została wybrana
  */
 void MistrzGry::walka(Akcja opcja)
 {
@@ -394,15 +448,17 @@ void MistrzGry::walka(Akcja opcja)
 		przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
 	}
 
+	aktualnyGracz->setOstatnioWalczyl(true);
 	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
 	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
 	oknoWalki->rozpocznij();
 }
 
+/**
+ * @brief MistrzGry::idzDoTawerny	Metoda losująca zadania w tawernie i wyświetlająca Okno Tawerny
+ */
 void MistrzGry::idzDoTawerny()
 {
-	srand( QDateTime::currentDateTime().toTime_t() );
-
 	zadaniaWTawernie.clear();
 	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
 	{
@@ -420,10 +476,11 @@ void MistrzGry::idzDoTawerny()
 	oknoTawerny->show();
 }
 
+/**
+ * @brief MistrzGry::handelNaBazarze	Metoda losująca przedmioty na bazarze i wyświetlająca Okno Bazaru
+ */
 void MistrzGry::handelNaBazarze()
 {
-	srand( QDateTime::currentDateTime().toTime_t() );
-
 	towaryNaBazarze.clear();
 	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
 	{
@@ -442,10 +499,6 @@ void MistrzGry::handelNaBazarze()
 	oknoBazaru->show();
 }
 
-/**
- * @brief MistrzGry::setPlansza Ustawia planszę, żeb ypowiedzieć jej o ewentualnej zmianie punktów ruchu (wtedy plansza może chcieć podświetlić więcej)
- * @param plansza
- */
 void MistrzGry::setPlansza(Plansza *plansza)
 {
 	this->plansza = plansza;
@@ -456,20 +509,17 @@ Plansza *MistrzGry::getPlansza()
 	return plansza;
 }
 
-/**
- * @brief MistrzGry::setPanelAkcji Ustawia panel którego może prosić o wyświetlenie klikalnych akcji
- * @param panel
- */
 void MistrzGry::setPanelAkcji(PanelAkcji *panel)
 {
 	this->panelAkcji = panel;
 }
 
-/**
- * @brief MistrzGry::setOknoGracza Ustawia okno gracza którego może prosić o wyświetlenie informacji o dowolnym graczu
- * @param okno
- */
 void MistrzGry::setOknoGracza(OknoGracza *okno)
 {
 	this->oknoGracza = okno;
+}
+
+void MistrzGry::setBoty(QMap<int, SztucznaInteligencja *>)
+{
+	this->boty = boty;
 }

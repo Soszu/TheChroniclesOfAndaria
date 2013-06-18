@@ -51,6 +51,8 @@ public:
 	void setZloto(quint16 wartosc);
 	quint16 getDoswiadczenie();
 	void setDoswiadczenie(quint16 wartosc);
+	bool getOstatnioWalczyl();
+	void setOstatnioWalczyl(bool wartosc);
 
 
 private:
@@ -76,6 +78,7 @@ private:
 	quint8 punktyRuchu;
 	quint16 zloto;
 	quint16 doswiadczenie;
+	bool ostatnioWalczyl;
 	void przepiszStaty(statystyka konkret);
 
 };

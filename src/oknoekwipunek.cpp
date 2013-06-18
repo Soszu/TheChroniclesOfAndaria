@@ -71,6 +71,10 @@ void OknoEkwipunek::uzyjMalejMikstury()
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW)));
 }
 
+/**
+ * @brief OknoEkwipunek::wyswietlOpis	Wyświetla opis aktualnie zaznaczonego elementu na liscie posiadanych						przedmiotow
+ * @param element	dane elementu z listy przedmiotow.
+ */
 void OknoEkwipunek::wyswietlOpis(QModelIndex element)
 {
 	Przedmiot* rzecz = gracz->getEkwipunek()->getPlecak()->at(element.row());
@@ -91,6 +95,9 @@ void OknoEkwipunek::wyswietlOpis(QModelIndex element)
 	}
 }
 
+/**
+ * @brief OknoEkwipunek::zaloz		Zakłada lub zdejmuje aktualnie zaznaczony przedmiot.
+ */
 void OknoEkwipunek::zaloz()
 {
 	Przedmiot* rzecz = gracz->getEkwipunek()->getPlecak()->at(listaPrzedmiotow->currentRow());

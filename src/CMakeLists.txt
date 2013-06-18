@@ -1,10 +1,12 @@
 set (SOURCES
 	main.cpp
 	mainwindow.cpp
+	oknozasad.cpp
 	oknonowejgry.cpp
 	cyklgry.cpp
 	mistrzgry.cpp
 	plansza.cpp
+	sztucznainteligencja.cpp
 	parserukladu.cpp
 	parserprzeciwnikow.cpp
 	parserprzedmiotow.cpp
@@ -37,10 +39,12 @@ set (SOURCES
 set (HEADERS
 	gra.h
 	mainwindow.h
+	oknozasad.h
 	oknonowejgry.h
 	cyklgry.h
 	mistrzgry.h
 	plansza.h
+	sztucznainteligencja.h
 	parserukladu.h
 	parserprzeciwnikow.h
 	parserprzedmiotow.h

@@ -41,7 +41,7 @@ private:
 	bool czyAwans;
 	QList<QComboBox*> przydzieleniePunktow;//[LICZBA_PUNKTOW_NA_POZIOM];
 
-	void zwiekszAtrybut(int indeks);
+	void zwiekszAtrybut(atrybut indeks);
 	QString generujOpisNagrody();
 
 public slots:

@@ -35,7 +35,7 @@ private:
 		quint8 HPregen;
 		int ograniczenie;
 		bool czy1Reczna;
-		bool czyOd5Poziom;
+		bool czyMocny;
 		quint8 wartosc;
 		char kolorCzcionki;
 	};

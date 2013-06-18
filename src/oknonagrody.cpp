@@ -70,7 +70,11 @@ OknoNagrody::OknoNagrody(Gracz *gracz, Nagroda *nagroda, QList<Przedmiot *> prze
 	connect(listaPrzedmiotow, SIGNAL(clicked(QModelIndex)), this, SLOT(wyswietlOpis(QModelIndex)));
 }
 
-void OknoNagrody::zwiekszAtrybut(int indeks)
+/**
+ * @brief OknoNagrody::zwiekszAtrybut	Zwiększa odpowiedni atrybut w statystykach gracza.
+ * @param indeks	wartosc enumeratora atrybut (opisany w gra.h)
+ */
+void OknoNagrody::zwiekszAtrybut(atrybut indeks)
 {
 	switch (indeks) {
 	case Awrecz:
@@ -95,6 +99,10 @@ void OknoNagrody::zwiekszAtrybut(int indeks)
 	}
 }
 
+/**
+ * @brief OknoNagrody::generujOpisNagrody	Generuje opis nagrody, zapisanej w atrybucie prywatnym klasy
+ * @return	QString z opisem nagrody
+ */
 QString OknoNagrody::generujOpisNagrody()
 {
 	QString wynik;
@@ -121,6 +129,9 @@ QString OknoNagrody::generujOpisNagrody()
 	return wynik;
 }
 
+/**
+ * @brief OknoNagrody::rozpocznij	Ustala czy jednocześnie nastąpił awans oraz wyświetla okno.
+ */
 void OknoNagrody::rozpocznij()
 {
 	if(czyAwans)
@@ -131,17 +142,24 @@ void OknoNagrody::rozpocznij()
 	show();
 }
 
+/**
+ * @brief OknoNagrody::wyswietlOpis	Wyświetla opis zdobytego przedmiotu.
+ * @param element	aktualnie zaznaczony element
+ */
 void OknoNagrody::wyswietlOpis(QModelIndex element)
 {
 	Przedmiot* rzecz = przydzielonePrzedmioty[element.row()];
 	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 }
 
+/**
+ * @brief OknoNagrody::zakoncz	Powiększa wybrane atrybuty i kończy turę.
+ */
 void OknoNagrody::zakoncz()
 {
 	if(czyAwans)
 		for(int i = 0; i < LICZBA_PUNKTOW_NA_POZIOM; ++i)
-			zwiekszAtrybut(przydzieleniePunktow[i]->currentIndex());
+			zwiekszAtrybut((atrybut)przydzieleniePunktow[i]->currentIndex());
 	cykl->zakonczTure();
 	close();
 }

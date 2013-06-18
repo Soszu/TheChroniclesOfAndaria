@@ -5,6 +5,7 @@
 #include <QString>
 #include <QMap>
 #include "cyklgry.h"
+#include "sztucznainteligencja.h"
 #include "gracz.h"
 #include "przeciwnik.h"
 #include "nagroda.h"
@@ -45,17 +46,19 @@ class MistrzGry
 public:
 	MistrzGry(CyklGry *cykl);
 	~MistrzGry();
-	void ruszGracza(Gracz* gracz);
+	void ruszGracza(Gracz* gracz, int indeks);
 	void setPlansza(Plansza* plansza);
 	Plansza* getPlansza();
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
+	void setBoty(QMap<int, SztucznaInteligencja*>);
 	void wybranoDzialanie(int nazwa);
 	void wykonanoRuch();
+	void poinformujPlansze();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
 	void wykonajAkcje(Akcja opcja);
-	void wykonajZadanie(int opcja);
+	void wykonajZadanie(Gracz *gracz, int id);
 private:
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
@@ -69,6 +72,7 @@ private:
 	Plansza* plansza;
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;
+	QMap<int, SztucznaInteligencja*> boty;
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
 	void walka(Akcja opcja);

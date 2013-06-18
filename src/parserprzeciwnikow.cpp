@@ -73,13 +73,13 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 
 //-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
-		if(podzial.size() != 9)
+		if(podzial.size() != 8)
 		{
 			trescBledu = QString::fromUtf8( "Zła ilość pol. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
 
-		QStringList atak = podzial.at(4).split(",");
+		QStringList atak = podzial.at(3).split(",");
 		if (atak.size() != 2)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne dane dot. ataku w wierszu ") + QString::number(numerLinii);
@@ -89,7 +89,6 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 		informacje info;
 		info.nazwa = podzial.at(1);
 		info.nazwaObrazka = podzial.at(2);
-		info.opis = podzial.at(3);
 //-----------LICZBY CAŁKOWITE
 		bool okID;
 		bool okMin;
@@ -101,10 +100,10 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 		info.id = podzial.at(0).toInt(&okID);
 		info.atakMin = atak.at(0).toInt(&okMin);
 		info.atakMaks = atak.at(1).toInt(&okMaks);
-		info.obrona = podzial.at(5).toInt(&okObrona);
-		info.zdrowie = podzial.at(6).toInt(&okHP);
-		info.idNagrody = podzial.at(7).toInt(&okIDNagrody);
-		info.percepcja = podzial.at(8).toInt(&okPercepcja);
+		info.obrona = podzial.at(4).toInt(&okObrona);
+		info.zdrowie = podzial.at(5).toInt(&okHP);
+		info.idNagrody = podzial.at(6).toInt(&okIDNagrody);
+		info.percepcja = podzial.at(7).toInt(&okPercepcja);
 
 		if(!okID ||!okMin || !okMaks || !okObrona || !okHP || !okIDNagrody || !okPercepcja)
 		{
@@ -133,7 +132,7 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 			mistrzGry->grupyPrzeciwnikow.insert(aktualnaGrupa, poprzednia);
 		}
 		poprzednia->push_back(info.id);
-		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.opis, info.atakMin, info.atakMaks, info.obrona, info.percepcja, info.zdrowie, mistrzGry->nagrody[info.idNagrody]);
+		Przeciwnik* nowy = new Przeciwnik(info.nazwa, info.nazwaObrazka, info.atakMin, info.atakMaks, info.obrona, info.percepcja, info.zdrowie, mistrzGry->nagrody[info.idNagrody]);
 		mistrzGry->przeciwnicy.insert(info.id, nowy);
 
 		++numerLinii;

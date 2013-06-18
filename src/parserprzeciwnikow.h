@@ -25,7 +25,6 @@ private:
 		int id;
 		QString nazwa;
 		QString nazwaObrazka;
-		QString opis;
 		int atakMin;
 		int atakMaks;
 		int obrona;

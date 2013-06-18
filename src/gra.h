@@ -12,6 +12,8 @@ static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
 static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
 
+static const uint KOSTKA_GRACZA = 10;
+
 static const quint8 LICZBA_POTRZEBNYCH_REPUTACJI = 2; //ile reputacji trzeba wymaksować, żeby wygrać.
 static const quint8 MAKSYMALNY_POZIOM = 10;
 static const quint16 GRANICE_POZIOMOW[MAKSYMALNY_POZIOM] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
@@ -26,15 +28,16 @@ static const quint8 POCZATKOWE_ZLOTO = 3;
 static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 
-static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 4;
+static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 6;
 static const quint8 LICZBA_ZADAN_W_TAWERNIE = 3;
 static const quint8 MAKSYMALNA_LICZBA_ZADAN = 5;
 
+static const quint8 LIMIT_ARTEFAKTOW = 5;
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
-static const quint8 DZIALANIE_MALYCH_POTOW = 5; //nieco konfliktuje z danymi w pliku przeciwnicy
+static const quint8 DZIALANIE_MALYCH_POTOW = 4; //TODO: nieco konfliktuje z danymi w pliku przeciwnicy (trzeba dbać o jednolitość)
 static const quint8 CENA_MALEJ_MIKSTURY = 1;
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
-static const quint8 DZIALANIE_DUZYCH_POTOW = 20;
+static const quint8 DZIALANIE_DUZYCH_POTOW = 8;
 static const quint8 CENA_DUZEJ_MIKSTURY = 3;
 
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
@@ -62,7 +65,7 @@ static const QString IKONKA_DUZA_MIKSTURA_ZDROWIA = QString(":/ikonki/duza_mikst
 static const QString IKONKA_ZLOTO = QString(":/ikonki/zloto.png");
 static const QString IKONKA_REGENERACJA = QString(":/ikonki/regeneracja.png");
 
-static const QString PREFIX_PRZECIWNIKOW = QString(":/przeciwnicy/");
+static const QString PREFIX_PRZECIWNIKOW = QString("przeciwnicy/");
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
@@ -240,7 +243,6 @@ static const QString MOZLIWE_AWANSE[] = {
 	"Atak magiczny",
 	"Obrona",
 	"Percepcja",
-	"Zdrowie"
 };
 
 //modyfikatory służące do przesuwania pionków jeśli kilka stoi na tym samym polu
@@ -253,7 +255,7 @@ static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATORO
 	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
 static const int LICZBA_RODZAJOW_ZADAN = 3;
-static const int SZANSA_NA_ODNALEZIENIE = 66; // w procentach
+static const int SZANSA_NA_ODNALEZIENIE = 75; // w procentach
 enum RodzajZadania
 {
 	pokonaj = 1,

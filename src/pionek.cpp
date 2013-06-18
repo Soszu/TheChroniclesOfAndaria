@@ -1,4 +1,4 @@
-#include "pionek.h"
+﻿#include "pionek.h"
 
 Pionek::Pionek(QColor kolor, QPointF srodek, qreal promien)
 {

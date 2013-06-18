@@ -105,6 +105,10 @@ OknoGracza::OknoGracza(QFrame* rama)
 	layoutGlowny->addLayout(linijkaPrzyciskow);
 }
 
+/**
+ * @brief OknoGracza::wyswietlGracz	Wyświetla dane podanego gracza.
+ * @param gracz
+ */
 void OknoGracza::wyswietlGracza(Gracz *gracz)
 {
 	aktualnyGracz = gracz;
@@ -150,8 +154,12 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	qDebug() <<"Okno Gracza wyswietlilo dane: " <<gracz->getNazwa();
 }
 
+/**
+ * @brief OknoGracza::uaktualnijInformacje	Odświeża dane i powiadamia o zmianie
+ */
 void OknoGracza::uaktualnijInformacje()
 {
+	mistrz->poinformujPlansze();
 	wyswietlGracza(aktualnyGracz);
 }
 
@@ -174,6 +182,9 @@ QString OknoGracza::odmiana(int n)
 	return QString(" sztuk");
 }
 
+/**
+ * @brief OknoGracza::pokazEkwipunek Wywołuje Okno Ekwipunek
+ */
 void OknoGracza::pokazEkwipunek()
 {
 	oknoEkwipunek = new OknoEkwipunek(aktualnyGracz, this);
@@ -181,6 +192,9 @@ void OknoGracza::pokazEkwipunek()
 	oknoEkwipunek->show();
 }
 
+/**
+ * @brief OknoGracza::pokazZadania	Wywołuje Okno Zadania
+ */
 void OknoGracza::pokazZadania()
 {
 	oknoZadania = new OknoZadania(aktualnyGracz, mistrz->getPlansza());

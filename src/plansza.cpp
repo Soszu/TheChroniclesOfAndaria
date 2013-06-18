@@ -76,11 +76,19 @@ void Plansza::kliknietoHex(IDPola id)
 		qDebug() <<"nieosiągalny";
 }
 
+/**
+ * @brief Plansza::ustalOsiagalne	Ustala pola osiągalne dla podanego gracza.
+ *					Zapisuje wynik na prywatnej liście "osiągalne".
+ * @param gracz
+ */
 void Plansza::ustalOsiagalne(Gracz *gracz)
 {
 	QQueue<QPair<int, IDPola> >doPrzejrzenia;
 
 	poprzednie.clear();
+	osiagalne.clear();
+	if(graczWykonalRuch)
+		return;
 
 	doPrzejrzenia.push_back(qMakePair(0, gracz->getPozycja() ));
 
@@ -104,16 +112,25 @@ void Plansza::ustalOsiagalne(Gracz *gracz)
 	}
 
 	poprzednie.remove(IDToIndeks(gracz->getPozycja()));
-	osiagalne.clear();
 	QList<int> indeksyOsiagalnych = poprzednie.keys();
 	for (int i = 0; i < indeksyOsiagalnych.size(); ++i)
 		osiagalne.push_back(indeksToID(indeksyOsiagalnych[i]));
 }
 
 /**
- * @brief Plansza::pokazPole Pokazuje na życzenie pole spod podanego indeksu. (Z myślą o mistrzu gry, żeby mógł sprawdzać, na jakim polu stoi gracz)
- * @param pole Indeks pola do pokazania
- * @return Kopia pola z podanego indeksu
+ * @brief Plansza::uaktualnijOsiagalne	Metoda wywoływana z zewnątrz.
+ *					Uaktualnia i podświetla na nowo osiągalne pola.
+ */
+void Plansza::uaktualnijOsiagalne()
+{
+	ustalOsiagalne(aktualnyGracz);
+	obszarPlanszy->podswietl(pokazOsiagalne());
+}
+
+/**
+ * @brief Plansza::pokazPole	Pokazuje na życzenie pole spod podanego indeksu.
+ * @param pole		Indeks pola do pokazania
+ * @return Kopia	pola z podanego indeksu
  */
 Pole*	 Plansza::pokazPole(IDPola pole)
 {
@@ -121,19 +138,28 @@ Pole*	 Plansza::pokazPole(IDPola pole)
 }
 
 /**
- * @brief Plansza::czyTrwaAnimacja Podaje informację, czy ruch jest własnie animowany. Z myśą o mistrzu gry.
- * @return Jeśli ruch jest właśnie animowany, to zwraca true, w.p.p false.
+ * @brief Plansza::czyTrwaAnimacja	Podaje informację, czy ruch jest własnie animowany.
+ * @return	Jeśli ruch jest właśnie animowany, to zwraca true, w.p.p false.
  */
 bool Plansza::czyTrwaAnimacja()
 {
 	return obszarPlanszy->animacjaTrwa();
 }
 
+/**
+ * @brief Plansza::pokazOsiagalne	Pokazuje listę osiągalnych pól dla aktualnego gracza.
+ * @return	Zwraca kopię listy osiągalnych pól. (Żeby nie można jej było podmienić)
+ */
 QList<IDPola> Plansza::pokazOsiagalne()
 {
 	return osiagalne;
 }
 
+/**
+ * @brief Plansza::odtworzDroge		Odtwarza drogę od osiągalnego hexa do pozycji aktualnego gracza.
+ * @param pole
+ * @return
+ */
 QList<IDPola> Plansza::odtworzDroge(IDPola pole)
 {
 	QList<IDPola> droga;
@@ -151,8 +177,9 @@ QList<IDPola> Plansza::odtworzDroge(IDPola pole)
 }
 
 /**
- * @brief Plansza::spiszPozycje Spisuje pozycje graczy jako listę par <kolor, pozycja>. Zapamiętuje wynik w zmiennej pozycjeGraczy.
- * @return Zwraca adres do listy z wynikiem.
+ * @brief Plansza::spiszPozycje		Spisuje pozycje graczy jako listę par <kolor, pozycja>.
+ *					Zapamiętuje wynik w zmiennej pozycjeGraczy.
+ * @return	Zwraca adres do listy z wynikiem.
  */
 QList<QPair<QColor, IDPola> > *Plansza::spiszPozycje()
 {
@@ -165,30 +192,39 @@ QList<QPair<QColor, IDPola> > *Plansza::spiszPozycje()
 }
 
 /**
- * @brief Plansza::ruchAI Obsługuje decyzję AI o ruchu.
- * @param pole pole na które chce się ruszyć AI
+ * @brief Plansza::ruchAI	Obsługuje decyzję AI o ruchu.
+ * @param pole		pole na które chce się ruszyć AI
  */
 void Plansza::ruchAI(IDPola pole)
 {
 	kliknietoHex(pole);
 }
 
+/**
+ * @brief Plansza::pokazHex	Przekazuje obszarowi planszy żadanie pokazania hexa o danym id.
+ * @param id
+ */
 void Plansza::pokazHex(IDPola id)
 {
 	obszarPlanszy->pokazHex(IDToIndeks(id));
 }
 
+/**
+ * @brief Plansza::blokujRuch	Metoda wywoływana z zewnątrz. Blokuje możliwość ruchu aktualnemu graczowi.
+ */
 void Plansza::blokujRuch()
 {
 	graczWykonalRuch = true;
-	QList<IDPola> pustaLista;
-	obszarPlanszy->podswietl(pustaLista);
+
+	ustalOsiagalne(aktualnyGracz);
+	obszarPlanszy->podswietl(pokazOsiagalne());
 }
 
 /**
- * @brief Plansza::IdToIndeks Zamienia ID pola zapisane w 2 intach na indeks pola na liście pól czyli 1 int. Efekt uboczny zapisania ID jako 2 x int.
- * @param pole ID pola do zamiany
- * @return indeks pola na liście pól (numerowanie od 0)
+ * @brief Plansza::IdToIndeks	Zamienia ID pola zapisane w 2 intach na indeks pola na liście pól czyli 1 int.
+ *				Efekt uboczny zapisania ID jako 2 x int.
+ * @param pole		ID pola do zamiany
+ * @return		indeks pola na liście pól (numerowanie od 0)
  */
 int Plansza::IDToIndeks(IDPola pole)
 {
@@ -196,9 +232,9 @@ int Plansza::IDToIndeks(IDPola pole)
 }
 
 /**
- * @brief Plansza::indeksToID Zamienia indeks na struct IDPola.
- * @param indeks indeks do zamiany
- * @return
+ * @brief Plansza::indeksToID	Zamienia indeks na struct IDPola.
+ * @param indeks	indeks do zamiany
+ * @return		IDPola odpowiadające danemu indeksowi
  */
 IDPola Plansza::indeksToID(int indeks)
 {
@@ -272,4 +308,3 @@ QList<IDPola> Plansza::sasiedniePola(IDPola pole)
 
 	return wynik;
 }
-

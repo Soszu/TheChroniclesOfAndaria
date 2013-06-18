@@ -11,7 +11,7 @@ OknoZadania::OknoZadania(Gracz *gracz, Plansza *plansza)
 	listaZadan = new QListWidget();
 
 	for(int i = 0; i < gracz->getZadania()->size(); ++i)
-		listaZadan->addItem(gracz->getZadania()->at(i)->getTytul());
+		listaZadan->addItem(gracz->getKonkretneZadanie(i)->getTytul());
 
 	layoutGorny = new QHBoxLayout();
 	layoutGorny->addWidget(listaZadan);
@@ -36,15 +36,22 @@ OknoZadania::OknoZadania(Gracz *gracz, Plansza *plansza)
 	connect(przyciskPokazCel, SIGNAL(clicked()), this, SLOT(pokaz()));
 }
 
+/**
+ * @brief OknoZadania::wyswietlOpis	Wyświetla opis podjętego zadania.
+ * @param element	dane zaznaczonego elementu
+ */
 void OknoZadania::wyswietlOpis(QModelIndex element)
 {
 	przyciskPokazCel->setEnabled(true);
-	Zadanie* zadanie = gracz->getZadania()->at(element.row());
+	Zadanie* zadanie = gracz->getKonkretneZadanie(element.row());
 	wygenerujOpis(zadanie, opisZadania);
 }
 
+/**
+ * @brief OknoZadania::pokaz	Wysyła planszy żądanie podświetlenia konkretnego hexa.
+ */
 void OknoZadania::pokaz()
 {
-	Zadanie* zadanie = gracz->getZadania()->at(listaZadan->currentRow());
+	Zadanie* zadanie = gracz->getKonkretneZadanie(listaZadan->currentRow());
 	plansza->pokazHex(zadanie->getPoleCelu());
 }

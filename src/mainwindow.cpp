@@ -2,6 +2,7 @@
 #include <QtCore>
 #include <QtGui>
 
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 	widget = new QWidget();
@@ -20,16 +21,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	panelAkcji = new PanelAkcji(panel);
 
 	oknoGracza = new OknoGracza(ramka);
-	obszarPlanszy = new ObszarPlanszy();
+	obszarPlanszy = new ObszarPlanszy(this);
 	graphicsView->setScene(obszarPlanszy);
 }
 
-//MainWindow::~MainWindow()
-//{
-//	delete oknoGracza;
-//	delete obszarPlanszy;
-////BUG:	delete panelAkcji; nie zwalnia się, jeżeli mainwindow nie było wyświetlone(i jest zakomentowane), powoduje błędy, jeśli MW jest wyświetlone (i jest odkomentowane)
-//}
+MainWindow::~MainWindow()
+{
+	delete oknoGracza;
+	delete obszarPlanszy;
+//BUG:	delete panelAkcji; nie zwalnia się, jeżeli mainwindow nie było wyświetlone(i jest zakomentowane), powoduje błędy, jeśli MW jest wyświetlone (i jest odkomentowane)
+}
 
 PanelAkcji *MainWindow::getPanelAkcji()
 {
@@ -54,6 +55,13 @@ void MainWindow::setMistrzGry(MistrzGry *mistrz)
 {
 	panelAkcji->setMistrzGry(mistrz);
 	oknoGracza->setMistrzGry(mistrz);
+}
+
+void MainWindow::wyswietlZasady()
+{
+	oknoZasad = new OknoZasad();
+	oknoZasad->setAttribute(Qt::WA_DeleteOnClose);
+	oknoZasad->show();
 }
 
 /**

@@ -5,6 +5,6 @@
 //2 - Idź gdzieś / Zbierz kilka przedmiotów
 //3 - Odnajdź kogoś i rzuć kością czy to tu
 
-1;2;Trujące lekarstwo;Młody chłopak z wioski został ukąszony przez żądlika. Jedynym lekarstwem jest mikstura z dodatkiem jadu. Mama chłopca prosi cię o zebranie 2 żądeł. Żądliki znajdziesz nieopodal lasu na polu 30,17.;1;b;30,17;1;
-2;3;Pastuszkowie, przybywajcie;Chłop prosi cię, abyś odszukał zagubioną owce, bo nie chce zostawiać 99 innych. Ostatnio widział ją na polu 21,.;1;n;21,2;2;
-3;1;Bunt;Kilku żołnierzy zbuntowało się przeciw swojemu dowódcy. Pokonaj przywódcę buntu na polu 11,15.;0;c;11,15;3;1
+1;2;Trujące lekarstwo;Młody chłopak z wioski został ukąszony przez żądlika. Jedynym lekarstwem jest mikstura z dodatkiem jadu. Mama chłopca prosi cię o zebranie 2 żądeł.;1;b;30,17;1;
+2;3;Pastuszkowie, przybywajcie;Chłop prosi cię, abyś odszukał zagubioną owce, bo nie chce zostawiać 99 innych.;1;n;21,2;2;
+3;1;Bunt;Kilku żołnierzy zbuntowało się przeciw swojemu dowódcy. Pokonaj przywódcę buntu;0;c;11,15;3;1

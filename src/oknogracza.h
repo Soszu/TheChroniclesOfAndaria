@@ -13,6 +13,7 @@
 
 class OknoEkwipunek;
 class OknoZadania;
+class MistrzGry;
 
 class OknoGracza : public QObject
 {

@@ -17,7 +17,7 @@ public:
 		  quint8 bonusHPregen,
 		  int ograniczenia,
 		  quint8 wartosc,
-		  bool czyPo5Lvlu,
+		  bool czyMocny,
 		  QColor kolorCzcionki);
 
 	QString getNazwa();
@@ -31,7 +31,7 @@ public:
 	quint8 getBonusHPregen();
 	int getOgraniczenia();
 	quint8 getWartosc();
-	bool getCzyPo5Lvlu(); //TODO: rename
+	bool getCzyMocny();
 	QColor getKolorCzcionki();
 
 private:
@@ -46,7 +46,7 @@ private:
 	quint8 bonusHPregen;
 	int ograniczenia;
 	quint8 wartosc;
-	bool czyPo5Lvlu;
+	bool czyMocny;
 	QColor kolorCzcionki;
 
 };
