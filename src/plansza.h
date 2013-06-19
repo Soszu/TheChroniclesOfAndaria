@@ -34,6 +34,7 @@ public:
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
 	void uaktualnijOsiagalne();
+	void wykreslGracza(int indeks);
 	Pole *pokazPole(IDPola pole);
 	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();

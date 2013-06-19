@@ -127,6 +127,11 @@ void Plansza::uaktualnijOsiagalne()
 	obszarPlanszy->podswietl(pokazOsiagalne());
 }
 
+void Plansza::wykreslGracza(int indeks)
+{
+	obszarPlanszy->usunPionek(indeks);
+}
+
 /**
  * @brief Plansza::pokazPole	Pokazuje na życzenie pole spod podanego indeksu.
  * @param pole		Indeks pola do pokazania

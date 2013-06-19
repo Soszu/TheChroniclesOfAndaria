@@ -229,13 +229,14 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 		++indeks;
 
 	Zadanie* zadanie = gracz->getKonkretneZadanie(indeks);
-
+	qDebug() <<zadanie->getCzyWykonanoCzesc();
+	qDebug() <<zadanie->getCzyPowrot();
 	switch (zadanie->getRodzaj()) {
 	case przynies:
-		if(!zadanie->getCzyPowrot() || zadanie->getCzyWykonanoCzesc())
+		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda());
-			gracz->getZadania()->removeAt(indeks);
+			 przydzielNagrode(gracz, zadanie->getNagroda());
+			gracz->usunKonkretneZadanie(id);
 		}
 		else
 		{
@@ -248,7 +249,7 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 		if(zadanie->getCzyWykonanoCzesc())
 		{
 			przydzielNagrode(gracz, zadanie->getNagroda());
-			gracz->getZadania()->removeAt(indeks);
+			gracz->usunKonkretneZadanie(id);
 			break;
 		}
 		sukces = qrand() % 100 < SZANSA_NA_ODNALEZIENIE;
@@ -268,14 +269,22 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 			else
 			{
 				przydzielNagrode(gracz, zadanie->getNagroda());
-				gracz->getZadania()->removeAt(indeks);
+				gracz->usunKonkretneZadanie(id);
 			}
 		}
 		cyklGry->zakonczTure();
 		break;
 	case pokonaj:
-		realizowaneZadanie = zadanie;
-		walka(przeciwnikZZadania);
+		if(zadanie->getCzyWykonanoCzesc())
+		{
+			przydzielNagrode(gracz, zadanie->getNagroda());
+			gracz->usunKonkretneZadanie(id);
+		}
+		else
+		{
+			realizowaneZadanie = zadanie;
+			walka(przeciwnikZZadania);
+		}
 		break;
 	}
 }
@@ -341,12 +350,20 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 			realizowaneZadanie->getPrzeciwnicy()->removeFirst();
 			if(realizowaneZadanie->getPrzeciwnicy()->isEmpty());
 			{
-				Nagroda* nagroda = polaczNagrody(przeciwnik->getNagroda(), realizowaneZadanie->getNagroda());
-				przydzielNagrode(aktualnyGracz, nagroda);
-				delete nagroda;
-				aktualnyGracz->usunZadanie(realizowaneZadanie->getId());
-				realizowaneZadanie = NULL;
-				break;
+				if(realizowaneZadanie->getCzyPowrot())
+				{
+					realizowaneZadanie->setCzyWykonanoCzesc(true);
+					realizowaneZadanie->setPoleCelu(realizowaneZadanie->getZleceniodawca());
+				}
+				else
+				{
+					Nagroda* nagroda = polaczNagrody(przeciwnik->getNagroda(), realizowaneZadanie->getNagroda());
+					przydzielNagrode(aktualnyGracz, nagroda);
+					delete nagroda;
+					aktualnyGracz->usunKonkretneZadanie(realizowaneZadanie->getId());
+					realizowaneZadanie = NULL;
+					break;
+				}
 			}
 		}
 		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
@@ -463,7 +480,6 @@ void MistrzGry::idzDoTawerny()
 	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
 	{
 		int los = qrand() % zadania.size() + 1;
-		//FIXME: dodanie losowych nie bazujących na ciągłości przedziału + bez powtórzeń
 		QMap<int, Zadanie*>::iterator iter = zadania.begin();
 		for (int i = 0; i < los; ++i)
 			++iter;
@@ -485,7 +501,6 @@ void MistrzGry::handelNaBazarze()
 	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
 	{
 		int los = qrand() % przedmioty.size();
-		//FIXME: dodanie losowych nie bazujących na ciągłości przedziału + bez powtórzeń
 
 		QMap<int, Przedmiot*>::iterator iter = przedmioty.begin();
 		for(int i = 0; i < los; ++i)

@@ -35,7 +35,7 @@ void dezaktywujBonusy(Przedmiot* przedmiot, Gracz* gracz)
  */
 bool czyDozwolony(Przedmiot* przedmiot, Gracz* gracz)
 {
-	if(przedmiot->getCzyMocny() && gracz->getPoziom() <= POZIOM_GRANICZNY)
+	if(przedmiot->getCzyMocny() && gracz->getPoziom() < POZIOM_GRANICZNY)
 		return false;
 
 	return czyBrakOgraniczenia(przedmiot, gracz->getKlasa());
@@ -103,6 +103,7 @@ void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 	QString zalozony = czyZalozony(rzecz, gracz) ? "Tak" : "Nie";
 	QString dozwolony = czyDozwolony(rzecz, gracz) ? "Tak" : "Nie";
 	QString dozwolonyOd = rzecz->getCzyMocny() ? QString::number(POZIOM_GRANICZNY) : "1";
+	QString liczbaArtefaktow = QString::number(gracz->getEkwipunek()->getZalozoneArtefakty()->size());
 	QString mozliweKlasy;
 	for(int i = 0; i < LICZBA_KLAS; ++i)
 		if(czyBrakOgraniczenia(rzecz, i))
@@ -118,9 +119,11 @@ void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 
 	QString opis;
 
-	opis += QString("typ: ") + RODZAJE_PRZEDMIOTOW[rzecz->getRodzaj()] + QString("\n\n");
+	opis += QString("typ: ") + RODZAJE_PRZEDMIOTOW[rzecz->getRodzaj()] + QString("\n");
+	if(rzecz->getRodzaj() == artefakt)
+		opis += QString::fromUtf8("Założonych artefaktów: (") + liczbaArtefaktow + QString("/") + QString::number(LIMIT_ARTEFAKTOW) + QString(")\n");
 
-	opis += QString::fromUtf8("dozwolony od poziomu: ") + dozwolonyOd +  QString("\n");
+	opis += QString::fromUtf8("\ndozwolony od poziomu: ") + dozwolonyOd +  QString("\n");
 	opis += QString::fromUtf8("klasy zdolne używać przedmiotu: ") + mozliweKlasy +  QString("\n");
 	opis += QString::fromUtf8("czy dozwolony: ") + dozwolony +  QString("\n");
 	opis += QString::fromUtf8("czy założony: ") + zalozony +  QString("\n\n");

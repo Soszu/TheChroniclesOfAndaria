@@ -1,14 +1,8 @@
-Warto by na koniec przejrzeć tyle kodu ile się da i ponaprawiać
-
-problem z wybieraniem przeciwników.
 zamykanie /focus dla okien.
 memleak, gdy wystąpił bląd przy wczytywaniu danych.
 Sprawdzanie czy jest wystarcza ilość zadań i przeciwników
 wygląd mojego paska,
 odpowiednie granice hexa.
 
-losowanie zadań, przeciwników i przedmiotów.
-naprawić zamykanie.
-napisać zasady
 zrobić zapisywanie
 napisać bota

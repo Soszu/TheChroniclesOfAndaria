@@ -32,6 +32,7 @@ public:
 
 	void kliknietoHex(IDPola id);
 	void wykonajRuch(QList<IDPola> droga, int indeks);
+	void usunPionek(int indeks);
 	void podswietl(QList<IDPola> lista);
 	void pokazHex(int indeks);
 	bool animacjaTrwa();

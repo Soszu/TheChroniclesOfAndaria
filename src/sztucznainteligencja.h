@@ -14,8 +14,6 @@ public:
 	int decyduj();
 private:
 	Gracz* gracz;
-	QList<Akcja> akcje;
-	QList<Zadanie*> zadania;
 };
 
 #endif // SZTUCZNAINTELIGENCJA_H

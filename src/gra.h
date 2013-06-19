@@ -135,22 +135,22 @@ static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {
 	{{15,2,10,3,1,10,1},	//Człowiek wojownik:
 	{13,3,5,9,1,8,7},	//Człowiek łowca
 	{11,3,2,1,11,7,4},	//Człowiek mag
-	{13,4,2,2,7,10,3}},	//Człowiek druid:
+	{13,5,2,2,8,10,3}},	//Człowiek druid:
 
 	{{15,2,10,5,1,10,1},	//Elf wojownik
 	{13,3,5,9,1,8,7},	//Elf łowca
 	{11,3,2,1,11,7,4},	//Elf mag
-	{13,4,2,2,7,9,3}},	//Elf druid
+	{13,5,2,2,8,9,3}},	//Elf druid
 
 	{{15,2,10,5,1,10,1},	//Krasnolud wojownik
 	{13,3,5,9,1,8,7},	//Krasnolud łowca
 	{11,3,2,1,11,7,4},	//Krasnolud mag
-	{13,4,2,2,7,9,3}},	//Krasnolud druid
+	{13,5,2,2,8,9,3}},	//Krasnolud druid
 
 	{{15,2,10,5,1,10,1},	//Niziołek wojownik
 	{13,3,5,9,1,8,7},	//Niziołek łowca
 	{11,3,2,1,11,7,4},	//Niziołek mag
-	{13,4,2,2,7,9,3}}	//Niziołek druid
+	{13,5,2,2,8,9,3}}	//Niziołek druid
 };
 
 static const quint8 LICZBA_RODZAJOW_PRZEDMIOTOW = 7;

@@ -92,10 +92,6 @@ void OknoNagrody::zwiekszAtrybut(atrybut indeks)
 	case percepcja:
 		gracz->setPercepcja(gracz->getPercepcja() + 1);
 		break;
-	case zdrowie:
-		gracz->setZdrowieMaks(gracz->getZdrowieMaks() + BONUS_DO_HP_PRZY_AWANSIE);
-		gracz->setZdrowieAktualne(gracz->getZdrowieAktualne() + BONUS_DO_HP_PRZY_AWANSIE);
-		break;
 	}
 }
 
@@ -158,8 +154,12 @@ void OknoNagrody::wyswietlOpis(QModelIndex element)
 void OknoNagrody::zakoncz()
 {
 	if(czyAwans)
+	{
 		for(int i = 0; i < LICZBA_PUNKTOW_NA_POZIOM; ++i)
 			zwiekszAtrybut((atrybut)przydzieleniePunktow[i]->currentIndex());
+		gracz->setZdrowieMaks(gracz->getZdrowieMaks() + BONUS_DO_HP_PRZY_AWANSIE);
+		gracz->setZdrowieAktualne(gracz->getZdrowieAktualne() + BONUS_DO_HP_PRZY_AWANSIE);
+	}
 	cykl->zakonczTure();
 	close();
 }

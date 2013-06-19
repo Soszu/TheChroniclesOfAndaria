@@ -88,6 +88,12 @@ void ObszarPlanszy::wykonajRuch(QList<IDPola> droga, int indeks)
 	kolejnePrzejscie();
 }
 
+void ObszarPlanszy::usunPionek(int indeks)
+{
+	pionki[indeks]->setVisible(false);
+//	update();
+}
+
 /**
  * @brief ObszarPlanszy::podswietl Podświetla zadane pola.
  * @param lista

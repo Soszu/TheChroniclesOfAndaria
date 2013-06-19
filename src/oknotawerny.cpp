@@ -93,7 +93,11 @@ void OknoTawerny::wyswietlOpisDlaMozliwych(QModelIndex element)
 
 	przyciskPokazCel->setEnabled(true);
 	bool czyMaks = gracz->getZadania()->size() == MAKSYMALNA_LICZBA_ZADAN;
-	przyciskPrzyjmij->setEnabled(!czyMaks);
+	bool czyJuzJest;
+	for(int i = 0; i < gracz->getZadania()->size(); ++i)
+		if(zadanie->getId() == gracz->getKonkretneZadanie(i)->getId())
+			czyJuzJest = true;
+	przyciskPrzyjmij->setEnabled(!czyMaks && !czyJuzJest);
 	przyciskPrzyjmij->setText(QString::fromUtf8("Przyjmij"));
 
 	wygenerujOpis(zadanie, opisZadania);
@@ -108,12 +112,12 @@ void OknoTawerny::przyjmij()
 	{
 		int indeks = listaMozliwychZadan->currentRow();
 
-		gracz->getZadania()->push_back(*(dostepneZadania->at(indeks)));
+		gracz->getZadania()->push_back(new Zadanie(dostepneZadania->at(indeks)));
 		gracz->getKonkretneZadanie(gracz->getZadania()->size() - 1)->setZeceniodawca(gracz->getPozycja());
 		dostepneZadania->removeAt(indeks);
 	}
 	else
-		gracz->getZadania()->removeAt(listaWlasnychZadan->currentRow());
+		gracz->usunKonkretneZadanie(listaWlasnychZadan->currentRow());
 	wypelnijListy();
 	przyciskPrzyjmij->setEnabled(false);
 	przyciskPokazCel->setEnabled(false);

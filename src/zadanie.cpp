@@ -20,7 +20,27 @@ Zadanie::Zadanie(int id,
 	this->nagroda = nagroda;
 	this->przeciwnicy = przeciwnicy;
 
-	czyWykonanoCzesc = false;
+	czyWykonanoCzesc = czyPowrot ? false : true;
+}
+
+Zadanie::Zadanie(Zadanie *zad)
+{
+	this->id = zad->id;
+	this->rodzaj = zad->rodzaj;
+	this->tytul = zad->tytul;
+	this->tresc = zad->tresc;
+	this->czyPowrot = zad->czyPowrot;
+	this->poleCelu = zad->poleCelu;
+	this->kolorCzcionki = zad->kolorCzcionki;
+	this->nagroda = zad->nagroda;
+
+	przeciwnicy = new QList<Przeciwnik*>;
+	for(int i = 0; i < zad->przeciwnicy->size(); ++i)
+		przeciwnicy->push_back(zad->przeciwnicy->at(i));
+
+	zleceniodawca = zad->zleceniodawca;
+
+	czyWykonanoCzesc = czyPowrot ? false : true;
 }
 
 Zadanie::~Zadanie()
@@ -91,6 +111,7 @@ IDPola Zadanie::getZleceniodawca()
 void Zadanie::setCzyWykonanoCzesc(bool wartosc)
 {
 	czyWykonanoCzesc = wartosc;
+	qDebug("============================");
 }
 
 bool Zadanie::getCzyWykonanoCzesc()

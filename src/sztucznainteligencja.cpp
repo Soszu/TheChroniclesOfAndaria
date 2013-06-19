@@ -7,12 +7,10 @@ SztucznaInteligencja::SztucznaInteligencja(Gracz *gracz)
 
 void SztucznaInteligencja::ustawAkcje(QList<Akcja> akcje)
 {
-	this->akcje = akcje;
 }
 
 void SztucznaInteligencja::ustawZadania(QList<Zadanie *> zadania)
 {
-	this->zadania = zadania;
 }
 
 int SztucznaInteligencja::decyduj()

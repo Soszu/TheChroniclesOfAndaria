@@ -95,7 +95,12 @@ void CyklGry::wykreslAktualnego()
 			gracze.first()->getNazwa() + QString::fromUtf8(" jest teraz jedynym żywym graczem i tym samym zwycięża.") );
 		mainWindow->close();
 	}
-
+	else
+		plansza->wykreslGracza(indeksAktualnego);
+	if(indeksAktualnego == 0)
+		indeksAktualnego = gracze.size() - 1;
+	else
+		--indeksAktualnego;
 }
 
 /**

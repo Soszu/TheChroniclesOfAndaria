@@ -17,6 +17,7 @@ public:
 		char kolorCzcionki,
 		Nagroda* nagroda,
 		QList<Przeciwnik*>* przeciwnicy);
+	Zadanie(Zadanie* zad);
 	~Zadanie();
 
 	int getId();

@@ -170,12 +170,20 @@ void OknoBazaru::kupDuzaMiksture()
 void OknoBazaru::zaloz()
 {
 	QList<Przedmiot*>* plecak = gracz->getEkwipunek()->getPlecak();
+	Przedmiot* rzecz = plecak->at(listaPrzedmiotow->currentRow());
 
 	if(przyciskZaloz->text() == "Zdejmij")
-		zdejmijPrzedmiot(plecak->at(listaPrzedmiotow->currentRow()), gracz);
+		zdejmijPrzedmiot(rzecz, gracz);
 	else
-		zalozPrzedmiot(plecak->at(listaPrzedmiotow->currentRow()), gracz);
+		zalozPrzedmiot(rzecz, gracz);
+
+	wygenerujOpis(rzecz, gracz, opisPrzedmiotu);
 	okno->uaktualnijInformacje();
+
+	if(czyZalozony(rzecz, gracz))
+		przyciskZaloz->setText("Zdejmij");
+	else
+		przyciskZaloz->setText(QString::fromUtf8("Załóż"));
 }
 
 /**
