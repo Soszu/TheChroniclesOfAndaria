@@ -137,7 +137,7 @@ void wygenerujOpis(Przedmiot* rzecz, Gracz* gracz, QTextBrowser* miejsce)
 	opis += dzialanie(rzecz->getBonusHPregen(), QString::fromUtf8("regeneracja"));
 
 	opis += QString::fromUtf8("\nwartość kupna:  ") + QString::number(rzecz->getWartosc());
-	opis += QString::fromUtf8("\nwartość sprzedarzy:  ") + QString::number(rzecz->getWartosc() / 2) + QString("\n");
+	opis += QString::fromUtf8("\nwartość sprzedaży:  ") + QString::number(rzecz->getWartosc() / 2) + QString("\n");
 
 	miejsce->insertPlainText(opis);
 }

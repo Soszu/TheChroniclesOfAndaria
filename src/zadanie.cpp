@@ -20,6 +20,8 @@ Zadanie::Zadanie(int id,
 	this->nagroda = nagroda;
 	this->przeciwnicy = przeciwnicy;
 
+	IDPola puste = {-1,-1};
+	this->zleceniodawca = puste;
 	czyWykonanoCzesc = czyPowrot ? false : true;
 }
 

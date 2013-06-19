@@ -5,6 +5,7 @@ ObszarPlanszy::ObszarPlanszy(MainWindow *mainWindow)
 	this->mainWindow = mainWindow;
 
 	bokHexa = POCZATKOWY_ROZMIAR_HEXA;
+	zaznaczony = NULL;
 
 	ticTac = new QTimeLine(CZAS_TRWANIA_JEDNEGO_PRZEJSCIA, this);
 	ticTac->setFrameRange(0,100);
@@ -88,10 +89,13 @@ void ObszarPlanszy::wykonajRuch(QList<IDPola> droga, int indeks)
 	kolejnePrzejscie();
 }
 
+/**
+ * @brief ObszarPlanszy::usunPionek	Usuwa z planszy pionek, którego indeks został podany
+ * @param indeks	indeks pionka w tablicy pionków
+ */
 void ObszarPlanszy::usunPionek(int indeks)
 {
 	pionki[indeks]->setVisible(false);
-//	update();
 }
 
 /**
@@ -120,6 +124,11 @@ void ObszarPlanszy::podswietl(QList<IDPola> lista)
  */
 void ObszarPlanszy::pokazHex(int indeks)
 {
+	if(zegarPodswietlenia->state() == QTimeLine::Running)
+	{
+		usunZaznaczenie();
+		zegarPodswietlenia->stop();
+	}
 	zaznaczony = hexy[indeks];
 	zaznaczony->zaznacz();
 	zegarPodswietlenia->start();
@@ -291,6 +300,9 @@ void ObszarPlanszy::krokAnimacji(int faza)
  */
 void ObszarPlanszy::usunZaznaczenie()
 {
-	zaznaczony->odznacz();
-	zaznaczony = NULL;
+	if(zaznaczony != NULL)
+	{
+		zaznaczony->odznacz();
+		zaznaczony = NULL;
+	}
 }

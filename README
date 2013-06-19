@@ -1,0 +1,11 @@
+Celem poprawnego działania należy katalog ze zdjęciami przeciwników umieścić w katalogi obok programu. (katalog przeciwnicy znajduje się początkowo w katalogu build) 
+Nie jest to może piękne rozwiązanie, ale dodanie tych plików do zasobów Qt znacząco wydłuża czas kompilacji, a obecne rozwiązanie nie nastręcza jednak wiele trudności.
+
+Przez ograniczenie rozmiaru rozwiązania grafiki straciły nieco na jakości, ale normalnie są w nieco wiekszej rozdzielczości.
+
+Projekt jest duży i zajął mi bardzo dużo czasu (zwłaszcza, że nie należę do szybkich klepaczy kodu), dlatego napisana sztuczna inteligencja jest banalna (cały czas pasuje).
+
+Same dane nie są dobrze wyważone, ale wczytują się, działają i są w miarę sensowne, ale jak sądzę nie jest częścią zadania wyważenie tej gry.
+
+Będę bardzo wdzięczny za wszelkie wskazówki dotyczące kodu, które mogą przyjść na myśl przy jego czytaniu, ponieważ zamierzam ubogacić obecną wersję w najbliższym czasie.
+Rozumiem, że przy kilkudziesięciu projektach do s sprawdzenia w krótkim czasie może to nie być możliwe, tym samym będę jeszcze bardziej wdzięczny.

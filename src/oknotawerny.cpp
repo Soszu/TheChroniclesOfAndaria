@@ -117,7 +117,10 @@ void OknoTawerny::przyjmij()
 		dostepneZadania->removeAt(indeks);
 	}
 	else
-		gracz->usunKonkretneZadanie(listaWlasnychZadan->currentRow());
+	{
+		Zadanie* zad = gracz->getKonkretneZadanie(listaWlasnychZadan->currentRow());
+		gracz->usunKonkretneZadanie(zad->getId());
+	}
 	wypelnijListy();
 	przyciskPrzyjmij->setEnabled(false);
 	przyciskPokazCel->setEnabled(false);

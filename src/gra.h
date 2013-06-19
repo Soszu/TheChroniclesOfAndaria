@@ -10,6 +10,7 @@ static const quint16 MAKSYMALNA_DLUGOSC_NAZWY = 20; //chodzi o nazwę gracza
 static const quint8 LICZBA_KROLESTW = 4;
 static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
+//grupy przeciwnikow są numerowane od 1.
 static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
 
 static const uint KOSTKA_GRACZA = 10;
@@ -69,24 +70,24 @@ static const QString PREFIX_PRZECIWNIKOW = QString("przeciwnicy/");
 
 static const QString KROLESTWA[LICZBA_KROLESTW] = {
 	QString::fromUtf8("Ludzie"),
-	"Elfy",
 	"Krasnoludy",
+	"Elfy",
 	QString::fromUtf8("Niziołki")
 };
 
 //index nazwy rasy jest równoznaczny z wartością enumeratora Rasa, dla tej rasy
 static const QString RASY[LICZBA_RAS] = {
 	QString::fromUtf8("Człowiek"),
-	"Elf",
 	"Krasnolud",
+	"Elf",
 	QString::fromUtf8("Niziołek")
 };
 
 enum Rasa
 {
 	czlowiek = 0,
-	elf = 1,
 	krasnolud = 2,
+	elf = 1,
 	niziolek = 3
 };
 
@@ -115,8 +116,8 @@ struct IDPola
 //index ustawienia początkowego jest równoznaczna z wartością enumeratora Rasa, dla tej rasy
 static const IDPola POCZATKOWE_USTAWIENIE[LICZBA_RAS] = {
 	{18,3}, //czlowiek
-	{28,8}, //elf
 	{14,18}, //krasnolud
+	{28,8}, //elf
 	{2,8}  //niziołek
 };
 
@@ -137,15 +138,15 @@ static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {
 	{11,3,2,1,11,7,4},	//Człowiek mag
 	{13,5,2,2,8,10,3}},	//Człowiek druid:
 
-	{{15,2,10,5,1,10,1},	//Elf wojownik
-	{13,3,5,9,1,8,7},	//Elf łowca
-	{11,3,2,1,11,7,4},	//Elf mag
-	{13,5,2,2,8,9,3}},	//Elf druid
-
 	{{15,2,10,5,1,10,1},	//Krasnolud wojownik
 	{13,3,5,9,1,8,7},	//Krasnolud łowca
 	{11,3,2,1,11,7,4},	//Krasnolud mag
 	{13,5,2,2,8,9,3}},	//Krasnolud druid
+
+	{{15,2,10,5,1,10,1},	//Elf wojownik
+	{13,3,5,9,1,8,7},	//Elf łowca
+	{11,3,2,1,11,7,4},	//Elf mag
+	{13,5,2,2,8,9,3}},	//Elf druid
 
 	{{15,2,10,5,1,10,1},	//Niziołek wojownik
 	{13,3,5,9,1,8,7},	//Niziołek łowca
@@ -270,6 +271,7 @@ enum Blad
 	blad_parsera_przeciwnikow = 13,
 	blad_liczby_grup_przeciwnikow = 131,
 	blad_parsera_zadan = 14,
+	blad_liczby_zadan = 141,
 	blad_parsera_ustawienia_planszy = 21
 };
 #endif // GRA_H

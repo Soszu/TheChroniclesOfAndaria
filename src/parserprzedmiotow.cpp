@@ -139,7 +139,8 @@ bool ParserPrzedmiotow::wczytajDane(QTextStream *wejscie)
 		case 'w':
 			if(info.czy1Reczna)
 				rodzaj = bronJednoreczna;
-			rodzaj = bronDwureczna;
+			else
+				rodzaj = bronDwureczna;
 			break;
 		case 't':
 			rodzaj = tarcza;

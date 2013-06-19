@@ -36,7 +36,7 @@ void wygenerujOpis(Zadanie* zadanie, QTextBrowser* miejsce)
 			 QString::number(nagroda->getDoswiadczenie());
 
 	if(nagroda->getZloto() != 0)
-		opis += QString::fromUtf8("\n\nZdobyte złoto: ") +
+		opis += QString::fromUtf8("\n\nZłoto do zdobycia: ") +
 			 QString::number(nagroda->getZloto()) +
 			 QString("\n\n");
 

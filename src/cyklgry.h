@@ -38,6 +38,7 @@ private:
 	QList<Gracz*> gracze;
 	QMap<int, SztucznaInteligencja*> boty;
 	int indeksAktualnego;
+	int liczbaAktywnych;
 
 	int* wynikParsowania;
 	QDialog* komunikatOBledzie;

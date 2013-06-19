@@ -53,7 +53,8 @@ public:
 	void setDoswiadczenie(quint16 wartosc);
 	bool getOstatnioWalczyl();
 	void setOstatnioWalczyl(bool wartosc);
-
+	void setCzyAktywny(bool wartosc);
+	bool getCzyAktywny();
 
 private:
 	QString nazwa;
@@ -79,6 +80,7 @@ private:
 	quint16 zloto;
 	quint16 doswiadczenie;
 	bool ostatnioWalczyl;
+	bool czyAktywny;
 	void przepiszStaty(statystyka konkret);
 
 };

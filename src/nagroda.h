@@ -1,7 +1,7 @@
 ﻿#ifndef NAGRODA_H
 #define NAGRODA_H
 #include "przedmiot.h"
-#include "gra.h"	 //dlaczego przy wstawieniu przed przedmiot nie działa?
+#include "gra.h"
 #include <QList>
 
 class Nagroda

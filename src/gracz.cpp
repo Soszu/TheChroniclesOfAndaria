@@ -21,6 +21,7 @@ Gracz::Gracz(QString nazwa, Rasa rasa, Klasa klasa, QColor kolor, bool czyAI)
 
 	this->zdrowieAktualne = this->zdrowieMaks;
 	ostatnioWalczyl = false;
+	czyAktywny = true;
 }
 
 Gracz::~Gracz()
@@ -235,6 +236,16 @@ void Gracz::setOstatnioWalczyl(bool wartosc)
 	ostatnioWalczyl = wartosc;
 }
 
+void Gracz::setCzyAktywny(bool wartosc)
+{
+	czyAktywny = wartosc;
+}
+
+bool Gracz::getCzyAktywny()
+{
+	return czyAktywny;
+}
+
 /**
  * @brief Gracz::przepiszStaty Przepisuje statystyki zebrane w jedym miejscu.
  * @param konkret konkretne wartości do przepisania. Zdefiniowane w gra.h
@@ -249,3 +260,4 @@ void Gracz::przepiszStaty(statystyka konkret)
 	this->obrona = konkret.obrona;
 	this->percepcja = konkret.percepcja;
 }
+

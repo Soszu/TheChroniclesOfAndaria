@@ -45,8 +45,6 @@ private:
 	QLabel* opisPrzedZdrowiem;
 	MojPasek* wskaznikZdrowia;
 	QLabel* opisPoZdrowiu;
-//	QLabel* regeneracja;
-//	QLabel* regeneracjaIkona;
 
 	QLabel* opisPrzedDoswiadczeniem;
 	MojPasek* wskaznikDoswiadczenia;

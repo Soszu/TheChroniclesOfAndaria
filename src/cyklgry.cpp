@@ -25,6 +25,7 @@ CyklGry::~CyklGry()
  */
 void CyklGry::setGracze(QList<Gracz *> gracze)
 {
+	liczbaAktywnych = gracze.size();
 	this->gracze = gracze; //tu jest przekazywana przez przepisanie, bo lepiej jest, żeby lista była zapisana w cyklu.
 	plansza->setGracze(&this->gracze);
 	for(int i = 0; i < gracze.size(); ++i)
@@ -85,9 +86,10 @@ void CyklGry::wykreslAktualnego()
 		QString::fromUtf8("Przykro mi, ale ..."),
 		gracze[indeksAktualnego]->getNazwa() + QString::fromUtf8(" wypadł z gry.") );
 
-	gracze.removeAt(indeksAktualnego);
+	gracze[indeksAktualnego]->setCzyAktywny(false);
+	--liczbaAktywnych;
 
-	if(gracze.size() == 1)
+	if(liczbaAktywnych == 1)
 	{
 		QMessageBox::information(
 			mainWindow,
@@ -97,10 +99,6 @@ void CyklGry::wykreslAktualnego()
 	}
 	else
 		plansza->wykreslGracza(indeksAktualnego);
-	if(indeksAktualnego == 0)
-		indeksAktualnego = gracze.size() - 1;
-	else
-		--indeksAktualnego;
 }
 
 /**
@@ -162,8 +160,13 @@ void CyklGry::zakonczTure()
 	if(czySpelnionyWarunekZwyciestwa(gracze[indeksAktualnego]))
 		graczWygral(gracze[indeksAktualnego]);
 
+	do
+	{
 	++indeksAktualnego;
 	if(indeksAktualnego >= gracze.size())
 		indeksAktualnego = 0;
+	}
+	while(!gracze[indeksAktualnego]->getCzyAktywny());
+
 	ruszGracza(indeksAktualnego);
 }

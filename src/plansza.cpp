@@ -84,6 +84,7 @@ void Plansza::kliknietoHex(IDPola id)
 void Plansza::ustalOsiagalne(Gracz *gracz)
 {
 	QQueue<QPair<int, IDPola> >doPrzejrzenia;
+	QMap<int, int> minima; //<indeks pola, najkrótsza znana ścieżka>
 
 	poprzednie.clear();
 	osiagalne.clear();
@@ -101,10 +102,22 @@ void Plansza::ustalOsiagalne(Gracz *gracz)
 		{
 			int indeks = IDToIndeks(najblizsze[i]);
 			int koszt = badany.first + pola->at(indeks)->getWspolczynnik();
-			if(koszt > gracz->getPunktyRuchu() || poprzednie.contains(indeks))
+			if(koszt > gracz->getPunktyRuchu())
 				continue;
+			if(minima.contains(indeks))
+			{
+				if(minima[indeks] > koszt)
+				{
+					minima[indeks] = koszt;
+					doPrzejrzenia.push_back(qMakePair(koszt, indeksToID(indeks)));
+					poprzednie.remove(indeks); //poprzednie istnieje, bo było znane minimum
+					poprzednie.insert(indeks, badany.second);
+				}
+				continue;
+			}
 			else
 			{
+				minima.insert(indeks, koszt);
 				doPrzejrzenia.push_back(qMakePair(koszt, indeksToID(indeks)));
 				poprzednie.insert(indeks, badany.second);
 			}

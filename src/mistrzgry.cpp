@@ -39,6 +39,10 @@ MistrzGry::MistrzGry(CyklGry* cykl)
 	{
 		cyklGry->wystapilBlad(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych zadań\n\n") + parserZadan.trescBledu, blad_parsera_zadan);
 		return;
+	} else if(zadania.size() < LICZBA_ZADAN_W_TAWERNIE)
+	{
+		cyklGry->wystapilBlad(QString::fromUtf8("Wczytano za mało zadań.\n\n"), blad_liczby_zadan);
+		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o zadaniach wczytano poprawnie");
 }
@@ -111,12 +115,6 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 	QList<Akcja> akcje;
 	Pole* zajmowanePole = plansza->pokazPole(gracz->getPozycja());
 
-	if(gracz->getCzyAI())
-	{
-akcje.push_front(koniecTury);
-		return akcje; //pusta lista akcji (tymczasowo jest też zakończ turę, żeby się nie zwieszał)
-	}
-
 	if(zajmowanePole->getCzyPoleZMiastem())
 	{
 		if(!bazarOdwiedzony)
@@ -128,7 +126,10 @@ akcje.push_front(koniecTury);
 	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !gracz->getOstatnioWalczyl())
 	{
 		akcje.push_back(przeciwnikLatwy);
-		akcje.push_back(przeciwnikTrudny);
+		//grupy przeciwnikow są numerowane od 1.
+		int grupaPrzeciwnika = (gracz->getPoziom() + 1) / 2;
+		if(grupaPrzeciwnika + 1 <= LICZBA_GRUP_PRZECIWNIKOW)
+			akcje.push_back(przeciwnikTrudny);
 	}
 
 	akcje.push_back(koniecTury);
@@ -481,9 +482,12 @@ void MistrzGry::idzDoTawerny()
 	{
 		int los = qrand() % zadania.size() + 1;
 		QMap<int, Zadanie*>::iterator iter = zadania.begin();
-		for (int i = 0; i < los; ++i)
+		for (int j = 0; j < los; ++j)
 			++iter;
-		zadaniaWTawernie.push_back(zadania[los]);
+		if(zadaniaWTawernie.contains(zadania[los]))
+			--i;
+		else
+			zadaniaWTawernie.push_back(zadania[los]);
 	}
 
 	tawernaOdwiedzona = true;
@@ -503,9 +507,13 @@ void MistrzGry::handelNaBazarze()
 		int los = qrand() % przedmioty.size();
 
 		QMap<int, Przedmiot*>::iterator iter = przedmioty.begin();
-		for(int i = 0; i < los; ++i)
+		for(int j = 0; j < los; ++j)
 			++iter;
-		towaryNaBazarze.push_back(przedmioty[los]);
+		//TODO: zmiana sposobu zarządzania miksturami
+		if(przedmioty[los]->getRodzaj() == mikstura)
+			--i;
+		else
+			towaryNaBazarze.push_back(przedmioty[los]);
 	}
 
 	bazarOdwiedzony = true;

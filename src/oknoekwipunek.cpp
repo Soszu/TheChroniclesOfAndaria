@@ -60,6 +60,7 @@ void OknoEkwipunek::uzyjDuzejMikstury()
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
 		przyciskDuzejMikstury->setEnabled(false);
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_DUZYCH_POTOW)));
+	okno->uaktualnijInformacje();
 }
 
 void OknoEkwipunek::uzyjMalejMikstury()
@@ -69,6 +70,7 @@ void OknoEkwipunek::uzyjMalejMikstury()
 	if(gracz->getEkwipunek()->getMalePoty() == 0)
 		przyciskMalejMikstury->setEnabled(false);
 	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW)));
+	okno->uaktualnijInformacje();
 }
 
 /**

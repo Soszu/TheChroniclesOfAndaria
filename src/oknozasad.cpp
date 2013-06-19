@@ -22,7 +22,7 @@ OknoZasad::OknoZasad(QWidget *parent) :
 	ogolne = new QTextBrowser();
 	zakladki->addTab(ogolne, QString::fromUtf8("ogólne"));
 
-	ogolne->setText(QString::fromUtf8("Jest to gra typu RPG, gdzie każdy gracz posiada własną postać z określonymi statystykami i ekwipunkiem, którą rozwija przez całą rozgrywkę.\nGracz wybiera rasę i klasę dla swojej postaci, które mają wpływ na statystykę oraz ekwipunek.\nGracze kolejno w swoich turach poruszają się po planszy pomiędzy czterema królestwami, walczą z przeciwnikami lub wykonują zlecone zadania."));
+	ogolne->setText(QString::fromUtf8("Jest to gra typu RPG, gdzie każdy gracz posiada własną postać z określonymi statystykami i ekwipunkiem, którą rozwija przez całą rozgrywkę.\nGracz wybiera rasę i klasę dla swojej postaci, które mają wpływ na statystykę oraz ekwipunek.\nGracze kolejno w swoich turach poruszają się po planszy pomiędzy czterema królestwami, walczą z przeciwnikami lub wykonują zlecone zadania. Co turę postać gracza regeneruje się (ilość regenerowanych punktów zdrowia jest podana w nawiasach obok paska zdrowia)."));
 
 	ekwipunek = new QTextBrowser();
 	zakladki->addTab(ekwipunek, QString("Ekwipunek"));
@@ -34,7 +34,7 @@ OknoZasad::OknoZasad(QWidget *parent) :
 
 	zadania = new QTextBrowser();
 	zakladki->addTab(zadania, QString("Zadania"));
-	zadania->setText(QString::fromUtf8("Gracz może będąc w tawernie podjąc się wykonania zadań, ale w tym samym czasie może wykonywać ich nie więcej niż ") + QString::number(MAKSYMALNA_LICZBA_ZADAN) + QString::fromUtf8(".\nZadania są jedynym źródłem reputacji. Gracz może tylko raz na turę zajrzeć do tawerny."));
+	zadania->setText(QString::fromUtf8("Gracz może będąc w tawernie podjąc się wykonania zadań, ale w tym samym czasie może wykonywać ich nie więcej niż ") + QString::number(MAKSYMALNA_LICZBA_ZADAN) + QString::fromUtf8(".\nZadania są jedynym źródłem reputacji. Gracz może tylko raz na turę zajrzeć do tawerny.\n W nawiasach obok zadania podany jest orientacyjny poziom przeciwnika, z  którym przyjdzie się mierzyć lub (*) jeśli wykonanie zadania nie wymaga walki"));
 
 	walka = new QTextBrowser();
 	zakladki->addTab(walka, QString("Walka"));

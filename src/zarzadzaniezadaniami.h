@@ -3,6 +3,7 @@
 
 #include "zadanie.h"
 #include "QTextBrowser"
+#include <QDebug>
 
 void wygenerujOpis(Zadanie *zadanie, QTextBrowser *miejsce);
 

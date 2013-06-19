@@ -10,16 +10,11 @@ OknoGracza::OknoGracza(QFrame* rama)
 	opisPrzedZdrowiem = new QLabel("Zdrowie:");
 	wskaznikZdrowia = new MojPasek(0, 0, Qt::red, Qt::green);
 	opisPoZdrowiu = new QLabel("_/_");
-//	regeneracja = new QLabel();
-//	regeneracjaIkona = new QLabel();
-//	regeneracjaIkona->setPixmap(QString(IKONKA_REGENERACJA));
 
 	linijkaZdrowia = new QHBoxLayout();
 	linijkaZdrowia->addWidget(opisPrzedZdrowiem);
 	linijkaZdrowia->addWidget(wskaznikZdrowia);
 	linijkaZdrowia->addWidget(opisPoZdrowiu);
-//	linijkaZdrowia->addWidget(regeneracjaIkona);
-//	linijkaZdrowia->addWidget(regeneracja);
 //------------------------------
 	opisPrzedDoswiadczeniem = new QLabel("Poziom: _");
 	wskaznikDoswiadczenia = new MojPasek(0, Qt::blue);
@@ -118,7 +113,6 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	wskaznikZdrowia->wypelnijDrugi((qreal)gracz->getRegeneracja() / gracz->getZdrowieMaks());
 	opisPoZdrowiu->setText(QString::number(gracz->getZdrowieAktualne()) + QString("/") + QString::number(gracz ->getZdrowieMaks())
 				+ QString(" (") + QString::number(gracz->getRegeneracja()) + QString(")") );
-//	regeneracja ->setText(QString::number(gracz->getRegeneracja()) + QString::fromUtf8("/turę"));
 //------------------------------
 	opisPrzedDoswiadczeniem->setText(QString("Poziom: ") + QString::number(gracz->getPoziom()));
 	int ileDoswNaAktualnyPoziom = GRANICE_POZIOMOW[gracz->getPoziom()] - GRANICE_POZIOMOW[gracz->getPoziom() - 1];

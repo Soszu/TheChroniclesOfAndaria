@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	Plansza plansza(&cykl);
 	MistrzGry mistrz(&cykl);
 
-	okno.setMistrzGry(&mistrz); //potem mainwindow pokazuje swoim komponentom komu mają zgłaszać zmiany/ informace
+	okno.setMistrzGry(&mistrz); //potem mainwindow pokazuje swoim komponentom komu mają zgłaszać zmiany/ informacje
 	okno.setPlansza(&plansza);
 
 	//ustalanie kogo mistrz gry ma prosić o wyświetlanie informacji

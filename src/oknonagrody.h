@@ -39,7 +39,7 @@ private:
 	QHBoxLayout* layoutAwansu;
 	QHBoxLayout* layoutPrzyciskow;
 	bool czyAwans;
-	QList<QComboBox*> przydzieleniePunktow;//[LICZBA_PUNKTOW_NA_POZIOM];
+	QList<QComboBox*> przydzieleniePunktow;
 
 	void zwiekszAtrybut(atrybut indeks);
 	QString generujOpisNagrody();

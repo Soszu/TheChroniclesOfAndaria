@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 {
 	delete oknoGracza;
 	delete obszarPlanszy;
-//BUG:	delete panelAkcji; nie zwalnia się, jeżeli mainwindow nie było wyświetlone(i jest zakomentowane), powoduje błędy, jeśli MW jest wyświetlone (i jest odkomentowane)
+	delete panelAkcji;
 }
 
 PanelAkcji *MainWindow::getPanelAkcji()

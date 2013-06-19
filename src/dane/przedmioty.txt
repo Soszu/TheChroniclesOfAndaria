@@ -10,9 +10,7 @@
 //a-artefakt (kieszenie dajmy na to)
 //+miksturka mala i duza
 
-//czy_1_reczna? -> 1 tak, 0 nie --> warunkuje noszenie tarczy lub aury (bedzie uwzgeldnione w ograniczeniach)
-
-//kolor czcionki: b-biały	n-niebieski	c-czerwony	z-żółty
+//kolor czcionki: b-zielony	n-niebieski	c-czerwony	z-żółty
 
 
 //MIKSTURY

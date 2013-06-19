@@ -50,7 +50,7 @@ private:
 	QList<Gracz*>* gracze;
 	QList<Pole*>* pola;
 	QList<IDPola> osiagalne;
-	QMap<int, IDPola> poprzednie;
+	QMap<int, IDPola> poprzednie; //<indeks pola obecnego, pole z którego można na nie przyjść>
 
 	quint8 szerokoscPlanszy;
 	quint8 wysokoscPlanszy;
