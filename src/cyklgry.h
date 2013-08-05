@@ -39,6 +39,7 @@ private:
 	QMap<int, SztucznaInteligencja*> boty;
 	int indeksAktualnego;
 	int liczbaAktywnych;
+	void wyznaczKolejnego();
 
 	int* wynikParsowania;
 	QDialog* komunikatOBledzie;

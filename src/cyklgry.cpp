@@ -91,10 +91,11 @@ void CyklGry::wykreslAktualnego()
 
 	if(liczbaAktywnych == 1)
 	{
+		wyznaczKolejnego();
 		QMessageBox::information(
 			mainWindow,
 			QString::fromUtf8("Gratulacje!"),
-			gracze.first()->getNazwa() + QString::fromUtf8(" jest teraz jedynym żywym graczem i tym samym zwycięża.") );
+					gracze[indeksAktualnego]->getNazwa() + QString::fromUtf8(" jest teraz jedynym żywym graczem i tym samym zwycięża.") );
 		mainWindow->close();
 	}
 	else
@@ -153,13 +154,10 @@ void CyklGry::ruszGracza(int indeks)
 }
 
 /**
- * @brief CyklGry::zakonczTure Kończy turę aktualnego gracza, sprawdza, czy spełnił warunek zwycięstwa, jeśli nie wyświetla następnego
+ * @brief CyklGry::wyznaczKolejnego	Przestawia indeksAktualnego na kolejnego aktywnego gracza.
  */
-void CyklGry::zakonczTure()
+void CyklGry::wyznaczKolejnego()
 {
-	if(czySpelnionyWarunekZwyciestwa(gracze[indeksAktualnego]))
-		graczWygral(gracze[indeksAktualnego]);
-
 	do
 	{
 	++indeksAktualnego;
@@ -167,6 +165,17 @@ void CyklGry::zakonczTure()
 		indeksAktualnego = 0;
 	}
 	while(!gracze[indeksAktualnego]->getCzyAktywny());
+}
+
+/**
+ * @brief CyklGry::zakonczTure Kończy turę aktualnego gracza, sprawdza, czy spełnił warunek zwycięstwa, jeśli nie wyświetla następnego
+ */
+void CyklGry::zakonczTure()
+{
+	if(czySpelnionyWarunekZwyciestwa(gracze[indeksAktualnego]))
+		graczWygral(gracze[indeksAktualnego]);
+
+	wyznaczKolejnego();
 
 	ruszGracza(indeksAktualnego);
 }
