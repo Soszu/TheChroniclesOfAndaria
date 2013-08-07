@@ -70,14 +70,12 @@ quint8 Ekwipunek::getDuzePoty()
 
 void Ekwipunek::setMalePoty(quint8 ilosc)
 {
-	if(ilosc >=0)
-		malePoty = ilosc;
+	malePoty = ilosc;
 }
 
 void Ekwipunek::setDuzePoty(quint8 ilosc)
 {
-	if(ilosc >=0)
-		duzePoty = ilosc;
+	duzePoty = ilosc;
 }
 
 QList<Przedmiot *> *Ekwipunek::getPlecak()

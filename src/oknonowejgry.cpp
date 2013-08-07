@@ -18,15 +18,21 @@ OknoNowejGry::OknoNowejGry(QWidget *parent) : QDialog(parent)
 	}
 
 	dodajGracza = new QPushButton("Dodaj gracza", this);
+	dodajGracza->setToolTip("Dodaj kolejnego gracza do rozgrywki.<br>"
+				"Limit to 8 graczy.");
 	connect(dodajGracza, SIGNAL(clicked()),this,SLOT(dodajWiersz()));
 
 	usunGracza = new QPushButton(QString::fromUtf8("Usuń gracza"), this);
+	usunGracza->setToolTip(QString::fromUtf8("Usun ostatniego gracza.<br>"
+						 "Musi być conajmniej 2 graczy."));
 	connect(usunGracza, SIGNAL(clicked()),this,SLOT(usunWiersz()));
 
 	anuluj = new QPushButton("Anuluj", this);
+	anuluj->setToolTip(QString::fromUtf8("Anuluj wpisywanie graczy i wyjdź z programu."));
 	connect(anuluj, SIGNAL(clicked()), this, SLOT(close()));
 
 	ok = new QPushButton("OK", this);
+	ok->setToolTip(QString::fromUtf8("Zatwierdź ustawienia i rozpocznij rozgrywkę."));
 	connect(ok, SIGNAL(clicked()), this, SLOT(przekazDane()));
 
 	layoutNaPrzyciski.addWidget(dodajGracza);
@@ -83,10 +89,16 @@ void OknoNowejGry::setMainWindow(QMainWindow *mainWindow)
 void OknoNowejGry::wypelnij(OknoNowejGry::wierszWyboru *wiersz, int numer)
 {
 	wiersz->nazwa = new QLineEdit("Gracz"+QString::number(numer + 1));
+	wiersz->nazwa->setToolTip(QString::fromUtf8("Wpisz nazwę postaci.<br>"
+						    "Nie więcej niż 20 znaków."));
 	wiersz->rasa = new QComboBox();
+	wiersz->rasa->setToolTip(QString::fromUtf8("Wybierz rasę postaci."));
 	wiersz->klasa = new QComboBox();
+	wiersz->klasa->setToolTip(QString::fromUtf8("Wybierz klasę postaci."));
 	wiersz->kolor = new QComboBox();
+	wiersz->kolor->setToolTip(QString::fromUtf8("Wybierz kolor pionka."));
 	wiersz->ai = new QCheckBox();
+	wiersz->ai->setToolTip(QString::fromUtf8("Czy ruchami gracza ma sterować komputer?"));
 
 	for(int i = 0; i < LICZBA_RAS; ++i)
 		wiersz->rasa->addItem(RASY[i]);

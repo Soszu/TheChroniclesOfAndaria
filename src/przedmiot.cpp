@@ -2,15 +2,15 @@
 
 Przedmiot::Przedmiot(QString nazwa,
 		     RodzajPrzedmiotu rodzaj,
-		     quint8 bonusAWrecz,
-		     quint8 bonusADystansowy,
-		     quint8 bonusAMagiczny,
-		     quint8 bonusObrona,
-		     quint8 bonusPercepcja,
-		     quint8 bonusHP,
-		     quint8 bonusHPregen,
+		     int bonusAWrecz,
+		     int bonusADystansowy,
+		     int bonusAMagiczny,
+		     int bonusObrona,
+		     int bonusPercepcja,
+		     int bonusHP,
+		     int bonusHPregen,
 		     int ograniczenia,
-		     quint8 wartosc,
+		     int wartosc,
 		     bool czyMocny,
 		     QColor kolorCzcionki)
 {
@@ -39,27 +39,27 @@ RodzajPrzedmiotu Przedmiot::getRodzaj()
 	return rodzaj;
 }
 
-quint8 Przedmiot::getBonusAWrecz()
+int Przedmiot::getBonusAWrecz()
 {
 	return bonusAWrecz;
 }
 
-quint8 Przedmiot::getBonusADystansowy()
+int Przedmiot::getBonusADystansowy()
 {
 	return bonusADystansowy;
 }
 
-quint8 Przedmiot::getBonusAMagiczny()
+int Przedmiot::getBonusAMagiczny()
 {
 	return bonusAMagiczny;
 }
 
-quint8 Przedmiot::getBonusObrona()
+int Przedmiot::getBonusObrona()
 {
 	return bonusObrona;
 }
 
-quint8 Przedmiot::getBonusPercepcja()
+int Przedmiot::getBonusPercepcja()
 {
 	return bonusPercepcja;
 }
@@ -69,7 +69,7 @@ int Przedmiot::getOgraniczenia()
 	return ograniczenia;
 }
 
-quint8 Przedmiot::getWartosc()
+int Przedmiot::getWartosc()
 {
 	return wartosc;
 }
@@ -84,12 +84,12 @@ QColor Przedmiot::getKolorCzcionki()
 	return kolorCzcionki;
 }
 
-quint8 Przedmiot::getBonusHPregen()
+int Przedmiot::getBonusHPregen()
 {
 	return bonusHPregen;
 }
 
-quint8 Przedmiot::getBonusHP()
+int Przedmiot::getBonusHP()
 {
 	return bonusHP;
 }

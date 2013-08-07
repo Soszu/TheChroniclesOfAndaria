@@ -152,9 +152,9 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 		QString powrot = podzial.at(4);
 		powrot.remove(" ");
 		if(powrot == "1")
-			info.czyPowrot == true;
+			info.czyPowrot = true;
 		else if(powrot == "0")
-			info.czyPowrot == false;
+			info.czyPowrot = false;
 		else
 		{
 			trescBledu = QString::fromUtf8("Niepoprawna wartosc \"czy Powrot\" w linii") + QString::number(numerLinii);
@@ -182,14 +182,13 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 				wartosciID.push_back(identyfikatory.at(i).toInt(&ok));
 				if(!ok)
 					blad = true;
+				if(blad || !mistrzGry->przeciwnicy.contains(wartosciID.back()))
+				{
+					trescBledu = QString::fromUtf8("Niepoprawny identyfikator przeciwnika w linii ") + QString::number(numerLinii);
+					return true;
+				}
 				else
-					if(!mistrzGry->przeciwnicy.contains(wartosciID.back()))
-					{
-						trescBledu = QString::fromUtf8("Niepoprawny identyfikator przeciwnika w linii ") + QString::number(numerLinii);
-						return true;
-					}
-					else
-						info.idPrzeciwnikow->push_back(mistrzGry->przeciwnicy[wartosciID.back()]);
+					info.idPrzeciwnikow->push_back(mistrzGry->przeciwnicy[wartosciID.back()]);
 			}
 		}
 //-----------ZAPISANIE DANYCH

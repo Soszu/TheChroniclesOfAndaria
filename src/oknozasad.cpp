@@ -20,13 +20,13 @@ OknoZasad::OknoZasad(QWidget *parent) :
 	layoutGlowny->addLayout(layoutDolny);
 
 	ogolne = new QTextBrowser();
-	zakladki->addTab(ogolne, QString::fromUtf8("ogólne"));
+	zakladki->addTab(ogolne, QString::fromUtf8("Ogólne"));
 
 	ogolne->setText(QString::fromUtf8("Jest to gra typu RPG, gdzie każdy gracz posiada własną postać z określonymi statystykami i ekwipunkiem, którą rozwija przez całą rozgrywkę.\nGracz wybiera rasę i klasę dla swojej postaci, które mają wpływ na statystykę oraz ekwipunek.\nGracze kolejno w swoich turach poruszają się po planszy pomiędzy czterema królestwami, walczą z przeciwnikami lub wykonują zlecone zadania. Co turę postać gracza regeneruje się (ilość regenerowanych punktów zdrowia jest podana w nawiasach obok paska zdrowia)."));
 
 	ekwipunek = new QTextBrowser();
 	zakladki->addTab(ekwipunek, QString("Ekwipunek"));
-	ekwipunek->setText(QString::fromUtf8("Każdy gracz dysponuje własnym ekwipunkiem, którym może zarządzać poza walką, a także handlować na bazarze w miastach.\nGracz może posiadać założony jednocześnie hełm, zdroję, broń jedno- albo dwuręczną, tarczę oraz artefakty. Tarcza nie może być używana równocześnie z bronią dwuręczną. Nie można jednocześnie nosić wiecej niż ") + QString::number(LIMIT_ARTEFAKTOW) + QString::fromUtf8(" artefaktów.\nPrzedmioty posiadają ograniczenia ze względu na klasę postaci, która miałaby go używać. Dodatkowo wiele przedmiotów jest na tyle mocnych, że gracz może ich użyć dopiero od ") + QString::number(POZIOM_GRANICZNY) + QString::fromUtf8(" poziomu. Warto zwrócić na to uwagę przed ewentualnym zakupem!/nGracz może tylko raz na turę zajrzeć na bazar.\nbonus Małej Mikstury Zdrowia: ") + QString::number(DZIALANIE_MALYCH_POTOW) + QString::fromUtf8(",\nbonus Dużej Mikstury Zdrowia: ") + QString::number(DZIALANIE_DUZYCH_POTOW));
+	ekwipunek->setText(QString::fromUtf8("Każdy gracz dysponuje własnym ekwipunkiem, którym może zarządzać poza walką, a także handlować na bazarze w miastach.\nGracz może posiadać założony jednocześnie hełm, zbroję, broń jedno- albo dwuręczną, tarczę oraz artefakty. Tarcza nie może być używana równocześnie z bronią dwuręczną. Nie można jednocześnie nosić wiecej niż ") + QString::number(LIMIT_ARTEFAKTOW) + QString::fromUtf8(" artefaktów.\nPrzedmioty posiadają ograniczenia ze względu na klasę postaci, która miałaby go używać. Dodatkowo wiele przedmiotów jest na tyle mocnych, że gracz może ich użyć dopiero od ") + QString::number(POZIOM_GRANICZNY) + QString::fromUtf8(" poziomu. Warto zwrócić na to uwagę przed ewentualnym zakupem!\nGracz może tylko raz na turę zajrzeć na bazar.\nbonus Małej Mikstury Zdrowia: ") + QString::number(DZIALANIE_MALYCH_POTOW) + QString::fromUtf8(",\nbonus Dużej Mikstury Zdrowia: ") + QString::number(DZIALANIE_DUZYCH_POTOW));
 
 	poruszanie = new QTextBrowser();
 	zakladki->addTab(poruszanie, QString("Poruszanie"));
@@ -45,7 +45,7 @@ OknoZasad::OknoZasad(QWidget *parent) :
 	QString spisAtrybutow;
 	for(int i = 0; i < LICZBA_ATRYBOTOW_DO_AWANSU; ++i)
 		spisAtrybutow += MOZLIWE_AWANSE[i] + QString(", ");
-	awans ->setText(QString::fromUtf8("Po zebraniu odpowiedniej ilości doświadczenia gracz awansuje na wyższy poziom. Może przy tej okazji rozdzielić ") + QString::number(LICZBA_ATRYBOTOW_DO_AWANSU) + QString::fromUtf8(" punkty atrybutów, które może przeznaczyć na zwiększenie o 1 jednego z następujących atrybutów: ") + spisAtrybutow + QString::fromUtf8(".Dodatkowo przy każdym awansie liczba maksymalnych punktów zdrowia zwiększa się o ") + QString::number(BONUS_DO_HP_PRZY_AWANSIE) + QString("."));
+	awans ->setText(QString::fromUtf8("Po zebraniu odpowiedniej ilości doświadczenia gracz awansuje na wyższy poziom. Może przy tej okazji rozdzielić ") + QString::number(LICZBA_PUNKTOW_NA_POZIOM) + QString::fromUtf8(" punkty atrybutów, które może przeznaczyć na zwiększenie o 1 jednego z następujących atrybutów: ") + spisAtrybutow + QString::fromUtf8(".Dodatkowo przy każdym awansie liczba maksymalnych punktów zdrowia zwiększa się o ") + QString::number(BONUS_DO_HP_PRZY_AWANSIE) + QString("."));
 
 	koniec = new QTextBrowser();
 	zakladki->addTab(koniec, QString("Koniec"));

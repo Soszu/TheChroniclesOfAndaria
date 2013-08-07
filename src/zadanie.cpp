@@ -23,6 +23,8 @@ Zadanie::Zadanie(int id,
 	IDPola puste = {-1,-1};
 	this->zleceniodawca = puste;
 	czyWykonanoCzesc = czyPowrot ? false : true;
+	if(rodzaj == pokonaj)
+		czyWykonanoCzesc = false;
 }
 
 Zadanie::Zadanie(Zadanie *zad)
@@ -43,6 +45,8 @@ Zadanie::Zadanie(Zadanie *zad)
 	zleceniodawca = zad->zleceniodawca;
 
 	czyWykonanoCzesc = czyPowrot ? false : true;
+	if(rodzaj == pokonaj)
+		czyWykonanoCzesc = false;
 }
 
 Zadanie::~Zadanie()

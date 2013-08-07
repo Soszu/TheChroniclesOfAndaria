@@ -22,9 +22,9 @@ private:
 
 	struct informacje{
 		int id;
-		quint8* reputacja;
-		quint16 zloto;
-		quint16 doswiadczenie;
+		int* reputacja;
+		int zloto;
+		int doswiadczenie;
 		QStringList grupy;
 		QList<int>* przedmioty;
 	};

@@ -88,7 +88,7 @@ void MistrzGry::ruszGracza(Gracz *gracz, int indeks)
 	realizowaneZadanie = NULL;
 
 	//regeneracja
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + gracz->getRegeneracja())));
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), gracz->getZdrowieAktualne() + gracz->getRegeneracja()));
 
 	oknoGracza->wyswietlGracza(aktualnyGracz);
 	if(gracz->getCzyAI())
@@ -167,7 +167,7 @@ Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
 	konkrety->append(*pierwsza->getKonkretnePrzedmioty());
 	konkrety->append(*druga->getKonkretnePrzedmioty());
 
-	quint8* reputacja = new quint8[LICZBA_KROLESTW];
+	int* reputacja = new int[LICZBA_KROLESTW];
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		reputacja[i] = pierwsza->getReputacja()[i] + druga->getReputacja()[i];
 
@@ -211,6 +211,9 @@ void MistrzGry::wykonajAkcje(Akcja opcja)
 		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
 		panelAkcji->wyswietl();
 		break;
+	default:
+		qDebug() << QString::fromUtf8("Błędna opcja");
+		//TODO: assert
 	}
 }
 
@@ -230,14 +233,16 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 		++indeks;
 
 	Zadanie* zadanie = gracz->getKonkretneZadanie(indeks);
-	qDebug() <<zadanie->getCzyWykonanoCzesc();
-	qDebug() <<zadanie->getCzyPowrot();
+	qDebug() <<"czy wykonano czesc" <<zadanie->getCzyWykonanoCzesc();
+	qDebug() <<"rodzaj zadania" <<zadanie->getRodzaj();
 	switch (zadanie->getRodzaj()) {
 	case przynies:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			 przydzielNagrode(gracz, zadanie->getNagroda());
+			przydzielNagrode(gracz, zadanie->getNagroda(), false);
 			gracz->usunKonkretneZadanie(id);
+			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+			panelAkcji->wyswietl();
 		}
 		else
 		{
@@ -249,8 +254,10 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 	case odnajdz:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda());
+			przydzielNagrode(gracz, zadanie->getNagroda(), false);
 			gracz->usunKonkretneZadanie(id);
+			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+			panelAkcji->wyswietl();
 			break;
 		}
 		sukces = qrand() % 100 < SZANSA_NA_ODNALEZIENIE;
@@ -269,7 +276,7 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 			}
 			else
 			{
-				przydzielNagrode(gracz, zadanie->getNagroda());
+				przydzielNagrode(gracz, zadanie->getNagroda(), true);
 				gracz->usunKonkretneZadanie(id);
 			}
 		}
@@ -278,8 +285,10 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 	case pokonaj:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda());
+			przydzielNagrode(gracz, zadanie->getNagroda(), false);
 			gracz->usunKonkretneZadanie(id);
+			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
+			panelAkcji->wyswietl();
 		}
 		else
 		{
@@ -349,7 +358,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 		if(realizowaneZadanie != NULL)
 		{
 			realizowaneZadanie->getPrzeciwnicy()->removeFirst();
-			if(realizowaneZadanie->getPrzeciwnicy()->isEmpty());
+			if(realizowaneZadanie->getPrzeciwnicy()->isEmpty())
 			{
 				if(realizowaneZadanie->getCzyPowrot())
 				{
@@ -359,7 +368,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 				else
 				{
 					Nagroda* nagroda = polaczNagrody(przeciwnik->getNagroda(), realizowaneZadanie->getNagroda());
-					przydzielNagrode(aktualnyGracz, nagroda);
+					przydzielNagrode(aktualnyGracz, nagroda, true);
 					delete nagroda;
 					aktualnyGracz->usunKonkretneZadanie(realizowaneZadanie->getId());
 					realizowaneZadanie = NULL;
@@ -367,7 +376,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
 				}
 			}
 		}
-		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda());
+		przydzielNagrode(aktualnyGracz, przeciwnik->getNagroda(), true);
 		break;
 	case ucieczka:
 		cyklGry->zakonczTure();
@@ -381,7 +390,7 @@ void MistrzGry::koniecWalki(Przeciwnik *przeciwnik, WynikWalki rezultat)
  * @param gracz		Gracz, któremu ma zostać przydzielona nagroda.
  * @param nagroda	Nagroda, która ma zostać przydzielona.
  */
-void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
+void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda, bool czyKoniecTury)
 {
 	QList<Przedmiot*> przydzielonePrzedmioty;
 
@@ -405,8 +414,8 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 	//Reputacja
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 	{
-		quint8 suma = nagroda->getReputacja()[i] + gracz->getReputacja()[i];
-		quint8 nowaWartosc = qMin(MAX_REPUTACJA, suma);
+		int suma = nagroda->getReputacja()[i] + gracz->getReputacja()[i];
+		int nowaWartosc = qMin((int)MAX_REPUTACJA, suma);
 		nowaWartosc = qMax(0, (int)nowaWartosc);
 		gracz->setKonkretnaReputacja(nowaWartosc, i);
 	}
@@ -428,7 +437,7 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda)
 
 	oknoGracza->uaktualnijInformacje();
 
-	oknoNagrody = new OknoNagrody(aktualnyGracz, nagroda, przydzielonePrzedmioty, cyklGry);
+	oknoNagrody = new OknoNagrody(aktualnyGracz, nagroda, przydzielonePrzedmioty, cyklGry, czyKoniecTury);
 	oknoNagrody->setAttribute(Qt::WA_DeleteOnClose);
 	oknoNagrody->rozpocznij();
 }
@@ -453,7 +462,7 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 void MistrzGry::walka(Akcja opcja)
 {
 	int poziomLatwy = (aktualnyGracz->getPoziom() + 1 ) / 2;
-	Przeciwnik* przeciwnik;
+	Przeciwnik* przeciwnik = NULL;
 
 	switch(opcja) {
 	case przeciwnikLatwy:
@@ -464,6 +473,9 @@ void MistrzGry::walka(Akcja opcja)
 		break;
 	case przeciwnikZZadania:
 		przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
+	default:
+		qDebug() << QString::fromUtf8("Błędna opcja");
+		//TODO: assert
 	}
 
 	aktualnyGracz->setOstatnioWalczyl(true);

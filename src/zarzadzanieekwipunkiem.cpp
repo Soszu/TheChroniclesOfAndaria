@@ -14,6 +14,7 @@ void aktywujBonusy(Przedmiot* przedmiot, Gracz* gracz, int m)
 	gracz->setObrona(gracz->getObrona() + (przedmiot->getBonusObrona() * m));
 	gracz->setPercepcja(gracz->getPercepcja() + (przedmiot->getBonusPercepcja() * m));
 	gracz->setZdrowieMaks(gracz->getZdrowieMaks() + (przedmiot->getBonusHP() * m));
+	gracz->setZdrowieAktualne(gracz->getZdrowieAktualne() + (przedmiot->getBonusHP() * m));
 	gracz->setRegeneracja(gracz->getRegeneracja() + (przedmiot->getBonusHPregen() * m ));
 }
 
@@ -64,7 +65,7 @@ bool czyBrakOgraniczenia(Przedmiot* przedmiot, int indeks)
  * @param dzialanie
  * @return		Opis działania, jeżeli bonus jest niezerowy, napis pusty w p.p.``
  */
-QString dzialanie(quint8 bonus, QString dzialanie)
+QString dzialanie(int bonus, QString dzialanie)
 {
 	QString wynik;
 	if(bonus > 0)
@@ -181,6 +182,9 @@ void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 	case artefakt:
 		if(ekw->getZalozoneArtefakty()->size() < LIMIT_ARTEFAKTOW)
 			ekw->getZalozoneArtefakty()->push_back(rzecz);
+
+	case mikstura:
+		qDebug() <<"Proba zalozenia mikstury";
 	}
 
 	aktywujBonusy(rzecz, gracz);
@@ -215,7 +219,6 @@ void zdejmijPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 	case artefakt:
 		QList<Przedmiot*>* artefakty = ekw->getZalozoneArtefakty();
 		artefakty->removeAt(artefakty->indexOf(rzecz));
-		break;
 	}
 
 	dezaktywujBonusy(rzecz, gracz);

@@ -1,6 +1,6 @@
 ﻿#include "nagroda.h"
 
-Nagroda::Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int> *konkrety)
+Nagroda::Nagroda(int reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int> *konkrety)
 {
 	this->doswiadczenie = doswiadczenie;
 	this->reputacja = reputacja;
@@ -15,7 +15,7 @@ Nagroda::~Nagroda()
 	delete konkretnePrzedmioty;
 }
 
-quint8 *Nagroda::getReputacja()
+int *Nagroda::getReputacja()
 {
 	return reputacja;
 }

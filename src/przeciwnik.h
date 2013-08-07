@@ -5,24 +5,24 @@
 class Przeciwnik
 {
 public:
-	Przeciwnik(QString nazwa, QString nazwaObrazka, quint8 atakMinimalny, quint8 atakMaksymalny, quint8 obrona, quint8 percepcja, quint8 zdrowieMaks, Nagroda* nagroda);
+	Przeciwnik(QString nazwa, QString nazwaObrazka, int atakMinimalny, int atakMaksymalny, int obrona, int percepcja, int zdrowieMaks, Nagroda* nagroda);
 
 	QString getNazwa();
 	QString getNazwaObrazka();
-	quint8 getAtakMinimalny();
-	quint8 getAtakMaksymalny();
-	quint8 getObrona();
-	quint8 getPercepcja();
-	quint8 getZdrowieMaks();
+	int getAtakMinimalny();
+	int getAtakMaksymalny();
+	int getObrona();
+	int getPercepcja();
+	int getZdrowieMaks();
 	Nagroda* getNagroda();
 private:
 	QString nazwa;
 	QString nazwaObrazka;
-	quint8 atakMinimalny;
-	quint8 atakMaksymalny;
-	quint8 obrona;
-	quint8 percepcja;
-	quint8 zdrowieMaks;
+	int atakMinimalny;
+	int atakMaksymalny;
+	int obrona;
+	int percepcja;
+	int zdrowieMaks;
 	Nagroda* nagroda;
 };
 

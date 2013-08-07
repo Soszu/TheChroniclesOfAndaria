@@ -7,17 +7,17 @@
 class Nagroda
 {
 public:
-	Nagroda(quint8 reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int>* konkrety);
+	Nagroda(int reputacja[LICZBA_KROLESTW], quint16 zloto, quint16 doswiadczenie, QStringList nazwyGrup, QList<int>* konkrety);
 	~Nagroda();
 
-	quint8* getReputacja();
+	int* getReputacja();
 	quint16 getZloto();
 	quint16 getDoswiadczenie();
 	QStringList getNazwyGrup();
 	QList<int>* getKonkretnePrzedmioty();
 
 private:
-	quint8* reputacja;
+	int* reputacja;
 	quint16 zloto;
 	quint16 doswiadczenie;
 	QStringList nazwyGrup;

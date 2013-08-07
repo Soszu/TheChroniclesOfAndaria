@@ -74,7 +74,7 @@ bool ParserNagrod::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 //-----------REPUTACJA
-		info.reputacja = new quint8[LICZBA_KROLESTW];
+		info.reputacja = new int[LICZBA_KROLESTW];
 		bool blad = false;
 		for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		{

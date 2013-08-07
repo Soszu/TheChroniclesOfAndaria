@@ -127,9 +127,7 @@ bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
 		if(gracz->getReputacja()[i] == MAX_REPUTACJA)
 			++wymaksowaneReputacje;
 
-	if(gracz->getPoziom() == MAKSYMALNY_POZIOM && wymaksowaneReputacje >= LICZBA_POTRZEBNYCH_REPUTACJI)
-		return true;
-
+	return gracz->getPoziom() == MAKSYMALNY_POZIOM && wymaksowaneReputacje >= LICZBA_POTRZEBNYCH_REPUTACJI;
 }
 
 /**

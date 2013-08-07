@@ -56,7 +56,7 @@ public:
 	void wykonanoRuch();
 	void poinformujPlansze();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
-	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda);
+	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda, bool czyKoniecTury);
 	void wykonajAkcje(Akcja opcja);
 	void wykonajZadanie(Gracz *gracz, int id);
 private:

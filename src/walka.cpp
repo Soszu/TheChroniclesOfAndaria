@@ -136,7 +136,7 @@ Walka::Walka(Gracz *gracz, Przeciwnik *przeciwnik, MistrzGry *mistrzGry)
  */
 void Walka::ruchPrzeciwnika()
 {
-	quint8 atak = qrand() % (przeciwnik->getAtakMaksymalny() - przeciwnik->getAtakMinimalny()) + przeciwnik->getAtakMinimalny();
+	int atak = qrand() % (przeciwnik->getAtakMaksymalny() + 1 - przeciwnik->getAtakMinimalny()) + przeciwnik->getAtakMinimalny();
 
 	wpisPrzeciwnika(przeciwnik, QString::fromUtf8("atakuje z siłą ") + QString::number(atak));
 	log->verticalScrollBar()->setSliderPosition(log->verticalScrollBar()->maximum());
@@ -297,7 +297,7 @@ void Walka::uzyjDuzejMikstury()
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
 		przyciskDuzejMikstury->setEnabled(false);
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_DUZYCH_POTOW)));
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (int)(gracz->getZdrowieAktualne() + DZIALANIE_DUZYCH_POTOW)));
 	ruchPrzeciwnika();
 }
 
@@ -312,6 +312,6 @@ void Walka::uzyjMalejMikstury()
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getMalePoty() == 0)
 		przyciskMalejMikstury->setEnabled(false);
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW)));
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (int)(gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW)));
 	ruchPrzeciwnika();
 }

@@ -68,7 +68,7 @@ private:
 	QPushButton* przyciskUcieczki;
 	QHBoxLayout* linijkaPrzyciskowGracza;
 
-	quint8 aktualneZdrowiePrzeciwnika;
+	int aktualneZdrowiePrzeciwnika;
 	void ruchPrzeciwnika();
 	void atakGracza(int atak);
 	void wpisGracza(Gracz* gracz, QString tekst);

@@ -8,44 +8,44 @@ class Przedmiot
 public:
 	Przedmiot(QString nazwa,
 		  RodzajPrzedmiotu rodzaj,
-		  quint8 bonusAWrecz,
-		  quint8 bonusADystansowy,
-		  quint8 bonusAMagiczny,
-		  quint8 bonusObrona,
-		  quint8 bonusPercepcja,
-		  quint8 bonusHP,
-		  quint8 bonusHPregen,
+		  int bonusAWrecz,
+		  int bonusADystansowy,
+		  int bonusAMagiczny,
+		  int bonusObrona,
+		  int bonusPercepcja,
+		  int bonusHP,
+		  int bonusHPregen,
 		  int ograniczenia,
-		  quint8 wartosc,
+		  int wartosc,
 		  bool czyMocny,
 		  QColor kolorCzcionki);
 
 	QString getNazwa();
 	RodzajPrzedmiotu getRodzaj();
-	quint8 getBonusAWrecz();
-	quint8 getBonusADystansowy();
-	quint8 getBonusAMagiczny();
-	quint8 getBonusObrona();
-	quint8 getBonusPercepcja();
-	quint8 getBonusHP();
-	quint8 getBonusHPregen();
+	int getBonusAWrecz();
+	int getBonusADystansowy();
+	int getBonusAMagiczny();
+	int getBonusObrona();
+	int getBonusPercepcja();
+	int getBonusHP();
+	int getBonusHPregen();
 	int getOgraniczenia();
-	quint8 getWartosc();
+	int getWartosc();
 	bool getCzyMocny();
 	QColor getKolorCzcionki();
 
 private:
 	QString nazwa;
 	RodzajPrzedmiotu rodzaj;
-	quint8 bonusAWrecz;
-	quint8 bonusADystansowy;
-	quint8 bonusAMagiczny;
-	quint8 bonusObrona;
-	quint8 bonusPercepcja;
-	quint8 bonusHP;
-	quint8 bonusHPregen;
+	int bonusAWrecz;
+	int bonusADystansowy;
+	int bonusAMagiczny;
+	int bonusObrona;
+	int bonusPercepcja;
+	int bonusHP;
+	int bonusHPregen;
 	int ograniczenia;
-	quint8 wartosc;
+	int wartosc;
 	bool czyMocny;
 	QColor kolorCzcionki;
 

@@ -123,13 +123,13 @@ static const IDPola POCZATKOWE_USTAWIENIE[LICZBA_RAS] = {
 
 struct statystyka
 {
-	quint8 zdrowieMaks;
-	quint8 regeneracja;
-	quint8 atakWrecz;
-	quint8 atakDystansowy;
-	quint8 atakMagiczny;
-	quint8 obrona;
-	quint8 percepcja;
+	int zdrowieMaks;
+	int regeneracja;
+	int atakWrecz;
+	int atakDystansowy;
+	int atakMagiczny;
+	int obrona;
+	int percepcja;
 };
 
 static const statystyka POCZATKOWE_STATYSTYKI[LICZBA_RAS][LICZBA_KLAS] = {

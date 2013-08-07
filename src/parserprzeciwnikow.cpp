@@ -116,7 +116,7 @@ bool ParserPrzeciwnikow::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 
-		if(info.atakMin > info.atakMaks || info.atakMin < 0 || info.obrona < 0 || info.zdrowie <= 0 || info.percepcja < 0)
+		if(info.atakMin > info.atakMaks || info.atakMin < 0 || info.obrona < 0 || info.zdrowie < 0 || info.percepcja < 0)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne wartosci w linii ") + QString::number(numerLinii);
 			return true;

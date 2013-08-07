@@ -36,7 +36,7 @@ private:
 		QString plik;
 		bool czyPoleZPrzeciwnikiem;
 		bool czyPoleZMiastem;
-		quint8 wspolczynnik;
+		int wspolczynnik;
 	};
 	QMap<QString, info> legenda;
 };

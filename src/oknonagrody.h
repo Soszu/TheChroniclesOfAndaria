@@ -12,13 +12,14 @@ class OknoNagrody : public QDialog
 {
 	Q_OBJECT
 public:
-	explicit OknoNagrody(Gracz* gracz, Nagroda* nagroda, QList<Przedmiot*> przedmioty, CyklGry* cykl);
+	explicit OknoNagrody(Gracz* gracz, Nagroda* nagroda, QList<Przedmiot*> przedmioty, CyklGry* cykl, bool czyKoniecTury);
 
 private:
 	Gracz* gracz;
 	Nagroda* nagroda;
 	QList<Przedmiot*> przydzielonePrzedmioty;
 	CyklGry* cykl;
+	bool czyKoniecTury;
 
 	QVBoxLayout* layoutGlowny;
 

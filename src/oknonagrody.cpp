@@ -1,11 +1,12 @@
 ﻿#include "oknonagrody.h"
 
-OknoNagrody::OknoNagrody(Gracz *gracz, Nagroda *nagroda, QList<Przedmiot *> przedmioty, CyklGry *cykl)
+OknoNagrody::OknoNagrody(Gracz *gracz, Nagroda *nagroda, QList<Przedmiot *> przedmioty, CyklGry *cykl, bool czyKoniecTury)
 {
 	this->gracz = gracz;
 	this->nagroda = nagroda;
 	this->cykl = cykl;
 	this->przydzielonePrzedmioty = przedmioty;
+	this->czyKoniecTury = czyKoniecTury;
 	layoutGlowny = new QVBoxLayout(this);
 
 	//czy Awans
@@ -64,8 +65,6 @@ OknoNagrody::OknoNagrody(Gracz *gracz, Nagroda *nagroda, QList<Przedmiot *> prze
 	layoutPrzyciskow->addWidget(ok);
 	layoutGlowny->addLayout(layoutPrzyciskow);
 
-
-
 	connect(ok, SIGNAL(clicked()), this, SLOT(zakoncz()));
 	connect(listaPrzedmiotow, SIGNAL(clicked(QModelIndex)), this, SLOT(wyswietlOpis(QModelIndex)));
 }
@@ -91,6 +90,8 @@ void OknoNagrody::zwiekszAtrybut(atrybut indeks)
 		break;
 	case percepcja:
 		gracz->setPercepcja(gracz->getPercepcja() + 1);
+		break;
+	default:
 		break;
 	}
 }
@@ -160,6 +161,7 @@ void OknoNagrody::zakoncz()
 		gracz->setZdrowieMaks(gracz->getZdrowieMaks() + BONUS_DO_HP_PRZY_AWANSIE);
 		gracz->setZdrowieAktualne(gracz->getZdrowieAktualne() + BONUS_DO_HP_PRZY_AWANSIE);
 	}
-	cykl->zakonczTure();
+	if(czyKoniecTury)
+		cykl->zakonczTure();
 	close();
 }

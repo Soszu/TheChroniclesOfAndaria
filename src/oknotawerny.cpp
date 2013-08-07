@@ -124,6 +124,7 @@ void OknoTawerny::przyjmij()
 	wypelnijListy();
 	przyciskPrzyjmij->setEnabled(false);
 	przyciskPokazCel->setEnabled(false);
+qDebug() <<gracz->getZadania()->back()->getCzyWykonanoCzesc();
 }
 
 /**

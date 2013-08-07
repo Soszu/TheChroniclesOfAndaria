@@ -1,9 +1,9 @@
-#include "pole.h"
+﻿#include "pole.h"
 
 Pole::Pole(
 		IDPola miejsce,
 		QString nazwa,
-		quint8 wspolczynnik,
+		int wspolczynnik,
 		bool czyPoleZPrzeciwnikiem,
 		bool czyPoleZMiastem,
 		QString plikZObrazkiem)
@@ -26,7 +26,7 @@ QString Pole::getNazwa()
 	return nazwa;
 }
 
-quint8 Pole::getWspolczynnik()
+int Pole::getWspolczynnik()
 {
 	return wspolczynnik;
 }

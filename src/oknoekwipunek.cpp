@@ -59,7 +59,7 @@ void OknoEkwipunek::uzyjDuzejMikstury()
 	przyciskDuzejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getDuzePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getDuzePoty() == 0)
 		przyciskDuzejMikstury->setEnabled(false);
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_DUZYCH_POTOW)));
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), gracz->getZdrowieAktualne() + DZIALANIE_DUZYCH_POTOW));
 	okno->uaktualnijInformacje();
 }
 
@@ -69,7 +69,7 @@ void OknoEkwipunek::uzyjMalejMikstury()
 	przyciskMalejMikstury->setText(QString("(") + QString::number(gracz->getEkwipunek()->getMalePoty()) + QString(")"));
 	if(gracz->getEkwipunek()->getMalePoty() == 0)
 		przyciskMalejMikstury->setEnabled(false);
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), (quint8)(gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW)));
+	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), gracz->getZdrowieAktualne() + DZIALANIE_MALYCH_POTOW));
 	okno->uaktualnijInformacje();
 }
 

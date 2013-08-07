@@ -104,13 +104,13 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 			informacje.czyPoleZPrzeciwnikiem = true;
 		else if(podzial.at(3) == "0")
 			informacje.czyPoleZPrzeciwnikiem = false;
-		else bezBledu == false;
+		else bezBledu = false;
 
 		if(podzial.at(4) == "1")
 			informacje.czyPoleZMiastem = true;
 		else if(podzial.at(4) == "0")
 			informacje.czyPoleZMiastem = false;
-		else bezBledu == false;
+		else bezBledu = false;
 
 		if(!bezBledu || podzial.at(0).isEmpty())
 		{

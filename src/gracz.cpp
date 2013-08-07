@@ -106,7 +106,7 @@ void Gracz::setPoziom(quint8 poziom)
 	this->poziom = poziom;
 }
 
-quint8 *Gracz::getReputacja()
+int *Gracz::getReputacja()
 {
 	return reputacja;
 }
@@ -116,82 +116,82 @@ void Gracz::setKonkretnaReputacja(int wartosc, int indeks)
 	reputacja[indeks] = wartosc;
 }
 
-quint8 Gracz::getZdrowieMaks()
+int Gracz::getZdrowieMaks()
 {
 	return zdrowieMaks;
 }
 
-void Gracz::setZdrowieMaks(quint8 wartosc)
+void Gracz::setZdrowieMaks(int wartosc)
 {
 	zdrowieMaks = wartosc;
 }
 
-quint8 Gracz::getZdrowieAktualne()
+int Gracz::getZdrowieAktualne()
 {
 	return zdrowieAktualne;
 }
 
-void Gracz::setZdrowieAktualne(quint8 zdrowie)
+void Gracz::setZdrowieAktualne(int zdrowie)
 {
 	zdrowieAktualne = zdrowie;
 }
 
-quint8 Gracz::getRegeneracja()
+int Gracz::getRegeneracja()
 {
 	return regeneracja;
 }
 
-void Gracz::setRegeneracja(quint8 wartosc)
+void Gracz::setRegeneracja(int wartosc)
 {
 	regeneracja = wartosc;
 }
 
-quint8 Gracz::getAtakWrecz()
+int Gracz::getAtakWrecz()
 {
 	return atakWrecz;
 }
 
-void Gracz::setAtakWrecz(quint8 wartosc)
+void Gracz::setAtakWrecz(int wartosc)
 {
 	atakWrecz = wartosc;
 }
 
-quint8 Gracz::getAtakDystansowy()
+int Gracz::getAtakDystansowy()
 {
 	return atakDystansowy;
 }
 
-void Gracz::setAtakDystansowy(quint8 wartosc)
+void Gracz::setAtakDystansowy(int wartosc)
 {
 	atakDystansowy = wartosc;
 }
 
-quint8 Gracz::getAtakMagiczny()
+int Gracz::getAtakMagiczny()
 {
 	return atakMagiczny;
 }
 
-void Gracz::setAtakMagiczny(quint8 wartosc)
+void Gracz::setAtakMagiczny(int wartosc)
 {
 	atakMagiczny = wartosc;
 }
 
-quint8 Gracz::getObrona()
+int Gracz::getObrona()
 {
 	return obrona;
 }
 
-void Gracz::setObrona(quint8 wartosc)
+void Gracz::setObrona(int wartosc)
 {
 	obrona = wartosc;
 }
 
-quint8 Gracz::getPercepcja()
+int Gracz::getPercepcja()
 {
 	return percepcja;
 }
 
-void Gracz::setPercepcja(quint8 wartosc)
+void Gracz::setPercepcja(int wartosc)
 {
 	percepcja = wartosc;
 }
