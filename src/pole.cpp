@@ -14,6 +14,7 @@ Pole::Pole(
 	this->czyPoleZPrzeciwnikiem = czyPoleZPrzeciwnikiem;
 	this->czyPoleZMiastem = czyPoleZMiastem;
 	this->plikZObrazkiem = plikZObrazkiem;
+
 }
 
 IDPola Pole::getMiejsce()

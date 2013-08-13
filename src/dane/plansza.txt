@@ -15,19 +15,19 @@
 8;VYS'LEAH;zamek.png;0;1;0
 9;MERENGARD;zamek.png;0;1;0
 
-g;;gora.png;0;0;3
-d;;dolina.png;0;0;2
-a;;droga.png;0;0;1
-b;;bagno.png;0;0;4
-l;;las.png;0;0;2
-w;;woda.png;0;0;3
+g;góra;gora.png;0;0;3
+d;dolina;dolina.png;0;0;2
+a;droga;droga.png;0;0;1
+b;bagno;bagno.png;0;0;4
+l;las;las.png;0;0;2
+w;woda;woda.png;0;0;3
 
-G;;gora.png;1;0;3
-D;;dolina.png;1;0;2
-A;;droga.png;1;0;1
-B;;bagno.png;1;0;4
-L;;las.png;1;0;2
-W;;woda.png;1;0;3
+G;góra;gora.png;1;0;3
+D;dolina;dolina.png;1;0;2
+A;droga;droga.png;1;0;1
+B;bagno;bagno.png;1;0;4
+L;las;las.png;1;0;2
+W;woda;woda.png;1;0;3
 
 //można używać spacji by uwidocznić wygląd planszy
 //z tego samego względu symbole nie powinny zawierać spacji

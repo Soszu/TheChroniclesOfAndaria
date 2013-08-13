@@ -152,7 +152,8 @@ void zalozPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 {
 	Ekwipunek* ekw = gracz->getEkwipunek();
 
-	if(czyZalozony(rzecz, gracz) || rzecz == NULL)
+	if(czyZalozony(rzecz, gracz) || rzecz == NULL ||
+	   (rzecz->getRodzaj() == artefakt && ekw->getZalozoneArtefakty()->size() >= LIMIT_ARTEFAKTOW))
 		return;
 
 	switch (rzecz->getRodzaj()) {

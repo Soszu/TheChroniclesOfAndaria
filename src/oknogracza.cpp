@@ -9,26 +9,23 @@ OknoGracza::OknoGracza(QFrame* rama)
 //------------------------------
 	opisPrzedZdrowiem = new QLabel("Zdrowie:");
 	wskaznikZdrowia = new MojPasek(0, 0, Qt::red, Qt::green);
-	opisPoZdrowiu = new QLabel("_/_");
 
 	linijkaZdrowia = new QHBoxLayout();
 	linijkaZdrowia->addWidget(opisPrzedZdrowiem);
 	linijkaZdrowia->addWidget(wskaznikZdrowia);
-	linijkaZdrowia->addWidget(opisPoZdrowiu);
 //------------------------------
 	opisPrzedDoswiadczeniem = new QLabel("Poziom: _");
 	wskaznikDoswiadczenia = new MojPasek(0, Qt::blue);
-	opisPoDoswiadczeniu = new QLabel("_/_");
 	linijkaDoswiadczenia = new QHBoxLayout();
 	linijkaDoswiadczenia->addWidget(opisPrzedDoswiadczeniem);
 	linijkaDoswiadczenia->addWidget(wskaznikDoswiadczenia);
-	linijkaDoswiadczenia->addWidget(opisPoDoswiadczeniu);
 //------------------------------
 	reputacja = new QHBoxLayout();
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 	{
 		slupkiLayouts[i] = new QVBoxLayout();
 		slupki[i] = new MojPasek(MAX_REPUTACJA, 0, Qt::yellow);
+		slupki[i]->setToolTip(QString::fromUtf8("Wskaźnik reputacji dla frakcji: ") + KROLESTWA[i]);
 		podpisy[i] = new QLabel(KROLESTWA[i]);
 		slupkiLayouts[i]->addWidget(slupki[i]);
 		slupkiLayouts[i]->addWidget(podpisy[i]);
@@ -38,13 +35,19 @@ OknoGracza::OknoGracza(QFrame* rama)
 //------------------------------
 	obronaIkona = new QLabel();
 	obronaIkona->setPixmap(IKONKA_OBRONA);
+	obronaIkona->setToolTip(QString::fromUtf8("Wartość współczynnika obrony."));
 	obrona = new QLabel();
+	obrona->setToolTip(QString::fromUtf8("Wartość współczynnika obrony."));
 	percepcjaIkona = new QLabel();
 	percepcjaIkona->setPixmap(IKONKA_PERCEPCJA);
+	percepcjaIkona->setToolTip(QString::fromUtf8("Wartość współczynnika percepcji."));
 	percepcja = new QLabel();
+	percepcja->setToolTip(QString::fromUtf8("Wartość współczynnika percepcji."));
 	ruchIkona = new QLabel();
 	ruchIkona->setPixmap(IKONKA_RUCH);
+	ruchIkona->setToolTip(QString::fromUtf8("Ilość punktów ruchu."));
 	ruch = new QLabel();
+	ruch->setToolTip(QString::fromUtf8("Ilość punktów ruchu."));
 
 	linijkaObrony = new QHBoxLayout();
 	linijkaObrony->addWidget(obronaIkona);
@@ -56,13 +59,19 @@ OknoGracza::OknoGracza(QFrame* rama)
 //------------------------------
 	wreczIkona = new QLabel();
 	wreczIkona->setPixmap(IKONKA_WRECZ);
+	wreczIkona->setToolTip(QString::fromUtf8("Wartość ataku wręcz."));
 	wrecz = new QLabel();
+	wrecz->setToolTip(QString::fromUtf8("Wartość ataku wręcz."));
 	dystansIkona = new QLabel();
 	dystansIkona->setPixmap(IKONKA_DYSTANSOWY);
+	dystansIkona->setToolTip(QString::fromUtf8("Wartość ataku dystansowego."));
 	dystans = new QLabel();
+	dystans->setToolTip(QString::fromUtf8("Wartość ataku dystansowego."));
 	magiaIkona = new QLabel();
 	magiaIkona->setPixmap(IKONKA_MAGICZNY);
+	magiaIkona->setToolTip(QString::fromUtf8("Wartość ataku magicznego."));
 	magia = new QLabel();
+	magia->setToolTip(QString::fromUtf8("Wartość ataku magicznego."));
 
 	linijkaAtakow = new QHBoxLayout();
 	linijkaAtakow->addWidget(wreczIkona);
@@ -74,7 +83,9 @@ OknoGracza::OknoGracza(QFrame* rama)
 //------------------------------
 	zlotoIkona = new QLabel();
 	zlotoIkona->setPixmap(IKONKA_ZLOTO);
+	zlotoIkona->setToolTip(QString::fromUtf8("Ilość posiadanego złota."));
 	zloto = new QLabel();
+	zloto->setToolTip(QString::fromUtf8("Ilość posiadanego złota."));
 
 	linijkaZlota = new QHBoxLayout();
 	linijkaZlota->addWidget(zlotoIkona);
@@ -82,7 +93,9 @@ OknoGracza::OknoGracza(QFrame* rama)
 //------------------------------
 	linijkaPrzyciskow = new QHBoxLayout();
 	zadania = new QPushButton(QString::fromUtf8("Przejrzyj zadania"));
+	zadania->setToolTip(QString::fromUtf8("Wyświetla opis wykonywanych zadań."));
 	ekwipunek = new QPushButton(QString::fromUtf8("Przejrzyj ekwipunek"));
+	ekwipunek->setToolTip(QString::fromUtf8("Wyświetla opis posiadanego ekwipunku."));
 	linijkaPrzyciskow->addWidget(ekwipunek);
 	linijkaPrzyciskow->addWidget(zadania);
 
@@ -107,18 +120,31 @@ OknoGracza::OknoGracza(QFrame* rama)
 void OknoGracza::wyswietlGracza(Gracz *gracz)
 {
 	aktualnyGracz = gracz;
-	pierwszaLinijka->setText(gracz->getNazwa() + ", " + RASY[gracz->getRasa()] + ", " + KLASY[gracz->getKlasa()]);
+	pierwszaLinijka->setText(gracz->getNazwa() + ", " + RASY[gracz->getRasa()] + " " + KLASY[gracz->getKlasa()]);
 //------------------------------
+	QString odmianaPunkty;
+	switch(gracz->getRegeneracja()){
+	case 1:
+		odmianaPunkty = "punkt";
+		break;
+	case 2: case 3: case 4:
+		odmianaPunkty = "punkty";
+		break;
+	default:
+		odmianaPunkty = QString::fromUtf8("punktów");
+		break;
+	}
+
 	wskaznikZdrowia->wypelnijPierwszy((qreal)gracz->getZdrowieAktualne() / gracz->getZdrowieMaks());
 	wskaznikZdrowia->wypelnijDrugi((qreal)gracz->getRegeneracja() / gracz->getZdrowieMaks());
-	opisPoZdrowiu->setText(QString::number(gracz->getZdrowieAktualne()) + QString("/") + QString::number(gracz ->getZdrowieMaks())
-				+ QString(" (") + QString::number(gracz->getRegeneracja()) + QString(")") );
+	wskaznikZdrowia->setToolTip(QString("Punkty zdrowia: ") + QString::number(gracz->getZdrowieAktualne()) + QString("/") + QString::number(gracz ->getZdrowieMaks())+
+				    QString::fromUtf8("\nRegeneracja: ") + QString::number(gracz->getRegeneracja()) + QString(" ") + odmianaPunkty + QString::fromUtf8("/turę") );
 //------------------------------
 	opisPrzedDoswiadczeniem->setText(QString("Poziom: ") + QString::number(gracz->getPoziom()));
 	int ileDoswNaAktualnyPoziom = GRANICE_POZIOMOW[gracz->getPoziom()] - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
 	int ileDoswZebranoNaAktPoziomie = gracz->getDoswiadczenie() - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
 	wskaznikDoswiadczenia->wypelnij((qreal)ileDoswZebranoNaAktPoziomie / ileDoswNaAktualnyPoziom );
-	opisPoDoswiadczeniu->setText(QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
+	wskaznikDoswiadczenia->setToolTip(QString::fromUtf8("Punkty doświadczenia: ") + QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
 //------------------------------
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		slupki[i]->ustaw(gracz->getReputacja()[i]);

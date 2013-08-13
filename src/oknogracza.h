@@ -44,11 +44,9 @@ private:
 
 	QLabel* opisPrzedZdrowiem;
 	MojPasek* wskaznikZdrowia;
-	QLabel* opisPoZdrowiu;
 
 	QLabel* opisPrzedDoswiadczeniem;
 	MojPasek* wskaznikDoswiadczenia;
-	QLabel* opisPoDoswiadczeniu;
 
 	QVBoxLayout* slupkiLayouts[LICZBA_KROLESTW];
 	QLabel* podpisy[LICZBA_KROLESTW];

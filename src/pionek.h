@@ -7,7 +7,7 @@
 class Pionek : public QGraphicsItem
 {
 public:
-	explicit Pionek(QColor kolor, QPointF srodek, qreal promien);
+	explicit Pionek(QColor kolor, QString opisPionka, QPointF srodek, qreal promien);
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	void setPromien(qreal promien);

@@ -9,6 +9,7 @@ OknoZadania::OknoZadania(Gracz *gracz, Plansza *plansza)
 	setWindowTitle("Twoje zadania");
 
 	listaZadan = new QListWidget();
+	listaZadan->setToolTip(QString::fromUtf8("Lista zadań, które aktualnie wykonujesz."));
 
 	for(int i = 0; i < gracz->getZadania()->size(); ++i)
 		listaZadan->addItem(gracz->getKonkretneZadanie(i)->getTytul());
@@ -17,10 +18,12 @@ OknoZadania::OknoZadania(Gracz *gracz, Plansza *plansza)
 	layoutGorny->addWidget(listaZadan);
 
 	opisZadania = new QTextBrowser();
+	opisZadania->setToolTip(QString::fromUtf8("Dokładny opis zaznaczonego zadania");
 	layoutGorny->addWidget(opisZadania);
 	layoutGlowny->addLayout(layoutGorny);
 
 	przyciskPokazCel = new QPushButton(QString::fromUtf8("Pokaz hex z celem"));
+	przyciskPrzyjmij->setToolTip(QString::fromUtf8("Zależnie od sytuacji, przycisk pozwala przyjąć lub odrzucić zaznaczone zadanie"));
 	przyciskPokazCel->setEnabled(false);
 	ok = new QPushButton("Ok");
 

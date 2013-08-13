@@ -56,7 +56,7 @@ void ObszarPlanszy::narysujPlansze(QList<Pole *> *pola, int kolumny, int wiersze
 
 	for(int i = 0; i < pozycjeGraczy->size(); ++i)
 	{
-		pionki.push_back(new Pionek(pozycjeGraczy->at(i).first, podajSrodekPionka(i), bokHexa / 2));
+		pionki.push_back(new Pionek(pozycjeGraczy->at(i).first, plansza->podajOpisGracza(i), podajSrodekPionka(i), bokHexa / 2));
 		addItem(pionki.at(i));
 	}
 }

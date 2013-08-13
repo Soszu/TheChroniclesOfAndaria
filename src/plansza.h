@@ -36,6 +36,7 @@ public:
 	void uaktualnijOsiagalne();
 	void wykreslGracza(int indeks);
 	Pole *pokazPole(IDPola pole);
+	QString podajOpisGracza(int indeks);
 	bool czyTrwaAnimacja();
 	QList<IDPola> pokazOsiagalne();
 	void ruchAI(IDPola pole);

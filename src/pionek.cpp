@@ -1,10 +1,11 @@
 ﻿#include "pionek.h"
 
-Pionek::Pionek(QColor kolor, QPointF srodek, qreal promien)
+Pionek::Pionek(QColor kolor, QString opisPionka, QPointF srodek, qreal promien)
 {
 	this->kolor = kolor;
 	setPos(srodek);
 	this->promien = promien;
+	this->setToolTip(opisPionka);
 }
 
 /**

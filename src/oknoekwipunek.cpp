@@ -10,11 +10,14 @@ OknoEkwipunek::OknoEkwipunek(Gracz *gracz, OknoGracza *okno)
 	setWindowTitle("Ekwipunek");
 
 	listaPrzedmiotow = new QListWidget();
+	listaPrzedmiotow->setToolTip(QString::fromUtf8("Lista posiadanych przedmiotów."));
+
 	for(int i = 0; i < ekwipunek->getPlecak()->size(); ++i)
 	{
 		listaPrzedmiotow->addItem(plecak->at(i)->getNazwa());
 	}
 	opisPrzedmiotu = new QTextBrowser();
+	opisPrzedmiotu->setToolTip(QString::fromUtf8("opis aktualnie zaznaczonego przedmiotu."));
 	layoutGorny = new QHBoxLayout();
 	layoutGorny->addWidget(listaPrzedmiotow);
 	layoutGorny->addWidget(opisPrzedmiotu);
@@ -34,6 +37,7 @@ OknoEkwipunek::OknoEkwipunek(Gracz *gracz, OknoGracza *okno)
 
 
 	przyciskZaloz = new QPushButton(QString::fromUtf8("Załóż przedmiot"));
+	przyciskZaloz->setToolTip(QString::fromUtf8("Zależnie od okoliczności przycisk pozwala na założenie lub zdjęcie zaznaczonego przedmiotu z Twojej postaci."));
 	przyciskZaloz->setEnabled(false);
 	ok = new QPushButton("Ok");
 

@@ -155,6 +155,17 @@ Pole*	 Plansza::pokazPole(IDPola pole)
 	return pola->at(IDToIndeks(pole));
 }
 
+QString Plansza::podajOpisGracza(int indeks)
+{
+	QString opis;
+	Gracz* gr = gracze->at(indeks);
+	opis += gr->getNazwa() + opis + "\n";
+	opis += RASY[gr->getRasa()] + " " + KLASY[gr->getKlasa()] + "\n";
+	opis += "poziom " + QString::number(gr->getPoziom()) + "\n";
+	opis += "zdrowie " + QString::number(gr->getZdrowieAktualne()) + "/" + QString::number(gr->getZdrowieMaks());
+	return opis;
+}
+
 /**
  * @brief Plansza::czyTrwaAnimacja	Podaje informację, czy ruch jest własnie animowany.
  * @return	Jeśli ruch jest właśnie animowany, to zwraca true, w.p.p false.

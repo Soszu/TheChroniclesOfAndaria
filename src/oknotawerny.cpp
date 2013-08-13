@@ -11,11 +11,13 @@ OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, QList<Zadanie *> *doste
 
 	tytulWlasnychZadan = new QLabel("Twoje dotychczasowe zadania");
 	listaWlasnychZadan = new QListWidget();
+	listaWlasnychZadan->setToolTip(QString::fromUtf8("Lista zadań, które aktualnie wykonujesz."));
 
 	tytulMozliwychZadan = new QLabel(QString::fromUtf8("Zadania dostępne do przyjęcia\n(możesz jednocześnie wykonywać ") +
 					 QString::number(MAKSYMALNA_LICZBA_ZADAN) +
 					 QString::fromUtf8(" zadań)"));
 	listaMozliwychZadan = new QListWidget();
+	listaMozliwychZadan->setToolTip(QString::fromUtf8("Lista zadań, które możesz przyjąć w tym miejscu."));
 
 	wypelnijListy();
 
@@ -28,12 +30,15 @@ OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, QList<Zadanie *> *doste
 	layoutGorny->addLayout(layoutLewy);
 
 	opisZadania = new QTextBrowser();
+	opisZadania->setToolTip(QString::fromUtf8("Dokładny opis zaznaczonego zadania");
 	layoutGorny->addWidget(opisZadania);
 	layoutGlowny->addLayout(layoutGorny);
 
 	przyciskPokazCel = new QPushButton(QString::fromUtf8("Pokaz hex z celem"));
+	przyciskPokazCel->setToolTip(QString::fromUtf8("Wyszczególnia hex, do którego należy się aktualnie udać, aby wykonać zadanie."));
 	przyciskPokazCel->setEnabled(false);
 	przyciskPrzyjmij = new QPushButton("Przyjmij");
+	przyciskPrzyjmij->setToolTip(QString::fromUtf8("Zależnie od sytuacji, przycisk pozwala przyjąć lub odrzucić zaznaczone zadanie"));
 	przyciskPrzyjmij->setEnabled(false);
 	ok = new QPushButton("Ok");
 
@@ -72,6 +77,8 @@ void OknoTawerny::wypelnijListy()
  */
 void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
 {
+	listaMozliwychZadan->setCurrentRow(-1);
+
 	Zadanie* zadanie = gracz->getKonkretneZadanie(element.row());
 	ostatnioWyswietlone = zadanie;
 
@@ -88,6 +95,8 @@ void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
  */
 void OknoTawerny::wyswietlOpisDlaMozliwych(QModelIndex element)
 {
+	listaWlasnychZadan->setCurrentRow(-1);
+
 	Zadanie* zadanie = dostepneZadania->at(element.row());
 	ostatnioWyswietlone = zadanie;
 

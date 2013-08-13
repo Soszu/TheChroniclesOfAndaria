@@ -9,6 +9,7 @@ Hex::Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar)
 	setPos(ObszarPlanszy::podajSrodek(pole->getMiejsce(), bok));
 	podswietlenie = false;
 	zaznaczenie = false;
+	this->setToolTip(pole->getNazwa() + "\nKoszt ruchu: " + QString::number(pole->getWspolczynnik()));
 }
 
 /**
@@ -51,7 +52,7 @@ void Hex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 
 		painter->drawImage(ograniczenieSymbolu, QImage(QString(":/hexy/symbol.png")));
 	}
-	if(pole->getNazwa() != "")
+	if(pole->getCzyPoleZMiastem())
 	{
 		QPointF przesuniecie(0, bok * 1.24 ); //przesuniecie symbolu miecza względem początku
 		QRectF ograniczenieTekstu(boundingRect().topLeft() + przesuniecie, boundingRect().size());

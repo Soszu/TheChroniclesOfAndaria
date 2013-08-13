@@ -11,8 +11,10 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 
 	tytulPrzedmiotow = new QLabel("Twoje przedmioty");
 	listaPrzedmiotow = new QListWidget();
+	listaPrzedmiotow->setToolTip(QString::fromUtf8("Lista posiadanych przedmiotów."));
 	tytulTowarow = new QLabel(QString::fromUtf8("Przedmioty dostępne na bazarze"));
 	listaTowarow = new QListWidget();
+	listaTowarowlistaPrzedmiotow->setToolTip(QString::fromUtf8("Lista towarów dostępnych do kupienia na bazarze."));
 	wypelnijListy();
 
 	layoutLewy = new QVBoxLayout();
@@ -24,6 +26,7 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	layoutGorny->addLayout(layoutLewy);
 
 	opisPrzedmiotu = new QTextBrowser();
+	opisPrzedmiotu->setToolTip(QString::fromUtf8("opis aktualnie zaznaczonego przedmiotu."));
 	layoutGorny->addWidget(opisPrzedmiotu);
 	layoutGlowny->addLayout(layoutGorny);
 
@@ -44,8 +47,10 @@ OknoBazaru::OknoBazaru(Gracz* gracz, OknoGracza *okno, QList<Przedmiot*> *towary
 	przyciskDuzejMikstury->setEnabled(gracz->getZloto() >= CENA_DUZEJ_MIKSTURY);
 
 	przyciskKup = new QPushButton();
+	przyciskKup->setToolTip(QString::fromUtf8("Zależnie od okoliczności, przycisk pozwala na kupno albo sprzedaż aktualnie zaznaczonego przedmiotu."));
 	przyciskKup->setVisible(false);
 	przyciskZaloz = new QPushButton();
+	przyciskZaloz->setToolTip(QString::fromUtf8("Zależnie od okoliczności, przycisk pozwala na założenie albo zdjęcie aktualnie zaznaczonego przedmiotu z Twojej postaci."));
 	przyciskZaloz->setVisible(false);
 	ok = new QPushButton("Ok");
 
@@ -95,6 +100,8 @@ void OknoBazaru::wypelnijListy()
  */
 void OknoBazaru::wyswietlOpisDlaGracza(QModelIndex element)
 {
+	listaTowarow->setCurrentRow(-1);
+
 	przyciskKup->setText("Sprzedaj");
 	przyciskKup->setVisible(true);
 	przyciskKup->setEnabled(true);
@@ -118,6 +125,8 @@ void OknoBazaru::wyswietlOpisDlaGracza(QModelIndex element)
  */
 void OknoBazaru::wyswietlOpisDlaBazaru(QModelIndex element)
 {
+	listaPrzedmiotow->setCurrentRow(-1);
+
 	Przedmiot* rzecz = towary->at(element.row());
 
 	przyciskZaloz->setVisible(false);
@@ -199,7 +208,6 @@ void OknoBazaru::kup()
 		plecak->removeAt(plecak->indexOf(rzecz));
 		towary->push_back(rzecz);
 		gracz->setZloto(gracz->getZloto() + rzecz->getWartosc() / 2);
-
 	}
 	else
 	{
