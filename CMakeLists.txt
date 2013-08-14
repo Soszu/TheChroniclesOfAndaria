@@ -8,5 +8,6 @@ find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})
 add_definitions (${QT_DEFINITIONS})
 
-add_subdirectory (src)
+include_directories (${Planszowka_SOURCE_DIR}/src)
 
+add_subdirectory (src)
