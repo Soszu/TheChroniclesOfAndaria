@@ -24,7 +24,6 @@ private:
 	QTextBrowser* walka;
 	QTextBrowser* awans;
 	QTextBrowser* koniec;
-	QTextBrowser* widok;
 };
 
 #endif // OKNOZASAD_H

@@ -32,6 +32,7 @@ public:
 	void rozpocznij();
 	void zakonczTure();
 private:
+	void zrestartujZmienne();
 	void graczWygral(Gracz* gracz);
 	bool czySpelnionyWarunekZwyciestwa(Gracz* gracz);
 	void ruszGracza(int indeks);
@@ -40,6 +41,10 @@ private:
 	int indeksAktualnego;
 	int liczbaAktywnych;
 	void wyznaczKolejnego();
+	void nowyDzien();
+	bool czyPierwszaGra;
+	int tydzien;
+	int dzien;
 
 	int* wynikParsowania;
 	QDialog* komunikatOBledzie;

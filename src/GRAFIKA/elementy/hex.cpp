@@ -9,7 +9,8 @@ Hex::Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar)
 	setPos(ObszarPlanszy::podajSrodek(pole->getMiejsce(), bok));
 	podswietlenie = false;
 	zaznaczenie = false;
-	this->setToolTip(pole->getNazwa() + "\nKoszt ruchu: " + QString::number(pole->getWspolczynnik()));
+	obramowanie = false;
+	setAcceptHoverEvents(true);
 }
 
 /**
@@ -27,10 +28,10 @@ QRectF Hex::boundingRect() const
  * @brief Hex::shape	Zwraca dokładne ograniczenie hexa, sześciąkąt foremny, który zawiera hex.
  * @return		QPainterPath z ograniczeniem hexa.
  */
-QPainterPath Hex::shape()
+QPainterPath Hex::shape() const
 {
 	QPainterPath figura;
-	figura.addPolygon(QPolygonF(podajWierzcholki()));
+	figura.addPolygon(QPolygonF(podajWierzcholki(1)));
 	figura.closeSubpath();
 	return figura;
 }
@@ -66,6 +67,14 @@ void Hex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 	}
 	if(podswietlenie)
 		painter->fillPath(shape(),QBrush(Qt::gray, Qt::Dense7Pattern));
+	if(obramowanie)
+	{
+		QPainterPath figura;
+		figura.addPolygon(QPolygonF(podajWierzcholki(0.9)));
+		figura.closeSubpath();
+		painter->setPen(QPen(QBrush(Qt::white), bok / 5));
+		painter->drawPath(figura);
+	}
 	if(zaznaczenie)
 	{
 		painter->setPen(QPen(QBrush(Qt::white), bok / 10));
@@ -96,13 +105,15 @@ void Hex::setPodswietlenie(bool opcja)
 
 /**
  * @brief Hex::podajWierzcholki		Zwraca wierzchołki hexa.
+ * @param x	modyfikator oddalenia wierzchołków od środka. 1 to standardowy rozmiar
  * @return	QVector wierzchołków hexa
  */
-QVector<QPointF> Hex::podajWierzcholki()
+QVector<QPointF> Hex::podajWierzcholki(qreal x) const
 {
 	QVector<QPointF> wierzcholki;
-	wierzcholki << QPointF(0, -bok) << QPointF(wysokosc, -bok / 2) <<QPointF( wysokosc, bok / 2)
-		    << QPointF(0, bok ) << QPointF(-wysokosc, bok / 2) <<QPointF(-wysokosc, -bok/ 2);
+	wierzcholki << QPointF(0, -bok * x) << QPointF(wysokosc * x, (-bok / 2) * x)
+		    <<QPointF( wysokosc * x, (bok / 2) * x) << QPointF(0, bok * x)
+		   << QPointF(-wysokosc * x, (bok / 2) * x) <<QPointF(-wysokosc * x, (-bok/ 2) * x);
 	return wierzcholki;
 }
 
@@ -131,6 +142,37 @@ void Hex::odznacz()
 void Hex::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	obszarPlanszy->kliknietoHex(pole->getMiejsce());
+}
+
+void Hex::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+	QMenu menu;
+	menu.addAction("Informacje o polu");
+	if(pole->getCzyPoleZMiastem())
+		menu.addAction(QString::fromUtf8("Zawartość bazaru"));
+	QAction *a = menu.exec(event->screenPos());
+	qDebug("User clicked %s", qPrintable(a->text()));
+}
+
+/**
+ * @brief Hex::hoverEnterEvent	Informuje o wjechaniu kursorem na hex, powoduje narysowanie nad nim obramowania
+ * @param event
+ */
+void Hex::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+	obramowanie = true;
+	obszarPlanszy->wyswietlKomunikat(pole->getNazwa() + ";\t koszt ruchu: " + QString::number(pole->getWspolczynnik()));
+	update();
+}
+
+/**
+ * @brief Hex::hoverLeaveEvent	Informuje o zjechaniu kursorem z hexa, powoduje pozbawienie go obramowania
+ * @param event
+ */
+void Hex::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+	obramowanie = false;
+	update();
 }
 
 /**

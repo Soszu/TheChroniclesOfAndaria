@@ -50,8 +50,4 @@ OknoZasad::OknoZasad(QWidget *parent) :
 	koniec = new QTextBrowser();
 	zakladki->addTab(koniec, QString("Koniec"));
 	koniec ->setText(QString::fromUtf8("Gra kończy się, gdy w grze pozostanie tylko 1 gracz, lub gdy jeden z graczy osiągnie maksymalny ") + QString::number(MAKSYMALNY_POZIOM) + QString::fromUtf8(" poziom oraz będzie posiadał ") + QString::number(MAX_REPUTACJA) + QString::fromUtf8(" punktów reputacji w co najmniej ") + QString::number(LICZBA_POTRZEBNYCH_REPUTACJI) + QString::fromUtf8(" królestwach."));
-
-	widok = new QTextBrowser();
-	zakladki->addTab(widok, QString("Widok"));
-	widok->setText(QString::fromUtf8("Skróty klawiszowe:\nCtrl + +\tPowiększenie rozmiaru planszy\nCtrl + -\tPomniejszenie rozmiaru planszy\nCtrl + 0\tPrzywrócenie domyślnego rozmiaru planszy"));
 }

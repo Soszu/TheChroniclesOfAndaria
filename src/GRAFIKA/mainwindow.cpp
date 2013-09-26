@@ -13,6 +13,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	ramka = new QFrame();
 	panel = new QGroupBox();
 
+	menuGra = new QMenu("Gra");
+	menuWidok = new QMenu("Widok");
+	menuPomoc = new QMenu("Pomoc");
+
+	menuBar()->addMenu(menuGra);
+	menuBar()->addMenu(menuWidok);
+	menuBar()->addMenu(menuPomoc);
+
 	layoutGlowny->addWidget(graphicsView);
 	layoutGlowny->addLayout(layoutBoczny);
 	layoutBoczny->addWidget(ramka);
@@ -23,6 +31,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	oknoGracza = new OknoGracza(ramka);
 	obszarPlanszy = new ObszarPlanszy(this);
 	graphicsView->setScene(obszarPlanszy);
+
+	wyswietlaczDaty = new QLabel(statusBar());
+	statusBar()->addPermanentWidget(wyswietlaczDaty);
+	obszarPlanszy->setPasekStanu(statusBar());
+
+	menuGra->addAction("Nowa gra");
+	menuGra->addSeparator();
+	menuGra->addAction(QString::fromUtf8("Wczytaj grę"));
+	menuGra->addAction(QString::fromUtf8("Zapisz grę"));
+	menuGra->addSeparator();
+	menuGra->addAction(QString::fromUtf8("Zakończ"), this, SLOT(close()));
+
+	menuWidok->addAction(QString::fromUtf8("Powiększ planszę"), obszarPlanszy, SLOT(powiekszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Plus);
+	menuWidok->addAction(QString::fromUtf8("Pomniejsz planszę"), obszarPlanszy, SLOT(pomniejszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Minus);
+	menuWidok->addAction(QString::fromUtf8("Przywróć bazowy \nrozmiar planszy"), obszarPlanszy, SLOT(przywrocRozmiarPlanszy()), Qt::CTRL + Qt::Key_Equal);
+
+	menuPomoc->addAction("Pomoc", this, SLOT(wyswietlZasady()), Qt::Key_F1);
+	menuPomoc->addAction("O Autorze");
 }
 
 MainWindow::~MainWindow()
@@ -57,9 +83,24 @@ void MainWindow::setMistrzGry(MistrzGry *mistrz)
 	oknoGracza->setMistrzGry(mistrz);
 }
 
+/**
+ * @brief MainWindow::zmienDate		Wyświetla wskazaną datę na pasku statusu
+ * @param dzien
+ * @param tydzien
+ */
+void MainWindow::zmienDate(int dzien, int tydzien)
+{
+	wyswietlaczDaty->setText(QString::fromUtf8("Dzień ") + QString::number(dzien) +
+				 QString::fromUtf8(", Tydzień ") + QString::number(tydzien));
+}
+
+/**
+ * @brief MainWindow::wyswietlZasady	Wyświetla okno zasad i blokuje pozostałe okna
+ */
 void MainWindow::wyswietlZasady()
 {
 	oknoZasad = new OknoZasad();
+	oknoZasad->setWindowModality(Qt::ApplicationModal);
 	oknoZasad->setAttribute(Qt::WA_DeleteOnClose);
 	oknoZasad->show();
 }

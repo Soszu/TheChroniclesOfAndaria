@@ -28,6 +28,8 @@ public:
 	explicit ObszarPlanszy(MainWindow* mainWindow);
 	~ObszarPlanszy();
 	void setPlansza(Plansza* plansza);
+	void setPasekStanu(QStatusBar *pasek);
+	void wyswietlKomunikat(QString tresc);
 	void narysujPlansze(QList<Pole*>* pola, int kolumny, int wiersze, QList<QPair<QColor, IDPola> > *pozycjeGraczy);
 
 	void kliknietoHex(IDPola id);
@@ -41,6 +43,7 @@ public:
 	static qreal podajWysokosc(qreal bok);
 private:
 	MainWindow* mainWindow;
+	QStatusBar* pasekStatusu;
 
 	qreal bokHexa;
 	Plansza *plansza;
@@ -67,8 +70,13 @@ private:
 	QPointF koniecAnimacji;
 
 protected:
-	void keyReleaseEvent(QKeyEvent *event);
+//	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 signals:
+
+public slots:
+	void powiekszRozmiarPlanszy();
+	void pomniejszRozmiarPlanszy();
+	void przywrocRozmiarPlanszy();
 
 private slots:
 	void kolejnePrzejscie();

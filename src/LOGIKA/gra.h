@@ -12,6 +12,7 @@ static const quint8 LICZBA_RAS = 4;
 static const quint8 LICZBA_KLAS = 4;
 //grupy przeciwnikow są numerowane od 1.
 static const quint8 LICZBA_GRUP_PRZECIWNIKOW = 5;
+static const quint8 LICZBA_DNI_TYGODNIA = 5;
 
 static const uint KOSTKA_GRACZA = 10;
 
@@ -43,7 +44,8 @@ static const quint8 CENA_DUZEJ_MIKSTURY = 3;
 
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
 static const int CZAS_TRWANIA_PODSWIETLENIA = 1500; //w milisekundach
-
+static const int DLUGOSC_TRWANIA_KOMUNIKATU = 4000; //w milisekundach
+static const qreal ZMIANA_WIELKOSCI_PLANSZY = 5;
 static const qreal POCZATKOWY_ROZMIAR_HEXA = 20;
 static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
 static const qreal MINIMALNY_ROZMIAR_HEXA = 10;

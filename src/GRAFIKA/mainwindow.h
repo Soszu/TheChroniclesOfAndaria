@@ -32,6 +32,9 @@ public:
 	ObszarPlanszy* getObszarPlanszy();
 	void setPlansza(Plansza* plansza);
 	void setMistrzGry(MistrzGry* mistrz);
+	void zmienDate(int dzien, int tydzien);
+
+private slots:
 	void wyswietlZasady();
 
 private:
@@ -42,6 +45,10 @@ private:
 	QGraphicsView* graphicsView;
 	QFrame* ramka;
 	QGroupBox* panel;
+	QMenu* menuGra;
+	QMenu* menuWidok;
+	QMenu* menuPomoc;
+	QLabel* wyswietlaczDaty;
 
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;

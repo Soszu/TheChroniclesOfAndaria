@@ -3,7 +3,8 @@
 CyklGry::CyklGry(int* wynikParsowania)
 {
 	this->wynikParsowania = wynikParsowania;
-	indeksAktualnego = 0;
+	zrestartujZmienne();
+	czyPierwszaGra = true;
 	komunikatOBledzie = new QDialog;
 }
 
@@ -135,8 +136,13 @@ bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
  */
 void CyklGry::rozpocznij()
 {
-	mainWindow->wyswietlZasady();
 	qDebug() <<"Liczba graczy: " <<gracze.size();
+	mainWindow->zmienDate(dzien, tydzien);
+	if(czyPierwszaGra)
+	{
+		czyPierwszaGra = false;
+//		plansza->
+	}
 	ruszGracza(indeksAktualnego);
 }
 
@@ -158,11 +164,27 @@ void CyklGry::wyznaczKolejnego()
 {
 	do
 	{
-	++indeksAktualnego;
-	if(indeksAktualnego >= gracze.size())
-		indeksAktualnego = 0;
+		++indeksAktualnego;
+		if(indeksAktualnego >= gracze.size())
+		{
+			nowyDzien();
+			indeksAktualnego = 0;
+		}
 	}
 	while(!gracze[indeksAktualnego]->getCzyAktywny());
+}
+
+void CyklGry::nowyDzien()
+{
+	if(dzien < LICZBA_DNI_TYGODNIA)
+		++dzien;
+	else
+	{
+		dzien = 1;
+		++tydzien;
+		mistrzGry->nowyTydzien();
+	}
+	mainWindow->zmienDate(dzien, tydzien);
 }
 
 /**
@@ -176,4 +198,11 @@ void CyklGry::zakonczTure()
 	wyznaczKolejnego();
 
 	ruszGracza(indeksAktualnego);
+}
+
+void CyklGry::zrestartujZmienne()
+{
+	tydzien = 1;
+	dzien = 1;
+	indeksAktualnego = 0;
 }

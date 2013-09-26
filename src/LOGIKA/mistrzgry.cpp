@@ -233,8 +233,6 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 		++indeks;
 
 	Zadanie* zadanie = gracz->getKonkretneZadanie(indeks);
-	qDebug() <<"czy wykonano czesc" <<zadanie->getCzyWykonanoCzesc();
-	qDebug() <<"rodzaj zadania" <<zadanie->getRodzaj();
 	switch (zadanie->getRodzaj()) {
 	case przynies:
 		if(zadanie->getCzyWykonanoCzesc())
@@ -297,6 +295,12 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 		}
 		break;
 	}
+}
+
+void MistrzGry::nowyTydzien()
+{
+	qDebug() <<"rozpoczeto nowy tydzien";
+	//TODO: wymiana towarow
 }
 
 /**
@@ -438,6 +442,7 @@ void MistrzGry::przydzielNagrode(Gracz *gracz, Nagroda *nagroda, bool czyKoniecT
 	oknoGracza->uaktualnijInformacje();
 
 	oknoNagrody = new OknoNagrody(aktualnyGracz, nagroda, przydzielonePrzedmioty, cyklGry, czyKoniecTury);
+	oknoNagrody->setWindowModality(Qt::ApplicationModal);
 	oknoNagrody->setAttribute(Qt::WA_DeleteOnClose);
 	oknoNagrody->rozpocznij();
 }
@@ -480,6 +485,7 @@ void MistrzGry::walka(Akcja opcja)
 
 	aktualnyGracz->setOstatnioWalczyl(true);
 	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
+	oknoWalki->setWindowModality(Qt::ApplicationModal);
 	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
 	oknoWalki->rozpocznij();
 }
@@ -504,6 +510,7 @@ void MistrzGry::idzDoTawerny()
 
 	tawernaOdwiedzona = true;
 	oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, &zadaniaWTawernie);
+	oknoTawerny->setWindowModality(Qt::ApplicationModal);
 	oknoTawerny->setAttribute(Qt::WA_DeleteOnClose);
 	oknoTawerny->show();
 }
@@ -530,6 +537,7 @@ void MistrzGry::handelNaBazarze()
 
 	bazarOdwiedzony = true;
 	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, &towaryNaBazarze);
+	oknoBazaru->setWindowModality(Qt::ApplicationModal);
 	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
 	oknoBazaru->show();
 }

@@ -208,6 +208,7 @@ QString OknoGracza::odmiana(int n)
 void OknoGracza::pokazEkwipunek()
 {
 	oknoEkwipunek = new OknoEkwipunek(aktualnyGracz, this);
+	oknoEkwipunek->setWindowModality(Qt::ApplicationModal);
 	oknoEkwipunek->setAttribute(Qt::WA_DeleteOnClose);
 	oknoEkwipunek->show();
 }
@@ -218,6 +219,7 @@ void OknoGracza::pokazEkwipunek()
 void OknoGracza::pokazZadania()
 {
 	oknoZadania = new OknoZadania(aktualnyGracz, mistrz->getPlansza());
+	oknoZadania->setWindowModality(Qt::ApplicationModal);
 	oknoZadania->setAttribute(Qt::WA_DeleteOnClose);
 	oknoZadania->show();
 }

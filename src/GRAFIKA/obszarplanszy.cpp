@@ -32,6 +32,20 @@ void ObszarPlanszy::setPlansza(Plansza *plansza)
 	this->plansza = plansza;
 }
 
+void ObszarPlanszy::setPasekStanu(QStatusBar* pasek)
+{
+	this->pasekStatusu = pasek;
+}
+
+/**
+ * @brief ObszarPlanszy::wyswietlKomunikat	wyświetla przekazany komunikat na pasku statusu
+ * @param tresc
+ */
+void ObszarPlanszy::wyswietlKomunikat(QString tresc)
+{
+	pasekStatusu->showMessage(tresc, DLUGOSC_TRWANIA_KOMUNIKATU);
+}
+
 /**
  * @brief ObszarPlanszy::narysujPlansze Rysuje plansze na ekranie
  * @param pola lista pól planszy
@@ -182,6 +196,11 @@ QPointF ObszarPlanszy::podajSrodekPionka(int indeks)
 	return srodek + przesuniecie;
 }
 
+//void ObszarPlanszy::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+//{
+//	pasekStatusu->showMessage(QString::number(event->scenePos().x()));
+//}
+
 /**
  * @brief ObszarPlanszy::podajSrodek Na podstawie długości boku i współrzędnych pola podaje jego środek.
  * @param id współrzędne pola
@@ -235,28 +254,27 @@ void ObszarPlanszy::zmienRozmiar(int d)
 }
 
 /**
- * @brief ObszarPlanszy::keyReleaseEvent Obsługuje skróty klawiszowe odpowiedzialne za manipulacje rozmiarem planszy
- * @param event
+ * @brief ObszarPlanszy::powiekszRozmiarPlanszy	Zwiększa o ustaloną wartość rozmiar planszy.
  */
-void ObszarPlanszy::keyReleaseEvent(QKeyEvent *event)
+void ObszarPlanszy::powiekszRozmiarPlanszy()
 {
-	switch(event->key()){
-	case Qt::Key_Minus:
-		if(event->modifiers() == Qt::CTRL)
-			zmienRozmiar(-5);
-		break;
-	case Qt::Key_Equal:
-		if(event->modifiers() == Qt::CTRL )
-			zmienRozmiar(5);
-		break;
-	case Qt::Key_0:
-		if(event->modifiers() == Qt::CTRL)
-			zmienRozmiar(POCZATKOWY_ROZMIAR_HEXA - bokHexa);
-		break;
-	case Qt::Key_F1:
-		mainWindow->wyswietlZasady();
-		break;
-	}
+	zmienRozmiar(ZMIANA_WIELKOSCI_PLANSZY * -1);
+}
+
+/**
+ * @brief ObszarPlanszy::pomniejszRozmiarPlanszy	Zmniejsza o ustaloną wartość rozmiar planszy.
+ */
+void ObszarPlanszy::pomniejszRozmiarPlanszy()
+{
+	zmienRozmiar(ZMIANA_WIELKOSCI_PLANSZY);
+}
+
+/**
+ * @brief ObszarPlanszy::przywrocRozmiarPlanszy	Przywraca bazowy rozmiar planszy.
+ */
+void ObszarPlanszy::przywrocRozmiarPlanszy()
+{
+	zmienRozmiar(POCZATKOWY_ROZMIAR_HEXA - bokHexa);
 }
 
 /**

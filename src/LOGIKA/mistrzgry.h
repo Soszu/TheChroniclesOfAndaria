@@ -59,6 +59,7 @@ public:
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda, bool czyKoniecTury);
 	void wykonajAkcje(Akcja opcja);
 	void wykonajZadanie(Gracz *gracz, int id);
+	void nowyTydzien();
 private:
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
@@ -72,7 +73,9 @@ private:
 	Plansza* plansza;
 	PanelAkcji* panelAkcji;
 	OknoGracza* oknoGracza;
+	QLabel* dzienTygodnia;
 	QMap<int, SztucznaInteligencja*> boty;
+
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
 	void walka(Akcja opcja);

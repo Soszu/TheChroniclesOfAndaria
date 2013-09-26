@@ -15,7 +15,7 @@ class Hex : public QGraphicsItem
 public:
 	explicit Hex(Pole* pole, qreal bok, ObszarPlanszy* obszar);
 	QRectF boundingRect() const;
-	QPainterPath shape();
+	QPainterPath shape() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	void setBok(qreal bok);
 	void setPodswietlenie(bool opcja);
@@ -29,11 +29,15 @@ private:
 	ObszarPlanszy* obszarPlanszy;
 	bool podswietlenie;
 	bool zaznaczenie;
+	bool obramowanie;
 	QPainterPath ksztaltZaznaczenia();
-	QVector<QPointF> podajWierzcholki();
+	QVector<QPointF> podajWierzcholki(qreal x) const;
 
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);
+	void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+	void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+	void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };
 
 #endif // HEX_H
