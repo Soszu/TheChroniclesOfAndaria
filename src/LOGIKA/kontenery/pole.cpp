@@ -6,7 +6,8 @@ Pole::Pole(
 		int wspolczynnik,
 		bool czyPoleZPrzeciwnikiem,
 		bool czyPoleZMiastem,
-		QString plikZObrazkiem)
+		QString plikZObrazkiem,
+		int frakcja)
 {
 	this->miejsce = miejsce;
 	this->nazwa = nazwa;
@@ -14,6 +15,7 @@ Pole::Pole(
 	this->czyPoleZPrzeciwnikiem = czyPoleZPrzeciwnikiem;
 	this->czyPoleZMiastem = czyPoleZMiastem;
 	this->plikZObrazkiem = plikZObrazkiem;
+	this->frakcja = frakcja;
 
 }
 
@@ -45,4 +47,9 @@ bool Pole::getCzyPoleZMiastem()
 QString Pole::getPlikZObrazkiem()
 {
 	return plikZObrazkiem;
+}
+
+int Pole::getFrakcja()
+{
+	return frakcja;
 }

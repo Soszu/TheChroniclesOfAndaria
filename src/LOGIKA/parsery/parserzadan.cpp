@@ -84,12 +84,12 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 	{
 //-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
-		if(podzial.size() != 9)
+		if(podzial.size() != 10)
 		{
 			trescBledu = QString::fromUtf8( "Zła ilość pól. Wadliwa linia: ") + QString::number(numerLinii);
 			return true;
 		}
-		QStringList pole = podzial.at(6).split(",");
+		QStringList pole = podzial.at(7).split(",");
 		if(pole.size() != 2)
 		{
 			trescBledu = QString::fromUtf8( "Zła ilość współrzędnych pola.\n Wadliwa linia: ") + QString::number(numerLinii);
@@ -97,14 +97,14 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 		}
 //-----------TEKSTY
 		informacje info;
-		info.tytul = podzial.at(2);
-		info.tresc = podzial.at(3);
-		if (podzial.at(5).size() != 1)
+		info.tytul = podzial.at(3);
+		info.tresc = podzial.at(4);
+		if (podzial.at(6).size() != 1)
 		{
 			trescBledu = QString::fromUtf8("Zła ilość znaków w symbolu koloru\nw linii ") + QString::number(numerLinii);
 			return true;
 		}
-		info.kolorCzcionki = podzial.at(5)[0].toAscii();
+		info.kolorCzcionki = podzial.at(6)[0].toAscii();
 
 //-----------POPRAWNOŚĆ KOLORU
 		QColor kolorCzcionki;
@@ -121,17 +121,19 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 //-----------LICZBY CAŁKOWITE
 		bool okID;
 		bool okRodzaj;
+		bool okFrakcja;
 		bool okIDNagrody;
 		bool okCelX;
 		bool okCelY;
 		int celX, celY;
 		info.id = podzial.at(0).toInt(&okID);
 		info.rodzaj = (RodzajZadania)podzial.at(1).toInt(&okRodzaj);
-		info.idNagrody = podzial.at(7).toInt(&okIDNagrody);
+		info.frakcja = podzial.at(2).toInt(&okFrakcja);
+		info.idNagrody = podzial.at(8).toInt(&okIDNagrody);
 		celX = pole.at(0).toInt(&okCelX);
 		celY = pole.at(1).toInt(&okCelY);
 
-		if(!okID ||!okRodzaj || !okIDNagrody || !okCelX || !okCelY)
+		if(!okID || !okRodzaj || !okFrakcja || !okIDNagrody || !okCelX || !okCelY)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
@@ -148,8 +150,13 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 			trescBledu = QString::fromUtf8("Niepoprawne ID nagrody w linii ") + QString::number(numerLinii);
 			return true;
 		}
+		if (info.frakcja < -1 && info.frakcja >= LICZBA_RAS)
+		{
+			trescBledu = QString::fromUtf8("Niepoprawna frakcja w linii ") + QString::number(numerLinii);
+			return true;
+		}
 //-----------WARTOSCI BOOLOWSKIE
-		QString powrot = podzial.at(4);
+		QString powrot = podzial.at(5);
 		powrot.remove(" ");
 		if(powrot == "1")
 			info.czyPowrot = true;
@@ -172,10 +179,10 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 //-----------PRZECIWNICY
 		info.idPrzeciwnikow = new QList<Przeciwnik*>;
 		bool blad = false;
-		if(!podzial.at(8).isEmpty())
+		if(!podzial.at(9).isEmpty())
 		{
 			QList<int> wartosciID;
-			QStringList identyfikatory = podzial.at(8).split(",");
+			QStringList identyfikatory = podzial.at(9).split(",");
 			for(int i = 0; i < identyfikatory.size(); ++i)
 			{
 				bool ok;
@@ -195,6 +202,7 @@ bool ParserZadan::wczytajDane(QTextStream *wejscie)
 		Nagroda* nagroda = mistrzGry->nagrody[info.idNagrody];
 		Zadanie* nowy = new Zadanie(info.id,
 					    info.rodzaj,
+					    info.frakcja,
 					    info.tytul,
 					    info.tresc,
 					    info.czyPowrot,

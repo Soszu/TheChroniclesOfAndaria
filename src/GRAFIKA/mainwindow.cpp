@@ -43,9 +43,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	menuGra->addSeparator();
 	menuGra->addAction(QString::fromUtf8("Zakończ"), this, SLOT(close()));
 
-	menuWidok->addAction(QString::fromUtf8("Powiększ planszę"), obszarPlanszy, SLOT(powiekszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Plus);
-	menuWidok->addAction(QString::fromUtf8("Pomniejsz planszę"), obszarPlanszy, SLOT(pomniejszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Minus);
-	menuWidok->addAction(QString::fromUtf8("Przywróć bazowy \nrozmiar planszy"), obszarPlanszy, SLOT(przywrocRozmiarPlanszy()), Qt::CTRL + Qt::Key_Equal);
+	menuWidok->addAction(QString::fromUtf8("Oddal"), obszarPlanszy, SLOT(powiekszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Minus);
+	menuWidok->addAction(QString::fromUtf8("Przybliż"), obszarPlanszy, SLOT(pomniejszRozmiarPlanszy()), Qt::CTRL + Qt::Key_Plus);
+	menuWidok->addAction(QString::fromUtf8("Przywróć rozmiar"), obszarPlanszy, SLOT(przywrocRozmiarPlanszy()), Qt::CTRL + Qt::Key_Equal);
 
 	menuPomoc->addAction("Pomoc", this, SLOT(wyswietlZasady()), Qt::Key_F1);
 	menuPomoc->addAction("O Autorze");
@@ -56,6 +56,10 @@ MainWindow::~MainWindow()
 	delete oknoGracza;
 	delete obszarPlanszy;
 	delete panelAkcji;
+
+	delete menuGra;
+	delete menuWidok;
+	delete menuPomoc;
 }
 
 PanelAkcji *MainWindow::getPanelAkcji()

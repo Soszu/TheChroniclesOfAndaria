@@ -9,7 +9,7 @@ class Zadanie
 {
 public:
 	Zadanie(int id,
-		RodzajZadania rodzaj,
+		RodzajZadania rodzaj, int frakcja,
 		QString tytul,
 		QString tresc,
 		bool czyPowrot,
@@ -22,6 +22,7 @@ public:
 
 	int getId();
 	RodzajZadania getRodzaj();
+	int getFrakcja();
 	QString getTytul();
 	QString getTresc();
 	bool getCzyPowrot();
@@ -38,6 +39,7 @@ public:
 private:
 	int id;
 	RodzajZadania rodzaj;
+	int frakcja;
 	QString tytul;
 	QString tresc;
 	bool czyPowrot;

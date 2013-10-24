@@ -146,12 +146,15 @@ void Hex::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Hex::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+	//TODO: make it work
+	/*
 	QMenu menu;
 	menu.addAction("Informacje o polu");
 	if(pole->getCzyPoleZMiastem())
 		menu.addAction(QString::fromUtf8("Zawartość bazaru"));
 	QAction *a = menu.exec(event->screenPos());
 	qDebug("User clicked %s", qPrintable(a->text()));
+	*/
 }
 
 /**

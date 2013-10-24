@@ -13,8 +13,14 @@ int main(int argc, char *argv[])
 	OknoNowejGry nowaGra;
 	int wynikParsowania = 0;
 	CyklGry cykl(&wynikParsowania);
+
 	Plansza plansza(&cykl);
+	if (wynikParsowania != 0)
+		return wynikParsowania;
+
 	MistrzGry mistrz(&cykl);
+	if (wynikParsowania != 0)
+		return wynikParsowania;
 
 	okno.setMistrzGry(&mistrz); //potem mainwindow pokazuje swoim komponentom komu mają zgłaszać zmiany/ informacje
 	okno.setPlansza(&plansza);
@@ -31,9 +37,6 @@ int main(int argc, char *argv[])
 	plansza.setMistrzGry(&mistrz);
 	nowaGra.setCyklGry(&cykl);
 	nowaGra.setMainWindow(&okno);
-
-	if (wynikParsowania != 0)
-		return wynikParsowania;
 
 	nowaGra.show();
 

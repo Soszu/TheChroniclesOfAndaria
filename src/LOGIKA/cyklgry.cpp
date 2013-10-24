@@ -136,6 +136,7 @@ bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
  */
 void CyklGry::rozpocznij()
 {
+	zrestartujZmienne();
 	qDebug() <<"Liczba graczy: " <<gracze.size();
 	mainWindow->zmienDate(dzien, tydzien);
 	if(czyPierwszaGra)
@@ -143,6 +144,8 @@ void CyklGry::rozpocznij()
 		czyPierwszaGra = false;
 //		plansza->
 	}
+	mistrzGry->rozpocznij();
+	plansza->rozpocznij();
 	ruszGracza(indeksAktualnego);
 }
 

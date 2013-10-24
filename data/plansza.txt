@@ -1,33 +1,34 @@
 ﻿//wymiary planszy
 30;20
 
-//postać legendy: symbol;nazwa;plik;czyPoleZPrzeciwnikiem;czyPoleZMiastem;współczynnik
+//postać legendy: symbol;nazwa;plik;czyPoleZPrzeciwnikiem;czyPoleZMiastem;współczynnik;rasa
+//człowiek - 0, krasnalud - 1,elf - 2 , niziołek - 3, neuralny/nie dotyczy - 4
 
 //liczba wpisów w legendzie
 21
-1;SIRENSEL;zamek.png;0;1;0
-2;VISERIA;zamek.png;0;1;0
-3;NODOR;zamek.png;0;1;0
-4;FEDWICK;zamek.png;0;1;0
-5;KYON MEREH;zamek.png;0;1;0
-6;SENTRIA;zamek.png;0;1;0
-7;TERIA;zamek.png;0;1;0
-8;VYS'LEAH;zamek.png;0;1;0
-9;MERENGARD;zamek.png;0;1;0
+1;SIRENSEL;zamek.png;0;1;0;0
+2;VISERIA;zamek.png;0;1;0;0
+3;NODOR;zamek.png;0;1;0;3
+4;FEDWICK;zamek.png;0;1;0;3
+5;KYON MEREH;zamek.png;0;1;0;2
+6;SENTRIA;zamek.png;0;1;0;4
+7;TERIA;zamek.png;0;1;0;1
+8;VYS'LEAH;zamek.png;0;1;0;2
+9;MERENGARD;zamek.png;0;1;0;1
 
-g;góra;gora.png;0;0;3
-d;dolina;dolina.png;0;0;2
-a;droga;droga.png;0;0;1
-b;bagno;bagno.png;0;0;4
-l;las;las.png;0;0;2
-w;woda;woda.png;0;0;3
+g;góra;gora.png;0;0;3;4
+d;dolina;dolina.png;0;0;2;4
+a;droga;droga.png;0;0;1;4
+b;bagno;bagno.png;0;0;4;4
+l;las;las.png;0;0;2;4
+w;woda;woda.png;0;0;3;4
 
-G;góra;gora.png;1;0;3
-D;dolina;dolina.png;1;0;2
-A;droga;droga.png;1;0;1
-B;bagno;bagno.png;1;0;4
-L;las;las.png;1;0;2
-W;woda;woda.png;1;0;3
+G;góra;gora.png;1;0;3;4
+D;dolina;dolina.png;1;0;2;4
+A;droga;droga.png;1;0;1;4
+B;bagno;bagno.png;1;0;4;4
+L;las;las.png;1;0;2;4
+W;woda;woda.png;1;0;3;4
 
 //można używać spacji by uwidocznić wygląd planszy
 //z tego samego względu symbole nie powinny zawierać spacji

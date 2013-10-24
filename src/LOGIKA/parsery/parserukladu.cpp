@@ -88,17 +88,19 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 		QString linia = nastepny(wejscie);
 		QStringList podzial = linia.split(";");
 
-		if(podzial.size() != 6)
+		if(podzial.size() != 7)
 		{
 			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu legendy.\nZła ilość pol. Wadliwy element: ") + QString::number(i + 1);
 			return true;
 		}
 
 		bool bezBledu = true;
+		bool bezBledu2 = true;
 		info informacje;
 		informacje.nazwa = podzial.at(1);
 		informacje.plik = podzial.at(2);
 		informacje.wspolczynnik = podzial.at(5).toInt(&bezBledu);
+		informacje.frakcja = podzial.at(6).toInt(&bezBledu2);
 
 		if(podzial.at(3) == "1")
 			informacje.czyPoleZPrzeciwnikiem = true;
@@ -112,7 +114,7 @@ bool ParserUkladu::wczytajLegende(QTextStream* wejscie)
 			informacje.czyPoleZMiastem = false;
 		else bezBledu = false;
 
-		if(!bezBledu || podzial.at(0).isEmpty())
+		if(!bezBledu || !bezBledu2 || podzial.at(0).isEmpty())
 		{
 			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu legendy.\nZły element: ") + QString::number(i + 1);
 			return true;
@@ -153,7 +155,10 @@ bool ParserUkladu::wczytajUstawienie(QTextStream* wejscie)
 			}
 			info dane = legenda[symbol];
 			IDPola miejsce = {j,i};
-			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.czyPoleZMiastem, dane.plik));
+			listaPol->push_back(new Pole(miejsce, dane.nazwa, dane.wspolczynnik, dane.czyPoleZPrzeciwnikiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
+
+			if(dane.czyPoleZMiastem)
+				plansza->miasta.push_back(plansza->IDToIndeks(miejsce));
 		}
 	}
 	plansza->pola = listaPol;

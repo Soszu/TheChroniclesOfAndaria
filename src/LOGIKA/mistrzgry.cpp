@@ -72,6 +72,14 @@ MistrzGry::~MistrzGry()
 	QMap<int, Zadanie*>::iterator it6;
 	for (it6 = zadania.begin(); it6 != zadania.end(); ++it6)
 		delete it6.value();
+
+	QMap<int, QList<Zadanie*>* >::iterator it7;
+	for(it7 = zadaniaWMiastach.begin(); it7 != zadaniaWMiastach.end(); ++it7)
+		delete it7.value();
+
+	QMap<int, QList<Przedmiot*>* >::iterator it8;
+	for(it8 = towaryWMiastach.begin(); it8 != towaryWMiastach.end(); ++it8)
+		delete it8.value();
 }
 
 /**
@@ -83,8 +91,6 @@ void MistrzGry::ruszGracza(Gracz *gracz, int indeks)
 	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
 	aktualnyGracz = gracz;
-	bazarOdwiedzony = false;
-	tawernaOdwiedzona = false;
 	realizowaneZadanie = NULL;
 
 	//regeneracja
@@ -117,10 +123,8 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 
 	if(zajmowanePole->getCzyPoleZMiastem())
 	{
-		if(!bazarOdwiedzony)
-			akcje.push_back(bazar);
-		if(!tawernaOdwiedzona)
-			akcje.push_back(tawerna);
+		akcje.push_back(bazar);
+		akcje.push_back(tawerna);
 	}
 
 	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !gracz->getOstatnioWalczyl())
@@ -199,15 +203,13 @@ void MistrzGry::wykonajAkcje(Akcja opcja)
 		break;
 	case bazar:
 		plansza->blokujRuch();
-		if(!bazarOdwiedzony)
-			handelNaBazarze();
+		handelNaBazarze();
 		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
 		panelAkcji->wyswietl();
 		break;
 	case tawerna:
 		plansza->blokujRuch();
-		if(!tawernaOdwiedzona)
-			idzDoTawerny();
+		idzDoTawerny();
 		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
 		panelAkcji->wyswietl();
 		break;
@@ -228,6 +230,7 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 {
 	gracz->setOstatnioWalczyl(false);
 	bool sukces;
+	int szansaGracza;
 	int indeks = 0;
 	while(gracz->getKonkretneZadanie(indeks)->getId() != id)
 		++indeks;
@@ -258,7 +261,8 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 			panelAkcji->wyswietl();
 			break;
 		}
-		sukces = qrand() % 100 < SZANSA_NA_ODNALEZIENIE;
+		szansaGracza = BAZOWA_SZANSA_NA_ODNALEZIENIE + gracz->getPercepcja() * BONUS_Z_PERCEPCJI;
+		sukces = qrand() % 100 < szansaGracza;
 		QMessageBox::information(
 			cyklGry->getMainWindow(),
 			zadanie->getTytul(),
@@ -299,8 +303,34 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 
 void MistrzGry::nowyTydzien()
 {
-	qDebug() <<"rozpoczeto nowy tydzien";
-	//TODO: wymiana towarow
+	qDebug() <<QString::fromUtf8("Rozpoczęto nowy tydzień.");
+	QMap<int, QList<Przedmiot*>* >::iterator it;
+	for (it = towaryWMiastach.begin(); it != towaryWMiastach.end(); ++it)
+		wylosujPrzedmiotyNaBazar(it.value());
+	qDebug() <<"Wylosowano przedmioty";
+
+	QMap<int, QList<Zadanie*>* >::iterator it2;
+	for (it2 = zadaniaWMiastach.begin(); it2 != zadaniaWMiastach.end(); ++it2)
+	{
+		Pole* zajmowanePole = plansza->pokazPole(plansza->indeksToID(it2.key()));
+		wylosujZadaniaDoTawerny(it2.value(), zajmowanePole->getFrakcja());
+	}
+	qDebug() <<"Wylosowano zadania";
+}
+
+void MistrzGry::rozpocznij()
+{
+		this->miasta = plansza->getMiasta();
+
+		for(int i = 0; i < miasta->size(); ++i)
+		{
+			QList<Przedmiot*>* nowa = new QList<Przedmiot*>;
+			towaryWMiastach.insert(miasta->at(i), nowa);
+			QList<Zadanie*>* nowa2 = new QList<Zadanie*>;
+			zadaniaWMiastach.insert(miasta->at(i), nowa2);
+		}
+
+		nowyTydzien();
 }
 
 /**
@@ -495,24 +525,27 @@ void MistrzGry::walka(Akcja opcja)
  */
 void MistrzGry::idzDoTawerny()
 {
-	zadaniaWTawernie.clear();
-	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
-	{
-		int los = qrand() % zadania.size() + 1;
-		QMap<int, Zadanie*>::iterator iter = zadania.begin();
-		for (int j = 0; j < los; ++j)
-			++iter;
-		if(zadaniaWTawernie.contains(zadania[los]))
-			--i;
-		else
-			zadaniaWTawernie.push_back(zadania[los]);
-	}
-
-	tawernaOdwiedzona = true;
-	oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, &zadaniaWTawernie);
+	int indeksPola = plansza->IDToIndeks(aktualnyGracz->getPozycja());
+	oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, oknoGracza, zadaniaWMiastach[indeksPola]);
 	oknoTawerny->setWindowModality(Qt::ApplicationModal);
 	oknoTawerny->setAttribute(Qt::WA_DeleteOnClose);
 	oknoTawerny->show();
+}
+
+void MistrzGry::wylosujZadaniaDoTawerny(QList<Zadanie *> *lista, int frakcja)
+{
+	lista->clear();
+	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
+	{
+		int los = qrand() % zadania.size() + 1;
+//		QMap<int, Zadanie*>::iterator iter = zadania.begin();
+//		for (int j = 0; j < los; ++j)
+//			++iter;
+		if(lista->contains(zadania[los]) || (zadania[los]->getFrakcja() != frakcja && zadania[los]->getFrakcja() != -1))
+			--i;
+		else
+			lista->push_back(zadania[los]);
+	}
 }
 
 /**
@@ -520,26 +553,26 @@ void MistrzGry::idzDoTawerny()
  */
 void MistrzGry::handelNaBazarze()
 {
-	towaryNaBazarze.clear();
+	int indeksPola = plansza->IDToIndeks(aktualnyGracz->getPozycja());
+	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryWMiastach[indeksPola]);
+	oknoBazaru->setWindowModality(Qt::ApplicationModal);
+	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
+	oknoBazaru->show();
+}
+
+void MistrzGry::wylosujPrzedmiotyNaBazar(QList<Przedmiot *> *lista)
+{
+	lista->clear();
 	for(int i = 0; i < LICZBA_PRZEDMIOTOW_NA_BAZARZE; ++i)
 	{
 		int los = qrand() % przedmioty.size();
 
-		QMap<int, Przedmiot*>::iterator iter = przedmioty.begin();
-		for(int j = 0; j < los; ++j)
-			++iter;
 		//TODO: zmiana sposobu zarządzania miksturami
-		if(przedmioty[los]->getRodzaj() == mikstura)
+		if(przedmioty[los]->getRodzaj() == mikstura || lista->contains(przedmioty[los]))
 			--i;
 		else
-			towaryNaBazarze.push_back(przedmioty[los]);
+			lista->push_back(przedmioty[los]);
 	}
-
-	bazarOdwiedzony = true;
-	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, &towaryNaBazarze);
-	oknoBazaru->setWindowModality(Qt::ApplicationModal);
-	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
-	oknoBazaru->show();
 }
 
 void MistrzGry::setPlansza(Plansza *plansza)

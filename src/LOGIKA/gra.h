@@ -33,6 +33,7 @@ static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
 static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 6;
 static const quint8 LICZBA_ZADAN_W_TAWERNIE = 3;
 static const quint8 MAKSYMALNA_LICZBA_ZADAN = 5;
+static const quint8 KOSZT_ODRZUCENIA_ZADANIA = 2;
 
 static const quint8 LIMIT_ARTEFAKTOW = 5;
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
@@ -90,8 +91,8 @@ static const QString RASY[LICZBA_RAS] = {
 enum Rasa
 {
 	czlowiek = 0,
-	krasnolud = 2,
-	elf = 1,
+	krasnolud = 1,
+	elf = 2,
 	niziolek = 3
 };
 
@@ -219,8 +220,8 @@ enum Akcja
 //index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
 static const QString AKCJE[] = {
 	QString::fromUtf8("Zakończ turę"),
-	QString::fromUtf8("Walcz ze słabszym przeciwnikiem"),
-	QString::fromUtf8("Walcz z mocnym przeciwnikiem"),
+	QString::fromUtf8("Walcz ze zwyczajnym przeciwnikiem "),
+	QString::fromUtf8("Walcz z wymagającym przeciwnikiem"),
 	QString::fromUtf8("Idź na bazar handlować ekwipunkiem"),
 	QString::fromUtf8("Idź do tawerny \nposzukać nowych zadań")
 };
@@ -260,7 +261,8 @@ static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATORO
 	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
 static const int LICZBA_RODZAJOW_ZADAN = 3;
-static const int SZANSA_NA_ODNALEZIENIE = 75; // w procentach
+static const int BAZOWA_SZANSA_NA_ODNALEZIENIE = 50; // w procentach
+static const int BONUS_Z_PERCEPCJI = 5; // w procentach
 enum RodzajZadania
 {
 	pokonaj = 1,

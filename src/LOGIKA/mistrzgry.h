@@ -60,6 +60,7 @@ public:
 	void wykonajAkcje(Akcja opcja);
 	void wykonajZadanie(Gracz *gracz, int id);
 	void nowyTydzien();
+	void rozpocznij();
 private:
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
@@ -75,22 +76,22 @@ private:
 	OknoGracza* oknoGracza;
 	QLabel* dzienTygodnia;
 	QMap<int, SztucznaInteligencja*> boty;
-
+	QList<int>* miasta;
 
 	Przeciwnik* losujPrzeciwnika(int grupa);
 	void walka(Akcja opcja);
 	Walka* oknoWalki;
 	OknoNagrody* oknoNagrody;
 
-	bool tawernaOdwiedzona;
 	void idzDoTawerny();
+	void wylosujZadaniaDoTawerny(QList<Zadanie*>* lista, int frakcja);
 	OknoTawerny* oknoTawerny;
-	QList<Zadanie*> zadaniaWTawernie;
+	QMap<int, QList<Zadanie*>* > zadaniaWMiastach;
 
-	bool bazarOdwiedzony;
 	void handelNaBazarze();
+	void wylosujPrzedmiotyNaBazar(QList<Przedmiot*>* lista);
 	OknoBazaru* oknoBazaru;
-	QList<Przedmiot*> towaryNaBazarze;
+	QMap<int, QList<Przedmiot*>* > towaryWMiastach;
 
 	Zadanie* realizowaneZadanie;
 	QList<Akcja> mozliweAkcje(Gracz* gracz);

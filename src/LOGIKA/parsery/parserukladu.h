@@ -37,6 +37,7 @@ private:
 		bool czyPoleZPrzeciwnikiem;
 		bool czyPoleZMiastem;
 		int wspolczynnik;
+		int frakcja;
 	};
 	QMap<QString, info> legenda;
 };

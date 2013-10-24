@@ -30,6 +30,7 @@ public:
 	void setObszarPlanszy(ObszarPlanszy* obszar);
 	void setMistrzGry(MistrzGry* mistrz);
 	void setGracze(QList<Gracz*>* gracze);
+	QList<int>* getMiasta();
 	void ruszGracza(Gracz* gracz, int indeks);
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
@@ -42,11 +43,15 @@ public:
 	void ruchAI(IDPola pole);
 	void pokazHex(IDPola id);
 	void blokujRuch();
+	int IDToIndeks(IDPola pole);
+	IDPola indeksToID(int indeks);
+	void rozpocznij();
 private:
 	ObszarPlanszy* obszarPlanszy;
 	MistrzGry* mistrzGry;
 	CyklGry* cyklGry;
 
+	QList<int> miasta;
 	QList<QPair<QColor, IDPola> >* pozycjeGraczy;
 	QList<Gracz*>* gracze;
 	QList<Pole*>* pola;
@@ -57,15 +62,11 @@ private:
 	quint8 wysokoscPlanszy;
 	Gracz* aktualnyGracz;
 	int indeksAktualnego;
-
-	bool graRozpoczeta;
 	bool graczWykonalRuch;
 
 	QList<IDPola> odtworzDroge(IDPola pole);
 	QList<QPair<QColor, IDPola> >* spiszPozycje();
 
-	int IDToIndeks(IDPola pole);
-	IDPola indeksToID(int indeks);
 	QList<IDPola> sasiedniePola(IDPola pole);
 };
 

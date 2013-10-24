@@ -2,6 +2,7 @@
 
 Zadanie::Zadanie(int id,
 		 RodzajZadania rodzaj,
+		 int frakcja,
 		 QString tytul,
 		 QString tresc,
 		 bool czyPowrot,
@@ -12,6 +13,7 @@ Zadanie::Zadanie(int id,
 {
 	this->id = id;
 	this->rodzaj = rodzaj;
+	this->frakcja = frakcja;
 	this->tytul = tytul;
 	this->tresc = tresc;
 	this->czyPowrot = czyPowrot;
@@ -31,6 +33,7 @@ Zadanie::Zadanie(Zadanie *zad)
 {
 	this->id = zad->id;
 	this->rodzaj = zad->rodzaj;
+	this->frakcja = zad->frakcja;
 	this->tytul = zad->tytul;
 	this->tresc = zad->tresc;
 	this->czyPowrot = zad->czyPowrot;
@@ -62,6 +65,11 @@ int Zadanie::getId()
 RodzajZadania Zadanie::getRodzaj()
 {
 	return rodzaj;
+}
+
+int Zadanie::getFrakcja()
+{
+	return frakcja;
 }
 
 QString Zadanie::getTytul()
@@ -117,7 +125,6 @@ IDPola Zadanie::getZleceniodawca()
 void Zadanie::setCzyWykonanoCzesc(bool wartosc)
 {
 	czyWykonanoCzesc = wartosc;
-	qDebug("============================");
 }
 
 bool Zadanie::getCzyWykonanoCzesc()

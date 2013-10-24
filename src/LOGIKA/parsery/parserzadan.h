@@ -27,6 +27,7 @@ private:
 	struct informacje{
 		int id;
 		RodzajZadania rodzaj;
+		int frakcja;
 		QString tytul;
 		QString tresc;
 		bool czyPowrot;

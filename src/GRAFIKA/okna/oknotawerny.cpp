@@ -1,13 +1,15 @@
 ﻿#include "oknotawerny.h"
 
-OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, QList<Zadanie *> *dostepneZadania)
+OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, OknoGracza *oknoGracza, QList<Zadanie *> *dostepneZadania)
 {
 	this->plansza = plansza;
 	this->gracz = gracz;
 	this->dostepneZadania = dostepneZadania;
+	this->oknoGracza = oknoGracza;
 
 	layoutGlowny = new QVBoxLayout(this);
 	setWindowTitle("Tawerna");
+	questRejected = false;
 
 	tytulWlasnychZadan = new QLabel("Twoje dotychczasowe zadania");
 	listaWlasnychZadan = new QListWidget();
@@ -83,7 +85,7 @@ void OknoTawerny::wyswietlOpisDlaWlasnych(QModelIndex element)
 	ostatnioWyswietlone = zadanie;
 
 	przyciskPokazCel->setEnabled(true);
-	przyciskPrzyjmij->setEnabled(true);
+	przyciskPrzyjmij->setEnabled(!questRejected);
 	przyciskPrzyjmij->setText(QString::fromUtf8("Odrzuć"));
 
 	wygenerujOpis(zadanie, opisZadania);
@@ -129,11 +131,13 @@ void OknoTawerny::przyjmij()
 	{
 		Zadanie* zad = gracz->getKonkretneZadanie(listaWlasnychZadan->currentRow());
 		gracz->usunKonkretneZadanie(zad->getId());
+		questRejected = true;
+		gracz->setZloto(qMax(0, gracz->getZloto() - KOSZT_ODRZUCENIA_ZADANIA));
+		oknoGracza->wyswietlGracza(gracz);
 	}
 	wypelnijListy();
 	przyciskPrzyjmij->setEnabled(false);
 	przyciskPokazCel->setEnabled(false);
-qDebug() <<gracz->getZadania()->back()->getCzyWykonanoCzesc();
 }
 
 /**

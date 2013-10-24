@@ -4,7 +4,6 @@ Plansza::Plansza(CyklGry* cykl)
 {
 	this->cyklGry = cykl;
 
-	graRozpoczeta = false;
 	pozycjeGraczy = new QList<QPair<QColor, IDPola> >;
 	pola = NULL;
 	ParserUkladu pu(this);
@@ -42,6 +41,11 @@ void Plansza::setGracze(QList<Gracz *> *gracze)
 	this->gracze = gracze;
 }
 
+QList<int> *Plansza::getMiasta()
+{
+	return &miasta;
+}
+
 /**
  * @brief Plansza::ruszGracza Rusza gracza podanego jako parametr. Rysuje planszę, jeśli jeszcze tego nie zrobiono.
  * @param gracz
@@ -51,11 +55,6 @@ void Plansza::ruszGracza(Gracz *gracz, int indeks)
 	qDebug() <<"Plansza obsluguje gracza: " <<gracz->getNazwa();
 	this->indeksAktualnego = indeks;
 	this->aktualnyGracz = gracz;
-	if(!graRozpoczeta)
-	{
-		obszarPlanszy->narysujPlansze(pola, szerokoscPlanszy, wysokoscPlanszy, spiszPozycje()); //wykona się tylko raz
-		graRozpoczeta = true;
-	}
 	graczWykonalRuch = false;
 	ustalOsiagalne(gracz);
 	obszarPlanszy->podswietl(pokazOsiagalne());
@@ -272,6 +271,11 @@ IDPola Plansza::indeksToID(int indeks)
 	tmp.y = indeks / szerokoscPlanszy;
 
 	return tmp;
+}
+
+void Plansza::rozpocznij()
+{
+	obszarPlanszy->narysujPlansze(pola, szerokoscPlanszy, wysokoscPlanszy, spiszPozycje());
 }
 
 /**

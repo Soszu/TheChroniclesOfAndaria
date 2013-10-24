@@ -29,6 +29,11 @@ void wygenerujOpis(Zadanie* zadanie, QTextBrowser* miejsce)
 		QString::number(zadanie->getPrzeciwnicy()->size()) +
 		QString("\n\n");
 
+	QString frakcja = "Zadanie neutralne";
+	if(zadanie->getFrakcja() != -1)
+		frakcja = KROLESTWA[zadanie->getFrakcja()];
+	opis += QString::fromUtf8("Frakcja zlecająca: ") + frakcja + QString("\n\n");
+
 	opis += QString("Opis nagrody:\n\n");
 
 	if(nagroda->getDoswiadczenie() != 0)

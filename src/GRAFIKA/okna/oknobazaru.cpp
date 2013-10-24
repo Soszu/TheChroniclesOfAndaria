@@ -214,8 +214,8 @@ void OknoBazaru::kup()
 		Przedmiot* rzecz = towary->at(listaTowarow->currentRow());
 		if(gracz->getZloto() < rzecz->getWartosc())
 			return;
-
 		plecak->push_back(rzecz);
+
 		towary->removeAt(towary->indexOf(rzecz));
 		gracz->setZloto(gracz->getZloto() - rzecz->getWartosc());
 	}

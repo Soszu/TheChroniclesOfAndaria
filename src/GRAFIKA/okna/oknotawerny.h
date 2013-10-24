@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "zarzadzaniezadaniami.h"
 #include "plansza.h"
+#include "oknogracza.h"
 #include "gracz.h"
 #include "zadanie.h"
 #include "gra.h"
@@ -12,10 +13,12 @@ class OknoTawerny : public QDialog
 {
 	Q_OBJECT
 public:
-	explicit OknoTawerny(Gracz* gracz, Plansza* plansza, QList<Zadanie *>* dostepneZadania);
+	explicit OknoTawerny(Gracz* gracz, Plansza* plansza, OknoGracza* oknoGracza, QList<Zadanie *>* dostepneZadania);
 private:
 	Gracz* gracz;
 	Plansza* plansza;
+	OknoGracza* oknoGracza;
+	bool questRejected;
 
 	QVBoxLayout* layoutGlowny;
 

@@ -36,15 +36,17 @@ private:
 	void graczWygral(Gracz* gracz);
 	bool czySpelnionyWarunekZwyciestwa(Gracz* gracz);
 	void ruszGracza(int indeks);
-	QList<Gracz*> gracze;
-	QMap<int, SztucznaInteligencja*> boty;
-	int indeksAktualnego;
-	int liczbaAktywnych;
 	void wyznaczKolejnego();
 	void nowyDzien();
+
 	bool czyPierwszaGra;
+	int liczbaAktywnych;
+	int indeksAktualnego;
 	int tydzien;
 	int dzien;
+
+	QList<Gracz*> gracze;
+	QMap<int, SztucznaInteligencja*> boty;
 
 	int* wynikParsowania;
 	QDialog* komunikatOBledzie;
