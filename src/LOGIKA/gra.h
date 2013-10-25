@@ -29,6 +29,7 @@ static const quint8 POCZATKOWA_REPUTACJA = 0;
 static const quint8 POCZATKOWE_ZLOTO = 3;
 static const quint8 POCZATKOWE_DOSWIADCZENIE = 0;
 static const quint8 POCZATKOWE_PUNKTY_RUCHU = 8;
+static const quint8 ODZYSKANE_ZDROWIE_ZA_SZTUKE_ZLOTA = 4;
 
 static const quint8 LICZBA_PRZEDMIOTOW_NA_BAZARZE = 6;
 static const quint8 LICZBA_ZADAN_W_TAWERNIE = 3;
@@ -37,10 +38,10 @@ static const quint8 KOSZT_ODRZUCENIA_ZADANIA = 2;
 
 static const quint8 LIMIT_ARTEFAKTOW = 5;
 static const quint8 POCZATKOWA_ILOSC_MALYCH_POTOW = 2;
-static const quint8 DZIALANIE_MALYCH_POTOW = 4; //TODO: nieco konfliktuje z danymi w pliku przeciwnicy (trzeba dbać o jednolitość)
+static const quint8 DZIALANIE_MALYCH_POTOW = 3; //TODO: nieco konfliktuje z danymi w pliku przeciwnicy (trzeba dbać o jednolitość)
 static const quint8 CENA_MALEJ_MIKSTURY = 1;
 static const quint8 POCZATKOWE_ILOSC_DUZYCH_POTOW = 1;
-static const quint8 DZIALANIE_DUZYCH_POTOW = 8;
+static const quint8 DZIALANIE_DUZYCH_POTOW = 10;
 static const quint8 CENA_DUZEJ_MIKSTURY = 3;
 
 static const int CZAS_TRWANIA_JEDNEGO_PRZEJSCIA = 500; //w milisekundach
@@ -214,7 +215,8 @@ enum Akcja
 	przeciwnikTrudny,
 	bazar,
 	tawerna,
-	przeciwnikZZadania
+	przeciwnikZZadania,
+	uzdrowiciel
 };
 
 //index nazwy akcji jest równoznaczny z wartością enumeratora Akcja, dla tej akcji
@@ -223,7 +225,9 @@ static const QString AKCJE[] = {
 	QString::fromUtf8("Walcz ze zwyczajnym przeciwnikiem "),
 	QString::fromUtf8("Walcz z wymagającym przeciwnikiem"),
 	QString::fromUtf8("Idź na bazar handlować ekwipunkiem"),
-	QString::fromUtf8("Idź do tawerny \nposzukać nowych zadań")
+	QString::fromUtf8("Idź do tawerny \nposzukać nowych zadań"),
+	QString::fromUtf8("Walcz z przeciwnikiem z zadania"),
+	QString::fromUtf8("Idź do uzdrowiciela")
 };
 
 enum WynikWalki {

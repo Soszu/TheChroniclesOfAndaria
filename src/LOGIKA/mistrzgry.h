@@ -23,6 +23,7 @@
 #include "oknobazaru.h"
 #include "oknonagrody.h"
 #include "oknotawerny.h"
+#include "oknouzdrowiciela.h"
 
 class PanelAkcji;
 class CyklGry;
@@ -35,7 +36,7 @@ class Walka;
 class OknoBazaru;
 class OknoNagrody;
 class OknoTawerny;
-
+class OknoUzdrowiciela;
 
 class MistrzGry
 {
@@ -92,6 +93,9 @@ private:
 	void wylosujPrzedmiotyNaBazar(QList<Przedmiot*>* lista);
 	OknoBazaru* oknoBazaru;
 	QMap<int, QList<Przedmiot*>* > towaryWMiastach;
+
+	OknoUzdrowiciela* oknoUzdrowiciela;
+	void idzDoUzdrowiciela();
 
 	Zadanie* realizowaneZadanie;
 	QList<Akcja> mozliweAkcje(Gracz* gracz);

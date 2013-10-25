@@ -125,6 +125,7 @@ QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
 	{
 		akcje.push_back(bazar);
 		akcje.push_back(tawerna);
+		akcje.push_back(uzdrowiciel);
 	}
 
 	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !gracz->getOstatnioWalczyl())
@@ -204,14 +205,14 @@ void MistrzGry::wykonajAkcje(Akcja opcja)
 	case bazar:
 		plansza->blokujRuch();
 		handelNaBazarze();
-		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
-		panelAkcji->wyswietl();
 		break;
 	case tawerna:
 		plansza->blokujRuch();
 		idzDoTawerny();
-		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
-		panelAkcji->wyswietl();
+		break;
+	case uzdrowiciel:
+		plansza->blokujRuch();
+		idzDoUzdrowiciela();
 		break;
 	default:
 		qDebug() << QString::fromUtf8("Błędna opcja");
@@ -502,9 +503,11 @@ void MistrzGry::walka(Akcja opcja)
 	switch(opcja) {
 	case przeciwnikLatwy:
 		przeciwnik = losujPrzeciwnika(poziomLatwy);
+		aktualnyGracz->setOstatnioWalczyl(true);
 		break;
 	case przeciwnikTrudny:
 		przeciwnik = losujPrzeciwnika(poziomLatwy + 1);
+		aktualnyGracz->setOstatnioWalczyl(true);
 		break;
 	case przeciwnikZZadania:
 		przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
@@ -513,7 +516,6 @@ void MistrzGry::walka(Akcja opcja)
 		//TODO: assert
 	}
 
-	aktualnyGracz->setOstatnioWalczyl(true);
 	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
 	oknoWalki->setWindowModality(Qt::ApplicationModal);
 	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
@@ -573,6 +575,14 @@ void MistrzGry::wylosujPrzedmiotyNaBazar(QList<Przedmiot *> *lista)
 		else
 			lista->push_back(przedmioty[los]);
 	}
+}
+
+void MistrzGry::idzDoUzdrowiciela()
+{
+	oknoUzdrowiciela = new OknoUzdrowiciela(aktualnyGracz, oknoGracza);
+	oknoUzdrowiciela->setWindowModality(Qt::ApplicationModal);
+	oknoUzdrowiciela->setAttribute(Qt::WA_DeleteOnClose);
+	oknoUzdrowiciela->show();
 }
 
 void MistrzGry::setPlansza(Plansza *plansza)

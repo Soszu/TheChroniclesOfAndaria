@@ -30,6 +30,7 @@ set (gui_SOURCES
 	okna/oknotawerny.cpp
 	okna/oknozadania.cpp
 	okna/oknozasad.cpp
+	okna/oknouzdrowiciela.cpp
 	okna/walka.cpp
 
 	mainwindow.cpp
@@ -49,6 +50,7 @@ set (gui_HEADERS
 	okna/oknotawerny.h
 	okna/oknozadania.h
 	okna/oknozasad.h
+	okna/oknouzdrowiciela.h
 	okna/walka.h
 
 	mainwindow.h

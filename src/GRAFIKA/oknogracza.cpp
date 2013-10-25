@@ -144,7 +144,10 @@ void OknoGracza::wyswietlGracza(Gracz *gracz)
 	int ileDoswNaAktualnyPoziom = GRANICE_POZIOMOW[gracz->getPoziom()] - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
 	int ileDoswZebranoNaAktPoziomie = gracz->getDoswiadczenie() - GRANICE_POZIOMOW[gracz->getPoziom() - 1];
 	wskaznikDoswiadczenia->wypelnij((qreal)ileDoswZebranoNaAktPoziomie / ileDoswNaAktualnyPoziom );
-	wskaznikDoswiadczenia->setToolTip(QString::fromUtf8("Punkty doświadczenia: ") + QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
+	if(gracz->getPoziom() < MAKSYMALNY_POZIOM)
+		wskaznikDoswiadczenia->setToolTip(QString::fromUtf8("Punkty doświadczenia: ") + QString::number(ileDoswZebranoNaAktPoziomie) + QString("/") + QString::number(ileDoswNaAktualnyPoziom));
+	else
+		wskaznikDoswiadczenia->setToolTip(QString::fromUtf8("Osiągnąłeś maksymalny poziom"));
 //------------------------------
 	for(int i = 0; i < LICZBA_KROLESTW; ++i)
 		slupki[i]->ustaw(gracz->getReputacja()[i]);
