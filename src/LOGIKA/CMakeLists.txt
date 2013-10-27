@@ -60,7 +60,7 @@ set (HEADERS
 	plansza.h
 )
 #add_library( Logic ${SOURCES} ${HEADERS})
-
+# ${HEADERS} propably aren't needed'
 add_executable (Planszowka ${SOURCES} ${HEADERS})
 
 target_link_libraries (Planszowka Gui ${QT_LIBRARIES})

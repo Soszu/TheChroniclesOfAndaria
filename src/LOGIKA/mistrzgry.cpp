@@ -83,105 +83,100 @@ MistrzGry::~MistrzGry()
 }
 
 /**
+ * @brief MistrzGry::rozpocznij		Zbiór operacji wykonywanych na początku rozgrywki
+ */
+void MistrzGry::rozpocznij()
+{
+	this->miasta = plansza->getMiasta();
+
+	for(int i = 0; i < miasta->size(); ++i)
+	{
+		QList<Przedmiot*>* nowa = new QList<Przedmiot*>;
+		towaryWMiastach.insert(miasta->at(i), nowa);
+		QList<Zadanie*>* nowa2 = new QList<Zadanie*>;
+		zadaniaWMiastach.insert(miasta->at(i), nowa2);
+	}
+
+	nowyTydzien();
+}
+
+/**
  * @brief MistrzGry::ruszGracza Wykonuje wymagane operacje dla momentu, gdy rozpoczyna się tura kolejnego gracza
  * @param gracz aktualny gracz
  */
-void MistrzGry::ruszGracza(Gracz *gracz, int indeks)
+void MistrzGry::ruszGracza(int indeks)
 {
-	qDebug() <<"Mistrz gry obsluguje gracza: " <<gracz->getNazwa();
 
-	aktualnyGracz = gracz;
+	aktualnyGracz = gracze->at(indeks);
 	realizowaneZadanie = NULL;
 
+	qDebug() <<"Mistrz gry obsluguje gracza: " <<aktualnyGracz->getNazwa();
+
 	//regeneracja
-	gracz->setZdrowieAktualne(qMin(gracz->getZdrowieMaks(), gracz->getZdrowieAktualne() + gracz->getRegeneracja()));
+	int poLeczeniu = aktualnyGracz->getZdrowieAktualne() + aktualnyGracz->getRegeneracja();
+	aktualnyGracz->setZdrowieAktualne(qMin(aktualnyGracz->getZdrowieMaks(), poLeczeniu));
 
 	oknoGracza->wyswietlGracza(aktualnyGracz);
-	if(gracz->getCzyAI())
-	{
-		boty[indeks]->ustawAkcje(mozliweAkcje(aktualnyGracz));
-		boty[indeks]->ustawZadania(mozliweZadania(aktualnyGracz));
-		wybranoDzialanie(boty[indeks]->decyduj());
-	}
-	else
-	{
-		panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
-		panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-		panelAkcji->wyswietl();
-	}
+	ustalMozliweDzialania();
+	panelAkcji->wyswietl(&mozliweDzialania);
 }
 
 /**
- * @brief MistrzGry::mozliweAkcje	Zwraca listę możliwych do wykonania akcji zależnie od rodzaju pola na którym znajduje się gracz.
- * @param gracz		Gracz, którego akcje mają być wyświetlone.
- * @return		QList<Akcja> zawierająca możliwe akcje
+ * @brief MistrzGry::ustalMozliweDzialania	Ustala możliwe do wykonania zadania przez aktualnego gracza w danym momencie
  */
-QList<Akcja> MistrzGry::mozliweAkcje(Gracz *gracz)
+void MistrzGry::ustalMozliweDzialania()
 {
-	QList<Akcja> akcje;
-	Pole* zajmowanePole = plansza->pokazPole(gracz->getPozycja());
+	mozliweDzialania.clear();
+	IDPola pozycjaGracza = aktualnyGracz->getPozycja();
+	Pole* zajmowanePole = plansza->pokazPole(pozycjaGracza);
 
+	//===== ZADANIA =====
+	for(int i = 0; i < aktualnyGracz->getZadania()->size(); ++i)
+	{
+		IDPola cel = aktualnyGracz->getKonkretneZadanie(i)->getPoleCelu();
+		if(pozycjaGracza == cel)
+		{
+			Zadanie* z = aktualnyGracz->getKonkretneZadanie(i);
+			QString opis = QString("Wykonaj zadanie:\n") + z->getTytul();
+			mozliweDzialania.push_back(qMakePair(z->getId(), opis));
+		}
+	}
+
+	//===== AKCJE W MIEŚCIE =====
 	if(zajmowanePole->getCzyPoleZMiastem())
 	{
-		akcje.push_back(bazar);
-		akcje.push_back(tawerna);
-		akcje.push_back(uzdrowiciel);
+		mozliweDzialania.push_back(qMakePair((int)bazar, AKCJE[bazar]));
+		mozliweDzialania.push_back(qMakePair((int)tawerna, AKCJE[tawerna]));
+		mozliweDzialania.push_back(qMakePair((int)uzdrowiciel, AKCJE[uzdrowiciel]));
 	}
 
-	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !gracz->getOstatnioWalczyl())
+	//===== AKCJE POLA Z WALKĄ =====
+	if(zajmowanePole->getCzyPoleZPrzeciwnikiem() && !aktualnyGracz->getOstatnioWalczyl())
 	{
-		akcje.push_back(przeciwnikLatwy);
+		mozliweDzialania.push_back(qMakePair((int)przeciwnikLatwy, AKCJE[przeciwnikLatwy]));
 		//grupy przeciwnikow są numerowane od 1.
-		int grupaPrzeciwnika = (gracz->getPoziom() + 1) / 2;
+		int grupaPrzeciwnika = (aktualnyGracz->getPoziom() + 1) / 2;
 		if(grupaPrzeciwnika + 1 <= LICZBA_GRUP_PRZECIWNIKOW)
-			akcje.push_back(przeciwnikTrudny);
+			mozliweDzialania.push_back(qMakePair((int)przeciwnikTrudny, AKCJE[przeciwnikTrudny]));
 	}
 
-	akcje.push_back(koniecTury);
-	return akcje;
-}
-
-/**
- * @brief MistrzGry::mozliweZadania	Zwraca listę zadań możliwych do wykonania na polu, na którym znajduje się gracz.
- * @param gracz		dane gracza, którego zadania mają być wyświetlone.
- * @return		QList<Zadanie*> zawierające możliwe akcje
- */
-QList<Zadanie *> MistrzGry::mozliweZadania(Gracz *gracz)
-{
-	QList<Zadanie*> zadania;
-
-	for(int i = 0; i < gracz->getZadania()->size(); ++i)
+	//===== AKCJE PVP =====
+	IDPola pole = aktualnyGracz->getPozycja();
+	QList<int> inniGraczeNaTymPolu;
+	for(int i = 0; i < gracze->size(); ++i)
 	{
-		IDPola cel = gracz->getKonkretneZadanie(i)->getPoleCelu();
-		if(gracz->getPozycja().x == cel.x && gracz->getPozycja().y == cel.y)
-			zadania.push_back(gracz->getKonkretneZadanie(i));
+		Gracz* g = gracze->at(i);
+		if(g->getCzyAktywny() && g->getKolor() != aktualnyGracz->getKolor()
+		   && g->getPozycja() == pole && !zajmowanePole->getCzyPoleZMiastem())
+			inniGraczeNaTymPolu.push_back(i);
 	}
 
-	return zadania;
-}
+	foreach (int indeks, inniGraczeNaTymPolu) {
+		QString opis = QString::fromUtf8("Walcz z graczem ") + gracze->at(indeks)->getNazwa();
+		mozliweDzialania.push_back(qMakePair(PRZESUNIECIE_DZIALAN_PVP + indeks, opis));
+	}
 
-/**
- * @brief MistrzGry::polaczNagrody	Łączy 2 nagrody w jedną i daje do niej wskaźnik, należy zatroszczyć się						o jej własnoręczne usunięcie
- * @param pierwsza	dane pierwszej nagrody
- * @param druga		dane drugiej nagrody
- * @return		zwraca wskaźnik do nowo utworzonej nagrody
- */
-Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
-{
-	QList<int>* konkrety = new QList<int>();
-	konkrety->append(*pierwsza->getKonkretnePrzedmioty());
-	konkrety->append(*druga->getKonkretnePrzedmioty());
-
-	int* reputacja = new int[LICZBA_KROLESTW];
-	for(int i = 0; i < LICZBA_KROLESTW; ++i)
-		reputacja[i] = pierwsza->getReputacja()[i] + druga->getReputacja()[i];
-
-	return new Nagroda(reputacja,
-			   pierwsza->getZloto() + druga->getZloto(),
-			   pierwsza->getDoswiadczenie() + druga->getDoswiadczenie(),
-			   pierwsza->getNazwyGrup() + druga->getNazwyGrup(),
-			   konkrety);
-
+	mozliweDzialania.push_back(qMakePair((int)koniecTury, AKCJE[koniecTury]));
 }
 
 /**
@@ -189,34 +184,48 @@ Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
  *					to grafika zgłasza kliknięcie na przycisk
  * @param nazwa		opcja, która została wybrana
  */
-void MistrzGry::wykonajAkcje(Akcja opcja)
+void MistrzGry::wykonajAkcje(int opcja)
 {
+	int indeksPola = plansza->IDToIndeks(aktualnyGracz->getPozycja());
+
+	if(opcja >= PRZESUNIECIE_DZIALAN_PVP)
+	{
+		walka(opcja);
+		return;
+	}
+
 	switch ((Akcja)opcja) {
 	case koniecTury:
 		aktualnyGracz->setOstatnioWalczyl(false);
 		cyklGry->zakonczTure();
 		break;
 	case przeciwnikLatwy:
-		walka((Akcja)opcja);
-		break;
 	case przeciwnikTrudny:
-		walka((Akcja)opcja);
+		walka(opcja);
 		break;
 	case bazar:
 		plansza->blokujRuch();
-		handelNaBazarze();
+		oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryWMiastach[indeksPola]);
+		oknoBazaru->setWindowModality(Qt::ApplicationModal);
+		oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
+		oknoBazaru->show();
 		break;
 	case tawerna:
 		plansza->blokujRuch();
-		idzDoTawerny();
+		oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, this, oknoGracza, zadaniaWMiastach[indeksPola]);
+		oknoTawerny->setWindowModality(Qt::ApplicationModal);
+		oknoTawerny->setAttribute(Qt::WA_DeleteOnClose);
+		oknoTawerny->show();
 		break;
 	case uzdrowiciel:
 		plansza->blokujRuch();
-		idzDoUzdrowiciela();
+		oknoUzdrowiciela = new OknoUzdrowiciela(aktualnyGracz, oknoGracza);
+		oknoUzdrowiciela->setWindowModality(Qt::ApplicationModal);
+		oknoUzdrowiciela->setAttribute(Qt::WA_DeleteOnClose);
+		oknoUzdrowiciela->show();
 		break;
 	default:
 		qDebug() << QString::fromUtf8("Błędna opcja");
-		//TODO: assert
 	}
 }
 
@@ -227,24 +236,24 @@ void MistrzGry::wykonajAkcje(Akcja opcja)
  * @param gracz		dane gracza, wykonującego zadanie
  * @param id		id zadania
  */
-void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
+void MistrzGry::wykonajZadanie(int id)
 {
-	gracz->setOstatnioWalczyl(false);
+	aktualnyGracz->setOstatnioWalczyl(false);
 	bool sukces;
 	int szansaGracza;
 	int indeks = 0;
-	while(gracz->getKonkretneZadanie(indeks)->getId() != id)
+	while(aktualnyGracz->getKonkretneZadanie(indeks)->getId() != id)
 		++indeks;
 
-	Zadanie* zadanie = gracz->getKonkretneZadanie(indeks);
+	Zadanie* zadanie = aktualnyGracz->getKonkretneZadanie(indeks);
 	switch (zadanie->getRodzaj()) {
 	case przynies:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda(), false);
-			gracz->usunKonkretneZadanie(id);
-			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-			panelAkcji->wyswietl();
+			przydzielNagrode(aktualnyGracz, zadanie->getNagroda(), false);
+			aktualnyGracz->usunKonkretneZadanie(id);
+			ustalMozliweDzialania();
+			panelAkcji->wyswietl(&mozliweDzialania);
 		}
 		else
 		{
@@ -256,13 +265,13 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 	case odnajdz:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda(), false);
-			gracz->usunKonkretneZadanie(id);
-			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-			panelAkcji->wyswietl();
+			przydzielNagrode(aktualnyGracz, zadanie->getNagroda(), false);
+			aktualnyGracz->usunKonkretneZadanie(id);
+			ustalMozliweDzialania();
+			panelAkcji->wyswietl(&mozliweDzialania);
 			break;
 		}
-		szansaGracza = BAZOWA_SZANSA_NA_ODNALEZIENIE + gracz->getPercepcja() * BONUS_Z_PERCEPCJI;
+		szansaGracza = BAZOWA_SZANSA_NA_ODNALEZIENIE + aktualnyGracz->getPercepcja() * BONUS_Z_PERCEPCJI;
 		sukces = qrand() % 100 < szansaGracza;
 		QMessageBox::information(
 			cyklGry->getMainWindow(),
@@ -279,8 +288,8 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 			}
 			else
 			{
-				przydzielNagrode(gracz, zadanie->getNagroda(), true);
-				gracz->usunKonkretneZadanie(id);
+				przydzielNagrode(aktualnyGracz, zadanie->getNagroda(), true);
+				aktualnyGracz->usunKonkretneZadanie(id);
 			}
 		}
 		cyklGry->zakonczTure();
@@ -288,10 +297,10 @@ void MistrzGry::wykonajZadanie(Gracz* gracz, int id)
 	case pokonaj:
 		if(zadanie->getCzyWykonanoCzesc())
 		{
-			przydzielNagrode(gracz, zadanie->getNagroda(), false);
-			gracz->usunKonkretneZadanie(id);
-			panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-			panelAkcji->wyswietl();
+			przydzielNagrode(aktualnyGracz, zadanie->getNagroda(), false);
+			aktualnyGracz->usunKonkretneZadanie(id);
+			ustalMozliweDzialania();
+			panelAkcji->wyswietl(&mozliweDzialania);
 		}
 		else
 		{
@@ -313,25 +322,10 @@ void MistrzGry::nowyTydzien()
 	QMap<int, QList<Zadanie*>* >::iterator it2;
 	for (it2 = zadaniaWMiastach.begin(); it2 != zadaniaWMiastach.end(); ++it2)
 	{
-		Pole* zajmowanePole = plansza->pokazPole(plansza->indeksToID(it2.key()));
-		wylosujZadaniaDoTawerny(it2.value(), zajmowanePole->getFrakcja());
+		Pole* pole = plansza->pokazPole(plansza->indeksToID(it2.key()));
+		wylosujZadaniaDoTawerny(it2.value(), pole->getFrakcja(), true);
 	}
 	qDebug() <<"Wylosowano zadania";
-}
-
-void MistrzGry::rozpocznij()
-{
-		this->miasta = plansza->getMiasta();
-
-		for(int i = 0; i < miasta->size(); ++i)
-		{
-			QList<Przedmiot*>* nowa = new QList<Przedmiot*>;
-			towaryWMiastach.insert(miasta->at(i), nowa);
-			QList<Zadanie*>* nowa2 = new QList<Zadanie*>;
-			zadaniaWMiastach.insert(miasta->at(i), nowa2);
-		}
-
-		nowyTydzien();
 }
 
 /**
@@ -346,15 +340,9 @@ void MistrzGry::wybranoDzialanie(int opcja)
 		return;
 
 	if(opcja >= 0)
-	{
-		qDebug() << "wybrano akcje: " << AKCJE[opcja];
-		wykonajAkcje((Akcja)opcja);
-	}
+		wykonajAkcje(opcja);
 	else
-	{
-		qDebug()<<"wybrano zadanie: " << zadania[opcja * -1]->getTytul();
-		wykonajZadanie(aktualnyGracz, opcja * -1);
-	}
+		wykonajZadanie(opcja * -1);
 }
 
 /**
@@ -364,9 +352,8 @@ void MistrzGry::wybranoDzialanie(int opcja)
 void MistrzGry::wykonanoRuch()
 {
 	aktualnyGracz->setOstatnioWalczyl(false);
-	panelAkcji->ustawAkcje(mozliweAkcje(aktualnyGracz));
-	panelAkcji->ustawZadania(mozliweZadania(aktualnyGracz));
-	panelAkcji->wyswietl();
+	ustalMozliweDzialania();
+	panelAkcji->wyswietl(&mozliweDzialania);
 }
 
 /**
@@ -374,7 +361,56 @@ void MistrzGry::wykonanoRuch()
  */
 void MistrzGry::poinformujPlansze()
 {
+	//TODO: może zmiana sposobu informowania
 	plansza->uaktualnijOsiagalne();
+}
+
+void MistrzGry::dolosujZadania()
+{
+	IDPola idPola = aktualnyGracz->getPozycja();
+	int indeksPola = plansza->IDToIndeks(idPola);
+	Pole* pole = plansza->pokazPole(idPola);
+	wylosujZadaniaDoTawerny(zadaniaWMiastach[indeksPola], pole->getFrakcja(), false);
+}
+
+/**
+ * @brief MistrzGry::walka	Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
+ * @param opcja		informacja jaka opcja walki (jaki przeciwnik) została wybrana
+ */
+void MistrzGry::walka(int opcja)
+{
+	int poziomLatwy = (aktualnyGracz->getPoziom() + 1 ) / 2;
+	Przeciwnik* przeciwnik = nullptr;
+
+	if(opcja >= PRZESUNIECIE_DZIALAN_PVP)
+	{
+		//wyznaczenie przeciwnika do pvp
+	}
+	else
+	{
+		switch((Akcja) opcja) {
+		case przeciwnikLatwy:
+			przeciwnik = losujPrzeciwnika(poziomLatwy);
+			aktualnyGracz->setOstatnioWalczyl(true);
+			break;
+		case przeciwnikTrudny:
+			przeciwnik = losujPrzeciwnika(poziomLatwy + 1);
+			aktualnyGracz->setOstatnioWalczyl(true);
+			break;
+		case przeciwnikZZadania:
+			przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
+		default:
+			qDebug() << QString::fromUtf8("Błędna opcja");
+		}
+	}
+
+	if(przeciwnik == nullptr)
+		return;
+
+	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
+	oknoWalki->setWindowModality(Qt::ApplicationModal);
+	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
+	oknoWalki->rozpocznij();
 }
 
 /**
@@ -491,75 +527,18 @@ Przeciwnik *MistrzGry::losujPrzeciwnika(int grupa)
 	return przeciwnicy[grupyPrzeciwnikow[grupa]->at(los)];
 }
 
-/**
- * @brief MistrzGry::walka	Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
- * @param opcja		informacja jaka opcja walki (jaki przeciwnik) została wybrana
- */
-void MistrzGry::walka(Akcja opcja)
+void MistrzGry::wylosujZadaniaDoTawerny(QList<Zadanie *> *lista, int frakcja, bool usunPoprzednie)
 {
-	int poziomLatwy = (aktualnyGracz->getPoziom() + 1 ) / 2;
-	Przeciwnik* przeciwnik = NULL;
+	if (usunPoprzednie)
+		lista->clear();
 
-	switch(opcja) {
-	case przeciwnikLatwy:
-		przeciwnik = losujPrzeciwnika(poziomLatwy);
-		aktualnyGracz->setOstatnioWalczyl(true);
-		break;
-	case przeciwnikTrudny:
-		przeciwnik = losujPrzeciwnika(poziomLatwy + 1);
-		aktualnyGracz->setOstatnioWalczyl(true);
-		break;
-	case przeciwnikZZadania:
-		przeciwnik = realizowaneZadanie->getPrzeciwnicy()->front();
-	default:
-		qDebug() << QString::fromUtf8("Błędna opcja");
-		//TODO: assert
-	}
-
-	oknoWalki = new Walka(aktualnyGracz, przeciwnik, this);
-	oknoWalki->setWindowModality(Qt::ApplicationModal);
-	oknoWalki->setAttribute(Qt::WA_DeleteOnClose);
-	oknoWalki->rozpocznij();
-}
-
-/**
- * @brief MistrzGry::idzDoTawerny	Metoda losująca zadania w tawernie i wyświetlająca Okno Tawerny
- */
-void MistrzGry::idzDoTawerny()
-{
-	int indeksPola = plansza->IDToIndeks(aktualnyGracz->getPozycja());
-	oknoTawerny = new OknoTawerny(aktualnyGracz, plansza, oknoGracza, zadaniaWMiastach[indeksPola]);
-	oknoTawerny->setWindowModality(Qt::ApplicationModal);
-	oknoTawerny->setAttribute(Qt::WA_DeleteOnClose);
-	oknoTawerny->show();
-}
-
-void MistrzGry::wylosujZadaniaDoTawerny(QList<Zadanie *> *lista, int frakcja)
-{
-	lista->clear();
-	for(int i = 0; i < LICZBA_ZADAN_W_TAWERNIE; ++i)
+	while(lista->size() < LICZBA_ZADAN_W_TAWERNIE)
 	{
 		int los = qrand() % zadania.size() + 1;
-//		QMap<int, Zadanie*>::iterator iter = zadania.begin();
-//		for (int j = 0; j < los; ++j)
-//			++iter;
-		if(lista->contains(zadania[los]) || (zadania[los]->getFrakcja() != frakcja && zadania[los]->getFrakcja() != -1))
-			--i;
-		else
+		bool frakcjaOK = zadania[los]->getFrakcja() == frakcja || zadania[los]->getFrakcja() == -1 ;
+		if(! lista->contains(zadania[los]) && frakcjaOK)
 			lista->push_back(zadania[los]);
 	}
-}
-
-/**
- * @brief MistrzGry::handelNaBazarze	Metoda losująca przedmioty na bazarze i wyświetlająca Okno Bazaru
- */
-void MistrzGry::handelNaBazarze()
-{
-	int indeksPola = plansza->IDToIndeks(aktualnyGracz->getPozycja());
-	oknoBazaru = new OknoBazaru(aktualnyGracz, oknoGracza, towaryWMiastach[indeksPola]);
-	oknoBazaru->setWindowModality(Qt::ApplicationModal);
-	oknoBazaru->setAttribute(Qt::WA_DeleteOnClose);
-	oknoBazaru->show();
 }
 
 void MistrzGry::wylosujPrzedmiotyNaBazar(QList<Przedmiot *> *lista)
@@ -577,12 +556,28 @@ void MistrzGry::wylosujPrzedmiotyNaBazar(QList<Przedmiot *> *lista)
 	}
 }
 
-void MistrzGry::idzDoUzdrowiciela()
+/**
+ * @brief MistrzGry::polaczNagrody	Łączy 2 nagrody w jedną i daje do niej wskaźnik, należy zatroszczyć się						o jej własnoręczne usunięcie
+ * @param pierwsza	dane pierwszej nagrody
+ * @param druga		dane drugiej nagrody
+ * @return		zwraca wskaźnik do nowo utworzonej nagrody
+ */
+Nagroda* MistrzGry::polaczNagrody(Nagroda *pierwsza, Nagroda *druga)
 {
-	oknoUzdrowiciela = new OknoUzdrowiciela(aktualnyGracz, oknoGracza);
-	oknoUzdrowiciela->setWindowModality(Qt::ApplicationModal);
-	oknoUzdrowiciela->setAttribute(Qt::WA_DeleteOnClose);
-	oknoUzdrowiciela->show();
+	QList<int>* konkrety = new QList<int>();
+	konkrety->append(*pierwsza->getKonkretnePrzedmioty());
+	konkrety->append(*druga->getKonkretnePrzedmioty());
+
+	int* reputacja = new int[LICZBA_KROLESTW];
+	for(int i = 0; i < LICZBA_KROLESTW; ++i)
+		reputacja[i] = pierwsza->getReputacja()[i] + druga->getReputacja()[i];
+
+	return new Nagroda(reputacja,
+			   pierwsza->getZloto() + druga->getZloto(),
+			   pierwsza->getDoswiadczenie() + druga->getDoswiadczenie(),
+			   pierwsza->getNazwyGrup() + druga->getNazwyGrup(),
+			   konkrety);
+
 }
 
 void MistrzGry::setPlansza(Plansza *plansza)
@@ -605,7 +600,7 @@ void MistrzGry::setOknoGracza(OknoGracza *okno)
 	this->oknoGracza = okno;
 }
 
-void MistrzGry::setBoty(QMap<int, SztucznaInteligencja *>)
+void MistrzGry::setGracze(QList<Gracz *> * gracze)
 {
-	this->boty = boty;
+	this->gracze = gracze;
 }

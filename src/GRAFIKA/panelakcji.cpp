@@ -10,23 +10,15 @@ PanelAkcji::PanelAkcji(QGroupBox* box)
 /**
  * @brief PanelAkcji::wyswietl	Wyświetla Panel zgodnie z obecnymi ustawieniami
  */
-void PanelAkcji::wyswietl()
+void PanelAkcji::wyswietl(QList<QPair<int, QString> >* dzialania)
 {
 	wyczyscPanel();
 	uklad = new QVBoxLayout(panel);
 
-	foreach(Zadanie* i, zadania)
+	for(int i = 0; i < dzialania->size(); ++i)
 	{
-		przyciski.push_back(new MojPrzycisk(-1 * (i->getId()) ));
-		przyciski.back()->setText( QString("Wykonaj zadanie:\n") + i->getTytul());
-		uklad->addWidget(przyciski.back());
-		connect(przyciski.back(), SIGNAL(kliknietyID(int)), this, SLOT(kliknietoPrzycisk(int)));
-	}
-
-	foreach(int i, akcje)
-	{
-		przyciski.push_back(new MojPrzycisk(i));
-		przyciski.back()->setText(AKCJE[i]);
+		przyciski.push_back(new MojPrzycisk(dzialania->at(i).first));
+		przyciski.back()->setText(dzialania->at(i).second);
 		uklad->addWidget(przyciski.back());
 		connect(przyciski.back(), SIGNAL(kliknietyID(int)), this, SLOT(kliknietoPrzycisk(int)));
 	}
@@ -60,22 +52,4 @@ void PanelAkcji::wyczyscPanel()
 	}
 	przyciski.clear();
 	delete uklad;
-}
-
-/**
- * @brief PanelAkcji::ustawAkcje	Ustawia akcje do wyświetlenia
- * @param akcje		Lista akcji, które powinny zostać wyświetlone.
- */
-void PanelAkcji::ustawAkcje(QList<Akcja> akcje)
-{
-	this->akcje = akcje;
-}
-
-/**
- * @brief PanelAkcji::ustawZadania	Ustawia zadania do wyświetlenia.
- * @param zadania	Lista zadań, które powinny zostać wyswietlone
- */
-void PanelAkcji::ustawZadania(QList<Zadanie *> zadania)
-{
-	this->zadania = zadania;
 }

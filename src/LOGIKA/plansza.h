@@ -31,7 +31,7 @@ public:
 	void setMistrzGry(MistrzGry* mistrz);
 	void setGracze(QList<Gracz*>* gracze);
 	QList<int>* getMiasta();
-	void ruszGracza(Gracz* gracz, int indeks);
+	void ruszGracza(int indeks);
 	void kliknietoHex(IDPola id);
 	void ustalOsiagalne(Gracz* gracz);
 	void uaktualnijOsiagalne();

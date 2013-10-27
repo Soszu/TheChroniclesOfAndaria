@@ -202,6 +202,7 @@ void zdejmijPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 		return;
 
 	Ekwipunek* ekw = gracz->getEkwipunek();
+	QList<Przedmiot*>* artefakty = ekw->getZalozoneArtefakty();
 
 	switch (rzecz->getRodzaj()) {
 	case bronDwureczna:
@@ -218,8 +219,10 @@ void zdejmijPrzedmiot(Przedmiot* rzecz, Gracz* gracz)
 		ekw->setGlowa(NULL);
 		break;
 	case artefakt:
-		QList<Przedmiot*>* artefakty = ekw->getZalozoneArtefakty();
 		artefakty->removeAt(artefakty->indexOf(rzecz));
+		break;
+	default:
+		qDebug() << QString::fromUtf8("Próbowano założyć nie rozpoznany rodzaj ekwipunku.");
 	}
 
 	dezaktywujBonusy(rzecz, gracz);

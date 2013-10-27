@@ -1,8 +1,9 @@
 ﻿#include "oknotawerny.h"
 
-OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, OknoGracza *oknoGracza, QList<Zadanie *> *dostepneZadania)
+OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, MistrzGry *mistrzGry, OknoGracza *oknoGracza, QList<Zadanie *> *dostepneZadania)
 {
 	this->plansza = plansza;
+	this->mistrzGry = mistrzGry;
 	this->gracz = gracz;
 	this->dostepneZadania = dostepneZadania;
 	this->oknoGracza = oknoGracza;
@@ -54,6 +55,7 @@ OknoTawerny::OknoTawerny(Gracz *gracz, Plansza* plansza, OknoGracza *oknoGracza,
 	connect(listaWlasnychZadan, SIGNAL(clicked(QModelIndex)), this, SLOT(wyswietlOpisDlaWlasnych(QModelIndex)));
 	connect(listaMozliwychZadan, SIGNAL(clicked(QModelIndex)), this, SLOT(wyswietlOpisDlaMozliwych(QModelIndex)));
 
+	connect(ok, SIGNAL(clicked()), this, SLOT(dolosujZadania()));
 	connect(ok, SIGNAL(clicked()), this, SLOT(close()));
 	connect(przyciskPokazCel, SIGNAL(clicked()), this, SLOT(pokaz()));
 	connect(przyciskPrzyjmij, SIGNAL(clicked()), this, SLOT(przyjmij()));
@@ -146,4 +148,12 @@ void OknoTawerny::przyjmij()
 void OknoTawerny::pokaz()
 {
 	plansza->pokazHex(ostatnioWyswietlone->getPoleCelu());
+}
+
+/**
+ * @brief OknoTawerny::dolosujZadania		Informuje mistrza gry o potrzebie dolosowania zadań
+ */
+void OknoTawerny::dolosujZadania()
+{
+	mistrzGry->dolosujZadania();
 }

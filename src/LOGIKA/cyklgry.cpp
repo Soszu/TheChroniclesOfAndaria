@@ -4,7 +4,6 @@ CyklGry::CyklGry(int* wynikParsowania)
 {
 	this->wynikParsowania = wynikParsowania;
 	zrestartujZmienne();
-	czyPierwszaGra = true;
 	komunikatOBledzie = new QDialog;
 }
 
@@ -32,7 +31,7 @@ void CyklGry::setGracze(QList<Gracz *> gracze)
 	for(int i = 0; i < gracze.size(); ++i)
 		if(gracze[i]->getCzyAI())
 			boty.insert(i, new SztucznaInteligencja(gracze[i]));
-	mistrzGry->setBoty(boty);
+	mistrzGry->setGracze(&this->gracze);
 }
 
 void CyklGry::setMainWindow(MainWindow *okno)
@@ -132,18 +131,13 @@ bool CyklGry::czySpelnionyWarunekZwyciestwa(Gracz *gracz)
 }
 
 /**
- * @brief CyklGry::rozpocznij Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
+ * @brief CyklGry::rozpocznij	Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
  */
 void CyklGry::rozpocznij()
 {
 	zrestartujZmienne();
 	qDebug() <<"Liczba graczy: " <<gracze.size();
 	mainWindow->zmienDate(dzien, tydzien);
-	if(czyPierwszaGra)
-	{
-		czyPierwszaGra = false;
-//		plansza->
-	}
 	mistrzGry->rozpocznij();
 	plansza->rozpocznij();
 	ruszGracza(indeksAktualnego);
@@ -156,8 +150,8 @@ void CyklGry::rozpocznij()
 void CyklGry::ruszGracza(int indeks)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " <<indeksAktualnego;
-	plansza->ruszGracza(gracze[indeks], indeks);
-	mistrzGry->ruszGracza(gracze[indeks], indeks);
+	plansza->ruszGracza(indeks);
+	mistrzGry->ruszGracza(indeks);
 }
 
 /**

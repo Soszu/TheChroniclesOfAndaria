@@ -50,13 +50,13 @@ QList<int> *Plansza::getMiasta()
  * @brief Plansza::ruszGracza Rusza gracza podanego jako parametr. Rysuje planszę, jeśli jeszcze tego nie zrobiono.
  * @param gracz
  */
-void Plansza::ruszGracza(Gracz *gracz, int indeks)
+void Plansza::ruszGracza(int indeks)
 {
-	qDebug() <<"Plansza obsluguje gracza: " <<gracz->getNazwa();
 	this->indeksAktualnego = indeks;
-	this->aktualnyGracz = gracz;
+	this->aktualnyGracz = gracze->at(indeks);
+	qDebug() <<"Plansza obsluguje gracza: " <<aktualnyGracz->getNazwa();
 	graczWykonalRuch = false;
-	ustalOsiagalne(gracz);
+	ustalOsiagalne(aktualnyGracz);
 	obszarPlanszy->podswietl(pokazOsiagalne());
 }
 
@@ -273,6 +273,9 @@ IDPola Plansza::indeksToID(int indeks)
 	return tmp;
 }
 
+/**
+ * @brief Plansza::rozpocznij		Zbiór operacji wykonywanych na początku rozgrywki
+ */
 void Plansza::rozpocznij()
 {
 	obszarPlanszy->narysujPlansze(pola, szerokoscPlanszy, wysokoscPlanszy, spiszPozycje());

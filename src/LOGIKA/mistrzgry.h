@@ -47,22 +47,30 @@ class MistrzGry
 public:
 	MistrzGry(CyklGry *cykl);
 	~MistrzGry();
-	void ruszGracza(Gracz* gracz, int indeks);
 	void setPlansza(Plansza* plansza);
 	Plansza* getPlansza();
 	void setPanelAkcji(PanelAkcji* panel);
 	void setOknoGracza(OknoGracza* okno);
+	void setGracze(QList<Gracz*>*gracze);
 	void setBoty(QMap<int, SztucznaInteligencja*>);
+
+	void rozpocznij();
+	void ruszGracza(int indeks);
+	void nowyTydzien();
 	void wybranoDzialanie(int nazwa);
 	void wykonanoRuch();
 	void poinformujPlansze();
+	void dolosujZadania();
 	void koniecWalki(Przeciwnik* przeciwnik, WynikWalki rezultat);
 	void przydzielNagrode(Gracz* gracz, Nagroda* nagroda, bool czyKoniecTury);
-	void wykonajAkcje(Akcja opcja);
-	void wykonajZadanie(Gracz *gracz, int id);
-	void nowyTydzien();
-	void rozpocznij();
 private:
+	static const int PRZESUNIECIE_DZIALAN_PVP = 20;
+
+	CyklGry* cyklGry;
+	Plansza* plansza;
+	PanelAkcji* panelAkcji;
+	OknoGracza* oknoGracza;
+
 	QMap<int, QList<int>* > grupyPrzeciwnikow; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
 	QMap<int, Przeciwnik*> przeciwnicy; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
 	QMap<QString, QList <int>* > grupy; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
@@ -71,36 +79,28 @@ private:
 	QMap<int, Zadanie*> zadania;//dla każdego identyfikatora trzymany jest opis zadania.
 
 	Gracz* aktualnyGracz;
-	CyklGry* cyklGry;
-	Plansza* plansza;
-	PanelAkcji* panelAkcji;
-	OknoGracza* oknoGracza;
-	QLabel* dzienTygodnia;
 	QMap<int, SztucznaInteligencja*> boty;
+	QList<Gracz*>* gracze;
 	QList<int>* miasta;
+	QMap<int, QList<Zadanie*>* > zadaniaWMiastach;
+	QMap<int, QList<Przedmiot*>* > towaryWMiastach;
+	QList<QPair<int, QString> > mozliweDzialania;
+	Zadanie* realizowaneZadanie;
 
+	void ustalMozliweDzialania();
+	void wykonajAkcje(int opcja);
+	void wykonajZadanie(int id);
+	void walka(int opcja);
+	Nagroda* polaczNagrody(Nagroda* pierwsza, Nagroda* druga);
 	Przeciwnik* losujPrzeciwnika(int grupa);
-	void walka(Akcja opcja);
+	void wylosujZadaniaDoTawerny(QList<Zadanie*>* lista, int frakcja, bool usunPoprzednie);
+	void wylosujPrzedmiotyNaBazar(QList<Przedmiot*>* lista);
+
 	Walka* oknoWalki;
 	OknoNagrody* oknoNagrody;
-
-	void idzDoTawerny();
-	void wylosujZadaniaDoTawerny(QList<Zadanie*>* lista, int frakcja);
 	OknoTawerny* oknoTawerny;
-	QMap<int, QList<Zadanie*>* > zadaniaWMiastach;
-
-	void handelNaBazarze();
-	void wylosujPrzedmiotyNaBazar(QList<Przedmiot*>* lista);
 	OknoBazaru* oknoBazaru;
-	QMap<int, QList<Przedmiot*>* > towaryWMiastach;
-
 	OknoUzdrowiciela* oknoUzdrowiciela;
-	void idzDoUzdrowiciela();
-
-	Zadanie* realizowaneZadanie;
-	QList<Akcja> mozliweAkcje(Gracz* gracz);
-	QList<Zadanie*>mozliweZadania(Gracz* gracz);
-	Nagroda* polaczNagrody(Nagroda* pierwsza, Nagroda* druga);
 };
 
 #endif // MISTRZGRY_H

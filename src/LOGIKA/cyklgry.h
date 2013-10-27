@@ -39,7 +39,6 @@ private:
 	void wyznaczKolejnego();
 	void nowyDzien();
 
-	bool czyPierwszaGra;
 	int liczbaAktywnych;
 	int indeksAktualnego;
 	int tydzien;

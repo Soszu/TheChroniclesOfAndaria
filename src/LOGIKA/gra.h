@@ -70,7 +70,7 @@ static const QString IKONKA_DUZA_MIKSTURA_ZDROWIA = "img/ikonki/duza_mikstura.pn
 static const QString IKONKA_ZLOTO = "img/ikonki/zloto.png";
 static const QString IKONKA_REGENERACJA = "img/ikonki/regeneracja.png";
 
-static const QString PREFIX_PRZECIWNIKOW = "przeciwnicy/";
+static const QString PREFIX_PRZECIWNIKOW = "img/przeciwnicy/";
 static const QString PREFIX_HEXOW = "img/hexy/";
 static const QString PLIK_Z_SYMBOLEM_WALKI = "img/hexy/symbol.png";
 
@@ -117,6 +117,11 @@ struct IDPola
 {
 	int x;
 	int y;
+
+	bool operator==(const IDPola& rhs)
+	{
+		return ( rhs.x == this->x && rhs.y == this->y);
+	}
 };
 
 //index ustawienia początkowego jest równoznaczna z wartością enumeratora Rasa, dla tej rasy

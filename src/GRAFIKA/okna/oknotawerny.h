@@ -13,10 +13,11 @@ class OknoTawerny : public QDialog
 {
 	Q_OBJECT
 public:
-	explicit OknoTawerny(Gracz* gracz, Plansza* plansza, OknoGracza* oknoGracza, QList<Zadanie *>* dostepneZadania);
+	explicit OknoTawerny(Gracz* gracz, Plansza* plansza, MistrzGry* mistrzGry, OknoGracza* oknoGracza, QList<Zadanie *>* dostepneZadania);
 private:
 	Gracz* gracz;
 	Plansza* plansza;
+	MistrzGry* mistrzGry;
 	OknoGracza* oknoGracza;
 	bool questRejected;
 
@@ -47,6 +48,7 @@ private slots:
 	void wyswietlOpisDlaMozliwych(QModelIndex element);
 	void przyjmij();
 	void pokaz();
+	void dolosujZadania();
 
 };
 
