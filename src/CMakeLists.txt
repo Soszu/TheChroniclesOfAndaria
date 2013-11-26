@@ -1,2 +1,2 @@
-add_subdirectory (LOGIKA)
-add_subdirectory (GRAFIKA)
+add_subdirectory (Core)
+add_subdirectory (Gui)
