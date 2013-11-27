@@ -49,7 +49,7 @@ void BoardArea::drawBoard(QList <Field *> *fields, int columnCount, int rowCount
 	this->fields_ = fields;
 	this->rowCount_ = rowCount;
 	this->columnCount_ = columnCount;
-	this->playerPositions_ = playerPositions_;
+    this->playerPositions_ = playerPositions;
 	setBackgroundBrush(QBrush(Qt::black));
 	setSceneRect(calcBoardAreaRect());
 

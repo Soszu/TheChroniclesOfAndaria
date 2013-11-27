@@ -1,7 +1,7 @@
 #include "Core/Containers/Field.h"
 
 Field::Field (FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction)
-	: fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), imageFile_(imageFile), fraction_(fraction)
+    : fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), hasCity_(hasCity), imageFile_(imageFile), fraction_(fraction)
 {
 }
 
