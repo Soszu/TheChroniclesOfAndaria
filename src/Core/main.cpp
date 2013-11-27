@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	qsrand(QDateTime::currentDateTime().toTime_t());
 
-	MainWindow mainWindow;
 	NewGameWindow newGameWindow;
 	int parseResult = 0;
 	GameCycle gameCycle(&parseResult);
@@ -24,8 +23,7 @@ int main(int argc, char *argv[])
 	if (parseResult != 0)
 		return parseResult;
 
-	mainWindow.setGameMaster(&gameMaster);
-	mainWindow.setBoard(&board);
+	MainWindow mainWindow(&gameMaster, &board);
 
 	gameMaster.setActionPanel(mainWindow.actionPanel());
 	gameMaster.setPlayerWindow(mainWindow.playerWindow());

@@ -19,10 +19,9 @@ class MainWindow;
 class BoardArea : public QGraphicsScene {
 	Q_OBJECT
 public:
-	explicit BoardArea(MainWindow *mainWindow);
+	explicit BoardArea(Board *board);
 	~BoardArea();
 
-	void setBoard(Board *board);
 	void setStatusBar(QStatusBar *statusBar);
 	void displayMessage(const QString &message);
 	void drawBoard(QList <Field *> *fields, int columnCount, int rowCount, QList <QPair <QColor, FieldId> > *playerPositions);
@@ -51,11 +50,10 @@ private:
 	QPointF calcPlayerMarkerCenter(int index);
 	void changeSize(int d);
 
-	MainWindow *mainWindow_;
 	QStatusBar *statusBar_;
 
 	qreal tileSide_;
-	Board *board_;
+	Board *const board_;
 	int rowCount_;
 	int columnCount_;
 

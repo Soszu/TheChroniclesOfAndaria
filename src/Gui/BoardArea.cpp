@@ -1,7 +1,7 @@
 #include "Gui/BoardArea.h"
 
-BoardArea::BoardArea(MainWindow *mainWindow)
-	: mainWindow_(mainWindow), tileSide_(InitialTileSize), selectedTile(nullptr)
+BoardArea::BoardArea(Board *board)
+	: tileSide_(InitialTileSize), board_(board), selectedTile(nullptr)
 {
 	ticTac = new QTimeLine(CZAS_TRWANIA_JEDNEGO_PRZEJSCIA, this);
 	ticTac->setFrameRange(0, 100);
@@ -16,11 +16,6 @@ BoardArea::~BoardArea()
 {
 	qDeleteAll(playerMarkers_);
 	qDeleteAll(tiles_);
-}
-
-void BoardArea::setBoard(Board *board)
-{
-	this->board_ = board;
 }
 
 void BoardArea::setStatusBar(QStatusBar *statusBar)
