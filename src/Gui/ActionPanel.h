@@ -8,10 +8,10 @@
 
 class GameMaster;
 
-class ActionPanel : public QObject {
+class ActionPanel : public QGroupBox {
 	Q_OBJECT;
 public:
-	ActionPanel(GameMaster *gameMaster, QGroupBox *box);
+	ActionPanel(GameMaster *gameMaster);
 	void displayActions(const QList <QPair <int, QString> > &actions);
 
 private:
@@ -19,7 +19,6 @@ private:
 
 	GameMaster *const gameMaster_;
 
-	QGroupBox *panel;
 	QVBoxLayout *buttonLayout;
 	QSignalMapper *buttonMapper;
 	QList <QPushButton *> buttons;

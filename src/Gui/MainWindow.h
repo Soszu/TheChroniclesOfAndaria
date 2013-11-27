@@ -32,7 +32,6 @@ private slots:
 
 private:
 	QGraphicsView *graphicsView;
-	QGroupBox *panel;
 
 	QMenu *menuGame;
 	QMenu *menuView;

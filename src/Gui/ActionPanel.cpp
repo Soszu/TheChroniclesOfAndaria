@@ -1,7 +1,7 @@
 #include "Gui/ActionPanel.h"
 
-ActionPanel::ActionPanel(GameMaster *gameMaster, QGroupBox *box)
-	: gameMaster_(gameMaster), panel(box), buttonLayout(new QVBoxLayout(panel)), buttonMapper(new QSignalMapper(this))
+ActionPanel::ActionPanel(GameMaster *gameMaster)
+	: gameMaster_(gameMaster), buttonLayout(new QVBoxLayout(this)), buttonMapper(new QSignalMapper(this))
 {
 	connect(buttonMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &ActionPanel::executeAction);
 }

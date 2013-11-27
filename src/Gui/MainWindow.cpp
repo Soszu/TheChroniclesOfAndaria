@@ -12,7 +12,7 @@ MainWindow::MainWindow(GameMaster *gameMaster, Board *board, QWidget *parent)
 	QVBoxLayout *sideLayout = new QVBoxLayout();
 	graphicsView = new QGraphicsView;
 	QFrame *frame = new QFrame();
-	panel = new QGroupBox();
+	actionPanel_ = new ActionPanel(gameMaster);
 
 	menuGame = new QMenu("Gra");
 	menuView = new QMenu("Widok");
@@ -25,9 +25,7 @@ MainWindow::MainWindow(GameMaster *gameMaster, Board *board, QWidget *parent)
 	mainLayout->addWidget(graphicsView);
 	mainLayout->addLayout(sideLayout);
 	sideLayout->addWidget(frame);
-	sideLayout->addWidget(panel);
-
-	actionPanel_ = new ActionPanel(gameMaster, panel);
+	sideLayout->addWidget(actionPanel_);
 
 	playerWindow_ = new PlayerWindow(frame);
 	boardArea_ = new BoardArea(board);
