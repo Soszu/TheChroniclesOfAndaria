@@ -1,5 +1,4 @@
 set (gui_SOURCES
-	CustomWidgets/MyButton.cpp
 	CustomWidgets/MyTaskbar.cpp
 
 	Elements/PlayerMarker.cpp
@@ -22,8 +21,6 @@ set (gui_SOURCES
 )
 
 set (gui_HEADERS
-	CustomWidgets/MyButton.h
-
 	Windows/EquipmentWindow.h
 	Windows/FightWindow.h
 	Windows/HealerWindow.h

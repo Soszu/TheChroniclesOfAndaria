@@ -82,7 +82,7 @@ void GameMaster::movePlayer(int index)
 
 	playerWindow_->displayPlayer(currentPlayer_);
 	determinePossibleActions();
-	actionPanel_->displayActions(&possibleActions_);
+	actionPanel_->displayActions(possibleActions_);
 }
 
 /**
@@ -203,7 +203,7 @@ void GameMaster::doQuest(int questId)
 			grantPrize(currentPlayer_, quest->prize(), false);
 			currentPlayer_->removeQuest(questId);
 			determinePossibleActions();
-			actionPanel_->displayActions(&possibleActions_);
+			actionPanel_->displayActions(possibleActions_);
 		} else {
 			quest->setIsPartiallyCompleted(true);
 			quest->setTargetField(quest->employerField());
@@ -215,7 +215,7 @@ void GameMaster::doQuest(int questId)
 			grantPrize(currentPlayer_, quest->prize(), false);
 			currentPlayer_->removeQuest(questId);
 			determinePossibleActions();
-			actionPanel_->displayActions(&possibleActions_);
+			actionPanel_->displayActions(possibleActions_);
 			break;
 		}
 		int chance = BAZOWA_SZANSA_NA_ODNALEZIENIE + currentPlayer_->perception() * BONUS_Z_PERCEPCJI;
@@ -292,7 +292,7 @@ void GameMaster::moveExecuted()
 {
 	currentPlayer_->setHasFoughtRecently(false);
 	determinePossibleActions();
-	actionPanel_->displayActions(&possibleActions_);
+	actionPanel_->displayActions(possibleActions_);
 }
 
 /**
