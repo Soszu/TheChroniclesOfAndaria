@@ -2,5 +2,6 @@
 *.o
 build/
 CMakeLists.txt.user
-Planszowka
+*.kdev4
+KronikiAndarii
 img/przeciwnicy/

@@ -25,5 +25,5 @@ set (core_SOURCES
 	main.cpp
 )
 
-add_executable (Planszowka ${core_SOURCES})
-target_link_libraries (Planszowka Gui ${Qt5Widgets_LIBRARIES})
+add_executable (KronikiAndarii ${core_SOURCES})
+target_link_libraries (KronikiAndarii Gui ${Qt5Widgets_LIBRARIES})
