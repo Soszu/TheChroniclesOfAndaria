@@ -99,16 +99,16 @@ void MarketWindow::populateListWidgets()
 void MarketWindow::displayPlayerItem(const QModelIndex &index)
 {
 	wareList->setCurrentRow(-1);
-	buyButton->setText("Sprzedaj");
+	buyButton->setText(sellText);
 	buyButton->setVisible(true);
 	buyButton->setEnabled(true);
 
 	const Item *item = player_->equipment()->backpack().at(index.row());
 	equipButton->setVisible(true);
 	if (isEquipped(item, player_))
-		equipButton->setText("Zdejmij");
+		equipButton->setText(unequipText);
 	else
-		equipButton->setText(QString::fromUtf8("Załóż"));
+		equipButton->setText(equipText);
 
 	equipButton->setEnabled(isPermitted(item, player_));
 	generateDescription(item, player_, itemDescriptionWidget);
@@ -125,7 +125,7 @@ void MarketWindow::displayMarketItem(const QModelIndex& element)
 
 	equipButton->setVisible(false);
 	buyButton->setVisible(true);
-	buyButton->setText("Kup");
+	buyButton->setText(buyText);
 	buyButton->setEnabled(player_->gold() >= item->value());
 
 	generateDescription(item, player_, itemDescriptionWidget);
@@ -171,7 +171,7 @@ void MarketWindow::equip()
 	const QList <const Item *> backpack = player_->equipment()->backpack();
 	const Item *item = backpack.at(playerItemList->currentRow());
 
-	if (equipButton->text() == "Zdejmij")
+	if (equipButton->text() == unequipText) //NOTE do I really want string comparision? Maybe boolean flag?
 		unequipItem(item, player_);
 	else
 		equipItem(item, player_);
@@ -180,9 +180,9 @@ void MarketWindow::equip()
 	playerWindow_->update();
 
 	if (isEquipped(item, player_))
-		equipButton->setText("Zdejmij");
+		equipButton->setText(unequipText);
 	else
-		equipButton->setText(QString::fromUtf8("Załóż"));
+		equipButton->setText(equipText);
 }
 
 /**
@@ -191,7 +191,7 @@ void MarketWindow::equip()
 void MarketWindow::buy()
 {
 	Equipment *equipment = player_->equipment();
-	if (buyButton->text() == "Sprzedaj") { //TODO CFiend kill it with fire - magic string
+	if (buyButton->text() == sellText) {
 		const Item *item = equipment->backpack().at(playerItemList->currentRow());
 		unequipItem(item, player_);
 

@@ -33,7 +33,7 @@ class ItemParser;
 class MarketWindow;
 class PrizeParser;
 class PrizeWindow;
-class QuestParser;;
+class QuestParser;
 class TavernWindow;
 
 enum class FightResult : quint8;

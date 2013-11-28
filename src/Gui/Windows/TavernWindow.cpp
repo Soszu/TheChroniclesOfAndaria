@@ -54,7 +54,7 @@ TavernWindow::TavernWindow(Player *player, Board *board, GameMaster *gameMaster,
 	connect(confirmButton, SIGNAL(clicked()), this, SLOT(generateQuests()));
 	connect(confirmButton, SIGNAL(clicked()), this, SLOT(close()));
 	connect(showDestinationButton, SIGNAL(clicked()), this, SLOT(showDestination()));
-	connect(acceptQuestButton, SIGNAL(clicked()), this, SLOT(acceptQuest()));
+	connect(acceptQuestButton, SIGNAL(clicked()), this, SLOT(processQuest()));
 }
 
 /**
@@ -84,7 +84,7 @@ void TavernWindow::displayPlayerQuest(const QModelIndex &index)
 
 	showDestinationButton->setEnabled(true);
 	acceptQuestButton->setEnabled(!questRejected);
-	acceptQuestButton->setText(QString::fromUtf8("Odrzuć"));
+	acceptQuestButton->setText(abandonText);
 
 	generateDescription(quest, questDescriptionWidget);
 }
@@ -107,7 +107,7 @@ void TavernWindow::displayAvailableQuest(const QModelIndex &index)
 		if (quest->id() == q->id())
 			alreadyTaken = true;
 	acceptQuestButton->setEnabled(!playerHasMaxQuests && !alreadyTaken);
-	acceptQuestButton->setText(QString::fromUtf8("Przyjmij"));
+	acceptQuestButton->setText(acceptText);
 
 	generateDescription(quest, questDescriptionWidget);
 }
@@ -115,9 +115,9 @@ void TavernWindow::displayAvailableQuest(const QModelIndex &index)
 /**
  * @brief OknoTawerny::przyjmij		Zależnie od zaznaczenia przyjmuje oferowane zadanie albo odrzuca jedno z podjętych
  */
-void TavernWindow::acceptQuest()
+void TavernWindow::processQuest()
 {
-	if (acceptQuestButton->text() == "Przyjmij") { //TODO CFiend magic string
+	if (acceptQuestButton->text() == acceptText) {  //NOTE do I really want string comparision? Maybe boolean flag?
 		int index = availableQuestsWidget->currentRow();
 		player_->quests()->push_back(new Quest(availableQuests_->at(index)));
 		player_->quest(player_->quests()->size() - 1)->setEmployerField(player_->position());

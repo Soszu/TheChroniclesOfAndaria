@@ -19,7 +19,7 @@ Quest::Quest(int id,
 	  targetField_(targetField),
 	  fontColor_(fontColor),
 	  prize_(prize),
-	  enemies_(enemies) //TODO CFiend skad to sie bierze?
+	  enemies_(enemies)
 {
 	FieldId empty = {-1, -1};
 	this->employerField_ = empty;

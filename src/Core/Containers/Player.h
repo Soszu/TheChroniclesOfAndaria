@@ -29,6 +29,7 @@ static const QString KingdomString[KingdomCount] = {
 static const quint8 PlayerRaceCount = 4;
 static const quint8 PlayerClassCount = 4;
 
+// NOTE should it be here? Maybe GameInitSettings later on?
 static const CharacterStats InitialStats[PlayerRaceCount][PlayerClassCount] = {
 	{{15,2,10,3,1,10,1},	//Człowiek wojownik:
 	{13,3,5,9,1,8,7},	//Człowiek łowca
@@ -83,6 +84,7 @@ enum PlayerClass {
 
 //index ustawienia początkowego jest równoznaczna z wartością enumeratora Rasa, dla tej rasy
 //TODO CFiend KILL IT WITH FIRE
+// should be solved by decent content editor or by reading with board setup
 static const FieldId StartingPosition[PlayerRaceCount] = {
 	{18,3}, //czlowiek
 	{14,18}, //krasnolud

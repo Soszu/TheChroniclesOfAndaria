@@ -111,7 +111,7 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 	QString numberOfArtifacts = QString::number(player->equipment()->usedArtifacts().size());
 	QString permittedClasses;
 	for (int i = 0; i < PlayerRaceCount; ++i)
-		if (isAllowedForClass(item, i))
+		if (isAllowedForClass(item, (PlayerClass)i))
 			permittedClasses += PlayerClassString[i] + ". ";
 	if (permittedClasses.size() > 2)
 		permittedClasses.replace(permittedClasses.size() - 2, 2, "");

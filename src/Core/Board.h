@@ -59,6 +59,7 @@ private:
 	quint8 boardHeight_;
 	quint8 boardWidth_;
 	//TODO CFiend te 3 rzeczy ponizej nie powinny byc np. w GameMaster albo GameCycle?
+	//NOTE should be solve during reducing layers dependencies
 	int currentIndex_;
 	Player *currentPlayer_;
 	bool playerHasMoved_;

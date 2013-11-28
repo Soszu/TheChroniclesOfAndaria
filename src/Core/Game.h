@@ -48,9 +48,9 @@ static const QString PLIK_USTAWIENIA_PLANSZY = "data/plansza.txt";
 static const QString IKONKA_WRECZ = "img/ikonki/wrecz.png";
 static const QString IKONKA_DYSTANSOWY = "img/ikonki/dystans.png";
 static const QString IKONKA_MAGICZNY = "img/ikonki/magia.png";
-static const QString IKONKA_OBRONA = "img/ikonki/defence.png";
+static const QString IKONKA_OBRONA = "img/ikonki/obrona.png";
 static const QString IKONKA_ATAK = "img/ikonki/wrecz.png";
-static const QString IKONKA_PERCEPCJA = "img/ikonki/perception.png";
+static const QString IKONKA_PERCEPCJA = "img/ikonki/percepcja.png";
 static const QString IKONKA_RUCH = "img/ikonki/ruch.png";
 static const QString IKONKA_MALA_MIKSTURA_ZDROWIA = "img/ikonki/mala_mikstura.png";
 static const QString IKONKA_DUZA_MIKSTURA_ZDROWIA = "img/ikonki/duza_mikstura.png";
@@ -104,15 +104,6 @@ static const QString MOZLIWE_AWANSE[] = {
 	"Obrona",
 	"Percepcja",
 };
-
-//modyfikatory służące do przesuwania pionków jeśli kilka stoi na tym samym polu
-struct modyfikator{
-	int x;
-	int y;
-};
-static const int LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW = 9;
-static const modyfikator MODYFIKATORY_POZYCJI[LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW]= {
-	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
 static const int LICZBA_RODZAJOW_ZADAN = 3;
 static const int BAZOWA_SZANSA_NA_ODNALEZIENIE = 50; // w procentach

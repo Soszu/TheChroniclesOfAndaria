@@ -90,6 +90,7 @@ PlayerWindow::PlayerWindow(QFrame *frame)
 	linijkaZlota = new QHBoxLayout();
 	linijkaZlota->addWidget(zlotoIkona);
 	linijkaZlota->addWidget(zloto);
+//	linijkaZlota->addStretch();
 //------------------------------
 	linijkaPrzyciskow = new QHBoxLayout();
 	zadania = new QPushButton(QString::fromUtf8("Przejrzyj zadania"));
@@ -160,7 +161,7 @@ void PlayerWindow::displayPlayer(Player *player)
 	dystans->setText(QString::number(player->attackRanged()));
 	magia->setText(QString::number(player->attackMagical()));
 //------------------------------
-	zloto->setText(QString::number(player->gold()) + odmiana(player->gold()));
+	zloto->setText(QString::number(player->gold()));// + odmiana(player->gold()));
 //------------------------------
 
 	if(player->isAI())

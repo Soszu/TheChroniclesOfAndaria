@@ -293,7 +293,7 @@ void FightWindow::useLargePotion()
 	largePotionButton->setText(QString("(") + QString::number(player_->equipment()->largePotions()) + QString(")"));
 	if (player_->equipment()->largePotions() == 0)
 		largePotionButton->setEnabled(false);
-	player_->setHealthCurrent(qMin(player_->healthMax(), (int)(player_->healthCurrent() + DZIALANIE_DUZYCH_POTOW))); //TODO CFiend po co ten cast tutaj?
+	player_->setHealthCurrent(qMin(player_->healthMax(), player_->healthCurrent() + (int)DZIALANIE_DUZYCH_POTOW));
 	enemyAttack();
 }
 
@@ -308,6 +308,6 @@ void FightWindow::useSmallPotion()
 	smallPotionButton->setText(QString("(") + QString::number(player_->equipment()->smallPotions()) + QString(")"));
 	if (player_->equipment()->smallPotions() == 0)
 		smallPotionButton->setEnabled(false);
-	player_->setHealthCurrent(qMin(player_->healthMax(), (int)(player_->healthCurrent() + DZIALANIE_MALYCH_POTOW))); //TODO CFiend po co ten cast tutaj?
+	player_->setHealthCurrent(qMin(player_->healthMax(), player_->healthCurrent() + (int)DZIALANIE_MALYCH_POTOW));
 	enemyAttack();
 }

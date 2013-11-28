@@ -41,15 +41,14 @@ void BoardArea::displayMessage(const QString &message)
  */
 void BoardArea::drawBoard(QList <Field *> *fields, int columnCount, int rowCount, QList <QPair <QColor, FieldId> > *playerPositions)
 {
-	this->fields_ = fields;
 	this->rowCount_ = rowCount;
 	this->columnCount_ = columnCount;
     this->playerPositions_ = playerPositions;
 	setBackgroundBrush(QBrush(Qt::black));
 	setSceneRect(calcBoardAreaRect());
 
-	for (int i = 0; i < fields_->size(); ++i) {
-		tiles_.append(new Tile(fields_->at(i), tileSide_, this));
+	for (int i = 0; i < fields->size(); ++i) {
+		tiles_.append(new Tile(fields->at(i), tileSide_, this));
 		addItem(tiles_.at(i));
 	}
 
@@ -162,7 +161,7 @@ QRectF BoardArea::calcBoardAreaRect()
 QPointF BoardArea::calcPlayerMarkerCenter(int index)
 {
 	QPointF center = calcCenter(playerPositions_->at(index).second, tileSide_);
-	if (index >= LICZBA_PRZEWIDZIANYCH_MODYFIKATOROW)
+	if (index >= NUMBER_OF_ENVISAGED_MODIFICATORS)
 		return center;
 
 	int markersOnSameField = 0;
@@ -171,17 +170,9 @@ QPointF BoardArea::calcPlayerMarkerCenter(int index)
 		if (playerPositions_->at(i).second.x() == field.x() && playerPositions_->at(i).second.y() == field.y())
 			++markersOnSameField;
 
-	//TODO CFiend zrobic z MODYFIKATORY_POZYCJI QPointF, wtedy powinno dzialac wyrazenie: shift = MODPOS[markers] * tileSide_ / 4.0
-	QPointF shift(MODYFIKATORY_POZYCJI[markersOnSameField].x * tileSide_ / 4,
-	              MODYFIKATORY_POZYCJI[markersOnSameField].y * tileSide_ / 4);
+	QPointF shift(POSITION_MODIFICATORS[markersOnSameField] * tileSide_ / 4.0);
 	return center + shift;
 }
-
-//TODO CFiend dlaczego to jest wykomentowane?
-//void BoardArea::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-//{
-//	pasekStatusu->showMessage(QString::number(event->scenePos().x()));
-//}
 
 /**
  * @brief BoardArea::podajSrodek Na podstawie długości boku i współrzędnych pola podaje jego środek.
@@ -209,7 +200,8 @@ qreal BoardArea::calcHeight(qreal side)
 {
 	if (side < 0)
 		return 0;
-	return side * qSqrt(3) / 2; //TODO CFiend czy moze qSqrt(3) nie powinno byc wystalowane?
+	qreal sqrt3 = 1.732;
+	return side * sqrt3 / 2;
 }
 
 /**

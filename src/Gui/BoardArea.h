@@ -16,6 +16,10 @@ class Tile;
 class PlayerMarker;
 class MainWindow;
 
+static const int NUMBER_OF_ENVISAGED_MODIFICATORS = 9;
+static const QPointF POSITION_MODIFICATORS[]= {
+	{0,0}, {0, -1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}, {0, 1}, {-1, 0}, {1, 0} };
+
 class BoardArea : public QGraphicsScene {
 	Q_OBJECT
 public:
@@ -41,10 +45,6 @@ public slots:
 	void increaseSize();
 	void resetSize();
 
-protected:
-	//TODO CFiend dlaczego to jest wykomentowane?
-//	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-
 private:
 	QRectF calcBoardAreaRect();
 	QPointF calcPlayerMarkerCenter(int index);
@@ -57,7 +57,6 @@ private:
 	int rowCount_;
 	int columnCount_;
 
-	QList <Field *> *fields_; //TODO CFiend dlaczego to jest QList *?
 	QList <Tile *> tiles_;
 	QList <PlayerMarker *> playerMarkers_;
 	QList <int> highlightedFields_;

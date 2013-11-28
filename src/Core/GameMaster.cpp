@@ -158,21 +158,21 @@ void GameMaster::doAction(int action)
 		break;
 	case Market:
 		board_->disablePlayerMove();
-		marketWindow_ = new MarketWindow(currentPlayer_, playerWindow_, waresInCities_[fieldIndex]); //TODO CFiend moze lepiej nie alokowac na stercie
+		marketWindow_ = new MarketWindow(currentPlayer_, playerWindow_, waresInCities_[fieldIndex]); //NOTE CFiend moze lepiej nie alokowac na stercie
 		marketWindow_->setWindowModality(Qt::ApplicationModal);
 		marketWindow_->setAttribute(Qt::WA_DeleteOnClose);
 		marketWindow_->show();
 		break;
 	case Tavern:
 		board_->disablePlayerMove();
-		tavernWindow_ = new TavernWindow(currentPlayer_, board_, this, playerWindow_, &questsInCities_[fieldIndex]); //TODO CFiend moze lepiej nie alokowac na stercie
+		tavernWindow_ = new TavernWindow(currentPlayer_, board_, this, playerWindow_, &questsInCities_[fieldIndex]); //NOTE CFiend moze lepiej nie alokowac na stercie
 		tavernWindow_->setWindowModality(Qt::ApplicationModal);
 		tavernWindow_->setAttribute(Qt::WA_DeleteOnClose);
 		tavernWindow_->show();
 		break;
 	case Healer:
 		board_->disablePlayerMove();
-		healerWindow_ = new HealerWindow(currentPlayer_, playerWindow_); //TODO CFiend moze lepiej nie alokowac na stercie
+		healerWindow_ = new HealerWindow(currentPlayer_, playerWindow_); //NOTE CFiend moze lepiej nie alokowac na stercie
 		healerWindow_->setWindowModality(Qt::ApplicationModal);
 		healerWindow_->setAttribute(Qt::WA_DeleteOnClose);
 		healerWindow_->show();
@@ -245,7 +245,7 @@ void GameMaster::doQuest(int questId)
 			grantPrize(currentPlayer_, quest->prize(), false);
 			currentPlayer_->removeQuest(questId);
 			determinePossibleActions();
-// 			actionPanel_->displayActions(&possibleActions_); TODO CFiend to ma byc wykomentowane?
+			actionPanel_->displayActions(possibleActions_);
 		} else {
 			currentQuest_ = quest;
 			startFight(QuestEnemy);
@@ -256,7 +256,7 @@ void GameMaster::doQuest(int questId)
 
 void GameMaster::newWeek()
 {
-	qDebug() << QString::fromUtf8("Rozpoczęto nowy tydzień.");
+	qDebug() << "New week has begun.";
 	for (QList <const Item *> &i : waresInCities_.values())
 		generateWaresForMarket(i);
 
@@ -300,7 +300,7 @@ void GameMaster::moveExecuted()
  */
 void GameMaster::updateBoard()
 {
-	//TODO: może zmiana sposobu informowania
+	//TODO: use signals
 	board_->updateReachableFields();
 }
 
@@ -345,7 +345,7 @@ void GameMaster::startFight(int enemyType)
 	if (enemy == nullptr)
 		return;
 
-	fightWindow_ = new FightWindow(currentPlayer_, enemy, this); //TODO CFiend moze lepiej nie alokowac na stercie
+	fightWindow_ = new FightWindow(currentPlayer_, enemy, this); //NOTE CFiend moze lepiej nie alokowac na stercie
 	fightWindow_->setWindowModality(Qt::ApplicationModal);
 	fightWindow_->setAttribute(Qt::WA_DeleteOnClose);
 	fightWindow_->beginFight();
@@ -428,9 +428,9 @@ void GameMaster::grantPrize(Player *player, Prize *prize, bool isEndOfTurn)
 
 	//Grant item
 	for (const Item *item : grantedItems)
-		//TODO: do zmiany
+		//TODO: to change with introducing one-time use equipement (different dealing with potions)
 		if (item->type() == mikstura) {
-			if (item->name() == "MNIEJSZA MIKSTURA ZDROWIA") //TODO CFiend magic string
+			if (item->name() == "MNIEJSZA MIKSTURA ZDROWIA") //WARNING CFiend magic string
 				player->equipment()->setSmallPotions(player->equipment()->smallPotions() + 1); //TODO CFiend brzydkie, moze rozszerzyc API
 			else
 				player->equipment()->setLargePotions(player->equipment()->largePotions() + 1); //TODO CFiend brzydkie, moze rozszerzyc API
@@ -440,7 +440,7 @@ void GameMaster::grantPrize(Player *player, Prize *prize, bool isEndOfTurn)
 
 	playerWindow_->update();
 
-	prizeWindow_ = new PrizeWindow(currentPlayer_, prize, grantedItems, gameCycle_, isEndOfTurn); //TODO CFiend moze lepiej nie alokowac na stercie
+	prizeWindow_ = new PrizeWindow(currentPlayer_, prize, grantedItems, gameCycle_, isEndOfTurn); //NOTE CFiend moze lepiej nie alokowac na stercie
 	prizeWindow_->setWindowModality(Qt::ApplicationModal);
 	prizeWindow_->setAttribute(Qt::WA_DeleteOnClose);
 	prizeWindow_->displayPrizeWindow();

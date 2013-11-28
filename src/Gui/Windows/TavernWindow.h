@@ -11,6 +11,9 @@
 
 class Board;
 
+static const QString acceptText("Przyjmij");
+static const QString abandonText(QString::fromUtf8("Porzuć"));
+
 class TavernWindow : public QDialog {
 	Q_OBJECT;
 public:
@@ -36,7 +39,7 @@ private:
 	Quest *lastDisplayedQuest;
 
 private slots:
-	void acceptQuest(); //TODO CFiend ta metoda zarowno przyjmuje jak i odrzuca; madness nazewniczy
+	void processQuest();
 	void displayAvailableQuest(const QModelIndex &index);
 	void displayPlayerQuest(const QModelIndex &index);
 	void generateQuests();

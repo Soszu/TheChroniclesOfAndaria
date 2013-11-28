@@ -11,6 +11,11 @@
 class GameMaster;
 class PlayerWindow;
 
+static const QString sellText("Sprzedaj");
+static const QString buyText("Kup");
+static const QString equipText(QString::fromUtf8("Załóż"));
+static const QString unequipText("Zdejmij");
+
 class MarketWindow : public QDialog {
 	Q_OBJECT;
 public:
