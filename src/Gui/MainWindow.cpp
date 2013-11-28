@@ -3,7 +3,7 @@
 #include <QtGui>
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(GameMaster *gameMaster, Board *board, QWidget *parent)
 	: QMainWindow(parent)
 {
 	QWidget *centralWidget = new QWidget();
@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 	QVBoxLayout *sideLayout = new QVBoxLayout();
 	graphicsView = new QGraphicsView;
 	QFrame *frame = new QFrame();
-	panel = new QGroupBox();
+	actionPanel_ = new ActionPanel(gameMaster);
 
 	menuGame = new QMenu("Gra");
 	menuView = new QMenu("Widok");
@@ -25,12 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
 	mainLayout->addWidget(graphicsView);
 	mainLayout->addLayout(sideLayout);
 	sideLayout->addWidget(frame);
-	sideLayout->addWidget(panel);
-
-	actionPanel_ = new ActionPanel(panel);
+	sideLayout->addWidget(actionPanel_);
 
 	playerWindow_ = new PlayerWindow(frame);
-	boardArea_ = new BoardArea(this);
+	boardArea_ = new BoardArea(board);
 	graphicsView->setScene(boardArea_);
 
 	dateDisplay = new QLabel(statusBar());
@@ -79,16 +77,6 @@ BoardArea * MainWindow::boardArea()
 }
 
 /**
- * @brief MainWindow::setGameMaster Ustawia mistrza dla podelementów, które go potrzebują
- * @param mistrz
- */
-void MainWindow::setGameMaster(GameMaster *gameMaster)
-{
-	actionPanel_->setGameMaster(gameMaster);
-	playerWindow_->setGameMaster(gameMaster);
-}
-
-/**
  * @brief MainWindow::zmienDate		Wyświetla wskazaną datę na pasku statusu
  * @param dzien
  * @param tydzien
@@ -107,13 +95,4 @@ void MainWindow::displayRules()
 	rulesWindow_->setWindowModality(Qt::ApplicationModal);
 	rulesWindow_->setAttribute(Qt::WA_DeleteOnClose);
 	rulesWindow_->show();
-}
-
-/**
- * @brief MainWindow::setPlansza Ustawia planszę dla elementów które jej potrzebują.
- * @param plansza
- */
-void MainWindow::setBoard(Board *board)
-{
-	boardArea_->setBoard(board);
 }

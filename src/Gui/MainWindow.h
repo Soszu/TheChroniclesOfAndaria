@@ -18,15 +18,13 @@ class ActionPanel;
 class MainWindow : public QMainWindow {
 	Q_OBJECT;
 public:
-	explicit MainWindow(QWidget *parent = nullptr);
+	explicit MainWindow(GameMaster *gameMaster, Board *board, QWidget *parent = nullptr);
 	~MainWindow();
 
 	ActionPanel * actionPanel();
 	BoardArea * boardArea();
 	PlayerWindow * playerWindow();
 
-	void setBoard(Board *board);
-	void setGameMaster(GameMaster *gameMaster);
 	void changeDate(int day, int week);
 
 private slots:
@@ -34,7 +32,6 @@ private slots:
 
 private:
 	QGraphicsView *graphicsView;
-	QGroupBox *panel;
 
 	QMenu *menuGame;
 	QMenu *menuView;

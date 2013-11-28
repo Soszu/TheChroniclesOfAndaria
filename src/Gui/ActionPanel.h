@@ -5,28 +5,26 @@
 
 #include "Core/Game.h"
 #include "Core/GameMaster.h"
-#include "Gui/CustomWidgets/MyButton.h"
 
 class GameMaster;
 
-//TODO CFiend przemyslec te klase, uzyc QSignalMapper gdzies?
-class ActionPanel : public QObject {
+class ActionPanel : public QGroupBox {
 	Q_OBJECT;
 public:
-	ActionPanel(QGroupBox *box);
-	void displayActions(QList<QPair<int, QString> > *dzialania);
-	void setGameMaster(GameMaster *gameMaster);
+	ActionPanel(GameMaster *gameMaster);
+	void displayActions(const QList <QPair <int, QString> > &actions);
 
 private:
-	void wyczyscPanel();
+	void clearPanel();
 
-	QVBoxLayout *uklad;
-	QGroupBox *panel;
-	GameMaster *gameMaster_;
-	QList <MyButton *> przyciski;
+	GameMaster *const gameMaster_;
+
+	QVBoxLayout *buttonLayout;
+	QSignalMapper *buttonMapper;
+	QList <QPushButton *> buttons;
 
 private slots:
-	void kliknietoPrzycisk(int n);
+	void executeAction(int actionId);
 };
 
 #endif

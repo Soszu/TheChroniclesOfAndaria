@@ -1,55 +1,46 @@
 #include "Gui/ActionPanel.h"
-#include <QDebug>
 
-ActionPanel::ActionPanel(QGroupBox* box)
+ActionPanel::ActionPanel(GameMaster *gameMaster)
+	: gameMaster_(gameMaster), buttonLayout(new QVBoxLayout(this)), buttonMapper(new QSignalMapper(this))
 {
-	uklad = nullptr;
-	panel = box;
+	connect(buttonMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &ActionPanel::executeAction);
 }
 
 /**
  * @brief PanelAkcji::wyswietl	Wyświetla Panel zgodnie z obecnymi ustawieniami
  */
-void ActionPanel::displayActions(QList<QPair<int, QString> >* dzialania)
+void ActionPanel::displayActions(const QList <QPair <int, QString> > &actions)
 {
-	wyczyscPanel();
-	uklad = new QVBoxLayout(panel);
+	clearPanel();
 
-	for(int i = 0; i < dzialania->size(); ++i)
-	{
-		przyciski.push_back(new MyButton(dzialania->at(i).first));
-		przyciski.back()->setText(dzialania->at(i).second);
-		uklad->addWidget(przyciski.back());
-		connect(przyciski.back(), SIGNAL(kliknietyID(int)), this, SLOT(kliknietoPrzycisk(int)));
+	for (const QPair <int, QString> &action : actions) {
+		QPushButton *button = new QPushButton(action.second);
+		buttons.append(button);
+		buttonLayout->addWidget(button);
+		buttonMapper->setMapping(button, action.first);
+		connect(button, &QPushButton::clicked, buttonMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
 	}
-
-	qDebug() << "Panel Akcji wyswietlil zadane akcje";
-}
-
-void ActionPanel::setGameMaster(GameMaster *gameMaster)
-{
-	this->gameMaster_ = gameMaster;
 }
 
 /**
  * @brief PanelAkcji::kliknietoPrzycisk Zgłasza mistrzowi gry, że pewien przycisk został kliknięty.
  * @param n
  */
-void ActionPanel::kliknietoPrzycisk(int n)
+void ActionPanel::executeAction(int actionId)
 {
-	gameMaster_->selectedAction(n);
+	gameMaster_->selectedAction(actionId);
 }
 
 /**
  * @brief PanelAkcji::wyczyscPanel	Usuwa wszystkie przyciski z panelu.
  */
-void ActionPanel::wyczyscPanel()
+void ActionPanel::clearPanel()
 {
-	for(int i = 0; i < przyciski.size(); ++i)
-	{
-		uklad->removeWidget(przyciski[i]);
-		delete przyciski[i];
+	for (QPushButton *button : buttons) {
+		buttonMapper->removeMappings(button);
+		buttonLayout->removeWidget(button);
 	}
-	przyciski.clear();
-	delete uklad;
+
+	qDeleteAll(buttons);
+	buttons.clear();
 }
