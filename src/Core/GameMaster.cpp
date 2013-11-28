@@ -257,7 +257,7 @@ void GameMaster::doQuest(int questId)
 void GameMaster::newWeek()
 {
 	qDebug() << "New week has begun.";
-	for (QList <const Item *> &i : waresInCities_.values())
+	for (QList <const Item *> &i : waresInCities_)
 		generateWaresForMarket(i);
 
 	for (int city : questsInCities_.keys()) {
