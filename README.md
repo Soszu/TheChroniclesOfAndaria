@@ -1,9 +1,9 @@
-Zjednoczenie Andarii
+Kroniki Andarii
 ==================
 
 ## About project
 
-Zjednoczenie Andarii is an implementation of an innovative RPG board game.
+Kroniki Andarii is an implementation of an innovative RPG board game.
 > To learn more about go to [project wiki].
 
 ### Contributing
@@ -49,7 +49,7 @@ constants start with a CapitalLetter.
 (e.g. casts) are not prefixed nor suffixed with a space:
  * `static_cast<int>(x);`
 
- [project wiki]: https://github.com/Soszu/ZjednoczenieAndarii/wiki
+ [project wiki]: https://github.com/Soszu/KronikiAndarii/wiki
  [fork]: https://help.github.com/articles/fork-a-repo
  [pull request]: https://help.github.com/articles/using-pull-requests
  [coding style]: https://www.kernel.org/doc/Documentation/CodingStyle
