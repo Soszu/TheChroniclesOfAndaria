@@ -1,10 +1,10 @@
 Kroniki Andarii
 ==================
 
-## About project
+## About the project
 
 Kroniki Andarii is an implementation of an innovative RPG board game.
-> To learn more about go to [project wiki].
+> To learn more go to [project wiki].
 
 ### Contributing
 
@@ -14,10 +14,10 @@ You can contribute to this project in one of three ways:
 2. Clone the project repo, make some changes according to
    development guidelines and issue a pull-request with your changes.
 3. Share your opinions and ideas about game.
-   For example you can sand me an email at <rsoszynski121@gmail.com>.
+   For example you can send me an email at <rsoszynski121@gmail.com>.
 
-Not sure where to start? Look for issues listed on [project wiki].
-These tasks not always require profound insight in source code,
+Not sure where to start? Look for issues listed at [project wiki].
+These tasks do not always require a profound insight in the source code,
 so I guess that you will find something for yourself.
 
 ### Development guidelines
@@ -25,12 +25,12 @@ so I guess that you will find something for yourself.
 Simply use _Fork & Pull Model_
 
 1. [Fork] this repo.
-2. Write your code and insert it to your repo.
-3. Create new [pull request].
+2. Write your code and push it to your repo.
+3. Create a new [pull request].
 
 ### Coding style
 
-Code style is based mostly on [Linux kernel coding style][Coding style] with the following
+Coding style is based mostly on [Linux kernel coding style][Coding style] with the following
 additions and modifications:
 
 1. We don't enforce the limit on the length of lines.
