@@ -14,6 +14,7 @@ Item::Item(QString name,
 	   bool isStrong,
 	   QColor fontColor)
 	: name_(name),
+	  type_(type),
 	  bonusMelee_(bonusMelee),
 	  bonusRanged_(bonusRanged),
 	  bonusMagical_(bonusMagical),
