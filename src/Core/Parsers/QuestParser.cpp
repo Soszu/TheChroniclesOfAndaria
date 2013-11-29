@@ -43,7 +43,7 @@ bool QuestParser::bladWczytywania()
 }
 
 /**
- * @brief QuestParser::wczytajWymiary	Wczytuje wymiary planszy, znajdujące się w pierwszej linijce pliku z						układem planszy
+ * @brief QuestParser::wczytajWymiary	Wczytuje wymiary planszy, znajdujące się w pierwszej linijce pliku z układem planszy
  * @param wejscie	QTextStream, z którego odczytywane są dane
  * @return		true, jeśli wystąpił błąd, false w p.p.
  */
@@ -82,6 +82,7 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 
 	while((linia = nastepny(wejscie)) != "")
 	{
+		qDebug() <<linia;
 //-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != 10)
@@ -97,43 +98,27 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 		}
 //-----------TEKSTY
 		informacje info;
-		info.tytul = podzial.at(3);
-		info.tresc = podzial.at(4);
-		if (podzial.at(6).size() != 1)
-		{
-			trescBledu = QString::fromUtf8("Zła ilość znaków w symbolu koloru\nw linii ") + QString::number(numerLinii);
-			return true;
-		}
-		info.kolorCzcionki = podzial.at(6)[0].toLatin1();
+		info.tytul = podzial.at(4);
+		info.tresc = podzial.at(5);
 
-//-----------POPRAWNOŚĆ KOLORU
-		QColor kolorCzcionki;
-		if(info.kolorCzcionki == 'b')
-			kolorCzcionki = Qt::green; //żeby nie zlewało się z jasnym tłem
-		else if(info.kolorCzcionki == 'n')
-			kolorCzcionki = Qt::darkBlue;
-		else if(info.kolorCzcionki == 'c')
-			kolorCzcionki = Qt::darkRed;
-		else{
-			trescBledu = QString::fromUtf8("Niepoprawny symbol koloru w linii ") + QString::number(numerLinii);
-			return true;
-		}
 //-----------LICZBY CAŁKOWITE
 		bool okID;
 		bool okRodzaj;
+		bool okPoziom;
 		bool okFrakcja;
 		bool okIDNagrody;
 		bool okCelX;
 		bool okCelY;
 		int celX, celY;
 		info.id = podzial.at(0).toInt(&okID);
-		info.rodzaj = (QuestType)podzial.at(1).toInt(&okRodzaj);
-		info.frakcja = podzial.at(2).toInt(&okFrakcja);
+		info.rodzaj = podzial.at(1).toInt(&okRodzaj);
+		info.poziom = podzial.at(2).toInt(&okPoziom);
+		info.frakcja = podzial.at(3).toInt(&okFrakcja);
 		info.idNagrody = podzial.at(8).toInt(&okIDNagrody);
 		celX = pole.at(0).toInt(&okCelX);
 		celY = pole.at(1).toInt(&okCelY);
 
-		if(!okID || !okRodzaj || !okFrakcja || !okIDNagrody || !okCelX || !okCelY)
+		if(!okID || !okRodzaj || !okPoziom || !okFrakcja || !okIDNagrody || !okCelX || !okCelY)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
@@ -145,6 +130,11 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			return true;
 		}
 
+		if(info.poziom < 0 || info.poziom >= LICZBA_POZIOMOW_ZADAN)
+		{
+			trescBledu = QString::fromUtf8("Niepoprawny poziom zadania w linii ") + QString::number(numerLinii);
+			return true;
+		}
 		if (!mistrzGry->prizes_.contains(info.idNagrody))
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne ID nagrody w linii ") + QString::number(numerLinii);
@@ -156,7 +146,7 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			return true;
 		}
 //-----------WARTOSCI BOOLOWSKIE
-		QString powrot = podzial.at(5);
+		QString powrot = podzial.at(6);
 		powrot.remove(" ");
 		if(powrot == "1")
 			info.czyPowrot = true;
@@ -201,15 +191,15 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 //-----------ZAPISANIE DANYCH
 		Prize *prize = mistrzGry->prizes_[info.idNagrody];
 		Quest* nowy = new Quest(info.id,
-					    info.rodzaj,
-					    info.frakcja,
-					    info.tytul,
-					    info.tresc,
-					    info.czyPowrot,
-					    info.cel,
-					    info.kolorCzcionki,
-					    prize,
-					    info.idWrogow);
+		                        (QuestType)info.rodzaj,
+		                        (QuestLevel)info.poziom,
+		                        info.frakcja,
+		                        info.tytul,
+		                        info.tresc,
+		                        info.czyPowrot,
+		                        info.cel,
+		                        prize,
+		                        info.idWrogow);
 		mistrzGry->quests_.insert(info.id, nowy);
 		++numerLinii;
 	}

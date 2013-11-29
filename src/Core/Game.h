@@ -105,6 +105,7 @@ static const QString MOZLIWE_AWANSE[] = {
 	"Percepcja",
 };
 
+static const int LICZBA_POZIOMOW_ZADAN = 3;
 static const int LICZBA_RODZAJOW_ZADAN = 3;
 static const int BAZOWA_SZANSA_NA_ODNALEZIENIE = 50; // w procentach
 static const int BONUS_Z_PERCEPCJI = 5; // w procentach

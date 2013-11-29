@@ -13,11 +13,10 @@ void generateDescription(Quest *quest, QTextBrowser *target)
 	QString returnRequired = quest->isReturnRequired() ? "Tak" : "Nie";
 	Prize *prize = quest->prize();
 
-	target->setTextColor(quest->fontColor());
+	//TODO color title acording to quest level
 	target->setFontWeight(QFont::Bold);
 	target->insertPlainText(quest->title() + QString("\n\n"));
 	target->setFontWeight(QFont::Normal);
-	target->setTextColor(Qt::black);
 
 	QString description;
 	description += quest->description() + QString("\n\n");

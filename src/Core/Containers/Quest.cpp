@@ -2,24 +2,24 @@
 
 Quest::Quest(int id,
 	     QuestType type,
+	     QuestLevel level,
 	     int fraction,
 	     QString title,
 	     QString description,
 	     bool isReturnRequired,
 	     FieldId targetField,
-	     char fontColor,
 	     Prize *prize,
 	     QList <Enemy *> *enemies)
 	: id_(id),
 	  type_(type),
+	  level_(level),
 	  fraction_(fraction),
 	  title_(title),
 	  description_(description),
 	  isReturnRequired_(isReturnRequired),
 	  targetField_(targetField),
-	  fontColor_(fontColor),
 	  prize_(prize),
-	  enemies_(enemies)
+	  enemies_(enemies) //TODO CFiend skad to sie bierze?
 {
 	FieldId empty = {-1, -1};
 	this->employerField_ = empty;
@@ -33,12 +33,12 @@ Quest::Quest(Quest *quest)
 {
 	this->id_ = quest->id_;
 	this->type_ = quest->type_;
+	this->level_ = quest->level_;
 	this->fraction_ = quest->fraction_;
 	this->title_ = quest->title_;
 	this->description_ = quest->description_;
 	this->isReturnRequired_ = quest->isReturnRequired_;
 	this->targetField_ = quest->targetField_;
-	this->fontColor_ = quest->fontColor_;
 	this->prize_ = quest->prize_;
 
 	enemies_ = new QList <Enemy *>;
@@ -65,6 +65,11 @@ int Quest::id() const
 QuestType Quest::type() const
 {
 	return type_;
+}
+
+QuestLevel Quest::level() const
+{
+	return level_;
 }
 
 int Quest::fraction() const
@@ -95,11 +100,6 @@ FieldId Quest::targetField() const
 void Quest::setTargetField(FieldId field)
 {
 	this->targetField_ = field;
-}
-
-char Quest::fontColor() const
-{
-	return fontColor_;
 }
 
 Prize * Quest::prize() const

@@ -3,96 +3,107 @@
 //2 - Idź gdzieś / Zbierz 1 przedmiot
 //3 - Odnajdź kogoś i rzuć kością czy to tu
 
-//latwe
+//poziomy zadan:
+//0 - latwy (nie wymaga walki)
+//1 - sredni (wymaga prostej walki)
+//2 - trudny (wymaga trudnej walki)
 
-//nr;rodzaj;frakcja(rasa); nazwa; opis;czy_powrot;czcionka;cel;id_nagrody; id przeciwnikow
+
+//nr;rodzaj;poziom;frakcja(rasa); nazwa; opis;czy_powrot;cel;id_nagrody; id przeciwnikow
+
 //człowiek - 0, krasnalud - 1,elf - 2 , niziołek - 3, neuralny/nie dotyczy - 4
 //(w tym znajdz i przynies)
-1;3;0;Pastuszkowie, przybywajcie (*);Chłop prosi cię, abyś odszukał zagubioną owcę, bo nie chce zostawiać 99 innych... Ostatnio widział ją czmychającą do lasu na północ od Sentrii.;1;b;15,4;115;
-2;1;2;Problem z osami (1);Sołtys prosi cię o pomoc w pozbyciu się plagi bagiennych os z ich wioski. Osada leży na północny wschód od Sentrii.;0;b;19,9;116;2
 
-3;1;3;Wróżki ponoć, panie, nie istnieją (1);Młode elfie dziecko twierdzi, że zostało zaatakowane w lesie przez wróżkę. Twoim zadaniem jest udać się do zachodniego lasu i sprawdzić to.;0;b;27,11;117;10
 
-4;1;-1;Coś mi strzela w kościach (1);Na granicy kólestw Niziołków oraz Krasnoludów podobno straszy duch umarłego łucznika. Dostajesz zlecenie aby spacyfikować tą stertę kości.;0;b;8,11;118;21
+//latwe
 
-5;1;1;Trudna ssssprawa (1);Córka krasnoludzkiego kowala została podczas zabawy ukąszona przez żmiję. Odnajdź ją i skróć o głowę (żmiję, nie córkę), żeby już nikomu nie zagrażała.;0;b;15,16;119;30
 
-6;1;2;Niedźwiedzia przysługa (3);Żona elfiego handlarza została zaatakowana przez niedźwiedzia podczas postoju nieopodal rzeki (Należy, proszę państwa, zadać sobie tu pytanie: gdzie w tym czasie był jej mąż? Uciekł, tchórz i huncwot!). Udaj się na miejsce zdarzenia i uwolnij żonę tego ancymona.;0;b;22,13;120;41
+1;3;0;0;Pastuszkowie, przybywajcie (*);Chłop prosi cię, abyś odszukał zagubioną owcę, bo nie chce zostawiać 99 innych... Ostatnio widział ją czmychającą do lasu na północ od Sentrii.;1;15,4;115;
 
-7;1;3;Odgłosy z piwnicy (3);Znajomy niziołek prosi cię o sprawdzenie, kto lub co zadomowiło się w piwnicy jego domu w Fedwick.;1;b;3,9;121;42
+2;1;0;2;Problem z osami (1);Sołtys prosi cię o pomoc w pozbyciu się plagi bagiennych os z ich wioski. Osada leży na północny wschód od Sentrii.;0;19,9;116;2
 
-8;1;0;Skrzydlate niebezpieczeństwo (3);Lokalnej ludności bardzo dają się we znaki atakujące co noc bydło harpie. Rozpraw się z nimi i zyskaj uznanie w wielkopolsce.;1;b;10,13;122;40,40
+3;1;0;3;Wróżki ponoć, panie, nie istnieją (1);Młode elfie dziecko twierdzi, że zostało zaatakowane w lesie przez wróżkę. Twoim zadaniem jest udać się do zachodniego lasu i sprawdzić to.;0;27,11;117;10
 
-9;1;2;Nie zaglądaj do studni... (2);...bo cię zeżre utopiec. A przynajmniej tak twierdziła mama zaginionej dziewczynki. Po raz ostatni widziano ją bawiącą się w okolicach wiejskiej studni. Czy więc to tylko nic nie znaczące przysłowie, czy może coś jest na rzeczy? Udaj się na przedmieścia Sirensel i przekonaj się sam.;0;b;12,3;123;34
+4;1;0;-1;Coś mi strzela w kościach (1);Na granicy kólestw Niziołków oraz Krasnoludów podobno straszy duch umarłego łucznika. Dostajesz zlecenie aby spacyfikować tą stertę kości.;0;8,11;118;21
 
-10;1;1;Co na obiad? (2);Samotna wdowa prosi cię o pomoc w zdobyciu mięsa na obiad. W tym celu uprasza się o zapolowanie na skalistą lwicę i przyniesienie ochłapów starowince.;1;b;2,18;125;37
+5;1;0;1;Trudna ssssprawa (1);Córka krasnoludzkiego kowala została podczas zabawy ukąszona przez żmiję. Odnajdź ją i skróć o głowę (żmiję, nie córkę), żeby już nikomu nie zagrażała.;0;15,16;119;30
 
-11;1;3;Złodziejaszek (2);Grupka gremlinów ukradła z pobliskiego muzemu drogocenną mapę. Kustosz prosi cię o odnalezienie przebrzydłych kreatur i odzyskanie wartościowego dokumentu.;1;b;16,17;124;36
+6;1;0;2;Niedźwiedzia przysługa (3);Żona elfiego handlarza została zaatakowana przez niedźwiedzia podczas postoju nieopodal rzeki (Należy, proszę państwa, zadać sobie tu pytanie: gdzie w tym czasie był jej mąż? Uciekł, tchórz i huncwot!). Udaj się na miejsce zdarzenia i uwolnij żonę tego ancymona.;0;22,13;120;41
 
-12;1;0;Wężołak (2);Skóra wężołaków doskonale nadaje się do produkcji skarpet. Dostarcz kilka takich skór szwaczce.;1;b;13,2;126;35,35
+7;1;0;3;Odgłosy z piwnicy (3);Znajomy niziołek prosi cię o sprawdzenie, kto lub co zadomowiło się w piwnicy jego domu w Fedwick.;1;3,9;121;42
 
-13;1;0;Chwała poległych (4);Na bagnach raz na jakiś czas pojawia się nieumarły wojownik, który za życia był żądny krwi i mordu. Teraz nadal sieje postrach i szuka ofiar. Zabij go i odeślij tam, skąd przyszedł.;0;b;4,12;127;44
+8;1;0;0;Skrzydlate niebezpieczeństwo (3);Lokalnej ludności bardzo dają się we znaki atakujące co noc bydło harpie. Rozpraw się z nimi i zyskaj uznanie w wielkopolsce.;1;10,13;122;40,40
 
-14;1;1;Ja sem netoperek (4);Rezydujący w skalnej, górskiej jaskini książę wampirów wysysa z ludzi krew jeszcze bardziej, niż tamtejszy ZUS. Czas z tym skończyć, zanim wszyscy zamienimy się w krwiopijców!;0;b;15,3;128;47
+9;1;0;2;Nie zaglądaj do studni... (2);...bo cię zeżre utopiec. A przynajmniej tak twierdziła mama zaginionej dziewczynki. Po raz ostatni widziano ją bawiącą się w okolicach wiejskiej studni. Czy więc to tylko nic nie znaczące przysłowie, czy może coś jest na rzeczy? Udaj się na przedmieścia Sirensel i przekonaj się sam.;0;12,3;123;34
 
-15;1;3;Trudny terren (4);Terreny to ciekawe i tajemnicze stworzenia. Znajdź jednego z nich i przynieś alchemikowi fiolkę jego krwi, by ten mógł przeprowadzić badania.;1;b;16,16;129;46
+10;1;0;1;Co na obiad? (2);Samotna wdowa prosi cię o pomoc w zdobyciu mięsa na obiad. W tym celu uprasza się o zapolowanie na skalistą lwicę i przyniesienie ochłapów starowince.;1;2,18;125;37
 
-16;1;2;Odrodzony z popiołów (5);Złowieszczy mag zleca Ci odnalezienie feniksa i zdobycie jego pióra, które posłuży do sporządzenia życiodajnej mikstury.;1;b;8,19;130;54
+11;1;0;3;Złodziejaszek (2);Grupka gremlinów ukradła z pobliskiego muzemu drogocenną mapę. Kustosz prosi cię o odnalezienie przebrzydłych kreatur i odzyskanie wartościowego dokumentu.;1;16,17;124;36
 
-17;1;1;Pacyfikacja (5);Zabij oddział gnoli plądrujących wioski nieopodal Kyon Mereh.;0;b;28,11;131;53
+12;1;0;0;Wężołak (2);Skóra wężołaków doskonale nadaje się do produkcji skarpet. Dostarcz kilka takich skór szwaczce.;1;13,2;126;35,35
 
-18;1;0;Wyjąca śmierć (5);Co noc w małej wiosc ukazuje się banshee, zjawa śmierci i porywa jedno z dzieci. Powstrzymaj ją przed dalszymi porwaniami.;0;b;5,13;132;52
+13;1;0;0;Chwała poległych (4);Na bagnach raz na jakiś czas pojawia się nieumarły wojownik, który za życia był żądny krwi i mordu. Teraz nadal sieje postrach i szuka ofiar. Zabij go i odeślij tam, skąd przyszedł.;0;4,12;127;44
 
-19;2;0;Kwiat paproci (*);Przynies zielarce kwiat paproci rosnący w głębokim lesie.;1;b;18,20;133;
+14;1;0;1;Ja sem netoperek (4);Rezydujący w skalnej, górskiej jaskini książę wampirów wysysa z ludzi krew jeszcze bardziej, niż tamtejszy ZUS. Czas z tym skończyć, zanim wszyscy zamienimy się w krwiopijców!;0;15,3;128;47
 
-20;2;0;Podwodny skarb (*);Rybak widział podczas połowu skrzynię znajdującą się na dnie, ale bał się sam po nią wskoczyć. Zrób to za niego a podzieli się z tobą skarbem.;1;b;4,2;134;
+15;1;0;3;Trudny terren (4);Terreny to ciekawe i tajemnicze stworzenia. Znajdź jednego z nich i przynieś alchemikowi fiolkę jego krwi, by ten mógł przeprowadzić badania.;1;16,16;129;46
 
-21;2;2;Spadająca gwiazda w górze lśni (*);Mag z wieży obserwatorium dostrzegł spadający meteoryt lądujący dość blisko. Przynieś mu go.;1;b;15,6;135;
+16;1;0;2;Odrodzony z popiołów (5);Złowieszczy mag zleca Ci odnalezienie feniksa i zdobycie jego pióra, które posłuży do sporządzenia życiodajnej mikstury.;1;8,19;130;54
 
-22;2;1;Ranny żołnierz (*);Idąc natrafiasz na rannego zwiadowcę, któremu rana w nodze nie pozwala się poruszać. Zanieś mu nieco jedzenia i opatrunków z miasta.;0;b;22,20;136;
+17;1;0;1;Pacyfikacja (5);Zabij oddział gnoli plądrujących wioski nieopodal Kyon Mereh.;0;28,11;131;53
 
-23;2;3;Dżin i tonic (*);Znajdujesz starą lampę z której wyskakuje dżin i twierdzi, że jeśli spełnisz jego zachciankę to być może cię nie zabije. Przynieś mu kroplę wody z elfiej fontanny w sercu lasu.;1;b;24,15;137;
+18;1;0;0;Wyjąca śmierć (5);Co noc w małej wiosc ukazuje się banshee, zjawa śmierci i porywa jedno z dzieci. Powstrzymaj ją przed dalszymi porwaniami.;0;5,13;132;52
 
-24;3;1;Raz na sto lat (*);Pewien kolekcjoner chce koniecznie zdobyć okaz motyla, który pojawia się w określonym miejscu raz na sto lat. Złap go dla niego a sowicie cię wynagrodzi.;1;b;2,11;138;
+19;2;0;0;Kwiat paproci (*);Przynies zielarce kwiat paproci rosnący w głębokim lesie.;1;18,20;133;
 
-25;3;2;Dezerter (*);Schwytaj dezertera, który uciekł z oddziału. W nagrodę otrzymasz coś od dowódcy.;1;b;14,1;139;
+20;2;0;0;Podwodny skarb (*);Rybak widział podczas połowu skrzynię znajdującą się na dnie, ale bał się sam po nią wskoczyć. Zrób to za niego a podzieli się z tobą skarbem.;1;4,2;134;
 
-39;1;3;Upiór w operze (3);Zabij upiora.;0;b;16,18;152;43
+21;2;0;2;Spadająca gwiazda w górze lśni (*);Mag z wieży obserwatorium dostrzegł spadający meteoryt lądujący dość blisko. Przynieś mu go.;1;15,6;135;
 
+22;2;0;1;Ranny żołnierz (*);Idąc natrafiasz na rannego zwiadowcę, któremu rana w nodze nie pozwala się poruszać. Zanieś mu nieco jedzenia i opatrunków z miasta.;0;22,20;136;
+
+23;2;0;3;Dżin i tonic (*);Znajdujesz starą lampę z której wyskakuje dżin i twierdzi, że jeśli spełnisz jego zachciankę to być może cię nie zabije. Przynieś mu kroplę wody z elfiej fontanny w sercu lasu.;1;24,15;137;
+
+24;3;0;1;Raz na sto lat (*);Pewien kolekcjoner chce koniecznie zdobyć okaz motyla, który pojawia się w określonym miejscu raz na sto lat. Złap go dla niego a sowicie cię wynagrodzi.;1;2,11;138;
+
+25;3;0;2;Dezerter (*);Schwytaj dezertera, który uciekł z oddziału. W nagrodę otrzymasz coś od dowódcy.;1;14,1;139;
+
+39;1;0;3;Upiór w operze (3);Zabij upiora.;0;16,18;152;43
 
 
 //srednie
 
-26;1;0;Trujące lekarstwo (1);Młody chłopak z wioski został ukąszony przez żądlika. Jedynym lekarstwem jest mikstura z dodatkiem jadu. Mama chłopca prosi cię o zebranie 2 żądeł. Żądliki znajdziesz   nieopodal lasu na północnym wschodzie.;1;b;28,6;114;29,29
+
+26;1;1;0;Trujące lekarstwo (1);Młody chłopak z wioski został ukąszony przez żądlika. Jedynym lekarstwem jest mikstura z dodatkiem jadu. Mama chłopca prosi cię o zebranie 2 żądeł. Żądliki znajdziesz   nieopodal lasu na północnym wschodzie.;1;28,6;114;29,29
 
 
 
-27;1;1;O kurczę (1);Pod osłoną nocy jakiś niewielki drapieżnik zakrada się i porywa kury gospodarza. Powstrzymaj ataki odnajdując i zabijając to zwierzę.;0;n;21,4;140;13
+27;1;1;1;O kurczę (1);Pod osłoną nocy jakiś niewielki drapieżnik zakrada się i porywa kury gospodarza. Powstrzymaj ataki odnajdując i zabijając to zwierzę.;0;21,4;140;13
 
-28;1;2;Kij w mrowisko (1);Na łące pod lasem mrowisko założyły ogromne, zmutowane mrówki. Gospodarz próbował poradzić sobie z nimi sam, ale tylko je zdenerwował. Teraz boi się do nich nawet podejść. Pomóż mu się ich pozbyć na dobre.;0;n;8,12;141;6,6
+28;1;1;2;Kij w mrowisko (1);Na łące pod lasem mrowisko założyły ogromne, zmutowane mrówki. Gospodarz próbował poradzić sobie z nimi sam, ale tylko je zdenerwował. Teraz boi się do nich nawet podejść. Pomóż mu się ich pozbyć na dobre.;0;8,12;141;6,6
 
-29;1;3;Zablokowana ścieżka (2);Nieopodal drogi, która służyła karawanom jako trakt handlowy, osiedliły się groźne wilki. Rozpraw się z nimi, a handlarze z pewnością sięgną do swoich wozów by cię wynagrodzić.;0;n;13,16;142;26
+29;1;1;3;Zablokowana ścieżka (2);Nieopodal drogi, która służyła karawanom jako trakt handlowy, osiedliły się groźne wilki. Rozpraw się z nimi, a handlarze z pewnością sięgną do swoich wozów by cię wynagrodzić.;0;13,16;142;26
 
-30;1;2;Jeden pies (2);Jeden z elfich magów za bardzo igrał z wrotami przywołania i sprowadził na ten świat istotę z piekła rodem, cerbera. Zdążył przed nim uciec, ale jeśli nie pokonasz piekielnego psa, to możesz być pewien, że nierozważny mag zostanie przez niego pożarty.;0;n;26,14;143;32
+30;1;1;2;Jeden pies (2);Jeden z elfich magów za bardzo igrał z wrotami przywołania i sprowadził na ten świat istotę z piekła rodem, cerbera. Zdążył przed nim uciec, ale jeśli nie pokonasz piekielnego psa, to możesz być pewien, że nierozważny mag zostanie przez niego pożarty.;0;26,14;143;32
 
-31;1;0;Oczom nie wierzę! (2);Te słowa wykrzyknął koniuszy kiedy jadąc wierzchem napotkał złowrogo łypiącego beholdera. Rzuć okiem na całą tę sprawę.;0;n;14,2;144;31
+31;1;1;0;Oczom nie wierzę! (2);Te słowa wykrzyknął koniuszy kiedy jadąc wierzchem napotkał złowrogo łypiącego beholdera. Rzuć okiem na całą tę sprawę.;0;14,2;144;31
 
-32;1;0;Szturm nieumarłych (3);Gdzieś z wnętrza gór wynurzają się na powierzchnię umarlaki. To nie zwyczajne kmioty, lecz zaprawione w boju jednostki. Odnajdź je i pokonaj ilu zdołasz. Niech będzie, że 2.;0;n;19,2;145;38
+32;1;1;0;Szturm nieumarłych (3);Gdzieś z wnętrza gór wynurzają się na powierzchnię umarlaki. To nie zwyczajne kmioty, lecz zaprawione w boju jednostki. Odnajdź je i pokonaj ilu zdołasz. Niech będzie, że 2.;0;19,2;145;38
 
-33;1;1;Z piekła rodem (4);W grocie pod ziemią niedaleko Terii swoje legowisko uwiło kolejne monstrum- behemot. Zejdź pod ziemię przez szczelinę skalną i spierz bydlęciu japkę na kwaśne japko.;0;n;6,17;146;45
+33;1;1;1;Z piekła rodem (4);W grocie pod ziemią niedaleko Terii swoje legowisko uwiło kolejne monstrum- behemot. Zejdź pod ziemię przez szczelinę skalną i spierz bydlęciu japkę na kwaśne japko.;0;6,17;146;45
 
-34;1;3;Liczymy na ciebie! (5);To ostatnie usłyszane przez ciebie słowa żeganjącego cię tłumu, kiedy opuszczałeś miasto i udawałeś się na pojedynek z arcyliczem. Żartownisie, psia jego mać. Ale arcylicz nie żartuje, miota klątwami na prawo i lewo terroryzując ludność i żądając krwi. Pokonaj tą upiorną kreaturę zanim będzie naprawdę źle.;0;n;16,16;147;51
+34;1;1;3;Liczymy na ciebie! (5);To ostatnie usłyszane przez ciebie słowa żeganjącego cię tłumu, kiedy opuszczałeś miasto i udawałeś się na pojedynek z arcyliczem. Żartownisie, psia jego mać. Ale arcylicz nie żartuje, miota klątwami na prawo i lewo terroryzując ludność i żądając krwi. Pokonaj tą upiorną kreaturę zanim będzie naprawdę źle.;0;16,16;147;51
 
-38;1;0;Coś wisi w powietrzu (4);Pokonaj żywiołaka powietrza.;0;n;18,7;151;48
+38;1;1;0;Coś wisi w powietrzu (4);Pokonaj żywiołaka powietrza.;0;18,7;151;48
 
-40;1;2;W prawo w lewo i na drzewo (2);Pokonaj drzewca w lesie;0;n;15,4;153;33
+40;1;1;2;W prawo w lewo i na drzewo (2);Pokonaj drzewca w lesie;0;15,4;153;33
 
 
 
 //trudne
 
-35;1;-1;Pokonaj smoka Spiro (5);Pokonaj jednego ze smoków.;0;c;3,13;148;49
+35;1;2;-1;Pokonaj smoka Spiro (5);Pokonaj jednego ze smoków.;0;3,13;148;49
 
-36;1;-1;Pokonaj smoka Aceiro (5);Pokonaj jednego ze smoków.;0;c;29,20;149;50
+36;1;2;-1;Pokonaj smoka Aceiro (5);Pokonaj jednego ze smoków.;0;29,20;149;50
 
-37;1;-1;Pokonaj smoka Aoi (5);Pokonaj jednego ze smoków.;0;c;29,4;150;55
+37;1;2;-1;Pokonaj smoka Aoi (5);Pokonaj jednego ze smoków.;0;29,4;150;55

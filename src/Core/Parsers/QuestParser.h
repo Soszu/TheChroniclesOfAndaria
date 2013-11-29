@@ -24,13 +24,13 @@ private:
 
 	struct informacje {
 		int id;
-		QuestType rodzaj;
+		int rodzaj;
+		int poziom;
 		int frakcja;
 		QString tytul;
 		QString tresc;
 		bool czyPowrot;
 		FieldId cel;
-		char kolorCzcionki;
 		int idNagrody;
 		QList <Enemy *> *idWrogow;
 	};
