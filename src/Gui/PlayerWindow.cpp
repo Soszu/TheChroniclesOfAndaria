@@ -189,7 +189,7 @@ void PlayerWindow::update()
 
 void PlayerWindow::setGameMaster(GameMaster *gameMaster)
 {
-	this->gameMaster_ = gameMaster_;
+	this->gameMaster_ = gameMaster;
 }
 
 /**

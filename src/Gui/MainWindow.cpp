@@ -28,6 +28,8 @@ MainWindow::MainWindow(GameMaster *gameMaster, Board *board, QWidget *parent)
 	sideLayout->addWidget(actionPanel_);
 
 	playerWindow_ = new PlayerWindow(frame);
+	playerWindow_->setGameMaster(gameMaster);
+	
 	boardArea_ = new BoardArea(board);
 	graphicsView->setScene(boardArea_);
 
