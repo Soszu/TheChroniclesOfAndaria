@@ -12,7 +12,7 @@ Item::Item(QString name,
 	   int restrictions,
 	   int value,
 	   bool isStrong,
-	   QColor fontColor)
+	   ItemQuality quality)
 	: name_(name),
 	  type_(type),
 	  bonusMelee_(bonusMelee),
@@ -25,7 +25,7 @@ Item::Item(QString name,
 	  restrictions_(restrictions),
 	  value_(value),
 	  isStrong_(isStrong),
-	  fontColor_(fontColor)
+	  quality_(quality)
 {
 }
 
@@ -79,9 +79,9 @@ bool Item::isStrong() const
 	return isStrong_;
 }
 
-QColor Item::fontColor() const
+ItemQuality Item::quality() const
 {
-	return fontColor_;
+	return quality_;
 }
 
 int Item::bonusRegeneration() const

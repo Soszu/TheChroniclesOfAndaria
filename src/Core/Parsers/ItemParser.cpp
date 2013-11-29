@@ -60,7 +60,6 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 			return true;
 		}
 		info.typ = podzial.at(2)[0].toLatin1();
-		info.kolorCzcionki = podzial.at(14)[0].toLatin1();
 
 //-----------WARTOŚCI BOOL-OWSKIE
 		bool blad = false;
@@ -97,6 +96,7 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 		bool okHPRegen;
 		bool okOgraniczenia;
 		bool okWartosc;
+		bool okJakosc;
 
 		info.id = podzial.at(0).toInt(&okID);
 		info.wrecz = podzial.at(3).toInt(&okWrecz);
@@ -108,8 +108,9 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 		info.HPregen = podzial.at(9).toInt(&okHPRegen);
 		info.ograniczenie = podzial.at(10).toInt(&okOgraniczenia);
 		info.wartosc = podzial.at(13).toInt(&okWartosc);
+		info.jakosc = podzial.at(14).toInt(&okJakosc);
 
-		if(!okID ||!okWrecz || !okDystans || !okMagia || !okObrona || !okPercepcja || !okHP || !okHPRegen || !okOgraniczenia || !okWartosc)
+		if(!okID ||!okWrecz || !okDystans || !okMagia || !okObrona || !okPercepcja || !okHP || !okHPRegen || !okOgraniczenia || !okWartosc || !okJakosc)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
@@ -117,7 +118,13 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 
 		if( info.wartosc < 0)
 		{
-			trescBledu = QString::fromUtf8("Niepoprawna wartość w linii ") + QString::number(numerLinii);
+			trescBledu = QString::fromUtf8("Niepoprawna wartość przedmiotu w linii ") + QString::number(numerLinii);
+			return true;
+		}
+
+		if( info.jakosc < 0 || info.jakosc >= NUMBER_OF_POSSIBLE_QUALITIES)
+		{
+			trescBledu = QString::fromUtf8("Niepoprawna wartość jakości w linii ") + QString::number(numerLinii);
 			return true;
 		}
 //-----------POPRAWNOŚĆ OGRANICZENIA
@@ -162,20 +169,6 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 			return true;
 			break;
 		}
-//-----------POPRAWNOŚĆ KOLORU
-		QColor kolorCzcionki;
-		if(info.kolorCzcionki == 'b')
-			kolorCzcionki = Qt::darkGreen; //żeby nie zlewało się z tłem
-		else if(info.kolorCzcionki == 'n')
-			kolorCzcionki = Qt::darkBlue;
-		else if(info.kolorCzcionki == 'c')
-			kolorCzcionki = Qt::darkRed;
-		else if(info.kolorCzcionki == 'z')
-			kolorCzcionki = Qt::darkYellow;
-		else{
-			trescBledu = QString::fromUtf8("Niepoprawny symbol koloru w linii ") + QString::number(numerLinii);
-			return true;
-		}
 
 //-----------ZAPISANIE DANYCH
 		QList<int>* poprzednie;
@@ -187,7 +180,19 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 			mistrzGry->itemGroups_.insert(aktualnaGrupa, poprzednie);
 		}
 		poprzednie->push_back(info.id);
-		Item* nowy = new Item(info.name, rodzaj, info.wrecz, info.dystans, info.magia, info.defence, info.perception, info.HP, info.HPregen, info.ograniczenie, info.wartosc, info.czyMocny, kolorCzcionki);
+		Item* nowy = new Item(info.name,
+		                      rodzaj,
+		                      info.wrecz,
+		                      info.dystans,
+		                      info.magia,
+		                      info.defence,
+		                      info.perception,
+		                      info.HP,
+		                      info.HPregen,
+		                      info.ograniczenie,
+		                      info.wartosc,
+		                      info.czyMocny,
+		                      (ItemQuality)info.jakosc);
 		mistrzGry->items_.insert(info.id, nowy);
 
 		++numerLinii;

@@ -116,11 +116,10 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 	if (permittedClasses.size() > 2)
 		permittedClasses.replace(permittedClasses.size() - 2, 2, "");
 
-	target->setTextColor(item->fontColor());
+	//TODO color title acording to item quality
 	target->setFontWeight(QFont::Bold);
 	target->insertPlainText(item->name() + QString("\n\n"));
 	target->setFontWeight(QFont::Normal);
-	target->setTextColor(Qt::black);
 
 	QString description;
 

@@ -14,6 +14,15 @@ enum ItemType {
 	mikstura
 };
 
+static const int NUMBER_OF_POSSIBLE_QUALITIES(4);
+
+enum ItemQuality {
+	notApplicable,
+	poor,
+	normal,
+	good
+};
+
 static const quint8 LICZBA_RODZAJOW_PRZEDMIOTOW = 7;
 
 static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW_PRZEDMIOTOW] = {
@@ -41,7 +50,7 @@ public:
 	     int restrictions,
 	     int value,
 	     bool isStrong,
-	     QColor fontColor);
+	     ItemQuality quality);
 
 	QString name() const;
 	ItemType type() const;
@@ -55,7 +64,7 @@ public:
 	int restrictions() const;
 	int value() const;
 	bool isStrong() const;
-	QColor fontColor() const;
+	ItemQuality quality() const;
 
 	static const quint8 ArtifactLimit = 5;
 
@@ -72,7 +81,7 @@ private:
 	int restrictions_;
 	int value_;
 	bool isStrong_;
-	QColor fontColor_; //TODO CFiend a czemu to jest w logice?
+	ItemQuality quality_;
 };
 
 #endif

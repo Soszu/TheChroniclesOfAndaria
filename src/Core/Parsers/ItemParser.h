@@ -37,7 +37,7 @@ private:
 		bool czy1Reczna;
 		bool czyMocny;
 		int wartosc;
-		char kolorCzcionki;
+		int jakosc;
 	};
 };
 
