@@ -82,7 +82,6 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 
 	while((linia = nastepny(wejscie)) != "")
 	{
-		qDebug() <<linia;
 //-----------ILOŚĆ ARGUMENTÓW
 		QStringList podzial = linia.split(";");
 		if(podzial.size() != 10)

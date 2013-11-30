@@ -112,7 +112,6 @@ public:
 	QList <Quest *> * quests();
 	Quest * quest(int index) const;
 	void removeQuest(int questId);
-	QList <FieldId> importantFields() const;
 	quint8 level() const;
 	void setLevel(quint8 level);
 	int * reputation(); //TODO CFiend moze lepiej, zeby to bylo cos mocniejszego niz int *

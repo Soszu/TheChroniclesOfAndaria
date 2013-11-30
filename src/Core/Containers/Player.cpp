@@ -87,11 +87,6 @@ void Player::removeQuest(int questId)
 		delete quests_.takeAt(i);
 }
 
-QList <FieldId> Player::importantFields() const
-{
-	return importantFields_;
-}
-
 quint8 Player::level() const
 {
 	return level_;
