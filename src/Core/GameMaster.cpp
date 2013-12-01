@@ -463,6 +463,7 @@ void GameMaster::generateQuestsForTavern(QList <Quest *> &dest, int fraction, bo
 		dest.clear();
 
 	while (dest.size() < QuestsInTavernCount) {
+		//WARNING inappropriate way of drawing quests
 		int idx = qrand() % quests_.size() + 1;
 		bool fractionOk = quests_[idx]->fraction() == fraction || quests_[idx]->fraction() == -1;
 		if (!dest.contains(quests_[idx]) && fractionOk)
@@ -474,7 +475,8 @@ void GameMaster::generateWaresForMarket(QList <const Item *> &dest)
 {
 	dest.clear();
 	for (int i = 0; i < ItemCountInMarket; ++i) {
-		int idx = qrand() % items_.size();
+		//WARNING inappropriate way of drawing items
+		int idx = qrand() % items_.size() + 1;
 		//TODO: zmiana sposobu zarządzania miksturami
 		if (items_[idx]->type() == mikstura || dest.contains(items_[idx]))
 			--i;
