@@ -38,6 +38,7 @@ private:
 	bool highlighted_;
 	bool selected_;
 	bool framed_;
+	QImage tileImage_;
 };
 
 #endif

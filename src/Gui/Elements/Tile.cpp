@@ -2,7 +2,7 @@
 
 Tile::Tile(Field *field, qreal side, BoardArea *boardArea)
 	: side_(side), height_(BoardArea::calcHeight(side_)), field_(field), boardArea_(boardArea),
-	  highlighted_(false), selected_(false), framed_(false)
+	highlighted_(false), selected_(false), framed_(false), tileImage_(PREFIX_HEXOW + field_->imageFile())
 {
 	setPos(BoardArea::calcCenter(field_->fieldId(), side_));
 	setAcceptHoverEvents(true);
@@ -40,13 +40,14 @@ QPainterPath Tile::shape() const
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
-	painter->drawImage(boundingRect(), QImage(PREFIX_HEXOW + field_->imageFile()));
+	painter->drawImage(boundingRect(), tileImage_);
 
 	if (field_->hasEnemy()) {
 		QPointF swordShift(height_ * 0.7, side_ * 0.3);
 		QRectF swordRect(boundingRect().topLeft() + swordShift, boundingRect().size() * 0.3);
 
-		painter->drawImage(swordRect, QImage(PLIK_Z_SYMBOLEM_WALKI));
+		static QImage battleImage(PLIK_Z_SYMBOLEM_WALKI); //no need to read it more than once
+		painter->drawImage(swordRect, battleImage);
 	}
 
 	if (field_->hasCity()) {
