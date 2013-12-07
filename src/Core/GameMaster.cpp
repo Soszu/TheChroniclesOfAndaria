@@ -37,6 +37,9 @@ GameMaster::GameMaster(GameCycle *gameCycle)
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o zadaniach wczytano poprawnie");
+	
+	itemModel_ = new ItemModel(nullptr);
+	itemModel_->insertRows(0, 2);
 }
 
 GameMaster::~GameMaster()
@@ -158,10 +161,14 @@ void GameMaster::doAction(int action)
 		break;
 	case Market:
 		board_->disablePlayerMove();
-		marketWindow_ = new MarketWindow(currentPlayer_, playerWindow_, waresInCities_[fieldIndex]); //NOTE CFiend moze lepiej nie alokowac na stercie
-		marketWindow_->setWindowModality(Qt::ApplicationModal);
-		marketWindow_->setAttribute(Qt::WA_DeleteOnClose);
-		marketWindow_->show();
+// 		marketWindow_ = new MarketWindow(currentPlayer_, playerWindow_, waresInCities_[fieldIndex]); //NOTE CFiend moze lepiej nie alokowac na stercie
+// 		marketWindow_->setWindowModality(Qt::ApplicationModal);
+// 		marketWindow_->setAttribute(Qt::WA_DeleteOnClose);
+// 		marketWindow_->show();
+		marketViewWindow_ = new MarketViewWindow(itemModel_);
+		marketViewWindow_->setWindowModality(Qt::ApplicationModal);
+		marketViewWindow_->setAttribute(Qt::WA_DeleteOnClose);
+		marketViewWindow_->show();
 		break;
 	case Tavern:
 		board_->disablePlayerMove();
@@ -429,7 +436,7 @@ void GameMaster::grantPrize(Player *player, Prize *prize, bool isEndOfTurn)
 	//Grant item
 	for (const Item *item : grantedItems)
 		//TODO: to change with introducing one-time use equipement (different dealing with potions)
-		if (item->type() == mikstura) {
+		if (item->type() == Item::Type::Potion) {
 			if (item->name() == "MNIEJSZA MIKSTURA ZDROWIA") //WARNING CFiend magic string
 				player->equipment()->setSmallPotions(player->equipment()->smallPotions() + 1); //TODO CFiend brzydkie, moze rozszerzyc API
 			else
@@ -478,7 +485,7 @@ void GameMaster::generateWaresForMarket(QList <const Item *> &dest)
 		//WARNING inappropriate way of drawing items
 		int idx = qrand() % items_.size() + 1;
 		//TODO: zmiana sposobu zarządzania miksturami
-		if (items_[idx]->type() == mikstura || dest.contains(items_[idx]))
+		if (items_[idx]->type() == Item::Type::Potion || dest.contains(items_[idx]))
 			--i;
 		else
 			dest.append(items_[idx]);

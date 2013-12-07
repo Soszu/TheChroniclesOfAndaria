@@ -13,6 +13,7 @@ set (gui_SOURCES
 	Windows/QuestWindow.cpp
 	Windows/RulesWindow.cpp
 	Windows/TavernWindow.cpp
+	Windows/MarketViewWindow.cpp
 
 	ActionPanel.cpp
 	BoardArea.cpp
@@ -29,6 +30,7 @@ set (gui_HEADERS
 	Windows/PrizeWindow.h
 	Windows/QuestWindow.h
 	Windows/TavernWindow.h
+	Windows/MarketViewWindow.h
 
 	ActionPanel.h
 	BoardArea.h

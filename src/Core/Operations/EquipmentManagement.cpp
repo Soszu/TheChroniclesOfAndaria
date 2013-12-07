@@ -123,8 +123,8 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 
 	QString description;
 
-	description += QString("typ: ") + RODZAJE_PRZEDMIOTOW[item->type()] + QString("\n");
-	if (item->type() == artefakt)
+	description += QString("typ: ") + RODZAJE_PRZEDMIOTOW[toUnderlying(item->type())] + QString("\n");
+	if (item->type() == Item::Type::Artifact)
 		description += QString::fromUtf8("Założonych artefaktów: (") + numberOfArtifacts + QString("/") + QString::number(Item::ArtifactLimit) + QString(")\n");
 
 	description += QString::fromUtf8("\ndozwolony od poziomu: ") + minLevel +  QString("\n");
@@ -155,37 +155,37 @@ void equipItem(const Item *item, Player *player)
 {
 	Equipment *equipment = player->equipment();
 
-	if (item == nullptr || isEquipped(item, player) || (item->type() == artefakt && equipment->usedArtifacts().size() >= Item::ArtifactLimit))
+	if (item == nullptr || isEquipped(item, player) || (item->type() == Item::Type::Artifact && equipment->usedArtifacts().size() >= Item::ArtifactLimit))
 		return;
 
 	switch (item->type()) {
-	case bronDwureczna:
+	case Item::Type::TwoHanded:
 		unequipItem(equipment->rightHand(), player);
 		unequipItem(equipment->leftHand(), player);
 		equipment->setRightHand(item);
 		break;
-	case bronJednoreczna:
+	case Item::Type::OneHeanded:
 		unequipItem(equipment->rightHand(), player);
 		equipment->setRightHand(item);
 		break;
-	case tarcza:
-		if (equipment->rightHand()->type() == bronDwureczna)
+	case Item::Type::Shield:
+		if (equipment->rightHand()->type() == Item::Type::TwoHanded)
 			unequipItem(equipment->rightHand(), player);
 		unequipItem(equipment->leftHand(), player);
 		equipment->setLeftHand(item);
 		break;
-	case pancerz:
+	case Item::Type::Armor:
 		unequipItem(equipment->torso(), player);
 		equipment->setTorso(item);
 		break;
-	case helm:
+	case Item::Type::Helmet:
 		unequipItem(equipment->head(), player);
 		equipment->setHead(item);
 		break;
-	case artefakt:
+	case Item::Type::Artifact:
 		if (equipment->usedArtifacts().size() < Item::ArtifactLimit)
 			equipment->addArtifact(item);
-	case mikstura:
+	case Item::Type::Potion:
 		qDebug() << "Proba zalozenia mikstury";
 	}
 
@@ -205,20 +205,20 @@ void unequipItem(const Item *item, Player *player)
 	Equipment *equipment = player->equipment();
 
 	switch (item->type()) {
-	case bronDwureczna:
-	case bronJednoreczna:
+	case Item::Type::TwoHanded:
+	case Item::Type::OneHeanded:
 		equipment->setRightHand(nullptr);
 		break;
-	case tarcza:
+	case Item::Type::Shield:
 		equipment->setLeftHand(nullptr);
 		break;
-	case pancerz:
+	case Item::Type::Armor:
 		equipment->setTorso(nullptr);
 		break;
-	case helm:
+	case Item::Type::Helmet:
 		equipment->setHead(nullptr);
 		break;
-	case artefakt:
+	case Item::Type::Artifact:
 		equipment->removeArtifact(item);
 		break;
 	default:

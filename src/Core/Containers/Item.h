@@ -2,26 +2,10 @@
 #define ITEM_H
 
 #include <QtGui>
-
-//TODO CFiend to powinn być public Item { enum class Type };
-enum ItemType {
-	bronDwureczna,
-	bronJednoreczna,
-	tarcza,
-	pancerz,
-	helm,
-	artefakt,
-	mikstura
-};
+#include <Core/Containers/EnumHelpers.hpp>
+#include <Core/Containers/Serial.hpp>
 
 static const int NUMBER_OF_POSSIBLE_QUALITIES(4);
-
-enum ItemQuality {
-	notApplicable,
-	poor,
-	normal,
-	good
-};
 
 static const quint8 LICZBA_RODZAJOW_PRZEDMIOTOW = 7;
 
@@ -38,8 +22,30 @@ static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW_PRZEDMIOTOW] = {
 class Item {
 
 public:
+	
+	enum class Type : quint8 {
+		// Wearable items:
+		TwoHanded,
+		OneHeanded,
+		Shield,
+		Armor,
+		Helmet,
+		Artifact,
+		//One-time use items:  
+		Potion,
+		Scroll
+		//and more
+	};
+	
+	enum class Quality : quint8 {
+		NotApplicable,
+		Poor,
+		Normal,
+		Good
+	};
+	
 	Item(QString name,
-	     ItemType type,
+	     Item::Type type,
 	     int bonusMelee,
 	     int bonusRanged,
 	     int bonusMagical,
@@ -50,10 +56,19 @@ public:
 	     int restrictions,
 	     int value,
 	     bool isStrong,
-	     ItemQuality quality);
+	     Item::Quality quality);
+	
+	Item(//UID ID,
+	     QString name,
+	     //CharacterStats statsModifiers,
+	     Item::Type type,
+	     //QMap <Player::Class, bool> restriction,
+	     int value,
+	     Item::Quality quality);
 
+	//UID ID() const;
 	QString name() const;
-	ItemType type() const;
+	Item::Type type() const;
 	int bonusMelee() const;
 	int bonusRanged() const;
 	int bonusMagical() const;
@@ -64,13 +79,15 @@ public:
 	int restrictions() const;
 	int value() const;
 	bool isStrong() const;
-	ItemQuality quality() const;
+	Item::Quality quality() const;
 
 	static const quint8 ArtifactLimit = 5;
 
-private:
+protected:
+	//const UID ID_; 
 	QString name_;
-	ItemType type_;
+	//const CharacterStats statsModifiers_;
+	Type type_;
 	int bonusMelee_;
 	int bonusRanged_;
 	int bonusMagical_;
@@ -79,9 +96,10 @@ private:
 	int bonusHitPoints_;
 	int bonusRegeneration_;
 	int restrictions_;
+	//const QMap <Player::Class, bool> restrictions_; //QMap or QHash
 	int value_;
 	bool isStrong_;
-	ItemQuality quality_;
+	Item::Quality quality_;
 };
 
 #endif

@@ -8,6 +8,7 @@ set (core_SOURCES
 	Containers/Player.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
+	Containers/ItemModel.cpp
 
 	Operations/EquipmentManagement.cpp
 	Operations/QuestManagement.cpp
@@ -24,6 +25,13 @@ set (core_SOURCES
 
 	main.cpp
 )
+
+set (core_HEADERS
+	Containers/ItemModel.h
+)
+
+
+qt5_wrap_cpp (core_SOURCES ${core_HEADERS})
 
 add_executable (KronikiAndarii ${core_SOURCES})
 target_link_libraries (KronikiAndarii Gui ${Qt5Widgets_LIBRARIES})

@@ -141,28 +141,28 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 //-----------POPRAWNOŚĆ TYPU
 		//można było zamiast czy1ręczna dołożyć 1 typ przy wczytywaniu, ale teraz już jest za dużo pracy przy zamianie.
 		//na dłuższą metę nie ma to znaczenia
-		ItemType rodzaj;
+		Item::Type rodzaj;
 		switch (info.typ) {
 		case 'w':
 			if(info.czy1Reczna)
-				rodzaj = bronJednoreczna;
+				rodzaj = Item::Type::OneHeanded;
 			else
-				rodzaj = bronDwureczna;
+				rodzaj = Item::Type::TwoHanded;
 			break;
 		case 't':
-			rodzaj = tarcza;
+			rodzaj = Item::Type::Shield;
 			break;
 		case 'p':
-			rodzaj = pancerz;
+			rodzaj = Item::Type::Armor;
 			break;
 		case 'h':
-			rodzaj = helm;
+			rodzaj = Item::Type::Helmet;
 			break;
 		case 'a':
-			rodzaj = artefakt;
+			rodzaj = Item::Type::Artifact;
 			break;
 		case 'm':
-			rodzaj = mikstura;
+			rodzaj = Item::Type::Potion;
 			break;
 		default:
 			trescBledu = QString::fromUtf8("Niepoprawny symbol typu w linii ") + QString::number(numerLinii);
@@ -192,7 +192,7 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 		                      info.ograniczenie,
 		                      info.wartosc,
 		                      info.czyMocny,
-		                      (ItemQuality)info.jakosc);
+		                      (Item::Quality)info.jakosc);
 		mistrzGry->items_.insert(info.id, nowy);
 
 		++numerLinii;

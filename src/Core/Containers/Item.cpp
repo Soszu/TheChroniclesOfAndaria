@@ -1,7 +1,7 @@
 #include "Core/Containers/Item.h"
 
 Item::Item(QString name,
-	   ItemType type,
+	   Item::Type type,
 	   int bonusMelee,
 	   int bonusRanged,
 	   int bonusMagical,
@@ -12,7 +12,7 @@ Item::Item(QString name,
 	   int restrictions,
 	   int value,
 	   bool isStrong,
-	   ItemQuality quality)
+	   Item::Quality quality)
 	: name_(name),
 	  type_(type),
 	  bonusMelee_(bonusMelee),
@@ -29,12 +29,34 @@ Item::Item(QString name,
 {
 }
 
+Item::Item(//UID ID,
+	     QString name,
+	     //CharacterStats statsModifiers,
+	     Item::Type type,
+	     //QMap <Player::Class, bool> restriction,
+	     int value,
+	     Item::Quality quality)
+	: //ID_(ID),
+	  name_(name),
+	  //statsModifiers_(statsModifiers),
+	  type_(type),
+	  //restrictions_(restrictions),
+	  value_(value),
+	  quality_(quality)
+{
+}
+
+// UID Item::ID() const
+// {
+// 	return ID_;
+// }
+
 QString Item::name() const
 {
 	return name_;
 }
 
-ItemType Item::type() const
+Item::Type Item::type() const
 {
 	return type_;
 }
@@ -79,7 +101,7 @@ bool Item::isStrong() const
 	return isStrong_;
 }
 
-ItemQuality Item::quality() const
+Item::Quality Item::quality() const
 {
 	return quality_;
 }

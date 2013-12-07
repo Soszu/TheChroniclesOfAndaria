@@ -8,6 +8,7 @@
 #include "Core/Containers/Prize.h"
 #include "Core/Containers/Item.h"
 #include "Core/Containers/Quest.h"
+#include "Containers/ItemModel.h"
 #include "Core/Board.h"
 #include "Core/Parsers/EnemyParser.h"
 #include "Core/Parsers/ItemParser.h"
@@ -21,6 +22,7 @@
 #include "Gui/Windows/PrizeWindow.h"
 #include "Gui/Windows/TavernWindow.h"
 #include "Gui/Windows/HealerWindow.h"
+#include <Gui/Windows/MarketViewWindow.h>
 
 class ActionPanel;
 class AI;
@@ -122,6 +124,9 @@ private:
 	TavernWindow *tavernWindow_;
 	MarketWindow *marketWindow_;
 	HealerWindow *healerWindow_;
+	
+	MarketViewWindow *marketViewWindow_;
+	ItemModel *itemModel_;
 };
 
 #endif
