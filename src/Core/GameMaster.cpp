@@ -98,7 +98,7 @@ void GameMaster::determinePossibleActions()
 	for (Quest *q : *currentPlayer_->quests())
 		if (playerPosition == q->targetField()) {
 			QString description = QString("Wykonaj zadanie:\n") + q->title();
-			possibleActions_.push_back(qMakePair(q->id(), description));
+			possibleActions_.push_back(qMakePair(q->id() * (-1), description));
 		}
 
 	//===== ACTIONS IN CITY =====
