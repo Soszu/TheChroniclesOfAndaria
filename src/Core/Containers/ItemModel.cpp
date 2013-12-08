@@ -93,7 +93,7 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex &)
 								     //CharacterStats(),
 									  Item::Type::OneHeanded,
 								     //QMap <Player::Class, bool>(),
-									  1,
+									  i,
 									  Item::Quality::Good);
 		items.insert(row, item);
 	}

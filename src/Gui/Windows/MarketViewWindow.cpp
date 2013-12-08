@@ -20,9 +20,12 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 	tableView_->setSelectionMode(QAbstractItemView::SingleSelection);
 	
 	connect(changeModelButton, &QPushButton::clicked, this, &MarketViewWindow::changeModel);
+	connect(tableView_, &QTableView::clicked, this, &MarketViewWindow::setRowInSecondView);
 	
 	tableView2_ = new QTableView(this);
 	tableView2_->setModel(itemModel_);
+	for (int i = 0; i < itemModel_->rowCount(); ++i)
+		tableView2_->hideRow(i);
 
 	QGridLayout *layout = new QGridLayout;
 	layout->addWidget(changeModelButton, 0, 0, 1, 1);
@@ -34,7 +37,7 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 
 void MarketViewWindow::createOtherModel()
 {
-	someOtherModel_ = new ItemModel(nullptr);
+	someOtherModel_ = new ItemModel();
 	someOtherModel_->insertRows(0, 5);
 }
 
@@ -42,7 +45,15 @@ void MarketViewWindow::changeModel()
 {
 	static bool changed = false;
 	tableView_->setModel(changed ? itemModel_ : someOtherModel_);
-	//treeView_->setModel(changed ? itemModel_ : someOtherModel_);
+	tableView2_->setModel(changed ? itemModel_ : someOtherModel_);
 	changed = !changed;
+}
+
+void MarketViewWindow::setRowInSecondView(const QModelIndex & index)
+{
+	static int previousRow = 0;
+	tableView2_->hideRow(previousRow);
+	tableView2_->showRow(index.row());
+	previousRow = index.row();
 }
 

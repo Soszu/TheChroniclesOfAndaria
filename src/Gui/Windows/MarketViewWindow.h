@@ -22,6 +22,7 @@ private:
 	
 private slots:
 	void changeModel();
+	void setRowInSecondView(const QModelIndex &index);
 };
 
 #endif
