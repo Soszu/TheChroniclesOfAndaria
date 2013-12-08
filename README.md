@@ -28,6 +28,10 @@ Simply use _Fork & Pull Model_
 2. Write your code and push it to your repo.
 3. Create a new [pull request].
 
+Remember to mark your contribution by inserting **one** of the lines below into the file license.  
+> Copyright (C) [modification year] [name and surname] [< e-mail >]  
+> Thanks to [modification year] [name and surname][< e-mail >]
+
 ### Coding style
 
 Coding style is based mostly on [Linux kernel coding style][Coding style] with the following
