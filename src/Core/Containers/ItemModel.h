@@ -10,12 +10,12 @@ class ItemModel : public QAbstractTableModel {
 public:
 	explicit ItemModel(QObject *parent = nullptr);
 	
-	int columnCount(const QModelIndex & = QModelIndex()) const;
+	int columnCount(const QModelIndex & index = QModelIndex()) const;
 	int rowCount(const QModelIndex & = QModelIndex()) const;
 	
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::ItemFlags flags(const QModelIndex & = QModelIndex()) const;
+	Qt::ItemFlags flags(const QModelIndex &index = QModelIndex()) const;
 
 	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
@@ -45,8 +45,7 @@ public:
 	friend QDataStream & operator>>(QDataStream &in, ItemModel &itemModel);
 protected:
 	Serial serial_;
-private:
-	QVector<Item *> items;
+	QVector <Item *> items_;
 };
 
 

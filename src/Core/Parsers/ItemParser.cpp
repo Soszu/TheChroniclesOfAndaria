@@ -145,7 +145,7 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 		switch (info.typ) {
 		case 'w':
 			if(info.czy1Reczna)
-				rodzaj = Item::Type::OneHeanded;
+				rodzaj = Item::Type::OneHanded;
 			else
 				rodzaj = Item::Type::TwoHanded;
 			break;

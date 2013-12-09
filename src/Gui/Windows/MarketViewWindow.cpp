@@ -1,5 +1,34 @@
 #include <Gui/Windows/MarketViewWindow.h>
-#include <Core/Containers/ItemProxyModel.h>
+
+int ItemProxyModel::columnCount(const QModelIndex &parent) const
+{
+	return ColumnCount; 
+}
+
+QVariant ItemProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
+		return QVariant();
+	
+	switch (section) {
+		case Name : return tr("Name");
+		case Value : return tr("Value");
+	}
+	
+	return QVariant();
+}
+
+QVariant ItemProxyModel::data(const QModelIndex &index, int role) const
+{
+	if (role != Qt::DisplayRole || !index.isValid())
+		return QIdentityProxyModel::data(index, role);
+	
+	switch(index.column()) {
+		case Name: return sourceModel()->data(sourceModel()->index(index.row(), ItemModel::Name)); break;
+		case Value: return sourceModel()->data(sourceModel()->index(index.row(), ItemModel::Value)); break;
+	}
+	return QVariant();
+}
 
 MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 {
@@ -7,7 +36,7 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 	
 	QPushButton *changeModelButton = new QPushButton("Sell/Buy", this);
 	
-	this->itemModel_ = model;
+	itemModel_ = model;
 	createOtherModel();
 	
 		
@@ -15,12 +44,11 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 	proxy->setSourceModel(itemModel_);
 	
 	tableView_ = new QTableView(this);
-	tableView_->setModel(proxy);
+	tableView_->setModel(wearableModel_);
 	tableView_->setSelectionBehavior(QAbstractItemView::SelectRows);
 	tableView_->setSelectionMode(QAbstractItemView::SingleSelection);
 	
 	connect(changeModelButton, &QPushButton::clicked, this, &MarketViewWindow::changeModel);
-	connect(tableView_, &QTableView::clicked, this, &MarketViewWindow::setRowInSecondView);
 	
 	tableView2_ = new QTableView(this);
 	tableView2_->setModel(itemModel_);
@@ -38,22 +66,15 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 void MarketViewWindow::createOtherModel()
 {
 	someOtherModel_ = new ItemModel();
-	someOtherModel_->insertRows(0, 5);
+	someOtherModel_->insertRows(0, 2);
+	wearableModel_ = new ItemWearableModel();
+	wearableModel_->insertRows(0, 4);
 }
 
 void MarketViewWindow::changeModel()
 {
 	static bool changed = false;
-	tableView_->setModel(changed ? itemModel_ : someOtherModel_);
-	tableView2_->setModel(changed ? itemModel_ : someOtherModel_);
+	tableView_->setModel(changed ? wearableModel_ : someOtherModel_);
+	//tableView2_->setModel(changed ? itemModel_ : wearableModel_);
 	changed = !changed;
 }
-
-void MarketViewWindow::setRowInSecondView(const QModelIndex & index)
-{
-	static int previousRow = 0;
-	tableView2_->hideRow(previousRow);
-	tableView2_->showRow(index.row());
-	previousRow = index.row();
-}
-

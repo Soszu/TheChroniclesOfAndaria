@@ -12,7 +12,7 @@ int ItemModel::columnCount(const QModelIndex &) const
 
 int ItemModel::rowCount(const QModelIndex &) const
 {
-	return items.count();
+	return items_.count();
 }
 
 Qt::ItemFlags ItemModel::flags(const QModelIndex &index) const
@@ -32,21 +32,21 @@ QVariant ItemModel::headerData(int section, Qt::Orientation orientation, int rol
 		case Uid : return tr("ID");
 		case Name : return tr("Name");
 		case Type : return tr("Type");;
-		case BonusHitPoints : return tr("BonusHitPoints");
-		case BonusDefence : return tr("BonusDefence");
-		case BonusPerception : return tr("BonusPerception");;
-		case BonusMeleeMin : return tr("BonusMeleeMin");
-		case BonusMeleeRng : return tr("BonusMeleeRng");
-		case BonusRangedMin : return tr("BonusRangedMin");
-		case BonusRangedRng : return tr("BonusRangedRng");
-		case BonusMagicalMin : return tr("BonusMagicalMin");
-		case BonusMagicalRng : return tr("BonusMagicalRng");
-		case BonusRegeneration : return tr("BonusRegeneration");
-		case BonusMovePoints : return tr("BonusMovePoints");
-		case RestrictionFighter : return tr("RestrictionFighter");
-		case RestrictionRanger : return tr("RestrictionRanger");;
-		case RestrictionMage : return tr("RestrictionMage");
-		case RestrictionDruid : return tr("RestrictionDruid");
+		case BonusHitPoints : return tr("Bonus Hit Points");
+		case BonusDefence : return tr("Bonus Defence");
+		case BonusPerception : return tr("Bonus Perception");
+		case BonusMeleeMin : return tr("Bonus Melee Minimum Damage");
+		case BonusMeleeRng : return tr("Bonus Melee Damage Range");
+		case BonusRangedMin : return tr("Bonus Ranged Minimum Damage");
+		case BonusRangedRng : return tr("Bonus Ranged Damage Range");
+		case BonusMagicalMin : return tr("Bonus Magical Minimum Damage");
+		case BonusMagicalRng : return tr("Bonus Magical Damage Range");
+		case BonusRegeneration : return tr("Bonus Regeneration");
+		case BonusMovePoints : return tr("Bonus Move Points");
+		case RestrictionFighter : return tr("Restriction for Fighter");
+		case RestrictionRanger : return tr("Restriction for Ranger");
+		case RestrictionMage : return tr("Restriction for Mage");
+		case RestrictionDruid : return tr("Restriction for Druid");
 		case Value : return tr("Value");
 	}
 
@@ -58,7 +58,7 @@ QVariant ItemModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid() || (role != Qt::DisplayRole))
 		return QVariant();
 	
-	const Item * item = items[index.row()];
+	const Item * item = items_[index.row()];
 	switch (index.column()) {
 		//case Uid : return item->ID(); break;
 		case Name : return item->name(); break;
@@ -91,11 +91,11 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex &)
 		Item * item = new Item(//serial_.next(),
 									  "Default",
 								     //CharacterStats(),
-									  Item::Type::OneHeanded,
+									  Item::Type::OneHanded,
 								     //QMap <Player::Class, bool>(),
-									  i,
+									  1,
 									  Item::Quality::Good);
-		items.insert(row, item);
+		items_.insert(row, item);
 	}
 	endInsertRows();
 
@@ -105,8 +105,40 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex &)
 bool ItemModel::removeRows(int row, int count, const QModelIndex &)
 {
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
-	items.remove(row, count);
+	items_.remove(row, count);
 	endRemoveRows();
 
 	return true;
 }
+
+QDataStream & operator<<(QDataStream &out, const ItemModel &itemModel)
+{
+	out << itemModel.serial_ << itemModel.items_.count();
+	for (const Item * item : itemModel.items_)
+		out << item;
+	
+	return out;
+}
+
+QDataStream & operator>>(QDataStream &in, ItemModel &itemModel)
+{
+	int count;
+	in >> itemModel.serial_ >> count;
+	for (int i = 0; i < count; ++i) {
+		//UID id;
+		QString name;
+		//CharacterStats statsModifiers;
+		Item::Type type;
+		//QMap <Player::Class, bool> restrictions;
+		int value;
+		Item::Quality quality;
+		in /*>> id*/ >> name/* >> statsModifiers*/ >> toUnderlyingRef(type) 
+			/*>> restrictions*/ >> value >> toUnderlyingRef(quality);
+		itemModel.items_.push_back(new Item{/*id,*/ name,/*statsModifiers,*/ type, /*restrictions,*/ value, quality});
+		
+	}
+	
+	return in;
+}
+
+

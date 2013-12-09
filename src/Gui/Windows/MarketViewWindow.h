@@ -2,7 +2,21 @@
 #define MARKETVIEWWINDOW_H
 
 #include <QtWidgets>
-#include <Core/Containers/ItemModel.h>
+#include <QIdentityProxyModel>
+#include "Core/Containers/ItemModel.h"
+#include "Core/Containers/ItemWearableModel.h"
+
+class ItemProxyModel : public QIdentityProxyModel {
+public :
+	
+	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+	virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+	QVariant data(const QModelIndex &index, int role) const;
+	
+	static const int Name = 0;
+	static const int Value = 1;
+	static const int ColumnCount = 2;
+};
 
 class MarketViewWindow : public QDialog {
 	Q_OBJECT;
@@ -14,6 +28,7 @@ private:
 	
 	ItemModel *itemModel_;
 	ItemModel *someOtherModel_;
+	ItemWearableModel *wearableModel_;
 	QColumnView *columnview_;
 	QTableView *tableView_;
 	QTableView *tableView2_;
@@ -22,7 +37,6 @@ private:
 	
 private slots:
 	void changeModel();
-	void setRowInSecondView(const QModelIndex &index);
 };
 
 #endif

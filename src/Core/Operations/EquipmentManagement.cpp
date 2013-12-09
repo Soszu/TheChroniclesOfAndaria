@@ -164,7 +164,7 @@ void equipItem(const Item *item, Player *player)
 		unequipItem(equipment->leftHand(), player);
 		equipment->setRightHand(item);
 		break;
-	case Item::Type::OneHeanded:
+	case Item::Type::OneHanded:
 		unequipItem(equipment->rightHand(), player);
 		equipment->setRightHand(item);
 		break;
@@ -206,7 +206,7 @@ void unequipItem(const Item *item, Player *player)
 
 	switch (item->type()) {
 	case Item::Type::TwoHanded:
-	case Item::Type::OneHeanded:
+	case Item::Type::OneHanded:
 		equipment->setRightHand(nullptr);
 		break;
 	case Item::Type::Shield:

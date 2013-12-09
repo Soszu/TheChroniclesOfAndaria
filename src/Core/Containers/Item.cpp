@@ -45,6 +45,12 @@ Item::Item(//UID ID,
 	  quality_(quality)
 {
 }
+/*
+const QHash < Item::Type, QString > & Item::itemTypes()
+{
+	static const QHash < Item::Type, QString> itemTypes_{{Item::Type::OneHanded, tr("One Handed")}};
+}*/
+
 
 // UID Item::ID() const
 // {
@@ -115,3 +121,17 @@ int Item::bonusHitPoints() const
 {
 	return bonusHitPoints_;
 }
+
+QDataStream & operator>>(QDataStream &out,const Item &item)
+{
+	out //<< item.ID_
+		 << item.name_
+		 //<< item.statsModifiers_
+		 << toUnderlying(item.type_)
+		 << item.restrictions_
+		 << item.value_
+		 << toUnderlying(item.quality_);
+	return out;
+}
+
+

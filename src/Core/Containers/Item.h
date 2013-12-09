@@ -26,7 +26,7 @@ public:
 	enum class Type : quint8 {
 		// Wearable items:
 		TwoHanded,
-		OneHeanded,
+		OneHanded,
 		Shield,
 		Armor,
 		Helmet,
@@ -81,6 +81,8 @@ public:
 	bool isStrong() const;
 	Item::Quality quality() const;
 
+	friend QDataStream & operator>>(QDataStream &out, const Item &item);
+	
 	static const quint8 ArtifactLimit = 5;
 
 protected:

@@ -5,10 +5,12 @@ set (core_SOURCES
 	Containers/Equipment.cpp
 	Containers/Field.cpp
 	Containers/Item.cpp
+	Containers/ItemWearable.cpp
 	Containers/Player.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
 	Containers/ItemModel.cpp
+	Containers/ItemWearableModel.cpp
 
 	Operations/EquipmentManagement.cpp
 	Operations/QuestManagement.cpp
@@ -28,6 +30,7 @@ set (core_SOURCES
 
 set (core_HEADERS
 	Containers/ItemModel.h
+	Containers/ItemWearableModel.h
 )
 
 
