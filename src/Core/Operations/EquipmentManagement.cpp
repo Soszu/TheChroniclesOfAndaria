@@ -187,7 +187,7 @@ void equipItem(const Item *item, Player *player)
 		equipment->setRightHand(item);
 		break;
 	case tarcza:
-		if (equipment->rightHand()->type() == bronDwureczna)
+		if (equipment->rightHand() != nullptr && equipment->rightHand()->type() == bronDwureczna)
 			unequipItem(equipment->rightHand(), player);
 		unequipItem(equipment->leftHand(), player);
 		equipment->setLeftHand(item);
@@ -217,7 +217,7 @@ void equipItem(const Item *item, Player *player)
  */
 void unequipItem(const Item *item, Player *player)
 {
-	if (!isEquipped(item, player) || item == nullptr)
+	if (item == nullptr || !isEquipped(item, player))
 		return;
 
 	Equipment *equipment = player->equipment();
