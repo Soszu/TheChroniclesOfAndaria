@@ -132,7 +132,7 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 			mistrzGry->enemyGroups_.insert(aktualnaGrupa, poprzednia);
 		}
 		poprzednia->push_back(info.id);
-		Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, mistrzGry->prizes_[info.idNagrody]);
+		Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, FightParticipant::AttackType::Melee, mistrzGry->prizes_[info.idNagrody]);
 		mistrzGry->enemies_.insert(info.id, nowy);
 
 		++numerLinii;

@@ -62,7 +62,7 @@ QVariant ItemModel::data(const QModelIndex &index, int role) const
 	switch (index.column()) {
 		//case Uid : return item->ID(); break;
 		case Name : return item->name(); break;
-		case Type : return toUnderlying(item->type()); break;
+		case Type : return Item::itemTypes()[item->type()]; break;
 // 		case BonusHitPoints : return item->statsModifiers().battleStats_.healthMax_; break;
 // 		case BonusDefence : return item->statsModifiers().battleStats_.defence_; break;
 // 		case BonusPerception : return item->statsModifiers().battleStats_.perception_; break;
@@ -115,7 +115,7 @@ QDataStream & operator<<(QDataStream &out, const ItemModel &itemModel)
 {
 	out << itemModel.serial_ << itemModel.items_.count();
 	for (const Item * item : itemModel.items_)
-		out << item;
+		out << (*item);
 	
 	return out;
 }
@@ -125,17 +125,9 @@ QDataStream & operator>>(QDataStream &in, ItemModel &itemModel)
 	int count;
 	in >> itemModel.serial_ >> count;
 	for (int i = 0; i < count; ++i) {
-		//UID id;
-		QString name;
-		//CharacterStats statsModifiers;
-		Item::Type type;
-		//QMap <Player::Class, bool> restrictions;
-		int value;
-		Item::Quality quality;
-		in /*>> id*/ >> name/* >> statsModifiers*/ >> toUnderlyingRef(type) 
-			/*>> restrictions*/ >> value >> toUnderlyingRef(quality);
-		itemModel.items_.push_back(new Item{/*id,*/ name,/*statsModifiers,*/ type, /*restrictions,*/ value, quality});
-		
+		Item *item = new Item();
+		in >> (*item);
+		itemModel.items_.push_back(item);
 	}
 	
 	return in;

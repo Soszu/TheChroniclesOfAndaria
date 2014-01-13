@@ -1,26 +1,23 @@
 #include "Core/Containers/Player.h"
 
-Player::Player(QString name, PlayerRace playerRace, PlayerClass playerClass, QColor color, bool isAI)
-	: name_(name),
+Player::Player(QString name, Player::Race playerRace, Player::Class playerClass, QColor color, bool isAI)
+	: FightParticipant(name),
 	  playerRace_(playerRace),
 	  playerClass_(playerClass),
 	  color_(color),
 	  isAI_(isAI),
-	  position_(StartingPosition[this->playerRace_]),
+	  baseStats_(Player::baseClassStats()[qMakePair(playerClass, playerRace)]),
+	  position_(Player::raceStartingPosition()[this->playerRace_]),
 	  equipment_(new Equipment),
 	  level_(StartingLevel),
-	  movePoints_(StartingMovePoints),
 	  gold_(StartingGold),
 	  experience_(StartingExperience),
 	  hasFoughtRecently_(false),
 	  isActive_(true)
 {
-	copyStats(InitialStats[this->playerRace_][this->playerClass_]);
-
 	for(int i = 0; i < KingdomCount; ++i)
 		this->reputation_[i] = StartingReputation;
-
-	this->healthCurrent_ = this->healthMax_;
+	healthCurrent_ = baseStats_.battleStats_.healthMax_;
 }
 
 Player::~Player()
@@ -28,17 +25,101 @@ Player::~Player()
 	delete equipment_;
 }
 
+const QHash <QPair <Player::Class, Player::Race>, Player::CharacterStats> & Player::baseClassStats()
+{
+	//NOTE rebalance basic damage stats due to new mechanics
+	static const QHash <QPair <Player::Class, Player::Race>, Player::CharacterStats> baseClassStats_{
+		//{Class, Race}, {{healthMax, defence, perception, {{meleDmgMin, meleDmgRange}, {rangeDmgMin, rangeDmgRange}, {magicalDmgMin, magicalDmgRAnge}}}, regeneration, movePoints }
+		{{Class::Fighter, Race::Human}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {3, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
+		{{Class::Ranger,  Race::Human}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Mage,    Race::Human}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Druid,   Race::Human}, {{13, 10, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
+		
+		{{Class::Fighter, Race::Dwarf}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
+		{{Class::Ranger,  Race::Dwarf}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Mage,    Race::Dwarf}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Druid,   Race::Dwarf}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
+		
+		{{Class::Fighter, Race::Elf}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
+		{{Class::Ranger,  Race::Elf}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Mage,    Race::Elf}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Druid,   Race::Elf}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
+		
+		{{Class::Fighter, Race::Halfling}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
+		{{Class::Ranger,  Race::Halfling}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Mage,    Race::Halfling}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
+		{{Class::Druid,   Race::Halfling}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
+	};
+	return baseClassStats_;
+}
+
+const QVector <Player::Race> & Player::raceLabel()
+{
+	static const QVector <Player::Race> raceLabel_{
+		Race::Human,
+		Race::Dwarf,
+		Race::Elf,
+		Race::Halfling
+	};
+	return raceLabel_;
+}
+
+const BiHash <Player::Race, QString> & Player::raceString()
+{
+	static const BiHash <Player::Race, QString> raceString_{
+		{Race::Human, "Human"},
+		{Race::Dwarf, "Dwarf"},
+		{Race::Elf, "Elf"},
+		{Race::Halfling, "Halfling"}
+	};
+	return raceString_;
+}
+
+const QVector <Player::Class> & Player::classLabel()
+{
+	static const QVector <Player::Class> classLabel_{
+		Class::Fighter,
+		Class::Ranger,
+		Class::Mage,
+		Class::Druid
+	};
+	return classLabel_;
+}
+
+const BiHash <Player::Class, QString> & Player::classString()
+{
+	static const BiHash <Player::Class, QString> classString_{
+		{Class::Fighter, "Fighter"},
+		{Class::Ranger, "Ranger"},
+		{Class::Mage, "Mage"},
+		{Class::Druid, "Druid"}
+	};
+	return classString_;
+}
+
+const QMap <Player::Race, FieldId> & Player::raceStartingPosition()
+{
+	static QMap <Player::Race, FieldId> raceStartingPosition_{
+		{Race::Human, {18,3}},
+		{Race::Dwarf, {14,18}},
+		{Race::Elf, {28,8}},
+		{Race::Halfling, {2,8}}
+	};
+	return raceStartingPosition_;
+}
+
+
 QString Player::name() const
 {
 	return name_;
 }
 
-PlayerRace Player::playerRace() const
+Player::Race Player::playerRace() const
 {
 	return playerRace_;
 }
 
-PlayerClass Player::playerClass() const
+Player::Class Player::playerClass() const
 {
 	return playerClass_;
 }
@@ -109,12 +190,12 @@ void Player::setReputation(int value, int index)
 
 int Player::healthMax() const
 {
-	return healthMax_;
+	return baseStats_.battleStats_.healthMax_;
 }
 
 void Player::setHealthMax(int value)
 {
-	healthMax_ = value;
+	baseStats_.battleStats_.healthMax_ = value;
 }
 
 int Player::healthCurrent() const
@@ -129,72 +210,72 @@ void Player::setHealthCurrent(int value)
 
 int Player::regeneration() const
 {
-	return regeneration_;
+	return baseStats_.regeneration_;
 }
 
 void Player::setRegeneration(int value)
 {
-	regeneration_ = value;
+	baseStats_.regeneration_ = value;
 }
 
 int Player::attackMelee() const
 {
-	return attackMelee_;
+	return baseStats_.battleStats_.attacks_[AttackType::Melee].first;
 }
 
 void Player::setAttackMelee(int value)
 {
-	attackMelee_ = value;
+	baseStats_.battleStats_.attacks_[AttackType::Melee].first = value;
 }
 
 int Player::attackRanged() const
 {
-	return attackRanged_;
+	return baseStats_.battleStats_.attacks_[AttackType::Ranged].first;
 }
 
 void Player::setAttackRanged(int value)
 {
-	attackRanged_ = value;
+	baseStats_.battleStats_.attacks_[AttackType::Ranged].first = value;
 }
 
 int Player::attackMagical() const
 {
-	return attackMagical_;
+	return baseStats_.battleStats_.attacks_[AttackType::Magical].first;
 }
 
 void Player::setAttackMagical(int value)
 {
-	attackMagical_ = value;
+	baseStats_.battleStats_.attacks_[AttackType::Magical].first = value;
 }
 
 int Player::defence() const
 {
-	return defence_;
+	return baseStats_.battleStats_.defence_;
 }
 
 void Player::setDefence(int value)
 {
-	defence_ = value;
+	baseStats_.battleStats_.defence_ = value;
 }
 
 int Player::perception() const
 {
-	return perception_;
+	return baseStats_.battleStats_.perception_;
 }
 
 void Player::setPerception(int value)
 {
-	perception_ = value;
+	baseStats_.battleStats_.perception_ = value;
 }
 
 quint8 Player::movePoints() const
 {
-	return movePoints_;
+	return baseStats_.movePoints_;
 }
 
 void Player::setMovePoints(quint8 value)
 {
-	movePoints_ = value;
+	baseStats_.movePoints_ = value;
 }
 
 quint16 Player::gold() const
@@ -235,19 +316,4 @@ void Player::setIsActive(bool value)
 bool Player::isActive() const
 {
 	return isActive_;
-}
-
-/**
- * @brief Gracz::przepiszStaty Przepisuje statystyki zebrane w jedym miejscu.
- * @param stats konkretne wartości do przepisania. Zdefiniowane w gra.h
- */
-void Player::copyStats(CharacterStats stats)
-{
-	this->healthMax_ = stats.healthMax;
-	this->regeneration_ = stats.regeneration;
-	this->attackMelee_ = stats.attackMelee;
-	this->attackRanged_ = stats.attackRanged;
-	this->attackMagical_ = stats.attackMagical;
-	this->defence_ = stats.defence;
-	this->perception_ = stats.perception;
 }

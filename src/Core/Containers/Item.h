@@ -2,8 +2,8 @@
 #define ITEM_H
 
 #include <QtGui>
-#include <Core/Containers/EnumHelpers.hpp>
-#include <Core/Containers/Serial.hpp>
+#include "Core/Util/EnumHelpers.hpp"
+#include "Core/Util/Serial.hpp"
 
 static const int NUMBER_OF_POSSIBLE_QUALITIES(4);
 
@@ -44,19 +44,19 @@ public:
 		Good
 	};
 	
-	Item(QString name,
-	     Item::Type type,
-	     int bonusMelee,
-	     int bonusRanged,
-	     int bonusMagical,
-	     int bonusDefence,
-	     int bonusPerception,
-	     int bonusHitPoints,
-	     int bonusRegeneration,
-	     int restrictions,
-	     int value,
-	     bool isStrong,
-	     Item::Quality quality);
+	Item(QString name = QString("Default"),
+	     Item::Type type = Type::OneHanded,
+	     int bonusMelee = 0,
+	     int bonusRanged = 0,
+	     int bonusMagical = 0,
+	     int bonusDefence =  0,
+	     int bonusPerception = 0,
+	     int bonusHitPoints  = 0,
+	     int bonusRegeneration = 0,
+	     int restrictions = 0,
+	     int value = 1,
+	     bool isStrong = false,
+	     Item::Quality quality = Quality::Normal);
 	
 	Item(//UID ID,
 	     QString name,
@@ -81,14 +81,17 @@ public:
 	bool isStrong() const;
 	Item::Quality quality() const;
 
-	friend QDataStream & operator>>(QDataStream &out, const Item &item);
+	friend QDataStream & operator<<(QDataStream &out, const Item &item);
+	friend QDataStream & operator>>(QDataStream &in, Item &item);
 	
 	static const quint8 ArtifactLimit = 5;
+	static const QHash <Item::Type, QString> &itemTypes();
+	static const QHash <Item::Quality, QString> &itemQualities();
 
 protected:
-	//const UID ID_; 
+	//UID ID_; 
 	QString name_;
-	//const CharacterStats statsModifiers_;
+	//Player::CharacterStats statsModifiers_;
 	Type type_;
 	int bonusMelee_;
 	int bonusRanged_;
@@ -98,10 +101,13 @@ protected:
 	int bonusHitPoints_;
 	int bonusRegeneration_;
 	int restrictions_;
-	//const QMap <Player::Class, bool> restrictions_; //QMap or QHash
+	//QMap <Player::Class, bool> restrictions_; //QMap or QHash
 	int value_;
 	bool isStrong_;
 	Item::Quality quality_;
 };
+
+uint qHash(Item::Type type);
+uint qHash(Item::Quality quality);
 
 #endif

@@ -36,13 +36,17 @@ void deactivateBonus(const Item *item, Player *player)
  * @param indeks	indeks klasy, której dot. pytanie (gra.h)
  * @return		true, jeśli dana klasa może używać przedmiotu, false w p.p.
  */
-bool isAllowedForClass(const Item *item, int index)
+bool isAllowedForClass(const Item *item, Player::Class playerClass)
 {
-	int restrictions = item->restrictions();
-	restrictions /= qPow(10, PlayerRaceCount - index - 1);
-	restrictions %= 10;
+// 	int restrictions = item->restrictions();
+// 	restrictions /= qPow(10, PlayerRaceCount - index - 1);
+// 	restrictions %= 10;
+//
+// 	return restrictions != 0;
 
-	return restrictions != 0;
+//NOTE Wookesh line below will work after finishing item serialization, till this moment all items are alowed for everyone
+// 	return item->restrictions()[playerClass];
+	return true;
 }
 
 /**
@@ -110,9 +114,9 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 	QString minLevel = item->isStrong() ? QString::number(Player::MaxLevel) : "1";
 	QString numberOfArtifacts = QString::number(player->equipment()->usedArtifacts().size());
 	QString permittedClasses;
-	for (int i = 0; i < PlayerRaceCount; ++i)
-		if (isAllowedForClass(item, (PlayerClass)i))
-			permittedClasses += PlayerClassString[i] + ". ";
+	for (Player::Class playerClass: Player::classLabel())
+		if (isAllowedForClass(item, playerClass))
+			permittedClasses += Player::classString()[playerClass] + ". ";
 	if (permittedClasses.size() > 2)
 		permittedClasses.replace(permittedClasses.size() - 2, 2, "");
 

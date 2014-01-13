@@ -1,6 +1,7 @@
 set (core_SOURCES
 	AI/AI.cpp
 
+	Containers/FightParticipant.cpp
 	Containers/Enemy.cpp
 	Containers/Equipment.cpp
 	Containers/Field.cpp

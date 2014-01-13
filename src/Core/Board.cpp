@@ -142,7 +142,7 @@ QString Board::playerDescription(int index)
 	QString description;
 	Player *player = players_->at(index);
 	description += player->name() + description + "\n";
-	description += PlayerRaceString[player->playerRace()] + " " + PlayerClassString[player->playerClass()] + "\n";
+	description += Player::raceString()[player->playerRace()] + " " + Player::classString()[player->playerClass()] + "\n";
 	description += QObject::tr("poziom ") + QString::number(player->level()) + "\n";
 	description += QObject::tr("zdrowie ") + QString::number(player->healthCurrent()) + "/" + QString::number(player->healthMax());
 	return description;

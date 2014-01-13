@@ -98,11 +98,17 @@ void NewGameWindow::fillPlayerSelectionRow(NewGameWindow::PlayerSelectionRow *ro
 	row->isAiCheckBox = new QCheckBox();
 	row->isAiCheckBox->setToolTip(QString::fromUtf8("Czy ruchami gracza ma sterować komputer?"));
 
-	for (int i = 0; i < PlayerRaceCount; ++i)
-		row->playerRaceCombo->addItem(PlayerRaceString[i]);
+// 	for (int i = 0; i < PlayerRaceCount; ++i)
+// 		row->playerRaceCombo->addItem(PlayerRaceString[i]);
+	
+	for (Player::Race race : Player::raceLabel())
+		row->playerRaceCombo->addItem(Player::raceString()[race]);
 
-	for (int i = 0; i < PlayerClassCount; ++i)
-		row->playerClassCombo->addItem(PlayerClassString[i]);
+// 	for (int i = 0; i < PlayerClassCount; ++i)
+// 		row->playerClassCombo->addItem(PlayerClassString[i]);
+	
+	for (Player::Class race : Player::classLabel())
+		row->playerClassCombo->addItem(Player::classString()[race]);
 
 	for (int i = 0; i < LICZBA_MOZLIWYCH_KOLOROW; ++i)
 		row->colorCombo->addItem(MOZLIWE_KOLORY[i]);
@@ -146,8 +152,8 @@ void NewGameWindow::validate()
 	QList <Player *> playerList;
 	for (int i = 0; i < playerCount_; ++i ){
 		playerList.push_back(new Player(playerRows[i].nameEdit->text(),
-					(PlayerRace)playerRows[i].playerRaceCombo->currentIndex(),
-					(PlayerClass)playerRows[i].playerClassCombo->currentIndex(),
+					Player::raceString()[playerRows[i].playerRaceCombo->currentText()],
+					Player::classString()[playerRows[i].playerClassCombo->currentText()],
 					KOLORY[playerRows[i].colorCombo->currentIndex()],
 					playerRows[i].isAiCheckBox->checkState()));
 	}

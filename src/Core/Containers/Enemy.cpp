@@ -1,13 +1,23 @@
 #include "Core/Containers/Enemy.h"
 
-Enemy::Enemy(QString name, QString pictureName, int attackMin, int attackMax, int defence, int perception, int healthMax, Prize *prize)
-	: name_(name),
-	  pictureName_(pictureName),
-	  attackMin_(attackMin),
-	  attackMax_(attackMax),
-	  defence_(defence),
-	  perception_(perception),
-	  healthMax_(healthMax),
+Enemy::Enemy(QString name, 
+				 QString pictureName, 
+				 qint8 attackMin,
+				 //qint8 attackRange, NOTE change this after applying new mechanics
+				 qint8 attackMax, 
+				 qint8 defence, 
+				 qint8 perception, 
+				 qint8 healthMax,
+				 AttackType defaultAttack,
+				 Prize *prize)
+	: FightParticipant(name, pictureName, healthMax),
+	  baseStats_({healthMax, 
+	              defence, 
+	              perception, 
+	              {{AttackType::Melee, {attackMin, attackMax - attackMin}}, 
+	               {AttackType::Magical, {attackMin, attackMax - attackMin}}, 
+	               {AttackType::Ranged, {attackMin, attackMax - attackMin}}}}),
+	  defaultAttack_(defaultAttack),
 	  prize_(prize)
 {
 }
@@ -19,32 +29,37 @@ QString Enemy::name() const
 
 QString Enemy::pictureName() const
 {
-	return pictureName_;
+	return imageFile_;
 }
 
 int Enemy::attackMin() const
 {
-	return attackMin_;
+	return baseStats_.attacks_[defaultAttack_].first;
+}
+
+int Enemy::attackRange() const
+{
+	return baseStats_.attacks_[defaultAttack_].second;
 }
 
 int Enemy::attackMax() const
 {
-	return attackMax_;
+	return baseStats_.attacks_[defaultAttack_].second + baseStats_.attacks_[defaultAttack_].first;
 }
 
 int Enemy::defence() const
 {
-	return defence_;
+	return baseStats_.defence_;
 }
 
 int Enemy::perception() const
 {
-	return perception_;
+	return baseStats_.perception_;
 }
 
 int Enemy::healthMax() const
 {
-	return healthMax_;
+	return baseStats_.healthMax_;
 }
 
 Prize * Enemy::prize() const

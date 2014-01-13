@@ -5,20 +5,20 @@
 
 class ItemWearable : public Item {
 public:
-	ItemWearable(QString name,
-					 Item::Type type,
-					 int bonusMelee,
-					 int bonusRanged, 
-					 int bonusMagical,
-					 int bonusDefence,
-					 int bonusPerception,
-					 int bonusHitPoints,
-					 int bonusRegeneration,
-					 int restrictions,
-					 int value,
-					 bool isStrong,
-					 Item::Quality quality,
-					 bool isComplex);
+	ItemWearable(QString name = QString("Default"),
+	     Item::Type type = Type::OneHanded,
+	     int bonusMelee = 0,
+	     int bonusRanged = 0,
+	     int bonusMagical = 0,
+	     int bonusDefence =  0,
+	     int bonusPerception = 0,
+	     int bonusHitPoints  = 0,
+	     int bonusRegeneration = 0,
+	     int restrictions = 0,
+	     int value = 1,
+	     bool isStrong = false,
+	     Item::Quality quality = Quality::Normal,
+	     bool isComplex = false);
 	
 	ItemWearable(//UID ID,
 					 QString name,
@@ -31,6 +31,8 @@ public:
 	
 	bool isComplex() const;
 	
+	friend QDataStream & operator<<(QDataStream &out, const ItemWearable &itemWearable);
+	friend QDataStream & operator>>(QDataStream &in, ItemWearable &itemWearable);
 protected:
 	const bool isComplex_;
 };

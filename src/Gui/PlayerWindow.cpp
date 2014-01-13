@@ -121,7 +121,7 @@ PlayerWindow::PlayerWindow(QFrame *frame)
 void PlayerWindow::displayPlayer(Player *player)
 {
 	currentPlayer = player;
-	pierwszaLinijka->setText(player->name() + ", " + PlayerRaceString[player->playerRace()] + " " + PlayerClassString[player->playerClass()]);
+	pierwszaLinijka->setText(player->name() + ", " + Player::raceString()[player->playerRace()] + " " + Player::classString()[player->playerClass()]);
 //------------------------------
 	QString odmianaPunkty;
 	switch(player->regeneration()){

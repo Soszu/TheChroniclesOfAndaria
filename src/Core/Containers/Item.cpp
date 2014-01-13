@@ -1,5 +1,15 @@
 #include "Core/Containers/Item.h"
 
+uint qHash(Item::Type type)
+{
+	return qHash(toUnderlying(type));
+}
+
+uint qHash(Item::Quality quality)
+{
+	return toUnderlying(quality);
+}
+
 Item::Item(QString name,
 	   Item::Type type,
 	   int bonusMelee,
@@ -45,11 +55,31 @@ Item::Item(//UID ID,
 	  quality_(quality)
 {
 }
-/*
-const QHash < Item::Type, QString > & Item::itemTypes()
+
+const QHash <Item::Type, QString> & Item::itemTypes()
 {
-	static const QHash < Item::Type, QString> itemTypes_{{Item::Type::OneHanded, tr("One Handed")}};
-}*/
+	static const QHash <Item::Type, QString> itemTypes_{
+		{Item::Type::OneHanded, QObject::tr("One Handed")},
+		{Item::Type::TwoHanded, QObject::tr("Two Handed")},
+		{Item::Type::Armor, QObject::tr("Armor")},
+		{Item::Type::Artifact, QObject::tr("Artifact")},
+		{Item::Type::Helmet, QObject::tr("Helmet")},
+		{Item::Type::Potion, QObject::tr("Potion")},
+		{Item::Type::Scroll, QObject::tr("Scroll")},
+		{Item::Type::Shield, QObject::tr("Shield")}};
+	return itemTypes_;
+}
+
+const QHash <Item::Quality, QString> & Item::itemQualities()
+{
+	static const QHash <Item::Quality, QString> itemQualities_{
+		{Item::Quality::Good, QObject::tr("Good")},
+		{Item::Quality::Normal, QObject::tr("Normal")},
+		{Item::Quality::NotApplicable, QObject::tr("NotApplicable")},
+		{Item::Quality::Poor, QObject::tr("Poor")}};
+	return itemQualities_;
+}
+
 
 
 // UID Item::ID() const
@@ -122,7 +152,7 @@ int Item::bonusHitPoints() const
 	return bonusHitPoints_;
 }
 
-QDataStream & operator>>(QDataStream &out,const Item &item)
+QDataStream & operator<<(QDataStream &out, const Item &item)
 {
 	out //<< item.ID_
 		 << item.name_
@@ -132,6 +162,18 @@ QDataStream & operator>>(QDataStream &out,const Item &item)
 		 << item.value_
 		 << toUnderlying(item.quality_);
 	return out;
+}
+
+QDataStream & operator>>(QDataStream &in, Item &item)
+{
+	in //>> item.ID_
+		>> item.name_
+		//>> item.statsModifiers_
+		>> toUnderlyingRef(item.type_)
+		>> item.restrictions_
+		>> item.value_
+		>> toUnderlyingRef(item.quality_);
+	return in;
 }
 
 

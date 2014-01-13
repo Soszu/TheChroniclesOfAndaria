@@ -17,8 +17,11 @@ public :
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	
 	
-	static const int IsComplex = 19;
-	static const int ColumnCount = 20;
+	static constexpr int IsComplex = ItemModel::ColumnCount;
+	static constexpr int ColumnCount = ItemModel::ColumnCount + 1;
+	
+	friend QDataStream &operator>>(QDataStream &in, ItemWearableModel &itemWearableModel);
+	friend QDataStream &operator<<(QDataStream &out, const ItemWearableModel &itemWearableModel);
 };
 
 

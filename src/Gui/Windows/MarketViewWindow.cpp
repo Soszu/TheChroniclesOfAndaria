@@ -39,7 +39,6 @@ MarketViewWindow::MarketViewWindow(ItemModel *model): QDialog()
 	itemModel_ = model;
 	createOtherModel();
 	
-		
 	ItemProxyModel *proxy = new ItemProxyModel();
 	proxy->setSourceModel(itemModel_);
 	

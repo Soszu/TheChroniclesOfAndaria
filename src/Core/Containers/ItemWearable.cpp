@@ -55,3 +55,30 @@ bool ItemWearable::isComplex() const
 {
 	return isComplex_;
 }
+
+QDataStream & operator<<(QDataStream &out, const ItemWearable &itemWearable)
+{
+	out //<< itemWearable.ID_
+		 << itemWearable.name_
+		 //<< itemWearable.statsModifiers_
+		 << toUnderlying(itemWearable.type_)
+		 << itemWearable.restrictions_
+		 << itemWearable.value_
+		 << toUnderlying(itemWearable.quality_)
+		 << itemWearable.isStrong_;
+	return out;
+}
+
+QDataStream & operator>>(QDataStream &in, ItemWearable &itemWearable)
+{
+	in //>> itemWearable.ID_
+		>> itemWearable.name_
+		//>> itemWearable.statsModifiers_
+		>> toUnderlyingRef(itemWearable.type_)
+		>> itemWearable.restrictions_
+		>> itemWearable.value_
+		>> toUnderlyingRef(itemWearable.quality_)
+		>> itemWearable.isStrong_;
+	return in;
+}
+

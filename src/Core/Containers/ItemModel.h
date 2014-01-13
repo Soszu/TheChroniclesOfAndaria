@@ -2,7 +2,6 @@
 #define ITEMMODEL_H
 
 #include "Core/Containers/Item.h"
-#include "Core/Containers/EnumHelpers.hpp"
 #include <QVector>
 
 class ItemModel : public QAbstractTableModel {
