@@ -24,7 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Game.h"
 #include "Core/GameCycle.h"
 #include "Core/GameMaster.h"
-#include "Gui/BoardArea.h" //TODO CFiend WTF dlaczego logika wciaga grafike?
+#include "Game/BoardArea.h" //TODO CFiend WTF dlaczego logika wciaga grafike?
 
 using namespace std;
 

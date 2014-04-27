@@ -31,14 +31,14 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Parsers/ItemParser.h"
 #include "Core/Parsers/PrizeParser.h"
 #include "Core/Parsers/QuestParser.h"
-#include "Gui/PlayerWindow.h"
-#include "Gui/ActionPanel.h"
+#include "Game/PlayerWindow.h"
+#include "Game/ActionPanel.h"
 #include "Core/Game.h"
-#include "Gui/Windows/FightWindow.h"
-#include "Gui/Windows/MarketWindow.h"
-#include "Gui/Windows/PrizeWindow.h"
-#include "Gui/Windows/TavernWindow.h"
-#include "Gui/Windows/HealerWindow.h"
+#include "Game/Windows/FightWindow.h"
+#include "Game/Windows/MarketWindow.h"
+#include "Game/Windows/PrizeWindow.h"
+#include "Game/Windows/TavernWindow.h"
+#include "Game/Windows/HealerWindow.h"
 
 class ActionPanel;
 class AI;

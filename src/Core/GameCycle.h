@@ -25,7 +25,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Player.h"
 #include "Core/Board.h"
 #include "Core/GameMaster.h"
-#include "Gui/MainWindow.h" //TODO CFiend dlaczego logika wciaga grafike?
+#include "Game/MainWindow.h" //TODO CFiend dlaczego logika wciaga grafike?
 
 class AI;
 class MainWindow;

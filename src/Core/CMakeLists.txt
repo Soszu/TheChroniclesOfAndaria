@@ -21,9 +21,11 @@ set (core_SOURCES
 	Board.cpp
 	GameCycle.cpp
 	GameMaster.cpp
-
-	main.cpp
 )
+#set (core_HEADERS
+#	
+#)
+#qt5_wrap_cpp (core_SOURCES ${core_HEADERS})
 
-add_executable (KronikiAndarii ${core_SOURCES})
-target_link_libraries (KronikiAndarii Gui ${Qt5Widgets_LIBRARIES})
+add_library (Core ${core_SOURCES})
+target_link_libraries (Core ${Qt5Widgets_LIBRARIES})
