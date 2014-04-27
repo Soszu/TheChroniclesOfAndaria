@@ -20,7 +20,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 Tile::Tile(Field *field, qreal side, BoardArea *boardArea)
 	: side_(side), height_(BoardArea::calcHeight(side_)), field_(field), boardArea_(boardArea),
-	highlighted_(false), selected_(false), framed_(false), tileImage_(PREFIX_HEXOW + field_->imageFile())
+	highlighted_(false), selected_(false), framed_(false), tilePath_(TCOA::Paths::HEXES_PREFIX + field_->imageFile())
 {
 	setPos(BoardArea::calcCenter(field_->fieldId(), side_));
 	setAcceptHoverEvents(true);
@@ -58,14 +58,13 @@ QPainterPath Tile::shape() const
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
-	painter->drawImage(boundingRect(), tileImage_);
+	painter->drawPixmap(boundingRect().toRect(), DataManager::pixmap(tilePath_));
 
 	if (field_->hasEnemy()) {
 		QPointF swordShift(height_ * 0.7, side_ * 0.3);
 		QRectF swordRect(boundingRect().topLeft() + swordShift, boundingRect().size() * 0.3);
 
-		static QImage battleImage(PLIK_Z_SYMBOLEM_WALKI); //no need to read it more than once
-		painter->drawImage(swordRect, battleImage);
+		painter->drawPixmap(swordRect.toRect(), DataManager::pixmap(TCOA::Paths::ICON_FIGHT_SYMBOL));
 	}
 
 	if (field_->hasCity()) {

@@ -39,28 +39,6 @@ static const qreal InitialTileSize = 20;
 static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
 static const qreal MINIMALNY_ROZMIAR_HEXA = 10;
 
-static const QString PLIK_PRZEDMIOTOW = "data/przedmioty.txt";
-static const QString PLIK_PRZECIWNIKOW = "data/przeciwnicy.txt";
-static const QString PLIK_NAGROD = "data/nagrody.txt";
-static const QString PLIK_ZADAN = "data/zadania.txt";
-static const QString PLIK_USTAWIENIA_PLANSZY = "data/plansza.txt";
-
-static const QString IKONKA_WRECZ = "img/ikonki/wrecz.png";
-static const QString IKONKA_DYSTANSOWY = "img/ikonki/dystans.png";
-static const QString IKONKA_MAGICZNY = "img/ikonki/magia.png";
-static const QString IKONKA_OBRONA = "img/ikonki/obrona.png";
-static const QString IKONKA_ATAK = "img/ikonki/wrecz.png";
-static const QString IKONKA_PERCEPCJA = "img/ikonki/percepcja.png";
-static const QString IKONKA_RUCH = "img/ikonki/ruch.png";
-static const QString IKONKA_MALA_MIKSTURA_ZDROWIA = "img/ikonki/mala_mikstura.png";
-static const QString IKONKA_DUZA_MIKSTURA_ZDROWIA = "img/ikonki/duza_mikstura.png";
-static const QString IKONKA_ZLOTO = "img/ikonki/zloto.png";
-static const QString IKONKA_REGENERACJA = "img/ikonki/regeneracja.png";
-
-static const QString PREFIX_PRZECIWNIKOW = "img/przeciwnicy/";
-static const QString PREFIX_HEXOW = "img/hexy/";
-static const QString PLIK_Z_SYMBOLEM_WALKI = "img/hexy/symbol.png";
-
 static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
 static const QString MOZLIWE_KOLORY[LICZBA_MOZLIWYCH_KOLOROW] = {
 	"Zielony",

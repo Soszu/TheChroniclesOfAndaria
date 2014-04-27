@@ -52,17 +52,17 @@ PlayerWindow::PlayerWindow(QFrame *frame)
 	}
 //------------------------------
 	obronaIkona = new QLabel();
-	obronaIkona->setPixmap(IKONKA_OBRONA);
+	obronaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_DEFENCE));
 	obronaIkona->setToolTip(QString::fromUtf8("Wartość współczynnika obrony."));
 	obrona = new QLabel();
 	obrona->setToolTip(QString::fromUtf8("Wartość współczynnika obrony."));
 	percepcjaIkona = new QLabel();
-	percepcjaIkona->setPixmap(IKONKA_PERCEPCJA);
+	percepcjaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_PERCEPTION));
 	percepcjaIkona->setToolTip(QString::fromUtf8("Wartość współczynnika percepcji."));
 	percepcja = new QLabel();
 	percepcja->setToolTip(QString::fromUtf8("Wartość współczynnika percepcji."));
 	ruchIkona = new QLabel();
-	ruchIkona->setPixmap(IKONKA_RUCH);
+	ruchIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MOVEMENT));
 	ruchIkona->setToolTip(QString::fromUtf8("Ilość punktów ruchu."));
 	ruch = new QLabel();
 	ruch->setToolTip(QString::fromUtf8("Ilość punktów ruchu."));
@@ -76,17 +76,17 @@ PlayerWindow::PlayerWindow(QFrame *frame)
 	linijkaObrony->addWidget(ruch);
 //------------------------------
 	wreczIkona = new QLabel();
-	wreczIkona->setPixmap(IKONKA_WRECZ);
+	wreczIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MELEE));
 	wreczIkona->setToolTip(QString::fromUtf8("Wartość ataku wręcz."));
 	wrecz = new QLabel();
 	wrecz->setToolTip(QString::fromUtf8("Wartość ataku wręcz."));
 	dystansIkona = new QLabel();
-	dystansIkona->setPixmap(IKONKA_DYSTANSOWY);
+	dystansIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_RANGED));
 	dystansIkona->setToolTip(QString::fromUtf8("Wartość ataku dystansowego."));
 	dystans = new QLabel();
 	dystans->setToolTip(QString::fromUtf8("Wartość ataku dystansowego."));
 	magiaIkona = new QLabel();
-	magiaIkona->setPixmap(IKONKA_MAGICZNY);
+	magiaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MAGIC));
 	magiaIkona->setToolTip(QString::fromUtf8("Wartość ataku magicznego."));
 	magia = new QLabel();
 	magia->setToolTip(QString::fromUtf8("Wartość ataku magicznego."));
@@ -100,7 +100,7 @@ PlayerWindow::PlayerWindow(QFrame *frame)
 	linijkaAtakow->addWidget(magia);
 //------------------------------
 	zlotoIkona = new QLabel();
-	zlotoIkona->setPixmap(IKONKA_ZLOTO);
+	zlotoIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_GOLD));
 	zlotoIkona->setToolTip(QString::fromUtf8("Ilość posiadanego złota."));
 	zloto = new QLabel();
 	zloto->setToolTip(QString::fromUtf8("Ilość posiadanego złota."));

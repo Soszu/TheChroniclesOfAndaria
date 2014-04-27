@@ -21,6 +21,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
+#include "Core/DataManager.h"
 #include "Core/Containers/Player.h"
 #include "Core/Game.h"
 #include "Game/CustomWidgets/MyTaskbar.h"

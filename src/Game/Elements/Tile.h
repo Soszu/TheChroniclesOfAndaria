@@ -20,6 +20,7 @@ This file is part of The Chronicles Of Andaria Project.
 #define TILE_H
 
 #include <QtGui>
+#include "Core/DataManager.h"
 #include "Core/Containers/Field.h"
 #include "Game/BoardArea.h"
 
@@ -56,7 +57,7 @@ private:
 	bool highlighted_;
 	bool selected_;
 	bool framed_;
-	QImage tileImage_;
+	QString tilePath_;
 };
 
 #endif

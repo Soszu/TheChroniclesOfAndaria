@@ -47,7 +47,7 @@ MarketWindow::MarketWindow(Player *player, PlayerWindow *playerWindow, const QLi
 	mainLayout->addLayout(upperPartLayout);
 
 	QLabel *smallPotionIcon = new QLabel();
-	smallPotionIcon->setPixmap(IKONKA_MALA_MIKSTURA_ZDROWIA);
+	smallPotionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_SMALL_HEALTH_MIXTURE));
 	smallPotionCountLabel = new QLabel(QString::number(player->equipment()->smallPotions()));
 	smallPotionButton = new QPushButton(QString("Kup(") +
 	                                    QString::number(CENA_MALEJ_MIKSTURY) +
@@ -55,7 +55,7 @@ MarketWindow::MarketWindow(Player *player, PlayerWindow *playerWindow, const QLi
 	smallPotionButton->setEnabled(player->gold() >= CENA_MALEJ_MIKSTURY);
 
 	QLabel *largePotionIcon = new QLabel();
-	largePotionIcon->setPixmap(IKONKA_DUZA_MIKSTURA_ZDROWIA);
+	largePotionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_BIG_HEALTH_MIXTURE));
 	largePotionCountLabel = new QLabel(QString::number(player->equipment()->largePotions()));
 	largePotionButton = new QPushButton(QString("Kup(") +
 	                                    QString::number(CENA_DUZEJ_MIKSTURY) +

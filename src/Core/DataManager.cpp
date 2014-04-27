@@ -16,43 +16,20 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Field.h"
+#include "DataManager.h"
 
-Field::Field (FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction)
-    : fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), hasCity_(hasCity), imageFile_(imageFile), fraction_(fraction)
-{}
+QHash <QString, QPixmap *> DataManager::pixmapsMap;
 
-FieldId Field::fieldId() const
+QPixmap DataManager::pixmap(const QString& pathName)
 {
-	return fieldId_;
-}
-
-QString Field::name() const
-{
-	return name_;
-}
-
-int Field::moveCost() const
-{
-	return moveCost_;
-}
-
-bool Field::hasEnemy() const
-{
-	return hasEnemy_;
-}
-
-bool Field::hasCity() const
-{
-	return hasCity_;
-}
-
-QString Field::imageFile() const
-{
-	return imageFile_;
-}
-
-int Field::fraction() const
-{
-	return fraction_;
+	const QString path = TCOA::resolvePath(pathName);
+	if (!pixmapsMap.contains(path)) {
+		QPixmap *image = new QPixmap();
+		if (!image->load(path)) {
+			qCritical() << "Error while loading file " << path;
+			exit(EXIT_FAILURE);
+		}
+		pixmapsMap[path] = image;
+	}
+	return *pixmapsMap[path];
 }

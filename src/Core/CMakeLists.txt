@@ -18,6 +18,9 @@ set (core_SOURCES
 	Parsers/PrizeParser.cpp
 	Parsers/QuestParser.cpp
 
+	Paths.cpp
+	DataManager.cpp
+
 	Board.cpp
 	GameCycle.cpp
 	GameMaster.cpp

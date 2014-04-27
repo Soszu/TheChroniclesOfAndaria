@@ -3,4 +3,5 @@
 build/
 CMakeLists.txt.user
 *.kdev4
-img/przeciwnicy/
+img/enemies
+/

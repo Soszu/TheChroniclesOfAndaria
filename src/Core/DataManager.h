@@ -16,43 +16,23 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Field.h"
+#ifndef DATAMANAGER_H
+#define DATAMANAGER_H
 
-Field::Field (FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction)
-    : fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), hasCity_(hasCity), imageFile_(imageFile), fraction_(fraction)
-{}
+#include <QtWidgets>
+#include "Paths.h"
 
-FieldId Field::fieldId() const
+class DataManager
 {
-	return fieldId_;
-}
+public:
+	static QPixmap pixmap(const QString &pathName);
 
-QString Field::name() const
-{
-	return name_;
-}
+private:
+	DataManager() = delete;
+	DataManager(const DataManager &) = delete;
 
-int Field::moveCost() const
-{
-	return moveCost_;
-}
+	static QHash <QString, QPixmap *> pixmapsMap;
+};
 
-bool Field::hasEnemy() const
-{
-	return hasEnemy_;
-}
 
-bool Field::hasCity() const
-{
-	return hasCity_;
-}
-
-QString Field::imageFile() const
-{
-	return imageFile_;
-}
-
-int Field::fraction() const
-{
-	return fraction_;
-}
+#endif // DATAMANAGER_H

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013 by Rafa? Soszy?ski <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ EquipmentWindow::EquipmentWindow(Player *player, PlayerWindow *playerWindow)
 	setWindowTitle("Ekwipunek");
 
 	itemList_ = new QListWidget();
-	itemList_->setToolTip(QString::fromUtf8("Lista posiadanych przedmiotów."));
+	itemList_->setToolTip(QString::fromUtf8("Lista posiadanych przedmiot�w."));
 
 	for (const Item *item : backpack)
 		itemList_->addItem(item->name());
@@ -40,19 +40,19 @@ EquipmentWindow::EquipmentWindow(Player *player, PlayerWindow *playerWindow)
 	mainLayout->addLayout(upperLayout);
 
 	buttonSmallPotion_ = new QPushButton();
-	buttonSmallPotion_->setIcon(QIcon(IKONKA_MALA_MIKSTURA_ZDROWIA));
+	buttonSmallPotion_->setIcon(DataManager::pixmap(TCOA::Paths::ICON_SMALL_HEALTH_MIXTURE));
 	buttonSmallPotion_->setText(QString("(") + QString::number(player->equipment()->smallPotions()) + QString(")"));
 	if (player->equipment()->smallPotions() == 0)
 		buttonSmallPotion_->setEnabled(false);
 
 	buttonLargePotion_ = new QPushButton();
-	buttonLargePotion_->setIcon(QIcon(IKONKA_DUZA_MIKSTURA_ZDROWIA));
+	buttonLargePotion_->setIcon(DataManager::pixmap(TCOA::Paths::ICON_BIG_HEALTH_MIXTURE));
 	buttonLargePotion_->setText(QString("(") + QString::number(player->equipment()->largePotions()) + QString(")"));
 	if (player->equipment()->largePotions() == 0)
 		buttonLargePotion_->setEnabled(false);
 
-	buttonEquip_ = new QPushButton(QString::fromUtf8("Załóż przedmiot"));
-	buttonEquip_->setToolTip(QString::fromUtf8("Zależnie od okoliczności przycisk pozwala na założenie lub zdjęcie zaznaczonego przedmiotu z Twojej postaci."));
+	buttonEquip_ = new QPushButton(QString::fromUtf8("Za?�? przedmiot"));
+	buttonEquip_->setToolTip(QString::fromUtf8("Zale?nie od okoliczno?ci przycisk pozwala na za?o?enie lub zdj?cie zaznaczonego przedmiotu z Twojej postaci."));
 	buttonEquip_->setEnabled(false);
 	buttonOk_ = new QPushButton("Ok");
 
@@ -93,7 +93,7 @@ void EquipmentWindow::useLargePotion()
 }
 
 /**
- * @brief OknoEkwipunek::wyswietlOpis	Wyświetla opis aktualnie zaznaczonego elementu na liscie posiadanych						przedmiotow
+ * @brief OknoEkwipunek::wyswietlOpis	Wy?wietla opis aktualnie zaznaczonego elementu na liscie posiadanych						przedmiotow
  * @param element	dane elementu z listy przedmiotow.
  */
 void EquipmentWindow::showDescription(const QModelIndex& index)
@@ -106,15 +106,15 @@ void EquipmentWindow::showDescription(const QModelIndex& index)
 		if (isEquipped(item, player_))
 			buttonEquip_->setText("Zdejmij");
 		else
-			buttonEquip_->setText(QString::fromUtf8("Załóż"));
+			buttonEquip_->setText(QString::fromUtf8("Za?�?"));
 	} else {
-		buttonEquip_->setText(QString::fromUtf8("Załóż"));
+		buttonEquip_->setText(QString::fromUtf8("Za?�?"));
 		buttonEquip_->setEnabled(false);
 	}
 }
 
 /**
- * @brief OknoEkwipunek::zaloz		Zakłada lub zdejmuje aktualnie zaznaczony przedmiot.
+ * @brief OknoEkwipunek::zaloz		Zak?ada lub zdejmuje aktualnie zaznaczony przedmiot.
  */
 void EquipmentWindow::equip()
 {
@@ -122,7 +122,7 @@ void EquipmentWindow::equip()
 
 	if (isEquipped(item, player_)) {
 		unequipItem(item, player_);
-		buttonEquip_->setText(QString::fromUtf8("Załóż"));
+		buttonEquip_->setText(QString::fromUtf8("Za?�?"));
 	} else {
 		equipItem(item, player_);
 		buttonEquip_->setText("Zdejmij");

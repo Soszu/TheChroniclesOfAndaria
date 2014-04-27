@@ -33,7 +33,8 @@ FightWindow::FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster)
 
 	QLabel *enemyImage = new QLabel();
 	enemyImage->setAlignment(Qt::AlignCenter);
-	enemyImage->setPixmap(QString(PREFIX_PRZECIWNIKOW + enemy->pictureName()));
+	QString enemyPixmapPath = TCOA::Paths::ENEMIES_PREFIX + enemy->pictureName();
+	enemyImage->setPixmap(DataManager::pixmap(enemyPixmapPath));
 	enemyPartLayout->addWidget(enemyImage);
 
 	QLabel *enemyNameLabel = new QLabel(enemy->name());
@@ -49,13 +50,13 @@ FightWindow::FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster)
 	enemyPartLayout->addLayout(enemyHealthLayout);
 
 	QLabel *enemyAttackIcon = new QLabel();
-	enemyAttackIcon->setPixmap(IKONKA_WRECZ);
+	enemyAttackIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_ATTACK));
 	QLabel *enemyAttackLabel = new QLabel(QString::number(enemy->attackMin()) + " - " + QString::number(enemy->attackMax()));
 	QLabel *enemyDefenceIcon = new QLabel();
-	enemyDefenceIcon->setPixmap(IKONKA_OBRONA);
+	enemyDefenceIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_DEFENCE));
 	QLabel *enemyDefenceLabel = new QLabel(QString::number(enemy->defence()));
 	QLabel *enemyPerceptionIcon = new QLabel();
-	enemyPerceptionIcon->setPixmap(IKONKA_PERCEPCJA);
+	enemyPerceptionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_PERCEPTION));
 	QLabel *enemyPerceptionLabel = new QLabel(QString::number(enemy->perception()));
 
 	QHBoxLayout *enemyInformationLayout = new QHBoxLayout();
@@ -84,11 +85,11 @@ FightWindow::FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster)
 	playerPartLayout->addLayout(playerHealthLayout);
 
 	QLabel *playerDefenceIcon = new QLabel();
-	playerDefenceIcon->setPixmap(IKONKA_OBRONA);
+	playerDefenceIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_DEFENCE));
 	QLabel *playerDefenceLabel = new QLabel(QString::number(player->defence()));
 
 	QLabel *playerPerceptionIcon = new QLabel();
-	playerPerceptionIcon->setPixmap(IKONKA_PERCEPCJA);
+	playerPerceptionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_PERCEPTION));
 	QLabel *playerPerceptionLabel = new QLabel(QString::number(player->perception()));
 	QHBoxLayout *playerInformationLayout = new QHBoxLayout();
 	playerInformationLayout->addWidget(playerDefenceIcon);
@@ -99,19 +100,19 @@ FightWindow::FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster)
 	playerPartLayout->addLayout(playerInformationLayout);
 
 	QPushButton *attackMeleeButton = new QPushButton();
-	attackMeleeButton->setIcon(QIcon(IKONKA_WRECZ) );
+	attackMeleeButton->setIcon(DataManager::pixmap(TCOA::Paths::ICON_MELEE));
 	attackMeleeButton->setText(QString::number(player->attackMelee()) +
 	                           QString(" - ") +
 	                           QString::number(PlayerDice + player->attackMelee()));
 
 	QPushButton *attackRangedButton = new QPushButton();
-	attackRangedButton->setIcon(QIcon(IKONKA_DYSTANSOWY));
+	attackRangedButton->setIcon(DataManager::pixmap(TCOA::Paths::ICON_RANGED));
 	attackRangedButton->setText(QString::number(player->attackRanged()) +
 	                            QString(" - ") +
 	                            QString::number(PlayerDice + player->attackRanged()));
 
 	QPushButton *attackMagicalButton = new QPushButton();
-	attackMagicalButton->setIcon(QIcon(IKONKA_MAGICZNY));
+	attackMagicalButton->setIcon(DataManager::pixmap(TCOA::Paths::ICON_MAGIC));
 	attackMagicalButton->setText(QString::number(player->attackMagical()) +
 	                             QString(" - ") +
 	                             QString::number(PlayerDice + player->attackMagical()));
@@ -123,12 +124,12 @@ FightWindow::FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster)
 	playerPartLayout->addLayout(playerAttacksLayout);
 
 	smallPotionButton = new QPushButton();
-	smallPotionButton->setIcon(QIcon(IKONKA_MALA_MIKSTURA_ZDROWIA));
+	smallPotionButton->setIcon(DataManager::pixmap(TCOA::Paths::ICON_SMALL_HEALTH_MIXTURE));
 	smallPotionButton->setText(QString("(") + QString::number(player->equipment()->smallPotions()) + QString(")"));
 	if (player->equipment()->smallPotions() == 0)
 		smallPotionButton->setEnabled(false);
 	largePotionButton = new QPushButton();
-	largePotionButton->setIcon(QIcon(IKONKA_DUZA_MIKSTURA_ZDROWIA));
+	largePotionButton->setIcon(DataManager::pixmap(TCOA::Paths::ICON_BIG_HEALTH_MIXTURE));
 	largePotionButton->setText(QString("(") + QString::number(player->equipment()->largePotions()) + QString(")"));
 	if (player->equipment()->largePotions() == 0)
 		largePotionButton->setEnabled(false);

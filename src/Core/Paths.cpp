@@ -16,43 +16,11 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Field.h"
+#include "Paths.h"
 
-Field::Field (FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction)
-    : fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), hasCity_(hasCity), imageFile_(imageFile), fraction_(fraction)
-{}
-
-FieldId Field::fieldId() const
+QString TCOA::resolvePath(const QString &path)
 {
-	return fieldId_;
-}
-
-QString Field::name() const
-{
-	return name_;
-}
-
-int Field::moveCost() const
-{
-	return moveCost_;
-}
-
-bool Field::hasEnemy() const
-{
-	return hasEnemy_;
-}
-
-bool Field::hasCity() const
-{
-	return hasCity_;
-}
-
-QString Field::imageFile() const
-{
-	return imageFile_;
-}
-
-int Field::fraction() const
-{
-	return fraction_;
+	if (QDir::isAbsolutePath(path))
+		return path;
+	return QCoreApplication::applicationDirPath() + '/' + path;
 }
