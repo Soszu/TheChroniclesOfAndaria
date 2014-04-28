@@ -1,5 +1,6 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -21,10 +22,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Operations/EquipmentManagement.h"
 
 /**
- * @brief aktywujBonusy		Metoda przypisująca bonusy przedmiotu podanemu graczowi
- * @param przedmiot	przedmiot, którego bonusy mają zostać przepisane graczowi.
- * @param gracz		dane gracza, który zakłada podany przedmiot
- * @param m		modyfikator dla każdego bonusu (domyślnie 1)
+ * @brief aktywujBonusy		Metoda przypisujÄca bonusy przedmiotu podanemu graczowi
+ * @param przedmiot	przedmiot, ktÃ³rego bonusy majÄ zostaÄ przepisane graczowi.
+ * @param gracz		dane gracza, ktÃ³ry zakÅada podany przedmiot
+ * @param m		modyfikator dla kaÅ¼dego bonusu (domyÅlnie 1)
  */
 void activateBonus(const Item *item, Player *player, int multiplier)
 {
@@ -39,9 +40,9 @@ void activateBonus(const Item *item, Player *player, int multiplier)
 }
 
 /**
- * @brief dezaktywujBonusy	Metoda ujmująca bonusy przedmiotu podanemu graczowi
- * @param przedmiot	przedmiot, którego bonusy mają zostać przepisane graczowi.
- * @param gracz		dane gracza, który zakłada podany przedmiot
+ * @brief dezaktywujBonusy	Metoda ujmujÄca bonusy przedmiotu podanemu graczowi
+ * @param przedmiot	przedmiot, ktÃ³rego bonusy majÄ zostaÄ przepisane graczowi.
+ * @param gracz		dane gracza, ktÃ³ry zakÅada podany przedmiot
  */
 void deactivateBonus(const Item *item, Player *player)
 {
@@ -49,10 +50,10 @@ void deactivateBonus(const Item *item, Player *player)
 }
 
 /**
- * @brief czyBrakOgraniczenia	Stwierdza, czy klasa o podanym indeksie może używać podanego przedmiotu.
- * @param przedmiot	przedmiot, którego dot. pytanie
- * @param indeks	indeks klasy, której dot. pytanie (gra.h)
- * @return		true, jeśli dana klasa może używać przedmiotu, false w p.p.
+ * @brief czyBrakOgraniczenia	Stwierdza, czy klasa o podanym indeksie moÅ¼e uÅ¼ywaÄ podanego przedmiotu.
+ * @param przedmiot	przedmiot, ktÃ³rego dot. pytanie
+ * @param indeks	indeks klasy, ktÃ³rej dot. pytanie (gra.h)
+ * @return		true, jeÅli dana klasa moÅ¼e uÅ¼ywaÄ przedmiotu, false w p.p.
  */
 bool isAllowedForClass(const Item *item, Player::Class playerClass)
 {
@@ -68,10 +69,10 @@ bool isAllowedForClass(const Item *item, Player::Class playerClass)
 }
 
 /**
- * @brief czyDozwolony		Stwierdza, czy gracz może aktualnie założyć podany przedmiot.
- * @param przedmiot	przedmiot, którego dotyczy pytanie
+ * @brief czyDozwolony		Stwierdza, czy gracz moÅ¼e aktualnie zaÅoÅ¼yÄ podany przedmiot.
+ * @param przedmiot	przedmiot, ktÃ³rego dotyczy pytanie
  * @param gracz		gracz, ktorego dot. pytanie
- * @return		true, jeśli przedmiot jest dozwolony, false w p.p.
+ * @return		true, jeÅli przedmiot jest dozwolony, false w p.p.
  */
 bool isPermitted(const Item *item, const Player *player)
 {
@@ -82,10 +83,10 @@ bool isPermitted(const Item *item, const Player *player)
 }
 
 /**
- * @brief dzialanie	Dodaje + albo - przed opisem działania, jeżeli opis jest niezerowy
+ * @brief dzialanie	Dodaje + albo - przed opisem dziaÅania, jeÅ¼eli opis jest niezerowy
  * @param bonus
  * @param dzialanie
- * @return		Opis działania, jeżeli bonus jest niezerowy, napis pusty w p.p.``
+ * @return		Opis dziaÅania, jeÅ¼eli bonus jest niezerowy, napis pusty w p.p.``
  */
 QString effectString(int bonus, QString effect)
 {
@@ -101,10 +102,10 @@ QString effectString(int bonus, QString effect)
 }
 
 /**
- * @brief czyZalozony	Stierdza, czy dany przedmiot jest już założony.
+ * @brief czyZalozony	Stierdza, czy dany przedmiot jest juÅ¼ zaÅoÅ¼ony.
  * @param rzecz
  * @param gracz
- * @return		true jeśli założony, false w p.p.
+ * @return		true jeÅli zaÅoÅ¼ony, false w p.p.
  */
 bool isEquipped(const Item *item, const Player *player)
 {
@@ -120,8 +121,8 @@ bool isEquipped(const Item *item, const Player *player)
 /**
  * @brief wygenerujOpis		Generuje opis dla danego przedmiotu.
  * @param rzecz
- * @param gracz		Gracz, który miałby dany przedmiot nosić (do stwierdzenia czy może)
- * @param miejsce	QTextBrowser którego tekst ma być podmieniony na wygenerowany opis.
+ * @param gracz		Gracz, ktÃ³ry miaÅby dany przedmiot nosiÄ (do stwierdzenia czy moÅ¼e)
+ * @param miejsce	QTextBrowser ktÃ³rego tekst ma byÄ podmieniony na wygenerowany opis.
  */
 void generateDescription(const Item *item, const Player *player, QTextBrowser *target)
 {
@@ -147,31 +148,31 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 
 	description += QString("typ: ") + RODZAJE_PRZEDMIOTOW[toUnderlying(item->type())] + QString("\n");
 	if (item->type() == Item::Type::Artifact)
-		description += QString::fromUtf8("Założonych artefaktów: (") + numberOfArtifacts + QString("/") + QString::number(Item::ArtifactLimit) + QString(")\n");
+		description += QString::fromUtf8("ZaÅoÅ¼onych artefaktÃ³w: (") + numberOfArtifacts + QString("/") + QString::number(Item::ArtifactLimit) + QString(")\n");
 
 	description += QString::fromUtf8("\ndozwolony od poziomu: ") + minLevel +  QString("\n");
-	description += QString::fromUtf8("klasy zdolne używać przedmiotu: ") + permittedClasses +  QString("\n");
+	description += QString::fromUtf8("klasy zdolne uÅ¼ywaÄ przedmiotu: ") + permittedClasses +  QString("\n");
 	description += QString::fromUtf8("czy dozwolony: ") + permitted +  QString("\n");
-	description += QString::fromUtf8("czy założony: ") + equipped +  QString("\n\n");
+	description += QString::fromUtf8("czy zaÅoÅ¼ony: ") + equipped +  QString("\n\n");
 
-	description += effectString(item->bonusMelee(), QString::fromUtf8("walka wręcz") );
-	description += effectString(item->bonusRanged(), QString::fromUtf8("walka bronią dystansową") );
+	description += effectString(item->bonusMelee(), QString::fromUtf8("walka wrÄcz") );
+	description += effectString(item->bonusRanged(), QString::fromUtf8("walka broniÄ dystansowÄ") );
 	description += effectString(item->bonusMagical(),  QString::fromUtf8("walka magiczna") );
 	description += effectString(item->bonusDefence(), QString::fromUtf8("defence") );
 	description += effectString(item->bonusPerception(), QString::fromUtf8("perception"));
 	description += effectString(item->bonusHitPoints(), QString::fromUtf8("zdrowie"));
 	description += effectString(item->bonusRegeneration(), QString::fromUtf8("regeneracja"));
 
-	description += QString::fromUtf8("\nwartość kupna:  ") + QString::number(item->value());
-	description += QString::fromUtf8("\nwartość sprzedaży:  ") + QString::number(item->value() / 2) + QString("\n");
+	description += QString::fromUtf8("\nwartoÅÄ kupna:  ") + QString::number(item->value());
+	description += QString::fromUtf8("\nwartoÅÄ sprzedaÅ¼y:  ") + QString::number(item->value() / 2) + QString("\n");
 
 	target->insertPlainText(description);
 }
 
 /**
- * @brief zalozPrzedmiot	W miarę możliwości zakłada dany przedmiot na gracza
- * @param rzecz		przedmiot do założenia
- * @param gracz		gracz, który zakłada przedmiot
+ * @brief zalozPrzedmiot	W miarÄ moÅ¼liwoÅci zakÅada dany przedmiot na gracza
+ * @param rzecz		przedmiot do zaÅoÅ¼enia
+ * @param gracz		gracz, ktÃ³ry zakÅada przedmiot
  */
 void equipItem(const Item *item, Player *player)
 {
@@ -215,9 +216,9 @@ void equipItem(const Item *item, Player *player)
 }
 
 /**
- * @brief zdejmijPrzedmiot	W miarę możliwości zdejmuje dany przedmiot z gracza.
- * @param rzecz		Przedmiot do zdjęcia
- * @param gracz		gracz, który zdjejmuje przedmiot
+ * @brief zdejmijPrzedmiot	W miarÄ moÅ¼liwoÅci zdejmuje dany przedmiot z gracza.
+ * @param rzecz		Przedmiot do zdjÄcia
+ * @param gracz		gracz, ktÃ³ry zdjejmuje przedmiot
  */
 void unequipItem(const Item *item, Player *player)
 {
@@ -244,7 +245,7 @@ void unequipItem(const Item *item, Player *player)
 		equipment->removeArtifact(item);
 		break;
 	default:
-		qDebug() << QString::fromUtf8("Próbowano założyć nierozpoznany rodzaj ekwipunku.");
+		qDebug() << QString::fromUtf8("PrÃ³bowano zaÅoÅ¼yÄ nierozpoznany rodzaj ekwipunku.");
 	}
 
 	deactivateBonus(item, player);

@@ -1,5 +1,7 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Thanks to 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
+
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -24,34 +26,34 @@ GameMaster::GameMaster(GameCycle *gameCycle)
 {
 	ItemParser itemParser(this);
 	if (itemParser.bladWczytywania()) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przedmiotow\n\n") + itemParser.trescBledu, blad_parsera_przedmiotow);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych przedmiotow\n\n") + itemParser.trescBledu, blad_parsera_przedmiotow);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o przedmiotach wczytano poprawnie");
 
 	PrizeParser prizeParser(this);
 	if (prizeParser.bladWczytywania()) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych nagród\n\n") + prizeParser.trescBledu, blad_parsera_nagrod);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych nagrÃ³d\n\n") + prizeParser.trescBledu, blad_parsera_nagrod);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o prizech wczytano poprawnie");
 
 	EnemyParser enemyParser(this);
 	if (enemyParser.bladWczytywania()) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych przeciwników\n\n") + enemyParser.trescBledu, blad_parsera_przeciwnikow);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych przeciwnikÃ³w\n\n") + enemyParser.trescBledu, blad_parsera_przeciwnikow);
 		return;
 	} else if (enemyGroups_.size() != EnemyGroupCount) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wczytano za mało albo za dużo grup przedmiotów.\n\n"), blad_liczby_grup_przeciwnikow);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("Wczytano za maÅo albo za duÅ¼o grup przedmiotÃ³w.\n\n"), blad_liczby_grup_przeciwnikow);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
 
 	QuestParser questParser(this);
 	if (questParser.bladWczytywania()) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wystąpił błąd przy wczytywaniu danych zadań\n\n") + questParser.trescBledu, blad_parsera_zadan);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych zadaÅ\n\n") + questParser.trescBledu, blad_parsera_zadan);
 		return;
 	} else if (quests_.size() < QuestsInTavernCount) {
-		gameCycle_->displayErrorMessage(QString::fromUtf8("Wczytano za mało zadań.\n\n"), blad_liczby_zadan);
+		gameCycle_->displayErrorMessage(QString::fromUtf8("Wczytano za maÅo zadaÅ.\n\n"), blad_liczby_zadan);
 		return;
 	}
 	qDebug() << QString::fromUtf8("Informacje o zadaniach wczytano poprawnie");
@@ -71,7 +73,7 @@ GameMaster::~GameMaster()
 }
 
 /**
- * @brief GameMaster::rozpocznij		Zbiór operacji wykonywanych na początku rozgrywki
+ * @brief GameMaster::rozpocznij		ZbiÃ³r operacji wykonywanych na poczÄtku rozgrywki
  */
 void GameMaster::beginGame()
 {
@@ -87,7 +89,7 @@ void GameMaster::beginGame()
 }
 
 /**
- * @brief GameMaster::ruszGracza Wykonuje wymagane Operations dla momentu, gdy rozpoczyna się tura kolejnego gracza
+ * @brief GameMaster::ruszGracza Wykonuje wymagane Operations dla momentu, gdy rozpoczyna siÄ tura kolejnego gracza
  * @param gracz aktualny gracz
  */
 void GameMaster::movePlayer(int index)
@@ -107,7 +109,7 @@ void GameMaster::movePlayer(int index)
 }
 
 /**
- * @brief GameMaster::ustalMozliweDzialania	Ustala możliwe do wykonania zadania przez aktualnego gracza w danym momencie
+ * @brief GameMaster::ustalMozliweDzialania	Ustala moÅ¼liwe do wykonania zadania przez aktualnego gracza w danym momencie
  */
 void GameMaster::determinePossibleActions()
 {
@@ -132,7 +134,7 @@ void GameMaster::determinePossibleActions()
 	//===== ACTIONS ON FIELDS WITH ENEMIES =====
 	if (field->hasEnemy() && !currentPlayer_->hasFoughtRecently()) {
 		possibleActions_.push_back(qMakePair((int)EnemyEasy, ActionString[EnemyEasy]));
-		//grupy przeciwnikow są numerowane od 1.
+		//grupy przeciwnikow sÄ numerowane od 1.
 		int enemyGroup = (currentPlayer_->level() + 1) / 2;
 		if (enemyGroup + 1 <= EnemyGroupCount)
 			possibleActions_.push_back(qMakePair((int)EnemyHard, ActionString[EnemyHard]));
@@ -155,9 +157,9 @@ void GameMaster::determinePossibleActions()
 }
 
 /**
- * @brief GameMaster::wybranoAkcje	Jeżeli ta metoda została wywołana,
- *					to grafika zgłasza kliknięcie na przycisk
- * @param name		opcja, która została wybrana
+ * @brief GameMaster::wybranoAkcje	JeÅ¼eli ta metoda zostaÅa wywoÅana,
+ *					to grafika zgÅasza klikniÄcie na przycisk
+ * @param name		opcja, ktÃ³ra zostaÅa wybrana
  */
 void GameMaster::doAction(int action)
 {
@@ -203,15 +205,15 @@ void GameMaster::doAction(int action)
 		healerWindow_->show();
 		break;
 	default:
-		qDebug() << QString::fromUtf8("Błędna opcja");
+		qDebug() << QString::fromUtf8("BÅÄdna opcja");
 	}
 }
 
 /**
  * @brief GameMaster::wykonajQuest	Wykonuje zadanie o podanym id.
- *					Działanie jest uzależnione od stopnia wykonania zadania.
- *					Metoda zakłada, że zadanie o podany
- * @param gracz		dane gracza, wykonującego zadanie
+ *					DziaÅanie jest uzaleÅ¼nione od stopnia wykonania zadania.
+ *					Metoda zakÅada, Å¼e zadanie o podany
+ * @param gracz		dane gracza, wykonujÄcego zadanie
  * @param id		id zadania
  */
 void GameMaster::doQuest(int questId)
@@ -249,8 +251,8 @@ void GameMaster::doQuest(int questId)
 			gameCycle_->mainWindow(),
 			quest->title(),
 			success ?
-			QString::fromUtf8("Udało Ci się wykonać zadanie.") :
-			QString::fromUtf8("Niestety, nie udało Ci się wykonać zadania.")
+			QString::fromUtf8("UdaÅo Ci siÄ wykonaÄ zadanie.") :
+			QString::fromUtf8("Niestety, nie udaÅo Ci siÄ wykonaÄ zadania.")
 		);
 
 		if (success)  {
@@ -293,8 +295,8 @@ void GameMaster::newWeek()
 }
 
 /**
- * @brief GameMaster::wybranoDzialanie		Metoda wywoływana z zewnątrz.
- *						Sprawdza i obsługuje działanie gracza.
+ * @brief GameMaster::wybranoDzialanie		Metoda wywoÅywana z zewnÄtrz.
+ *						Sprawdza i obsÅuguje dziaÅanie gracza.
  *						Quest: opcja < 0; Akcja: opcja >= 0
  * @param opcja
  */
@@ -310,8 +312,8 @@ void GameMaster::selectedAction(int action)
 }
 
 /**
- * @brief GameMaster::wykonanoRuch	Metoda wywoływana z zewnątrz.
- *					Informuje, że gracz jest teraz w innym miejscu.
+ * @brief GameMaster::wykonanoRuch	Metoda wywoÅywana z zewnÄtrz.
+ *					Informuje, Å¼e gracz jest teraz w innym miejscu.
  */
 void GameMaster::moveExecuted()
 {
@@ -321,7 +323,7 @@ void GameMaster::moveExecuted()
 }
 
 /**
- * @brief GameMaster::poinformujPlansze	Informuje planszę o zmianie statystyk (przerysowanie osiągalnych pól)
+ * @brief GameMaster::poinformujPlansze	Informuje planszÄ o zmianie statystyk (przerysowanie osiÄgalnych pÃ³l)
  */
 void GameMaster::updateBoard()
 {
@@ -338,8 +340,8 @@ void GameMaster::generateQuests()
 }
 
 /**
- * @brief GameMaster::walka	Funkcja losująca odpowiedniego przeciwnika i rozpoczynająca walkę
- * @param opcja		informacja jaka opcja walki (jaki przeciwnik) została wybrana
+ * @brief GameMaster::walka	Funkcja losujÄca odpowiedniego przeciwnika i rozpoczynajÄca walkÄ
+ * @param opcja		informacja jaka opcja walki (jaki przeciwnik) zostaÅa wybrana
  */
 void GameMaster::startFight(int enemyType)
 {
@@ -363,7 +365,7 @@ void GameMaster::startFight(int enemyType)
 		case QuestEnemy:
 			enemy = currentQuest_->enemies()->front();
 		default:
-			qDebug() << QString::fromUtf8("Błędna opcja");
+			qDebug() << QString::fromUtf8("BÅÄdna opcja");
 		}
 	}
 
@@ -377,8 +379,8 @@ void GameMaster::startFight(int enemyType)
 }
 
 /**
- * @brief GameMaster::koniecWalki	Metoda wywoływana z zewnątrz. Informuje o wyniku walki.
- * @param przeciwnik	przeciwnik, który brał udział w walce (żeby można było np. przydzielić nagrodę)
+ * @brief GameMaster::koniecWalki	Metoda wywoÅywana z zewnÄtrz. Informuje o wyniku walki.
+ * @param przeciwnik	przeciwnik, ktÃ³ry braÅ udziaÅ w walce (Å¼eby moÅ¼na byÅo np. przydzieliÄ nagrodÄ)
  * @param rezultat	enumerator opisany w gra.h reprezentujacy wynik walki
  */
 void GameMaster::endFight(Enemy *enemy, FightResult result)
@@ -416,8 +418,8 @@ void GameMaster::endFight(Enemy *enemy, FightResult result)
 /**
  * @brief GameMaster::przydzielNagrode	Zmienia dane gracze stosownie do podanej nagrody.
  *					Zmiana poziomu jest wykonywana w Oknie Nagrody.
- * @param gracz		Gracz, któremu ma zostać przydzielona prize.
- * @param prize	Nagroda, która ma zostać przydzielona.
+ * @param gracz		Gracz, ktÃ³remu ma zostaÄ przydzielona prize.
+ * @param prize	Nagroda, ktÃ³ra ma zostaÄ przydzielona.
  */
 void GameMaster::grantPrize(Player *player, Prize *prize, bool isEndOfTurn)
 {
@@ -472,9 +474,9 @@ void GameMaster::grantPrize(Player *player, Prize *prize, bool isEndOfTurn)
 }
 
 /**
- * @brief GameMaster::losujWroga Metoda losująca przeciwnika z zadanej grupy.
- * @param grupa		indeks grupy, z której ma być losowany przeciwnik.
- * @return		Wskaźnik na wylosowanego przeciwnika.
+ * @brief GameMaster::losujWroga Metoda losujÄca przeciwnika z zadanej grupy.
+ * @param grupa		indeks grupy, z ktÃ³rej ma byÄ losowany przeciwnik.
+ * @return		WskaÅºnik na wylosowanego przeciwnika.
  */
 Enemy * GameMaster::generateEnemy(int enemyGroup)
 {
@@ -502,7 +504,7 @@ void GameMaster::generateWaresForMarket(QList <const Item *> &dest)
 	for (int i = 0; i < ItemCountInMarket; ++i) {
 		//WARNING inappropriate way of drawing items
 		int idx = qrand() % items_.size() + 1;
-		//TODO: zmiana sposobu zarządzania miksturami
+		//TODO: zmiana sposobu zarzÄdzania miksturami
 		if (items_[idx]->type() == Item::Type::Potion || dest.contains(items_[idx]))
 			--i;
 		else
@@ -511,10 +513,10 @@ void GameMaster::generateWaresForMarket(QList <const Item *> &dest)
 }
 
 /**
- * @brief GameMaster::polaczNagrody	Łączy 2 nagrody w jedną i daje do niej wskaźnik, należy zatroszczyć się						o jej własnoręczne usunięcie
+ * @brief GameMaster::polaczNagrody	ÅÄczy 2 nagrody w jednÄ i daje do niej wskaÅºnik, naleÅ¼y zatroszczyÄ siÄ						o jej wÅasnorÄczne usuniÄcie
  * @param pierwsza	dane pierwszej nagrody
  * @param druga		dane drugiej nagrody
- * @return		zwraca wskaźnik do nowo utworzonej nagrody
+ * @return		zwraca wskaÅºnik do nowo utworzonej nagrody
  */
 Prize * GameMaster::mergePrizes(Prize *first, Prize *second)
 {

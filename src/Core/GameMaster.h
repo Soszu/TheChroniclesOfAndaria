@@ -1,5 +1,6 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Thanks to 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -32,15 +33,15 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Parsers/ItemParser.h"
 #include "Core/Parsers/PrizeParser.h"
 #include "Core/Parsers/QuestParser.h"
-#include "Gui/PlayerWindow.h"
-#include "Gui/ActionPanel.h"
+#include "Game/PlayerWindow.h"
+#include "Game/ActionPanel.h"
 #include "Core/Game.h"
-#include "Gui/Windows/FightWindow.h"
-#include "Gui/Windows/MarketWindow.h"
-#include "Gui/Windows/PrizeWindow.h"
-#include "Gui/Windows/TavernWindow.h"
-#include "Gui/Windows/HealerWindow.h"
-#include <Gui/Windows/MarketViewWindow.h>
+#include "Game/Windows/FightWindow.h"
+#include "Game/Windows/MarketWindow.h"
+#include "Game/Windows/PrizeWindow.h"
+#include "Game/Windows/TavernWindow.h"
+#include "Game/Windows/HealerWindow.h"
+#include "Game/Windows/MarketViewWindow.h"
 
 class ActionPanel;
 class AI;
@@ -69,13 +70,13 @@ enum Action : quint8 {
 };
 
 static const QMap <Action, QString> ActionString {
-	{Action::EndTurn, QString::fromUtf8("Zakończ turę")},
+	{Action::EndTurn, QString::fromUtf8("ZakoÅcz turÄ")},
 	{Action::EnemyEasy, QString::fromUtf8("Walcz ze zwyczajnym przeciwnikiem ")},
-	{Action::EnemyHard, QString::fromUtf8("Walcz z wymagającym przeciwnikiem")},
-	{Action::Market, QString::fromUtf8("Idź na bazar handlować ekwipunkiem")},
-	{Action::Tavern, QString::fromUtf8("Idź do tawerny \nposzukać nowych zadań")},
+	{Action::EnemyHard, QString::fromUtf8("Walcz z wymagajÄcym przeciwnikiem")},
+	{Action::Market, QString::fromUtf8("IdÅº na bazar handlowaÄ ekwipunkiem")},
+	{Action::Tavern, QString::fromUtf8("IdÅº do tawerny \nposzukaÄ nowych zadaÅ")},
 	{Action::QuestEnemy, QString::fromUtf8("Walcz z przeciwnikiem z zadania")},
-	{Action::Healer, QString::fromUtf8("Idź do uzdrowiciela")}
+	{Action::Healer, QString::fromUtf8("IdÅº do uzdrowiciela")}
 };
 
 class GameMaster {
@@ -103,7 +104,7 @@ public:
 	void endFight(Enemy *enemy, FightResult result);
 	void grantPrize(Player *player, Prize *prize, bool isEndOfTurn); //TODO CFiend bool w API jest podejrzany
 
-	static const quint8 EnemyGroupCount = 5; //grupy przeciwnikow są numerowane od 1.
+	static const quint8 EnemyGroupCount = 5; //grupy przeciwnikow sÄ numerowane od 1.
 
 private:
 	static const int PVPActions = 20;
@@ -122,12 +123,12 @@ private:
 	ActionPanel *actionPanel_;
 	PlayerWindow *playerWindow_;
 
-	QMap <int, QList <int> *> enemyGroups_; //dla każdej grupy reprezentowanej przez poziom trzymane są identyfikatory przeciwnikoe do niej należących
-	QMap <int, Enemy *> enemies_; //jako klucz jest zapisywany identyfikator w postaci liczby całkowitej
-	QMap <QString, QList <int> *> itemGroups_; //dla każdej grupy trzymane są identyfikatory przedmiotów do niej należących
-	QMap <int, const Item *> items_; //dla każdego identyfikatora trzymany jest opis przedmiotu.
-	QMap <int, Prize *> prizes_; //dla każdego identyfikatora trzymany jest opis nagrody.
-	QMap <int, Quest *> quests_; //dla każdego identyfikatora trzymany jest opis zadania.
+	QMap <int, QList <int> *> enemyGroups_; //dla kaÅ¼dej grupy reprezentowanej przez poziom trzymane sÄ identyfikatory przeciwnikoe do niej naleÅ¼Äcych
+	QMap <int, Enemy *> enemies_; //jako klucz jest zapisywany identyfikator w postaci liczby caÅkowitej
+	QMap <QString, QList <int> *> itemGroups_; //dla kaÅ¼dej grupy trzymane sÄ identyfikatory przedmiotÃ³w do niej naleÅ¼Äcych
+	QMap <int, const Item *> items_; //dla kaÅ¼dego identyfikatora trzymany jest opis przedmiotu.
+	QMap <int, Prize *> prizes_; //dla kaÅ¼dego identyfikatora trzymany jest opis nagrody.
+	QMap <int, Quest *> quests_; //dla kaÅ¼dego identyfikatora trzymany jest opis zadania.
 
 	Player *currentPlayer_;
 	QMap <int, AI *> computerPlayers_;

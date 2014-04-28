@@ -1,9 +1,9 @@
-Kroniki Andarii
+The Chronicles Of Andaria
 ==================
 
 ## About the project
 
-Kroniki Andarii is an implementation of an innovative RPG board game.
+The Chronicles Of Andaria is an implementation of an innovative RPG board game.
 > To learn more go to [project wiki].
 
 ### Contributing
@@ -53,7 +53,7 @@ constants start with a CapitalLetter.
 (e.g. casts) are not prefixed nor suffixed with a space:
  * `static_cast<int>(x);`
 
- [project wiki]: https://github.com/Soszu/KronikiAndarii/wiki
+ [project wiki]: https://github.com/Soszu/TheChroniclesOfAndaria/wiki
  [fork]: https://help.github.com/articles/fork-a-repo
  [pull request]: https://help.github.com/articles/using-pull-requests
  [coding style]: https://www.kernel.org/doc/Documentation/CodingStyle

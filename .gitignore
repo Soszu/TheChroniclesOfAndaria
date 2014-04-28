@@ -3,5 +3,5 @@
 build/
 CMakeLists.txt.user
 *.kdev4
-KronikiAndarii
-img/przeciwnicy/
+img/enemies
+/

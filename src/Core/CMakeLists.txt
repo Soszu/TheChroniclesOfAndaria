@@ -22,20 +22,18 @@ set (core_SOURCES
 	Parsers/PrizeParser.cpp
 	Parsers/QuestParser.cpp
 
+	Paths.cpp
+	DataManager.cpp
+
 	Board.cpp
 	GameCycle.cpp
 	GameMaster.cpp
-
-	main.cpp
 )
-
 set (core_HEADERS
 	Containers/ItemModel.h
 	Containers/ItemWearableModel.h
 )
-
-
 qt5_wrap_cpp (core_SOURCES ${core_HEADERS})
 
-add_executable (KronikiAndarii ${core_SOURCES})
-target_link_libraries (KronikiAndarii Gui ${Qt5Widgets_LIBRARIES})
+add_library (Core ${core_SOURCES})
+target_link_libraries (Core ${Qt5Widgets_LIBRARIES})

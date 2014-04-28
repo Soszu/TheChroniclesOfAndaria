@@ -1,2 +1,3 @@
 add_subdirectory (Core)
-add_subdirectory (Gui)
+add_subdirectory (Game)
+add_subdirectory (Editor)
