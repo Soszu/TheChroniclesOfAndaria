@@ -19,8 +19,8 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Game/Windows/NewGameWindow.h"
 
-NewGameWindow::NewGameWindow(QWidget *parent)
-	: QDialog(parent), playerCount_(MinPlayers)
+NewGameWindow::NewGameWindow(GameCycle *gameCycle, QWidget *parent)
+	: gameCycle_(gameCycle), QDialog(parent), playerCount_(MinPlayers)
 {
 	messageBox = new QMessageBox(this);
 	messageBox->setWindowTitle(QString::fromUtf8("Błąd"));
@@ -86,16 +86,6 @@ NewGameWindow::~NewGameWindow()
 
 		playerRows.pop_back();
 	}
-}
-
-void NewGameWindow::setGameCycle(GameCycle *gameCycle)
-{
-	this->gameCycle_ = gameCycle;
-}
-
-void NewGameWindow::setMainWindow(QMainWindow *mainWindow)
-{
-	this->mainWindow_ = mainWindow;
 }
 
 /**
@@ -180,9 +170,7 @@ void NewGameWindow::validate()
 	//a tam, są w takiej kolejności jak w enumach
 	//TODO CFiend powyzszy komentarz do wywalenia po przerzuceniu enum na enum class
 
-	gameCycle_->setPlayers(playerList);
-	gameCycle_->beginGame();
-	mainWindow_->showMaximized();
+	gameCycle_->beginGame(playerList);
 	this->close();
 }
 

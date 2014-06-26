@@ -23,13 +23,11 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Game/Windows/NewGameWindow.h"
 #include "Game/MainWindow.h"
 
-//TODO CFiend ten plik raczej powinien wyladowac w src/Game/
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	qsrand(QDateTime::currentDateTime().toTime_t());
 
-	NewGameWindow newGameWindow;
 	int parseResult = 0;
 	GameCycle gameCycle(&parseResult);
 
@@ -53,8 +51,7 @@ int main(int argc, char *argv[])
 	gameMaster.setBoard(&board);
 	board.setGameMaster(&gameMaster);
 
-	newGameWindow.setGameCycle(&gameCycle);
-	newGameWindow.setMainWindow(&mainWindow);
+	NewGameWindow newGameWindow(&gameCycle);
 	newGameWindow.show();
 
 	return app.exec();

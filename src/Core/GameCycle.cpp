@@ -31,21 +31,6 @@ GameCycle::~GameCycle()
 	qDeleteAll(computerPlayers_.values());
 }
 
-/**
- * @brief GameCycle::setGracze Przyjmuje dane graczy
- * @param gracze
- */
-void GameCycle::setPlayers(QList <Player *> players)
-{
-	playersAlive_ = players.size();
-	this->players_ = players;
-	board_->setPlayers(&this->players_);
-	for(int i = 0; i < players.size(); ++i)
-		if (players[i]->isAI())
-			computerPlayers_.insert(i, new AI(players[i]));
-	gameMaster_->setPlayers(&this->players_);
-}
-
 void GameCycle::setMainWindow(MainWindow *mainWindow)
 {
 	this->mainWindow_ = mainWindow;
@@ -72,6 +57,29 @@ void GameCycle::displayErrorMessage(const QString &message, int error) const
 	);
 
 	*parseResult_ = error;
+}
+
+/**
+ * @brief GameCycle::rozpocznij	Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
+ */
+void GameCycle::beginGame(QList <Player *> players)
+{
+	//NOTE need refactoring Logic/Graphic control
+	playersAlive_ = players.size();
+	this->players_ = players;
+	board_->setPlayers(&this->players_);
+	for(int i = 0; i < players.size(); ++i)
+		if (players[i]->isAI())
+			computerPlayers_.insert(i, new AI(players[i]));
+	gameMaster_->setPlayers(&this->players_);
+	
+	initGameCycle();
+	qDebug() << "Player count: " << players_.size();
+	mainWindow_->changeDate(day_, week_);
+	gameMaster_->beginGame();
+	board_->beginGame();
+	movePlayer(currentPlayer_);
+	mainWindow_->showMaximized();
 }
 
 void GameCycle::setGameMaster(GameMaster *gameMaster)
@@ -143,19 +151,6 @@ bool GameCycle::hasPlayerWon(Player *player)
 			++maxReputations;
 
 	return player->level() == MaximumLevel && maxReputations >= MaximumReputationsToWin;
-}
-
-/**
- * @brief GameCycle::rozpocznij	Rozpoczyna rozgrywkę przez wykonanie ruchu pierwszego gracza
- */
-void GameCycle::beginGame()
-{
-	initGameCycle();
-	qDebug() << "Player count: " << players_.size();
-	mainWindow_->changeDate(day_, week_);
-	gameMaster_->beginGame();
-	board_->beginGame();
-	movePlayer(currentPlayer_);
 }
 
 /**

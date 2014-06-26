@@ -38,15 +38,14 @@ public:
 
 	void setGameMaster(GameMaster *gameMaster);
 	void setBoard(Board *board);
-	void setPlayers(QList <Player *> players);
 	void setMainWindow(MainWindow *okno); //TODO CFiend chcemy wywalic grafike z logiki
 	MainWindow * mainWindow() const;
 	void displayErrorMessage(const QString &message, int error) const;
 
 	const QList <Player *> & players();
 
+	void beginGame(QList <Player *> players);
 	void removeCurrentPlayer();
-	void beginGame();
 	void endTurn();
 
 private:

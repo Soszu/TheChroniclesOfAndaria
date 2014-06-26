@@ -28,10 +28,8 @@ This file is part of The Chronicles Of Andaria Project.
 class NewGameWindow : public QDialog {
 	Q_OBJECT;
 public:
-	explicit NewGameWindow(QWidget *parent = nullptr);
+	explicit NewGameWindow(GameCycle *gameCycle, QWidget *parent = nullptr);
 	~NewGameWindow();
-	void setGameCycle(GameCycle *gameCycle);
-	void setMainWindow(QMainWindow *mainWindow);
 
 private:
 	GameCycle *gameCycle_;
