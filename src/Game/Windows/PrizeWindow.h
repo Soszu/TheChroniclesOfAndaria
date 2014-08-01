@@ -30,7 +30,7 @@ This file is part of The Chronicles Of Andaria Project.
 class GameCycle;
 
 class PrizeWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	PrizeWindow(Player *player, Prize *prize, const QList <const Item *> &prizeItems, GameCycle *gameCycle, bool isEndOfTurn); //TODO CFiend bool w API jest podejrzany
 

@@ -38,7 +38,7 @@ public:
 			qint8 perception, 
 			qint8 healthMax,
 			AttackType defaultAttack,
-			Prize *prize);
+			const Prize *prize);
 
 	QString name() const;
 	QString pictureName() const;
@@ -48,12 +48,12 @@ public:
 	int defence() const;
 	int perception() const;
 	int healthMax() const;
-	Prize * prize() const;
+	const Prize *prize() const;
 
 protected:
 	BattleStats baseStats_;
 	AttackType defaultAttack_;
-	Prize *prize_; //TODO CFiend const Prize * ?
+	const Prize *prize_;
 };
 
 #endif

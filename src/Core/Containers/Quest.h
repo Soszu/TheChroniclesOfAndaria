@@ -47,10 +47,9 @@ public:
 	      QString description,
 	      bool isReturnRequired,
 	      FieldId targetField,
-	      Prize *prize,
-	      QList <Enemy *> *enemies);
+		  const Prize *prize,
+		  QList <int> &enemiesToDefeat);
 	Quest(Quest *quest); //TODO CFiend major WTF, to chyba mialo byc Quest(const Quest &)
-	~Quest();
 
 	int id() const;
 	QuestType type() const;
@@ -61,8 +60,8 @@ public:
 	bool isReturnRequired() const;
 	FieldId targetField() const;
 	void setTargetField(FieldId field);
-	Prize * prize() const;
-	QList <Enemy *> * enemies() const;
+	const Prize *prize() const;
+	const QList <int> &enemiesToDefeat() const;
 	void setEmployerField(FieldId field);
 	FieldId employerField() const;
 	void setIsPartiallyCompleted(bool value);
@@ -77,8 +76,8 @@ private:
 	QString description_;
 	bool isReturnRequired_;
 	FieldId targetField_;
-	Prize *prize_;
-	QList <Enemy *> *enemies_;
+	const Prize *prize_;
+	QList <int> enemiesToDefeat_;
 	FieldId employerField_;
 	bool isPartiallyCompleted_;
 };

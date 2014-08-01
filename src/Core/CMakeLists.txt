@@ -1,20 +1,18 @@
 set (core_SOURCES
-	AI/AI.cpp
-
-	Containers/FightParticipant.cpp
 	Containers/Enemy.cpp
 	Containers/Equipment.cpp
 	Containers/Field.cpp
+	Containers/FightParticipant.cpp
 	Containers/Item.cpp
+	Containers/ItemModel.cpp
+	Containers/ItemWearableModel.cpp
 	Containers/ItemWearable.cpp
 	Containers/Player.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
-	Containers/ItemModel.cpp
-	Containers/ItemWearableModel.cpp
+	Containers/QuestBook.cpp
 
 	Operations/EquipmentManagement.cpp
-	Operations/QuestManagement.cpp
 
 	Parsers/BoardParser.cpp
 	Parsers/EnemyParser.cpp
@@ -24,10 +22,6 @@ set (core_SOURCES
 
 	Paths.cpp
 	DataManager.cpp
-
-	Board.cpp
-	GameCycle.cpp
-	GameMaster.cpp
 )
 set (core_HEADERS
 	Containers/ItemModel.h

@@ -30,7 +30,7 @@ This file is part of The Chronicles Of Andaria Project.
 class PlayerWindow;
 
 class EquipmentWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	EquipmentWindow(Player *player, PlayerWindow *playerWindow);
 

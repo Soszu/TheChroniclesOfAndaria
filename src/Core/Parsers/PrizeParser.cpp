@@ -18,10 +18,10 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/PrizeParser.h"
 
-PrizeParser::PrizeParser(GameMaster *mistrz)
+PrizeParser::PrizeParser(DataKeeper *dataKeeper)
 {
 	bylBlad = false;
-	this->mistrzGry = mistrz;
+	this->dataKeeper = dataKeeper;
 	QFile plik(PLIK_NAGROD);
 	if(!plik.open(QIODevice::ReadOnly))
 	{
@@ -107,7 +107,6 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 //-----------KONKRETNE PRZEDMIOTY
-		info.przedmioty = new QList<int>;
 		blad = false;
 		if(!podzial.at(5).isEmpty())
 		{
@@ -115,11 +114,11 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			for(int i = 0; i < konkrety.size(); ++i)
 			{
 				bool ok;
-				info.przedmioty->push_back(konkrety.at(i).toInt(&ok));
+				info.przedmioty.push_back(konkrety.at(i).toInt(&ok));
 				if(!ok)
 					blad = true;
 				else
-					if(!mistrzGry->items_.contains(info.przedmioty->back()))
+					if(!dataKeeper->items_.contains(info.przedmioty.back()))
 					{
 						trescBledu = QString::fromUtf8("Niepoprawny identyfikator przedmiotu w linii ") + QString::number(numerLinii);
 						return true;
@@ -127,8 +126,8 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			}
 		}
 //-----------ZAPISANIE DANYCH
-		Prize* nowy = new Prize(info.reputacja, info.zloto, info.doswiadczenie, info.grupy, info.przedmioty);
-		mistrzGry->prizes_.insert(info.id, nowy);
+		const Prize* nowy = new Prize(info.reputacja, info.zloto, info.doswiadczenie, info.grupy, info.przedmioty);
+		dataKeeper->prizes_.insert(info.id, nowy);
 
 		++numerLinii;
 	}

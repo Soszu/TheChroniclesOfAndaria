@@ -19,15 +19,15 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Quest.h"
 
 Quest::Quest(int id,
-	     QuestType type,
-	     QuestLevel level,
-	     int fraction,
-	     QString title,
-	     QString description,
-	     bool isReturnRequired,
-	     FieldId targetField,
-	     Prize *prize,
-	     QList <Enemy *> *enemies)
+		 QuestType type,
+		 QuestLevel level,
+		 int fraction,
+		 QString title,
+		 QString description,
+		 bool isReturnRequired,
+		 FieldId targetField,
+		 const Prize *prize,
+		 QList<int> &enemiesToDefeat)
 	: id_(id),
 	  type_(type),
 	  level_(level),
@@ -37,7 +37,7 @@ Quest::Quest(int id,
 	  isReturnRequired_(isReturnRequired),
 	  targetField_(targetField),
 	  prize_(prize),
-	  enemies_(enemies) //TODO CFiend skad to sie bierze?
+	  enemiesToDefeat_(enemiesToDefeat)
 {
 	FieldId empty = {-1, -1};
 	this->employerField_ = empty;
@@ -47,6 +47,7 @@ Quest::Quest(int id,
 }
 
 //TODO CFiend kill it with fire
+//Soszu note magic below...
 Quest::Quest(Quest *quest)
 {
 	this->id_ = quest->id_;
@@ -59,20 +60,13 @@ Quest::Quest(Quest *quest)
 	this->targetField_ = quest->targetField_;
 	this->prize_ = quest->prize_;
 
-	enemies_ = new QList <Enemy *>;
-	for(int i = 0; i < quest->enemies_->size(); ++i)
-		enemies_->push_back(quest->enemies_->at(i));
+	enemiesToDefeat_ = quest->enemiesToDefeat_;
 
 	employerField_ = quest->employerField_;
 
 	isPartiallyCompleted_ = isReturnRequired_ ? false : true;
 	if(type_ == pokonaj)
 		isPartiallyCompleted_ = false;
-}
-
-Quest::~Quest()
-{
-	delete enemies_;
 }
 
 int Quest::id() const
@@ -120,14 +114,14 @@ void Quest::setTargetField(FieldId field)
 	this->targetField_ = field;
 }
 
-Prize * Quest::prize() const
+const Prize * Quest::prize() const
 {
 	return prize_;
 }
 
-QList <Enemy *> * Quest::enemies() const
+const QList<int> & Quest::enemiesToDefeat() const
 {
-	return enemies_;
+	return enemiesToDefeat_;
 }
 
 void Quest::setEmployerField(FieldId field)

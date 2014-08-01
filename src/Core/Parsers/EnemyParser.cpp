@@ -19,9 +19,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/EnemyParser.h"
 
-EnemyParser::EnemyParser(GameMaster *mistrzGry)
+EnemyParser::EnemyParser(DataKeeper *dataKeeper)
 {
-	this->mistrzGry = mistrzGry;
+	this->dataKeeper = dataKeeper;
 	aktualnaGrupa = -1;
 	bylBlad = false;
 
@@ -37,7 +37,7 @@ EnemyParser::EnemyParser(GameMaster *mistrzGry)
 	bylBlad = wczytajDane(&wejscie);
 	plik.close();
 
-	if(!bylBlad && aktualnaGrupa != -1 && !mistrzGry->enemyGroups_.contains(aktualnaGrupa))
+	if(!bylBlad && aktualnaGrupa != -1 && !dataKeeper->enemyGroups_.contains(aktualnaGrupa))
 	{
 		trescBledu = QString::fromUtf8("Grupa nie może być pusta.\n Pusta jest grupa: ") + aktualnaGrupa;
 		bylBlad = true;
@@ -69,11 +69,12 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 //-----------NAZWA GRUPY
 		if(linia[0] == '$')
 		{
-			if(aktualnaGrupa != -1 && !mistrzGry->enemyGroups_.contains(aktualnaGrupa))
-			{
-				trescBledu = QString::fromUtf8("Grupa nie może być pusta.\nPusta jest grupa: ") + aktualnaGrupa;
-				return true;
-			}
+//Doesn't work, but not crucial. Parsers will vanish anyway...
+//			if(aktualnaGrupa != -1 && !dataKeeper->enemyGroups_.contains(aktualnaGrupa))
+//			{
+//				trescBledu = QString::fromUtf8("Grupa nie może być pusta.\nPusta jest grupa: ") + QString::number(aktualnaGrupa);
+//				return true;
+//			}
 			QString grupa = linia.right(linia.size() - 1);
 			bool okGrupa;
 			aktualnaGrupa = grupa.toInt(&okGrupa);
@@ -129,7 +130,7 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 			trescBledu = QString::fromUtf8("Niepoprawne dane w linii ") + QString::number(numerLinii);
 			return true;
 		}
-		if(!mistrzGry->prizes_.contains(info.idNagrody))
+		if(!dataKeeper->prizes_.contains(info.idNagrody))
 		{
 			trescBledu = QString::fromUtf8("Niepoprawny identyfikator nagrody w linii ") + QString::number(numerLinii);
 			return true;
@@ -143,21 +144,23 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 
 //-----------ZAPISANIE DANYCH
 		QList<int>* poprzednia;
-		if(mistrzGry->enemyGroups_.contains(aktualnaGrupa))
-			poprzednia = mistrzGry->enemyGroups_[aktualnaGrupa];
+		if(enemyGroups_.contains(aktualnaGrupa))
+			poprzednia = enemyGroups_[aktualnaGrupa];
 		else
 		{
 			poprzednia = new QList<int>;
-			mistrzGry->enemyGroups_.insert(aktualnaGrupa, poprzednia);
+			enemyGroups_.insert(aktualnaGrupa, poprzednia);
 		}
 		poprzednia->push_back(info.id);
-		Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, FightParticipant::AttackType::Melee, mistrzGry->prizes_[info.idNagrody]);
-		mistrzGry->enemies_.insert(info.id, nowy);
+		const Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, FightParticipant::AttackType::Melee, dataKeeper->prizes_[info.idNagrody]);
+		dataKeeper->enemies_.insert(info.id, nowy);
 
 		++numerLinii;
 	}
+	//copy from temporary map to origin with const QList
+	for (auto group : enemyGroups_.keys())
+		dataKeeper->enemyGroups_.insert(group, enemyGroups_[group]);
 	return false;
-
 }
 
 /**

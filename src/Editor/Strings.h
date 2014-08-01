@@ -23,7 +23,6 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Shortcuts.h"
 
 namespace Editor {
-
 	namespace Messages {
 		const QString HowToStart    = QObject::tr("Use \"New\" or \"Open\" from \"File\" menu to start");
 		const QString ContentLoaded = QObject::tr("Content loaded");
@@ -42,7 +41,6 @@ namespace Editor {
 		const QString SaveFileDialog        = QObject::tr("Save Content");
 		const QString ContentFilesExtension = QObject::tr("tcoa");
 		const QString ContentFiles          = QObject::tr("TCOA content files (*.%1)").arg(ContentFilesExtension);
-
 	}
 }
 

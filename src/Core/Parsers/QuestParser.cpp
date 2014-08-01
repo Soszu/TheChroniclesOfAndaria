@@ -18,10 +18,10 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/QuestParser.h"
 
-QuestParser::QuestParser(GameMaster *mistrz)
+QuestParser::QuestParser(DataKeeper *dataKeeper)
 {
 	bylBlad = false;
-	this->mistrzGry = mistrz;
+	this->dataKeeper = dataKeeper;
 
 //plik z ustawieniami planszy i pobranie wymiarów
 	QFile ustawienie(PLIK_USTAWIENIA_PLANSZY);
@@ -152,7 +152,7 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			trescBledu = QString::fromUtf8("Niepoprawny poziom zadania w linii ") + QString::number(numerLinii);
 			return true;
 		}
-		if (!mistrzGry->prizes_.contains(info.idNagrody))
+		if (!dataKeeper->prizes_.contains(info.idNagrody))
 		{
 			trescBledu = QString::fromUtf8("Niepoprawne ID nagrody w linii ") + QString::number(numerLinii);
 			return true;
@@ -184,40 +184,36 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 		info.cel.rx() = celX - 1;
 		info.cel.ry() = celY - 1;
 //-----------PRZECIWNICY
-		info.idWrogow = new QList<Enemy*>;
 		bool blad = false;
 		if(!podzial.at(9).isEmpty())
 		{
-			QList<int> wartosciID;
 			QStringList identyfikatory = podzial.at(9).split(",");
 			for(int i = 0; i < identyfikatory.size(); ++i)
 			{
 				bool ok;
-				wartosciID.push_back(identyfikatory.at(i).toInt(&ok));
+				info.idWrogow.push_back(identyfikatory.at(i).toInt(&ok));
 				if(!ok)
 					blad = true;
-				if(blad || !mistrzGry->enemies_.contains(wartosciID.back()))
+				if(blad || !dataKeeper->enemies_.contains(info.idWrogow.back()))
 				{
 					trescBledu = QString::fromUtf8("Niepoprawny identyfikator przeciwnika w linii ") + QString::number(numerLinii);
 					return true;
 				}
-				else
-					info.idWrogow->push_back(mistrzGry->enemies_[wartosciID.back()]);
 			}
 		}
 //-----------ZAPISANIE DANYCH
-		Prize *prize = mistrzGry->prizes_[info.idNagrody];
-		Quest* nowy = new Quest(info.id,
-		                        (QuestType)info.rodzaj,
-		                        (QuestLevel)info.poziom,
-		                        info.frakcja,
-		                        info.tytul,
-		                        info.tresc,
-		                        info.czyPowrot,
-		                        info.cel,
-		                        prize,
-		                        info.idWrogow);
-		mistrzGry->quests_.insert(info.id, nowy);
+		const Prize *prize = dataKeeper->prizes_[info.idNagrody];
+		const Quest* nowy = new Quest(info.id,
+									 (QuestType)info.rodzaj,
+									 (QuestLevel)info.poziom,
+									 info.frakcja,
+									 info.tytul,
+									 info.tresc,
+									 info.czyPowrot,
+									 info.cel,
+									 prize,
+									 info.idWrogow);
+		dataKeeper->quests_.insert(info.id, nowy);
 		++numerLinii;
 	}
 	return false;

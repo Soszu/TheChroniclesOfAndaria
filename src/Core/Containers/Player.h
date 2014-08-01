@@ -24,18 +24,8 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Field.h"
 #include "Core/Containers/Quest.h"
 #include "Core/Containers/FightParticipant.h"
+#include "Core/Game.h"
 #include <Core/Util/BiHash.cpp>
-
-//TODO CFiend porzadek musi byc, enum class i te sprawy
-
-static const quint8 KingdomCount = 4;
-
-static const QString KingdomString[KingdomCount] = {
-	QString::fromUtf8("Ludzie"),
-	"Krasnoludy",
-	"Elfy",
-	QString::fromUtf8("Niziołki")
-};
 
 static const quint8 PlayerRaceCount = 4;
 static const quint8 PlayerClassCount = 4;

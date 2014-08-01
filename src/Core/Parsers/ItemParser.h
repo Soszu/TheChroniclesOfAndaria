@@ -21,24 +21,25 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/GameMaster.h"
 #include "Core/Containers/Item.h"
-#include "Core/Game.h"
+#include "Game/Common/DataKeeper.h"
+#include "Core/Containers/Player.h"
 
-class GameMaster;
+class DataKeeper;
 
 class ItemParser
 {
 public:
-	ItemParser(GameMaster* mistrz);
+	ItemParser(DataKeeper *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	bool bylBlad;
-	GameMaster* mistrzGry;
+	DataKeeper *dataKeeper;
 	bool wczytajDane(QTextStream* wejscie);
 	QString nastepny(QTextStream* wejscie);
 	QString aktualnaGrupa;
+	QMap <QString, QList <int> *> itemGroups_;
 
 	struct informacje{
 		int id;

@@ -36,7 +36,7 @@ static const QString equipText(QString::fromUtf8("Załóż"));
 static const QString unequipText("Zdejmij");
 
 class MarketWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	MarketWindow(Player *player, PlayerWindow *playerWindow, const QList <const Item *> &wares);
 

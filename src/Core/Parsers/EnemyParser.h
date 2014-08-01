@@ -21,23 +21,24 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/GameMaster.h"
+#include "Game/Common/DataKeeper.h"
 #include "Core/Containers/Enemy.h"
 
-class GameMaster;
+class DataKeeper;
 
 class EnemyParser
 {
 public:
-	EnemyParser(GameMaster* mistrzGry);
+	EnemyParser(DataKeeper *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	bool bylBlad;
-	GameMaster* mistrzGry;
+	DataKeeper *dataKeeper;
 	bool wczytajDane(QTextStream* wejscie);
 	QString nastepny(QTextStream* wejscie);
 	int aktualnaGrupa;
+	QMap <int, QList <int> *> enemyGroups_;
 
 	struct informacje{
 		int id;

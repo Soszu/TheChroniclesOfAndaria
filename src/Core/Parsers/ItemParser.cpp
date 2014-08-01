@@ -20,9 +20,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/ItemParser.h"
 
-ItemParser::ItemParser(GameMaster *mistrz)
+ItemParser::ItemParser(DataKeeper *dataKeeper)
 {
-	this->mistrzGry = mistrz;
+	this->dataKeeper = dataKeeper;
 	aktualnaGrupa = "";
 	bylBlad = false;
 
@@ -192,32 +192,35 @@ bool ItemParser::wczytajDane(QTextStream *wejscie)
 
 //-----------ZAPISANIE DANYCH
 		QList<int>* poprzednie;
-		if(mistrzGry->itemGroups_.contains(aktualnaGrupa))
-			poprzednie = mistrzGry->itemGroups_[aktualnaGrupa];
+		if(itemGroups_.contains(aktualnaGrupa))
+			poprzednie = itemGroups_[aktualnaGrupa];
 		else
 		{
 			poprzednie = new QList<int>;
-			mistrzGry->itemGroups_.insert(aktualnaGrupa, poprzednie);
+			itemGroups_.insert(aktualnaGrupa, poprzednie);
 		}
 		poprzednie->push_back(info.id);
-		Item* nowy = new Item(info.name,
-		                      rodzaj,
-		                      info.wrecz,
-		                      info.dystans,
-		                      info.magia,
-		                      info.defence,
-		                      info.perception,
-		                      info.HP,
-		                      info.HPregen,
-		                      info.ograniczenie,
-		                      info.wartosc,
-		                      info.czyMocny,
-		                      (Item::Quality)info.jakosc);
-		mistrzGry->items_.insert(info.id, nowy);
+		const Item* nowy = new Item(info.name,
+									rodzaj,
+									info.wrecz,
+									info.dystans,
+									info.magia,
+									info.defence,
+									info.perception,
+									info.HP,
+									info.HPregen,
+									info.ograniczenie,
+									info.wartosc,
+									info.czyMocny,
+									(Item::Quality)info.jakosc);
+		dataKeeper->items_.insert(info.id, nowy);
 
 		++numerLinii;
 
 	}
+	//copy from temporary map to origin with const QList
+	for (auto group : itemGroups_.keys())
+		dataKeeper->itemGroups_.insert(group, itemGroups_[group]);
 	return false;
 }
 

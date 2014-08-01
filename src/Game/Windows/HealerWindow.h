@@ -26,7 +26,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Game/PlayerWindow.h"
 
 class HealerWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	HealerWindow(Player *player, PlayerWindow *playerWindow);
 

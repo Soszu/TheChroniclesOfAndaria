@@ -52,16 +52,27 @@ static const QString MOZLIWE_KOLORY[LICZBA_MOZLIWYCH_KOLOROW] = {
 	"Szary"
 };
 
-static const QColor KOLORY[LICZBA_MOZLIWYCH_KOLOROW]= {
-	Qt::green,
-	Qt::red,
-	Qt::yellow,
-	Qt::blue,
-	Qt::black,
-	Qt::white,
-	Qt::cyan,
-	Qt::magenta,
-	Qt::gray
+//static const QColor KOLORY[LICZBA_MOZLIWYCH_KOLOROW]= {
+//	Qt::green,
+//	Qt::red,
+//	Qt::yellow,
+//	Qt::blue,
+//	Qt::black,
+//	Qt::white,
+//	Qt::cyan,
+//	Qt::magenta,
+//	Qt::gray
+//};
+
+//TODO CFiend porzadek musi byc, enum class i te sprawy
+
+static const quint8 KingdomCount = 4;
+
+static const QString KingdomString[KingdomCount] = {
+	QString::fromUtf8("Ludzie"),
+	"Krasnoludy",
+	"Elfy",
+	QString::fromUtf8("Niziołki")
 };
 
 enum atrybut

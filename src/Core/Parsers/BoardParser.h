@@ -21,18 +21,20 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/Board.h"
+#include "Game/Common/DataKeeper.h"
+#include "Core/Paths.h"
+//#include "Core/Board.h"
 
-class Board;
+class DataKeeper;
 
 class BoardParser {
 public:
-	BoardParser(Board* plansza);
+	BoardParser(DataKeeper *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	bool bylBlad;
-	Board* plansza;
+	DataKeeper *dataKeeper;
 
 	quint8 szerokosc;
 	quint8 wysokosc;

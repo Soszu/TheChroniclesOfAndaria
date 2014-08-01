@@ -28,7 +28,7 @@ Enemy::Enemy(QString name,
 				 qint8 perception, 
 				 qint8 healthMax,
 				 AttackType defaultAttack,
-				 Prize *prize)
+				 const Prize *prize)
 	: FightParticipant(name, pictureName, healthMax),
 	  baseStats_({healthMax, 
 	              defence, 
@@ -81,7 +81,7 @@ int Enemy::healthMax() const
 	return baseStats_.healthMax_;
 }
 
-Prize * Enemy::prize() const
+const Prize * Enemy::prize() const
 {
 	return prize_;
 }

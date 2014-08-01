@@ -21,21 +21,21 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/GameMaster.h"
 #include "Core/Game.h"
 #include "Core/Containers/Prize.h"
+#include "Game/Common/DataKeeper.h"
 
-class GameMaster;
+class DataKeeper;
 
 class PrizeParser
 {
 public:
-	PrizeParser(GameMaster* mistrz);
+	PrizeParser(DataKeeper *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	bool bylBlad;
-	GameMaster* mistrzGry;
+	DataKeeper *dataKeeper;
 	bool wczytajDane(QTextStream* wejscie);
 	QString nastepny(QTextStream* wejscie);
 
@@ -45,7 +45,7 @@ private:
 		int zloto;
 		int doswiadczenie;
 		QStringList grupy;
-		QList<int>* przedmioty;
+		QList<int> przedmioty;
 	};
 };
 

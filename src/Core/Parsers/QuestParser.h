@@ -22,20 +22,20 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Enemy.h"
 #include "Core/Containers/Field.h"
 #include "Core/Containers/Quest.h"
-#include "Core/GameMaster.h"
+#include "Game/Common/DataKeeper.h"
 
-class GameMaster;
+class DataKeeper;
 
 class QuestParser {
 public:
-	QuestParser(GameMaster *mistrz);
+	QuestParser(DataKeeper *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	quint8 wysokoscPlanszy;
 	quint8 szerokoscPlanszy;
 	bool bylBlad;
-	GameMaster *mistrzGry;
+	DataKeeper *dataKeeper;
 	bool wczytajWymiary(QTextStream *wejscie);
 	bool wczytajDane(QTextStream *wejscie);
 	QString nastepny(QTextStream *wejscie);
@@ -50,7 +50,7 @@ private:
 		bool czyPowrot;
 		FieldId cel;
 		int idNagrody;
-		QList <Enemy *> *idWrogow;
+		QList <int> idWrogow;
 	};
 };
 

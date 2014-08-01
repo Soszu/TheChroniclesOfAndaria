@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Prize.h"
 
-Prize::Prize(int *reputation, quint16 gold, quint16 experience, QStringList groupNames, QList <int> *items)
+Prize::Prize(int *reputation, quint16 gold, quint16 experience, QStringList groupNames, const QList <int> &items)
 	: reputation_(reputation), gold_(gold), experience_(experience), groupNames_(groupNames), items_(items)
 {
 }
@@ -26,30 +26,29 @@ Prize::Prize(int *reputation, quint16 gold, quint16 experience, QStringList grou
 Prize::~Prize()
 {
 	delete [] reputation_; //TODO CFiend skad wiadomo, ze to nalezy do nas? Moze lepiej trzymac stala tablice, zamiast alokowac na stercie?
-	delete items_; //TODO CFiend j.w. skad to sie bierze?
 }
 
-int * Prize::reputation()
+int * Prize::reputation() const
 {
 	return reputation_;
 }
 
-quint16 Prize::gold()
+quint16 Prize::gold() const
 {
 	return gold_;
 }
 
-quint16 Prize::experience()
+quint16 Prize::experience() const
 {
 	return experience_;
 }
 
-QStringList Prize::groupNames()
+QStringList Prize::groupNames() const
 {
 	return groupNames_;
 }
 
-QList <int> * Prize::items()
+const QList<int> & Prize::items()
 {
 	return items_;
 }

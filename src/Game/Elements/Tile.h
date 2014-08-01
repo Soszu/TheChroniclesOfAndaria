@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -22,14 +22,14 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtGui>
 #include "Core/DataManager.h"
 #include "Core/Containers/Field.h"
-#include "Game/BoardArea.h"
+#include "Game/FixedComponents/BoardArea.h"
 
 class BoardArea;
 
 class Tile : public QGraphicsItem {
 
 public:
-	Tile(Field *field, qreal side, BoardArea *boardArea);
+	Tile(const Field *field, qreal side);
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -50,14 +50,18 @@ private:
 	QPainterPath selectionShape();
 	QVector <QPointF> tileVertices(qreal x) const;
 
+	const Field *field_;
 	qreal side_;
 	qreal height_;
-	Field *field_;
-	BoardArea *boardArea_;
+
 	bool highlighted_;
 	bool selected_;
 	bool framed_;
 	QString tilePath_;
+
+signals:
+	void clicked(FieldId id);
+	void mouseEntered(FieldId id);
 };
 
 #endif

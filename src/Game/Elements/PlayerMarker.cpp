@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -18,17 +18,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Game/Elements/PlayerMarker.h"
 
-PlayerMarker::PlayerMarker(QColor color, QString description, QPointF srodek, qreal radius)
+PlayerMarker::PlayerMarker(QColor color, QPointF srodek, qreal radius)
 	: color_(color), radius_(radius)
 {
 	setPos(srodek);
-	this->setToolTip(description);
 }
 
-/**
- * @brief Pionek::boundingRect Zwraca ograniczenie pionka.
- * @return najmniejszy prostokąt zawierający pionek
- */
 QRectF PlayerMarker::boundingRect() const
 {
 	QPointF origin(-radius_, -radius_);

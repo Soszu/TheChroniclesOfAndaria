@@ -28,7 +28,7 @@ This file is part of The Chronicles Of Andaria Project.
 class Board;
 
 class QuestWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	QuestWindow(Player *player, Board *board);
 

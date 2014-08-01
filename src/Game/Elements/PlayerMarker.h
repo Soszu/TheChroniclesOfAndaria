@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 class PlayerMarker : public QGraphicsItem {
 
 public:
-	PlayerMarker(QColor color, QString description, QPointF center, qreal radius);
+	PlayerMarker(QColor color, QPointF center, qreal radius);
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	void setRadius(qreal radius);

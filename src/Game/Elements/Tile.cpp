@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Game/Elements/Tile.h"
 
-Tile::Tile(Field *field, qreal side, BoardArea *boardArea)
+Tile::Tile(const Field *field, qreal side)
 	: side_(side), height_(BoardArea::calcHeight(side_)), field_(field), boardArea_(boardArea),
 	highlighted_(false), selected_(false), framed_(false), tilePath_(TCOA::Paths::HEXES_PREFIX + field_->imageFile())
 {
@@ -26,10 +26,6 @@ Tile::Tile(Field *field, qreal side, BoardArea *boardArea)
 	setAcceptHoverEvents(true);
 }
 
-/**
- * @brief Hex::boundingRect	Zwraca prostokąt, stanowiący granice hexa.
- * @return
- */
 QRectF Tile::boundingRect() const
 {
 	QPointF origin(-height_, -side_);
@@ -37,10 +33,6 @@ QRectF Tile::boundingRect() const
 	return QRectF(origin, size);
 }
 
-/**
- * @brief Hex::shape	Zwraca dokładne ograniczenie hexa, sześciąkąt foremny, który zawiera hex.
- * @return		QPainterPath z ograniczeniem hexa.
- */
 QPainterPath Tile::shape() const
 {
 	QPainterPath result;
@@ -49,12 +41,6 @@ QPainterPath Tile::shape() const
 	return result;
 }
 
-/**
- * @brief Hex::paint	Rysuje hex.
- * @param painter
- * @param option
- * @param widget
- */
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
@@ -96,10 +82,6 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 	}
 }
 
-/**
- * @brief Hex::setBok	Ustawia bok i wielkości od niego zależne, a następnie się przerysowuje
- * @param bok		długość nowego boku
- */
 void Tile::setSide(qreal side)
 {
 	this->side_ = side;
@@ -107,21 +89,12 @@ void Tile::setSide(qreal side)
 	setPos(BoardArea::calcCenter(field_->fieldId(), side));
 }
 
-/**
- * @brief Hex::setPodswietlenie	Ustawia odpowiednią opcję podświetlenia, po czym się przerysowuje
- * @param opcja
- */
 void Tile::setHighlighted(bool highlighted)
 {
 	this->highlighted_ = highlighted;
 	update(boundingRect());
 }
 
-/**
- * @brief Hex::podajWierzcholki		Zwraca wierzchołki hexa.
- * @param x	modyfikator oddalenia wierzchołków od środka. 1 to standardowy rozmiar
- * @return	QVector wierzchołków hexa
- */
 QVector<QPointF> Tile::tileVertices(qreal x) const
 {
 	QVector<QPointF> wierzcholki;
@@ -131,31 +104,21 @@ QVector<QPointF> Tile::tileVertices(qreal x) const
 	return wierzcholki;
 }
 
-/**
- * @brief Hex::zaznacz	Włącza podświetlenie danego hexa, po czym się przerysowywuje.
- */
 void Tile::select()
 {
 	selected_ = true;
 	update(boundingRect());
 }
 
-/**
- * @brief Hex::odznacz	Wyłącza podświetlenie danego hexa, po czym się przerysowywuje.
- */
 void Tile::deselect()
 {
 	selected_ = false;
 	update(boundingRect());
 }
 
-/**
- * @brief Hex::mousePressEvent	Informuje o kliknięciu na siebie
- * @param event
- */
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-	boardArea_->tileClicked(field_->fieldId());
+	emit clicked(field_->fieldId());
 }
 
 void Tile::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -171,31 +134,19 @@ void Tile::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 	*/
 }
 
-/**
- * @brief Hex::hoverEnterEvent	Informuje o wjechaniu kursorem na hex, powoduje narysowanie nad nim obramowania
- * @param event
- */
 void Tile::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
 	framed_ = true;
-	boardArea_->displayMessage(field_->name() + ";\t koszt ruchu: " + QString::number(field_->moveCost()));
+	emit mouseEntered(field_->fieldId());
 	update();
 }
 
-/**
- * @brief Hex::hoverLeaveEvent	Informuje o zjechaniu kursorem z hexa, powoduje pozbawienie go obramowania
- * @param event
- */
 void Tile::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
 	framed_ = false;
 	update();
 }
 
-/**
- * @brief Hex::ksztaltZaznaczenia	Definuje sposób zaznaczenia hexa, reprezentowany jako QPainterPath
- * @return	ścieżka stanowiąca sposób zaznaczenia hexa.
- */
 QPainterPath Tile::selectionShape()
 {
 	QPainterPath cross;

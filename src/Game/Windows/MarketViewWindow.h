@@ -37,7 +37,7 @@ public :
 };
 
 class MarketViewWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	MarketViewWindow(ItemModel * model);
 

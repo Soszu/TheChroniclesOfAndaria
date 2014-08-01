@@ -18,10 +18,10 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/BoardParser.h"
 
-BoardParser::BoardParser(Board* plansza)
+BoardParser::BoardParser(DataKeeper *dataKeeper)
 {
 	bylBlad = false;
-	this->plansza = plansza;
+	this->dataKeeper = dataKeeper;
 	QFile ustawienie(PLIK_USTAWIENIA_PLANSZY);
 
 	if(!ustawienie.open(QIODevice::ReadOnly))
@@ -74,9 +74,9 @@ bool BoardParser::wczytajWymiary(QTextStream* wejscie)
 	bool ok1 = true;
 	bool ok2 = true;
 	szerokosc = podzial.at(0).toUInt(&ok1);
-	plansza->boardWidth_ = szerokosc;
+	dataKeeper->boardWidth_ = szerokosc;
 	wysokosc = podzial.at(1).toUInt(&ok2);
-	plansza->boardHeight_ = wysokosc;
+	dataKeeper->boardHeight_ = wysokosc;
 	if(!ok1 || !ok2 || szerokosc < 1 || wysokosc < 1)
 	{
 		trescBledu = QString::fromUtf8("Podane wymiary nie są poprawne.");
@@ -150,8 +150,6 @@ bool BoardParser::wczytajLegende(QTextStream* wejscie)
  */
 bool BoardParser::wczytajUstawienie(QTextStream* wejscie)
 {
-	QList<Field*>* listaPol = new QList<Field*>;
-
 	for(int i = 0; i < wysokosc; ++i)
 	{
 		QString linia = nastepny(wejscie);
@@ -173,13 +171,12 @@ bool BoardParser::wczytajUstawienie(QTextStream* wejscie)
 			}
 			info dane = legenda[symbol];
 			FieldId miejsce = {j,i};
-			listaPol->push_back(new Field(miejsce, dane.name, dane.wspolczynnik, dane.czyPoleZEnemyiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
-
-			if(dane.czyPoleZMiastem)
-				plansza->cities_.push_back(plansza->fieldIdToIndex(miejsce));
+			dataKeeper->fields_.push_back(new Field(miejsce, dane.name, dane.wspolczynnik, dane.czyPoleZEnemyiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
+//TODO think if Board include can/should be ommited
+//			if(dane.czyPoleZMiastem)
+//				dataKeeper->cities_.push_back(Board::fieldIdToIndex(miejsce));
 		}
 	}
-	plansza->fields_ = listaPol;
 	return false;
 }
 

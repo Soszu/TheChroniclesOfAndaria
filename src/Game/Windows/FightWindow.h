@@ -37,7 +37,7 @@ enum class FightResult : quint8 {
 };
 
 class FightWindow : public QDialog {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	FightWindow(Player *player, Enemy *enemy, GameMaster *gameMaster);
 
