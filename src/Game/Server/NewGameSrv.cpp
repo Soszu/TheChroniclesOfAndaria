@@ -9,14 +9,30 @@ NewGameSrv::NewGameSrv(GameCycle *gameCycle)
 
 void NewGameSrv::waitForPlayers()
 {
-	connect(connectionAdapter_, &ConnectionAdapterSrv::newUser, this, &NewGameSrv::onNewUser);
+	connect(connectionAdapter_, &ConnectionAdapterSrv::newUser, this, &NewGameSrv::onUserEntered);
+	connect(connectionAdapter_, &ConnectionAdapterSrv::userDisconnected, this, &NewGameSrv::onUserQuit);
 	connectionAdapter_->startListen();
 }
 
-void NewGameSrv::onNewUser(UID userID)
+void NewGameSrv::onUserEntered(UID userID)
 {
+	// if not too much players
+	//send playerDrafts
+
+	// else send specific msg
 }
 
-void NewGameSrv::onNewMessage(Message &msg)
+void NewGameSrv::onUserQuit(UID userID)
 {
+	// remove draft
+// 	send info
+}
+
+void NewGameSrv::onNewMessage(Message &msg, UID sender)
+{
+	// update info (sender may not has own draft yet)
+
+	//if last ready -> begin (check number of players )
+
+	//send to all but sender new info
 }

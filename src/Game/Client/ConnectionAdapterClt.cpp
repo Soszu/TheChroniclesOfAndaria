@@ -3,6 +3,7 @@
 ConnectionAdapterClt::ConnectionAdapterClt() : tcpSocket_(this)
 {
 	connect(&tcpSocket_, &QTcpSocket::readyRead, this, &ConnectionAdapterClt::onRead);
+	connect(&tcpSocket_, &QTcpSocket::connected, this, &ConnectionAdapterClt::connected);
 }
 
 void ConnectionAdapterClt::connectToSrv()

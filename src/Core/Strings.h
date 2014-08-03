@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -16,11 +16,18 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Paths.h"
+#pragma once
 
-QString resolvePath(const QString &path)
-{
-	if (QDir::isAbsolutePath(path))
-		return path;
-	return QCoreApplication::applicationDirPath() + '/' + path;
+#include <QtCore>
+
+namespace Names {
+	const QString Human = QObject::tr("Human");
+	const QString Dwarf = QObject::tr("Dwarf");
+	const QString Elf   = QObject::tr("Elf");
+	const QString Halfling = QObject::tr("Halfling");
+
+	const QString Fighter = QObject::tr("Fighter");
+	const QString Ranger = QObject::tr("Ranger");
+	const QString Mage = QObject::tr("Mage");
+	const QString Druid = QObject::tr("Druid");
 }

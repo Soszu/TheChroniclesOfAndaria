@@ -1,5 +1,4 @@
-﻿#ifndef STRINGS_H
-#define STRINGS_H
+﻿#pragma once
 
 namespace Server {
 	namespace Errors {
@@ -7,9 +6,8 @@ namespace Server {
 	}
 
 	namespace Logs {
-		const QString ClientConnected = QObject::tr("New client connected.");
+		const QString ClientConnected = QObject::tr("New client connected. (UID: %1)");
+		const QString ClientDisconnected = QObject::tr("Client connected. (UID: %1)");
 		const QString ServerIsListening = QObject::tr("Server is listening on port: %1.");
 	}
 }
-
-#endif // STRINGS_H

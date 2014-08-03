@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -64,8 +64,8 @@ public:
 	QHash <TCOA::PlayerClass, bool> restrictions() const;
 	void setRestrictions(QHash <TCOA::PlayerClass, bool> restrictions);
 
-	QList <HOA::Effect> effects() const;
-	void setEffects(QList <HOA::Effect> effect);
+	QList <TCOA::Effect> effects() const;
+	void setEffects(QList <TCOA::Effect> effect);
 
 	friend QDataStream & operator << (QDataStream &out, const ItemBase &item);
 	friend QDataStream & operator >> (QDataStream &in, ItemBase &item);
@@ -75,11 +75,11 @@ private:
 
 	QString name_;
 
-	HOA::ItemType type_;
+	TCOA::ItemType type_;
 	QHash <TCOA::PlayerClass, bool> restrictions_;
 
 	int value_;
 
-	QList <HOA::Effect> effects_;
+	QList <TCOA::Effect> effects_;
 };
 #endif // ITEMBASE_H

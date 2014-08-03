@@ -2,12 +2,14 @@
 	DataKeeper.cpp
 	Message.cpp
 	ConnectionAdapter.cpp
+	PlayerDraft.cpp
 )
 
 set (game_common_HEADERS
 	ConnectionAdapter.h
-	DataKeeper.h
-	Message.h
+# 	PlayerDraft.h
+#	DataKeeper.h
+#	Message.h
 )
 qt5_wrap_cpp (game_common_SOURCES ${game_common_HEADERS})
 

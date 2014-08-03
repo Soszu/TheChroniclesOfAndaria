@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,8 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAMECYCLE_H
-#define GAMECYCLE_H
+#pragma once
 
 #include <QtWidgets>
 
@@ -71,4 +70,3 @@ signals:
 	void statsChanged();
 	void dateChanged(int day, int week);
 };
-#endif

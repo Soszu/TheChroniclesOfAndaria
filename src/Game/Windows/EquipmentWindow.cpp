@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 Copyright (C) 2013 by Rafa? Soszy?ski <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -27,7 +27,7 @@ EquipmentWindow::EquipmentWindow(Player *player, PlayerWindow *playerWindow)
 	setWindowTitle("Ekwipunek");
 
 	itemList_ = new QListWidget();
-	itemList_->setToolTip(QString::fromUtf8("Lista posiadanych przedmiotów."));
+	itemList_->setToolTip(QString::fromUtf8("Lista posiadanych przedmiotï¿½w."));
 
 	for (const Item *item : backpack)
 		itemList_->addItem(item->name());
@@ -40,18 +40,18 @@ EquipmentWindow::EquipmentWindow(Player *player, PlayerWindow *playerWindow)
 	mainLayout->addLayout(upperLayout);
 
 	buttonSmallPotion_ = new QPushButton();
-	buttonSmallPotion_->setIcon(DataManager::pixmap(TCOA::Paths::ICON_SMALL_HEALTH_MIXTURE));
+	buttonSmallPotion_->setIcon(DataManager::pixmap(Paths::IconSmallHealthMixture));
 	buttonSmallPotion_->setText(QString("(") + QString::number(player->equipment()->smallPotions()) + QString(")"));
 	if (player->equipment()->smallPotions() == 0)
 		buttonSmallPotion_->setEnabled(false);
 
 	buttonLargePotion_ = new QPushButton();
-	buttonLargePotion_->setIcon(DataManager::pixmap(TCOA::Paths::ICON_BIG_HEALTH_MIXTURE));
+	buttonLargePotion_->setIcon(DataManager::pixmap(Paths::IconBigHealthMixture));
 	buttonLargePotion_->setText(QString("(") + QString::number(player->equipment()->largePotions()) + QString(")"));
 	if (player->equipment()->largePotions() == 0)
 		buttonLargePotion_->setEnabled(false);
 
-	buttonEquip_ = new QPushButton(QString::fromUtf8("Za?ó? przedmiot"));
+	buttonEquip_ = new QPushButton(QString::fromUtf8("Za?ï¿½? przedmiot"));
 	buttonEquip_->setToolTip(QString::fromUtf8("Zale?nie od okoliczno?ci przycisk pozwala na za?o?enie lub zdj?cie zaznaczonego przedmiotu z Twojej postaci."));
 	buttonEquip_->setEnabled(false);
 	buttonOk_ = new QPushButton("Ok");
@@ -106,9 +106,9 @@ void EquipmentWindow::showDescription(const QModelIndex& index)
 		if (isEquipped(item, player_))
 			buttonEquip_->setText("Zdejmij");
 		else
-			buttonEquip_->setText(QString::fromUtf8("Za?ó?"));
+			buttonEquip_->setText(QString::fromUtf8("Za?ï¿½?"));
 	} else {
-		buttonEquip_->setText(QString::fromUtf8("Za?ó?"));
+		buttonEquip_->setText(QString::fromUtf8("Za?ï¿½?"));
 		buttonEquip_->setEnabled(false);
 	}
 }
@@ -122,7 +122,7 @@ void EquipmentWindow::equip()
 
 	if (isEquipped(item, player_)) {
 		unequipItem(item, player_);
-		buttonEquip_->setText(QString::fromUtf8("Za?ó?"));
+		buttonEquip_->setText(QString::fromUtf8("Za?ï¿½?"));
 	} else {
 		equipItem(item, player_);
 		buttonEquip_->setText("Zdejmij");

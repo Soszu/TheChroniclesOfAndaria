@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -22,7 +22,7 @@ QHash <QString, QPixmap *> DataManager::pixmapsMap;
 
 QPixmap DataManager::pixmap(const QString& pathName)
 {
-	const QString path = TCOA::resolvePath(pathName);
+	const QString path = resolvePath(pathName);
 	if (!pixmapsMap.contains(path)) {
 		QPixmap *image = new QPixmap();
 		if (!image->load(path)) {

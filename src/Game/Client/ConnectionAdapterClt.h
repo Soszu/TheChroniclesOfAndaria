@@ -1,5 +1,4 @@
-﻿#ifndef CONNECTIONADAPTERCLT_H
-#define CONNECTIONADAPTERCLT_H
+﻿#pragma once
 
 #include "Game/Common/ConnectionAdapter.h"
 
@@ -17,6 +16,7 @@ private slots:
 private:
 	QTcpSocket tcpSocket_;
 
-};
+signals:
+	void connected();
 
-#endif // CONNECTIONADAPTERCLT_H
+};

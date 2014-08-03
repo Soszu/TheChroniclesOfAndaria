@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -15,13 +15,9 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QtWidgets>
-
-#include "Game/GameCycle.h"
 
 #include "Game/Windows/RulesWindow.h"
 #include "Game/FixedComponents/ActionPanel.h"
@@ -57,5 +53,3 @@ private:
 
 	RulesWindow *rulesWindow_;
 };
-
-#endif

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -47,7 +47,7 @@ MarketWindow::MarketWindow(Player *player, PlayerWindow *playerWindow, const QLi
 	mainLayout->addLayout(upperPartLayout);
 
 	QLabel *smallPotionIcon = new QLabel();
-	smallPotionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_SMALL_HEALTH_MIXTURE));
+	smallPotionIcon->setPixmap(DataManager::pixmap(Paths::IconSmallHealthMixture));
 	smallPotionCountLabel = new QLabel(QString::number(player->equipment()->smallPotions()));
 	smallPotionButton = new QPushButton(QString("Kup(") +
 	                                    QString::number(CENA_MALEJ_MIKSTURY) +
@@ -55,7 +55,7 @@ MarketWindow::MarketWindow(Player *player, PlayerWindow *playerWindow, const QLi
 	smallPotionButton->setEnabled(player->gold() >= CENA_MALEJ_MIKSTURY);
 
 	QLabel *largePotionIcon = new QLabel();
-	largePotionIcon->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_BIG_HEALTH_MIXTURE));
+	largePotionIcon->setPixmap(DataManager::pixmap(Paths::IconBigHealthMixture));
 	largePotionCountLabel = new QLabel(QString::number(player->equipment()->largePotions()));
 	largePotionButton = new QPushButton(QString("Kup(") +
 	                                    QString::number(CENA_DUZEJ_MIKSTURY) +

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Player.h"
 
-Player::Player(QString name, Player::Race playerRace, Player::Class playerClass, QColor color, bool isAI)
+Player::Player(QString name, Race playerRace,Class playerClass, QColor color, bool isAI)
 	: FightParticipant(name),
 	  playerRace_(playerRace),
 	  playerClass_(playerClass),
@@ -44,10 +44,10 @@ Player::~Player()
 	delete equipment_;
 }
 
-const QHash <QPair <Player::Class, Player::Race>, Player::CharacterStats> & Player::baseClassStats()
+const QHash <QPair <Class, Race>, Player::CharacterStats> & Player::baseClassStats()
 {
 	//NOTE rebalance basic damage stats due to new mechanics
-	static const QHash <QPair <Player::Class, Player::Race>, Player::CharacterStats> baseClassStats_{
+	static const QHash <QPair <Class, Race>, Player::CharacterStats> baseClassStats_{
 		//{Class, Race}, {{healthMax, defence, perception, {{meleDmgMin, meleDmgRange}, {rangeDmgMin, rangeDmgRange}, {magicalDmgMin, magicalDmgRAnge}}}, regeneration, movePoints }
 		{{Class::Fighter, Race::Human}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {3, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
 		{{Class::Ranger,  Race::Human}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
@@ -72,53 +72,9 @@ const QHash <QPair <Player::Class, Player::Race>, Player::CharacterStats> & Play
 	return baseClassStats_;
 }
 
-const QVector <Player::Race> & Player::raceLabel()
+const QHash <Race, FieldId> & Player::raceStartingPosition()
 {
-	static const QVector <Player::Race> raceLabel_{
-		Race::Human,
-		Race::Dwarf,
-		Race::Elf,
-		Race::Halfling
-	};
-	return raceLabel_;
-}
-
-const BiHash <Player::Race, QString> & Player::raceString()
-{
-	static const BiHash <Player::Race, QString> raceString_{
-		{Race::Human, "Human"},
-		{Race::Dwarf, "Dwarf"},
-		{Race::Elf, "Elf"},
-		{Race::Halfling, "Halfling"}
-	};
-	return raceString_;
-}
-
-const QVector <Player::Class> & Player::classLabel()
-{
-	static const QVector <Player::Class> classLabel_{
-		Class::Fighter,
-		Class::Ranger,
-		Class::Mage,
-		Class::Druid
-	};
-	return classLabel_;
-}
-
-const BiHash <Player::Class, QString> & Player::classString()
-{
-	static const BiHash <Player::Class, QString> classString_{
-		{Class::Fighter, "Fighter"},
-		{Class::Ranger, "Ranger"},
-		{Class::Mage, "Mage"},
-		{Class::Druid, "Druid"}
-	};
-	return classString_;
-}
-
-const QMap <Player::Race, FieldId> & Player::raceStartingPosition()
-{
-	static QMap <Player::Race, FieldId> raceStartingPosition_{
+	static QHash <Race, FieldId> raceStartingPosition_{
 		{Race::Human, {18,3}},
 		{Race::Dwarf, {14,18}},
 		{Race::Elf, {28,8}},
@@ -133,12 +89,12 @@ QString Player::name() const
 	return name_;
 }
 
-Player::Race Player::playerRace() const
+Race Player::playerRace() const
 {
 	return playerRace_;
 }
 
-Player::Class Player::playerClass() const
+Class Player::playerClass() const
 {
 	return playerClass_;
 }

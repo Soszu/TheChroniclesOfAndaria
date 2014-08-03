@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -17,52 +17,54 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include "Core/Containers/Equipment.h"
 #include "Core/Containers/Field.h"
 #include "Core/Containers/Quest.h"
 #include "Core/Containers/FightParticipant.h"
 #include "Core/Game.h"
-#include <Core/Util/BiHash.cpp>
+#include "Core/Util/BiHash.hpp"
+#include "Core/Strings.h"
 
 static const quint8 PlayerRaceCount = 4;
 static const quint8 PlayerClassCount = 4;
 
+EnumClass(Race, quint8, Human, Dwarf, Elf, Halfling);
+const static BiHash <Race, QString> raceLabels {
+	{Race::Human, Names::Human},
+	{Race::Dwarf, Names::Dwarf},
+	{Race::Elf, Names::Elf},
+	{Race::Halfling, Names::Halfling}
+};
+
+EnumClass(Class, quint8, Fighter, Ranger, Mage, Druid);
+const static BiHash <Class, QString> classLabels {
+	{Class::Fighter, Names::Fighter},
+	{Class::Ranger, Names::Ranger},
+	{Class::Mage, Names::Mage},
+	{Class::Druid, Names::Druid},
+};
+
 //TODO CFiend te rozne rodzaje ataku to moze tez powinien byc enum?
 //TODO CFiend i atrybuty tak samo
+
 
 class Player : public FightParticipant {
 
 public:
-	
-	enum class Race : quint8 {
-		Human,
-		Dwarf,
-		Elf,
-		Halfling
-	};
-	
-	enum class Class : quint8 {
-		Fighter,
-		Ranger,
-		Mage,
-		Druid
-	};
-	
 	struct CharacterStats {
 		BattleStats battleStats_;
 		qint8 regeneration_;
 		qint8 movePoints_;
 	};
 	
-	Player(QString name, Player::Race playerRace, Player::Class playerClass, QColor color, bool isAI);
+	Player(QString name, Race playerRace, Class playerClass, QColor color, bool isAI);
 	virtual ~Player();
 
 	QString name() const;
-	Player::Race playerRace() const;
-	Player::Class playerClass() const;
+	Race playerRace() const;
+	Class playerClass() const;
 	QColor color() const;
 	bool isAI() const;
 	FieldId position() const;
@@ -109,25 +111,19 @@ public:
 	static const quint8 StartingReputation = 0;
 
 	static const quint8 MaxLevel = 5;
-	
+
 	// NOTE should it be here? Maybe GameInitSettings later on?
-	static const QHash <QPair <Player::Class, Player::Race>, CharacterStats> & baseClassStats();
-	
-	static const BiHash <Player::Race, QString> & raceString();
-	static const QVector <Player::Race> & raceLabel();
-	
-	static const BiHash <Player::Class, QString> & classString();
-	static const QVector <Player::Class> & classLabel();
+	static const QHash <QPair <Class, Race>, CharacterStats> & baseClassStats();
 
 	//NOTE Wookesh Changed old array into QMap with new enum
 	//TODO CFiend KILL IT WITH FIRE
 	// should be solved by decent content editor or by reading with board setup
-	static const QMap <Player::Race, FieldId> & raceStartingPosition();
-	
+	static const QHash <Race, FieldId> & raceStartingPosition();
+
 private:
 
-	Player::Race playerRace_;
-	Player::Class playerClass_;
+	Race playerRace_;
+	Class playerClass_;
 	QColor color_;
 	bool isAI_;
 	CharacterStats baseStats_;
@@ -142,15 +138,3 @@ private:
 	bool hasFoughtRecently_;
 	bool isActive_;
 };
-
-inline uint qHash(const Player::Class &playerClass)
-{
-	return qHash(toUnderlying(playerClass));
-}
-
-inline uint qHash(const Player::Race &playerRace)
-{
-	return qHash(toUnderlying(playerRace));
-}
-
-#endif

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,8 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DATA_KEEPER_H
-#define DATA_KEEPER_H
+#pragma once
 
 #include <QtWidgets>
 
@@ -86,4 +85,3 @@ private:
 	quint8 boardHeight_;
 	quint8 boardWidth_;
 };
-#endif // DATA_KEEPER_H

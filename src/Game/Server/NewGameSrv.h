@@ -1,11 +1,10 @@
-﻿#ifndef NEWGAMESRV_H
-#define NEWGAMESRV_H
+﻿#pragma once
 
 #include "Game/Server/ConnectionAdapterSrv.h"
 #include "Game/Server/GameCycle.h"
+#include "Game/Common/PlayerDraft.h"
 
-class NewGameSrv : public QObject
-{
+class NewGameSrv : public QObject {
 	Q_OBJECT
 public:
 	NewGameSrv(GameCycle * gameCycle);
@@ -15,9 +14,10 @@ private:
 	GameCycle * gameCycle_;
 	ConnectionAdapterSrv *connectionAdapter_;
 
-private slots:
-	void onNewUser(UID userID);
-	void onNewMessage(Message &msg);
-};
+	QVector <PlayerDraft> playersDrafts_;
 
-#endif // NEWGAMESRV_H
+private slots:
+	void onUserEntered(UID userID);
+	void onUserQuit(UID userID);
+	void onNewMessage(Message &msg, UID sender);
+};

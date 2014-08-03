@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -132,12 +132,13 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 	QString permitted = isPermitted(item, player) ? "Tak" : "Nie";
 	QString minLevel = item->isStrong() ? QString::number(Player::MaxLevel) : "1";
 	QString numberOfArtifacts = QString::number(player->equipment()->usedArtifacts().size());
-	QString permittedClasses;
-	for (Player::Class playerClass: Player::classLabel())
-		if (isAllowedForClass(item, playerClass))
-			permittedClasses += Player::classString()[playerClass] + ". ";
-	if (permittedClasses.size() > 2)
-		permittedClasses.replace(permittedClasses.size() - 2, 2, "");
+	//TODO
+// 	QString permittedClasses;
+// 	for (Player::Class playerClass: Player::classLabel())
+// 		if (isAllowedForClass(item, playerClass))
+// 			permittedClasses += Player::classString()[playerClass] + ". ";
+// 	if (permittedClasses.size() > 2)
+// 		permittedClasses.replace(permittedClasses.size() - 2, 2, "");
 
 	//TODO color title acording to item quality
 	target->setFontWeight(QFont::Bold);
@@ -151,7 +152,7 @@ void generateDescription(const Item *item, const Player *player, QTextBrowser *t
 		description += QString::fromUtf8("ZaÅoÅ¼onych artefaktÃ³w: (") + numberOfArtifacts + QString("/") + QString::number(Item::ArtifactLimit) + QString(")\n");
 
 	description += QString::fromUtf8("\ndozwolony od poziomu: ") + minLevel +  QString("\n");
-	description += QString::fromUtf8("klasy zdolne uÅ¼ywaÄ przedmiotu: ") + permittedClasses +  QString("\n");
+// 	description += QString::fromUtf8("klasy zdolne uÅ¼ywaÄ przedmiotu: ") + permittedClasses +  QString("\n");
 	description += QString::fromUtf8("czy dozwolony: ") + permitted +  QString("\n");
 	description += QString::fromUtf8("czy zaÅoÅ¼ony: ") + equipped +  QString("\n\n");
 

@@ -1,4 +1,4 @@
-set (core_SOURCES
+﻿set (core_SOURCES
 	Containers/Enemy.cpp
 	Containers/Equipment.cpp
 	Containers/Field.cpp
@@ -12,7 +12,7 @@ set (core_SOURCES
 	Containers/Quest.cpp
 	Containers/QuestBook.cpp
 
-	Operations/EquipmentManagement.cpp
+# 	Operations/EquipmentManagement.cpp
 
 	Parsers/BoardParser.cpp
 	Parsers/EnemyParser.cpp
@@ -26,6 +26,7 @@ set (core_SOURCES
 set (core_HEADERS
 	Containers/ItemModel.h
 	Containers/ItemWearableModel.h
+
 )
 qt5_wrap_cpp (core_SOURCES ${core_HEADERS})
 

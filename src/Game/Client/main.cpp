@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
 	newGameClt.start();
 
-//	MainWindow mainWindow(&gameCycle);
+//	MainWindow mainWindow();
 
 	return app.exec();
 }

@@ -1,218 +1,144 @@
-﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
-This file is part of The Chronicles Of Andaria Project.
+﻿#include "NewGameGui.h"
 
-	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+NewGameGui::NewGameGui(NewGameClt *newGameClt)
+          : newGameClt_(newGameClt)
+{
+	initWindow();
+	initStripes();
+	initButtons();
+}
 
-	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+void NewGameGui::initWindow()
+{
+	this->setWindowTitle(Client::Strings::NewGameWindowTitle);
+	this->setSizeGripEnabled(false);
 
-	You should have received a copy of the GNU General Public License
-	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
-*/
+	mainLayout_ = new QVBoxLayout(this);
+	mainLayout_->setSizeConstraint(QLayout::SetFixedSize);
 
-#include "NewGameGui.h"
+	connect(newGameClt_, &NewGameClt::showGui, this, &NewGameGui::show);
+	connect(newGameClt_, &NewGameClt::closeGui, this, &NewGameGui::close);
+	connect(newGameClt_, &NewGameClt::newSettings, this, &NewGameGui::refreshOthersDrafts);
+}
 
-NewGameGui::NewGameGui(NewGameClt *newGameClt) : newGameClt_(newGameClt)
-{}
+void NewGameGui::initStripes()
+{
+	QLabel *myStripesTitle = new QLabel(Client::Strings::MyStripesTitle);
 
-//NewGameWindow::NewGameWindow(QWidget *parent)
-//	: gameCycle_(gameCycle), QDialog(parent), playerCount_(MinPlayers)
-//{
-//	messageBox = new QMessageBox(this);
-//	messageBox->setWindowTitle(QString::fromUtf8("Błąd"));
+	nameEdit_ = new QLineEdit(newGameClt_->myDraft().name());
+	nameEdit_->setMaxLength(MaxNameLength);
+	connect(nameEdit_, &QLineEdit::textChanged, newGameClt_, &NewGameClt::setMyName);
 
-//	this->setWindowTitle("Ustalanie graczy");
-//	this->setSizeGripEnabled(false);
+	playerRaceCombo_ = new QComboBox();
+	for (auto race : Race::labels())
+		playerRaceCombo_->addItem(raceLabels[race]);
+	connect(playerRaceCombo_, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+	        this, &NewGameGui::playerRaceChanged);
 
-//	QVBoxLayout *mainLayout = new QVBoxLayout(this);
-//	mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+	playerClassCombo_ = new QComboBox();
+	for (auto _class : Class::labels())
+		playerClassCombo_->addItem(classLabels[_class]);
+	connect(playerClassCombo_, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+	        this, &NewGameGui::playerClassChanged);
 
-//	QVBoxLayout *playerSelectionRowsLayout = new QVBoxLayout();
-//	for (int i = 0; i < MaxPlayers; ++i) {
-//		playerSelectionRowLayouts[i] = new QHBoxLayout;
-//		playerSelectionRowsLayout->addLayout(playerSelectionRowLayouts[i]);
-//	}
+	QIcon colorIcon = QIcon(DataManager::pixmap(Paths::IconColor));
+	colorButton_ = new QPushButton(colorIcon, Client::Strings::PickColor);
+	colorDialog_ = new QColorDialog(newGameClt_->myDraft().color(), this);
+	connect(colorButton_, &QPushButton::clicked, this, &NewGameGui::showColorDialog);
 
-//	QPushButton *addPlayerButton = new QPushButton("Dodaj gracza", this);
-//	addPlayerButton->setToolTip("Dodaj kolejnego gracza do rozgrywki.<br>"
-//				"Limit to 8 graczy.");
-//	connect(addPlayerButton, SIGNAL(clicked()), this, SLOT(addPlayerSelectionRow()));
+	QHBoxLayout *myStripe = new QHBoxLayout();
+	myStripe->addWidget(nameEdit_);
+	myStripe->addWidget(playerRaceCombo_);
+	myStripe->addWidget(playerClassCombo_);
+	myStripe->addWidget(colorButton_);
 
-//	QPushButton *removePlayerButton = new QPushButton(QString::fromUtf8("Usuń gracza"), this);
-//	removePlayerButton->setToolTip(QString::fromUtf8("Usun ostatniego gracza.<br>"
-//						 "Musi być co najmniej 2 graczy."));
-//	connect(removePlayerButton, SIGNAL(clicked()), this, SLOT(removePlayerSelectionRow()));
+	QLabel *othersStripesTitle = new QLabel(Client::Strings::OthersStripesTitle);
 
-//	QPushButton *cancelButton = new QPushButton("Anuluj", this);
-//	cancelButton->setToolTip(QString::fromUtf8("Anuluj wpisywanie graczy i wyjdź z programu."));
-//	connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+	othersStripes_ = new QVBoxLayout;
+	fillOthersStripes();
 
-//	QPushButton *confirmButton = new QPushButton("OK", this);
-//	confirmButton->setToolTip(QString::fromUtf8("Zatwierdź ustawienia i rozpocznij rozgrywkę."));
-//	connect(confirmButton, SIGNAL(clicked()), this, SLOT(validate()));
+	QVBoxLayout *stripesLayout = new QVBoxLayout();
+	mainLayout_->addLayout(stripesLayout);
 
-//	QHBoxLayout *buttonLayout = new QHBoxLayout();
-//	buttonLayout->addWidget(addPlayerButton);
-//	buttonLayout->addWidget(removePlayerButton);
-//	buttonLayout->addStretch();
-//	buttonLayout->addWidget(cancelButton);
-//	buttonLayout->addWidget(confirmButton);
+	stripesLayout->addWidget(myStripesTitle);
+	stripesLayout->addLayout(myStripe);
+	stripesLayout->addWidget(othersStripesTitle);
+	stripesLayout->addLayout(othersStripes_);
+}
 
-//	for (int i = 0; i < playerCount_; ++i) {
-//		PlayerSelectionRow newRow;
-//		fillPlayerSelectionRow(&newRow, i);
-//		playerRows.append(newRow);
-//	}
 
-//	mainLayout->addLayout(playerSelectionRowsLayout);
-//	mainLayout->addStretch();
-//	mainLayout->addLayout(buttonLayout);
+void NewGameGui::initButtons()
+{
+	QPushButton *cancelButton = new QPushButton(Client::Strings::CancelButton, this);
+	connect(cancelButton, &QPushButton::clicked, this, &NewGameGui::close);
 
-//}
+	readyButton_ = new QPushButton(Client::Strings::ReadyButton, this);
+	connect(readyButton_, &QPushButton::clicked, this, &NewGameGui::playerReady);
 
-//NewGameWindow::~NewGameWindow()
-//{
-//	//TODO CFiend add dtor to PlayerSelectionRow instead of this?
-//	while (!playerRows.empty()) {
-//		delete playerRows.back().nameEdit;
-//		delete playerRows.back().playerClassCombo;
-//		delete playerRows.back().playerRaceCombo;
-//		delete playerRows.back().colorCombo;
-//		delete playerRows.back().isAiCheckBox;
+	QHBoxLayout *buttonLayout = new QHBoxLayout();
+	mainLayout_->addLayout(buttonLayout);
 
-//		playerRows.pop_back();
-//	}
-//}
+	buttonLayout->addWidget(cancelButton);
+	buttonLayout->addWidget(readyButton_);
+}
 
-///**
-// * @brief OknoNowejGry::wypelnij Wypełnia zadany wiersz w formularzu opcjami do wyboru.
-// * @param wiersz struct ze wskaźnikami na Elements do wypełnienia
-// * @param numer numer aktualnego wiersza
-// */
-//void NewGameWindow::fillPlayerSelectionRow(NewGameWindow::PlayerSelectionRow *row, int playerNumber)
-//{
-//	row->nameEdit = new QLineEdit("Gracz"+QString::number(playerNumber + 1));
-//	row->nameEdit->setToolTip(QString::fromUtf8("Wpisz nazwę postaci.<br>"
-//						    "Nie więcej niż 20 znaków."));
-//	row->playerRaceCombo = new QComboBox();
-//	row->playerRaceCombo->setToolTip(QString::fromUtf8("Wybierz rasę postaci."));
-//	row->playerClassCombo = new QComboBox();
-//	row->playerClassCombo->setToolTip(QString::fromUtf8("Wybierz klasę postaci."));
-//	row->colorCombo = new QComboBox();
-//	row->colorCombo->setToolTip(QString::fromUtf8("Wybierz kolor pionka."));
-//	row->isAiCheckBox = new QCheckBox();
-//	row->isAiCheckBox->setToolTip(QString::fromUtf8("Czy ruchami gracza ma sterować komputer?"));
+void NewGameGui::fillOthersStripes()
+{
+	for (auto &draft : newGameClt_->otherPlayersDrafts())
+		othersStripes_->addLayout(draftToStripe(draft));
+}
 
-//// 	for (int i = 0; i < PlayerRaceCount; ++i)
-//// 		row->playerRaceCombo->addItem(PlayerRaceString[i]);
-	
-//	for (Player::Race race : Player::raceLabel())
-//		row->playerRaceCombo->addItem(Player::raceString()[race]);
+void NewGameGui::clearOthersStripes()
+{
+	while (othersStripes_->count()) {
+		auto item = othersStripes_->takeAt(0);
+		othersStripes_->removeItem(item);
+		delete item;
+	}
+}
 
-//// 	for (int i = 0; i < PlayerClassCount; ++i)
-//// 		row->playerClassCombo->addItem(PlayerClassString[i]);
-	
-//	for (Player::Class race : Player::classLabel())
-//		row->playerClassCombo->addItem(Player::classString()[race]);
+QHBoxLayout * NewGameGui::draftToStripe(const PlayerDraft &draft)
+{
+	QHBoxLayout *stripe = new QHBoxLayout();
+	QLabel *name = new QLabel(draft.name());
+	QLabel *color = new QLabel(draft.color().name());
+	QLabel *playerRace = new QLabel(raceLabels[draft.playerRace()]);
+	QLabel *playerClass = new QLabel(classLabels[draft.playerClass()]);
 
-//	for (int i = 0; i < LICZBA_MOZLIWYCH_KOLOROW; ++i)
-//		row->colorCombo->addItem(MOZLIWE_KOLORY[i]);
+	stripe->addWidget(name);
+	stripe->addWidget(color);
+	stripe->addWidget(playerRace);
+	stripe->addWidget(playerClass);
 
-//	row->colorCombo->setCurrentIndex(playerNumber);
-//	row->isAiCheckBox->setText("Komputer?");
+	return stripe;
+}
 
-//	playerSelectionRowLayouts[playerNumber]->addWidget(row->nameEdit);
-//	playerSelectionRowLayouts[playerNumber]->addWidget(row->playerRaceCombo);
-//	playerSelectionRowLayouts[playerNumber]->addWidget(row->playerClassCombo);
-//	playerSelectionRowLayouts[playerNumber]->addWidget(row->colorCombo);
-//	playerSelectionRowLayouts[playerNumber]->addWidget(row->isAiCheckBox);
-//}
+void NewGameGui::showColorDialog()
+{
+	colorDialog_->open(newGameClt_, SLOT(setMyColor(const QColor &)));
+}
 
-///**
-// * @brief OknoNowejGry::przekazDane Sprawdza poprawnośc danych, przepisuje dane z formularza i wypycha je dalej
-// */
-//void NewGameWindow::validate()
-//{
-//	for (int i = 0; i < playerCount_; ++i) {
-//		if (playerRows[i].nameEdit->text().size() == 0) {
-//			messageBox->setText(QString::fromUtf8("Nazwa co najmniej jednego z graczy nie została wpisana poprawnie."));
-//			messageBox->show();
-//			return;
-//		}
+void NewGameGui::refreshOthersDrafts()
+{
+	clearOthersStripes();
+	fillOthersStripes();
+}
 
-//		if (playerRows[i].nameEdit->text().size() > MAKSYMALNA_DLUGOSC_NAZWY) {//TODO CFiend to raczej trzeba ustawic na poziome QLineEdit
-//			messageBox->setText(QString::fromUtf8("Nazwa co najmniej jednego z graczy jest za długa. Limit to ") + QString::number(MAKSYMALNA_DLUGOSC_NAZWY)+ QString::fromUtf8("znaków."));
-//			messageBox->show();
-//			return;
-//		}
+void NewGameGui::playerRaceChanged(const QString &playerRace)
+{
+	newGameClt_->setMyRace(raceLabels.value(playerRace, Race::Human));
+}
 
-//		for (int j = i + 1; j < playerCount_; ++j)
-//			if (playerRows[i].colorCombo->currentText() == playerRows[j].colorCombo->currentText()) {
-//				messageBox->setText(QString::fromUtf8("Co najmniej jeden kolor się powtarza."));
-//				messageBox->show();
-//				return;
-//			}
-//	}
+void NewGameGui::playerClassChanged(const QString &playerClass)
+{
+	newGameClt_->setMyClass(classLabels.value(playerClass, Class::Fighter));
+}
 
-//	QList <Player *> playerList;
-//	for (int i = 0; i < playerCount_; ++i ){
-//		playerList.push_back(new Player(playerRows[i].nameEdit->text(),
-//					Player::raceString()[playerRows[i].playerRaceCombo->currentText()],
-//					Player::classString()[playerRows[i].playerClassCombo->currentText()],
-//					KOLORY[playerRows[i].colorCombo->currentIndex()],
-//					playerRows[i].isAiCheckBox->checkState()));
-//	}
-//	//korzystam tutaj z faktu, że pola w przyciskach są w takiej kolejności jak w tablicy,
-//	//a tam, są w takiej kolejności jak w enumach
-//	//TODO CFiend powyzszy komentarz do wywalenia po przerzuceniu enum na enum class
-
-//	gameCycle_->beginGame(playerList);
-//	this->close();
-//}
-
-///**
-// * @brief OknoNowejGry::dodajWiersz Dodaje na końcu wiersz do wprowadzenia danych gracza
-// */
-//void NewGameWindow::addPlayerSelectionRow()
-//{
-//	if (playerCount_ >= MaxPlayers)
-//		return;
-
-//	PlayerSelectionRow newRow;
-//	fillPlayerSelectionRow(&newRow, playerCount_);
-//	playerRows.push_back(newRow);
-//	++playerCount_;
-//}
-
-///**
-// * @brief OknoNowejGry::usunWiersz Usuwa ostatni wiersz z danymi gracza.
-// */
-//void NewGameWindow::removePlayerSelectionRow()
-//{
-//	if (playerCount_ <= MinPlayers)
-//		return;
-
-//	--playerCount_;
-//	PlayerSelectionRow tmp = playerRows.back();
-
-//	playerSelectionRowLayouts[playerCount_]->removeWidget(tmp.nameEdit);
-//	playerSelectionRowLayouts[playerCount_]->removeWidget(tmp.playerRaceCombo);
-//	playerSelectionRowLayouts[playerCount_]->removeWidget(tmp.playerClassCombo);
-//	playerSelectionRowLayouts[playerCount_]->removeWidget(tmp.colorCombo);
-//	playerSelectionRowLayouts[playerCount_]->removeWidget(tmp.isAiCheckBox);
-
-//	delete tmp.nameEdit;
-//	delete tmp.playerClassCombo;
-//	delete tmp.playerRaceCombo;
-//	delete tmp.colorCombo;
-//	delete tmp.isAiCheckBox;
-
-//	playerRows.pop_back();
-//}
+void NewGameGui::playerReady()
+{
+	newGameClt_->switchPlayerIsReady();
+	if (newGameClt_->playerIsReady())
+		readyButton_->setText(Client::Strings::NotReadyButton);
+	else
+		readyButton_->setText(Client::Strings::ReadyButton);
+}

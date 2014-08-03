@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Thanks to 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -53,17 +53,17 @@ PlayerWindow::PlayerWindow(GameCycle *gameCycle)
 	}
 //------------------------------
 	obronaIkona = new QLabel();
-	obronaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_DEFENCE));
+	obronaIkona->setPixmap(DataManager::pixmap(Paths::IconDefence));
 	obronaIkona->setToolTip(QString::fromUtf8("WartoÅÄ wspÃ³Åczynnika obrony."));
 	obrona = new QLabel();
 	obrona->setToolTip(QString::fromUtf8("WartoÅÄ wspÃ³Åczynnika obrony."));
 	percepcjaIkona = new QLabel();
-	percepcjaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_PERCEPTION));
+	percepcjaIkona->setPixmap(DataManager::pixmap(Paths::IconPerception));
 	percepcjaIkona->setToolTip(QString::fromUtf8("WartoÅÄ wspÃ³Åczynnika percepcji."));
 	percepcja = new QLabel();
 	percepcja->setToolTip(QString::fromUtf8("WartoÅÄ wspÃ³Åczynnika percepcji."));
 	ruchIkona = new QLabel();
-	ruchIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MOVEMENT));
+	ruchIkona->setPixmap(DataManager::pixmap(Paths::IconMovement));
 	ruchIkona->setToolTip(QString::fromUtf8("IloÅÄ punktÃ³w ruchu."));
 	ruch = new QLabel();
 	ruch->setToolTip(QString::fromUtf8("IloÅÄ punktÃ³w ruchu."));
@@ -77,17 +77,17 @@ PlayerWindow::PlayerWindow(GameCycle *gameCycle)
 	linijkaObrony->addWidget(ruch);
 //------------------------------
 	wreczIkona = new QLabel();
-	wreczIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MELEE));
+	wreczIkona->setPixmap(DataManager::pixmap(Paths::IconMelee));
 	wreczIkona->setToolTip(QString::fromUtf8("WartoÅÄ ataku wrÄcz."));
 	wrecz = new QLabel();
 	wrecz->setToolTip(QString::fromUtf8("WartoÅÄ ataku wrÄcz."));
 	dystansIkona = new QLabel();
-	dystansIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_RANGED));
+	dystansIkona->setPixmap(DataManager::pixmap(Paths::IconRanged));
 	dystansIkona->setToolTip(QString::fromUtf8("WartoÅÄ ataku dystansowego."));
 	dystans = new QLabel();
 	dystans->setToolTip(QString::fromUtf8("WartoÅÄ ataku dystansowego."));
 	magiaIkona = new QLabel();
-	magiaIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_MAGIC));
+	magiaIkona->setPixmap(DataManager::pixmap(Paths::IconMagic));
 	magiaIkona->setToolTip(QString::fromUtf8("WartoÅÄ ataku magicznego."));
 	magia = new QLabel();
 	magia->setToolTip(QString::fromUtf8("WartoÅÄ ataku magicznego."));
@@ -101,7 +101,7 @@ PlayerWindow::PlayerWindow(GameCycle *gameCycle)
 	linijkaAtakow->addWidget(magia);
 //------------------------------
 	zlotoIkona = new QLabel();
-	zlotoIkona->setPixmap(DataManager::pixmap(TCOA::Paths::ICON_GOLD));
+	zlotoIkona->setPixmap(DataManager::pixmap(Paths::IconGold));
 	zlotoIkona->setToolTip(QString::fromUtf8("IloÅÄ posiadanego zÅota."));
 	zloto = new QLabel();
 	zloto->setToolTip(QString::fromUtf8("IloÅÄ posiadanego zÅota."));

@@ -1,11 +1,6 @@
-#ifndef GAME_H
-#define GAME_H
-#include <QString>
-#include <QColor>
+﻿#pragma once
 
-static const int MinPlayers = 2;
-static const int MaxPlayers = 8;
-static const quint16 MAKSYMALNA_DLUGOSC_NAZWY = 20; //chodzi o nazwę gracza //TODO CFiend to moze trzeba to nazwac lepiej (-; i pewnie przeniesc do NewGameWindow
+#include <QString>
 
 static const quint8 DaysPerWeek = 5;
 
@@ -38,31 +33,6 @@ static const qreal ZMIANA_WIELKOSCI_PLANSZY = 5;
 static const qreal InitialTileSize = 20;
 static const qreal MAKSYMALNY_ROZMIAR_HEXA = 80;
 static const qreal MINIMALNY_ROZMIAR_HEXA = 10;
-
-static const quint8 LICZBA_MOZLIWYCH_KOLOROW = 9;
-static const QString MOZLIWE_KOLORY[LICZBA_MOZLIWYCH_KOLOROW] = {
-	"Zielony",
-	"Czerwony",
-	QString::fromUtf8("Żółty"),
-	"Niebieski",
-	"Czarny",
-	QString::fromUtf8("Biały"),
-	QString::fromUtf8("Błękitny"),
-	"Fioletowy",
-	"Szary"
-};
-
-//static const QColor KOLORY[LICZBA_MOZLIWYCH_KOLOROW]= {
-//	Qt::green,
-//	Qt::red,
-//	Qt::yellow,
-//	Qt::blue,
-//	Qt::black,
-//	Qt::white,
-//	Qt::cyan,
-//	Qt::magenta,
-//	Qt::gray
-//};
 
 //TODO CFiend porzadek musi byc, enum class i te sprawy
 
@@ -109,5 +79,3 @@ enum Blad
 	blad_liczby_zadan = 141,
 	blad_parsera_ustawienia_planszy = 21
 };
-
-#endif
