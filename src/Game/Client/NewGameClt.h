@@ -1,7 +1,7 @@
 ﻿#pragma once
 
+#include "Core/Containers/PlayerDraft.h"
 #include "Game/Client/ConnectionAdapterClt.h"
-#include "Game/Common/PlayerDraft.h"
 
 class NewGameClt : public QObject {
 	Q_OBJECT
@@ -33,6 +33,6 @@ private slots:
 
 signals:
 	void showGui();
-	void closeGui();
 	void newSettings();
+	void gameSet();
 };

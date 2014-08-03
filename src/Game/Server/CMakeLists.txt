@@ -1,4 +1,4 @@
-set (game_server_SOURCES
+﻿set (game_server_SOURCES
 #	CustomWidgets/MyTaskbar.cpp
 
 #	Elements/PlayerMarker.cpp
@@ -26,11 +26,11 @@ set (game_server_SOURCES
 #	FixedComponents/BoardArea.cpp
 #	FixedComponents/PlayerWindow.cpp
 
-#	MainWindow.cpp
 #	Board.cpp
 #	GameMaster.cpp
+
 	ConnectionAdapterSrv.cpp
-	GameCycle.cpp
+	GameCycleSrv.cpp
 	main.cpp
 	NewGameSrv.cpp
 )
@@ -52,10 +52,8 @@ set (game_server_HEADERS
 #	FixedComponents/BoardArea.h
 #	FixedComponents/PlayerWindow.h
 
-#	MainWindow.h
-#	DataKeeper.h
 	ConnectionAdapterSrv.h
-	GameCycle.h
+	GameCycleSrv.h
 	NewGameSrv.h
 )
 qt5_wrap_cpp (game_server_SOURCES ${game_server_HEADERS})

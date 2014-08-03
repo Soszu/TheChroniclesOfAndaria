@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,17 +16,17 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Game/MainWindow.h"
+#include "Game/Client/MainWindow.h"
 #include <QtCore>
 #include <QtGui>
 
 
-MainWindow::MainWindow(GameCycle *gameCycle, QWidget *parent)
-                     : QMainWindow(parent),
-                       playerWindow_(gameCycle),
-                       actionPanel_(gameCycle->gameMaster()),
-                       boardArea_(gameCycle->board())
-{
+MainWindow::MainWindow(GameCycleClt *gameCycleClt, QWidget *parent)
+          : QMainWindow(parent),
+            gameCycleClt_(gameCycleClt)
+//             actionPanel_(gameCycle->gameMaster()),
+//             boardArea_(gameCycle->board())
+{/*
 	QWidget *centralWidget = new QWidget();
 	this->setCentralWidget(centralWidget);
 	QHBoxLayout *mainLayout = new QHBoxLayout(centralWidget);
@@ -69,12 +69,11 @@ MainWindow::MainWindow(GameCycle *gameCycle, QWidget *parent)
 	menuHelp->addAction("Pomoc", this, SLOT(displayRules()), Qt::Key_F1);
 	menuHelp->addAction("O Autorze");
 
-	connect(gameCycle, &GameCycle::gameStarted, this, &MainWindow::show);
 	connect(gameCycle, &GameCycle::dateChanged, this, &MainWindow::changeDate);
 	connect(gameCycle, &GameCycle::playerChanged, &playerWindow_, &PlayerWindow::displayPlayer);
 	connect(gameCycle, &GameCycle::statsChanged, &playerWindow_, &PlayerWindow::update);
-}
-
+*/}
+/*
 MainWindow::~MainWindow()
 {
 	delete menuGame;
@@ -87,13 +86,10 @@ void MainWindow::changeDate(int day, int week)
 	dateDisplay->setText(QString::fromUtf8("Dzień ") + QString::number(day) + QString::fromUtf8(", Tydzień ") + QString::number(week));
 }
 
-/**
- * @brief MainWindow::wyswietlZasady	Wyświetla okno zasad i blokuje pozostałe Windows
- */
 void MainWindow::displayRules()
 {
 	rulesWindow_ = new RulesWindow();
 	rulesWindow_->setWindowModality(Qt::ApplicationModal);
 	rulesWindow_->setAttribute(Qt::WA_DeleteOnClose);
 	rulesWindow_->show();
-}
+}*/

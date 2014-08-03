@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QApplication>
 #include "Game/Common/DataKeeper.h"
 #include "Game/Client/ConnectionAdapterClt.h"
-#include "Game/Client/NewGameClt.h"
+#include "Game/Client/MainWindow.h"
 #include "Game/Client/NewGameGui.h"
 
 int main(int argc, char *argv[])
@@ -31,14 +31,20 @@ int main(int argc, char *argv[])
 	if (initError)
 		return initError;
 
-	ConnectionAdapterClt connectionAdapter;
+	ConnectionAdapterClt connAdapter;
 
-	NewGameClt newGameClt(&connectionAdapter);
+	GameCycleClt gameCycle(&connAdapter);
+	MainWindow mainWindow(&gameCycle);
+	QObject::connect(&gameCycle, &GameCycleClt::showGui, &mainWindow, &QMainWindow::show);
+
+	NewGameClt newGameClt(&connAdapter);
 	NewGameGui newGameGui(&newGameClt);
+	QObject::connect(&newGameClt, &NewGameClt::showGui, &newGameGui, &QDialog::show);
+	QObject::connect(&newGameClt, &NewGameClt::gameSet, &newGameGui, &NewGameGui::close);
 
+
+	QObject::connect(&newGameClt, &NewGameClt::gameSet, &gameCycle, &GameCycleClt::beginGame);
 	newGameClt.start();
-
-//	MainWindow mainWindow();
 
 	return app.exec();
 }

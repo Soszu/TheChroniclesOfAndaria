@@ -19,37 +19,35 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
+#include "Game/Client/GameCycleClt.h"
 #include "Game/Windows/RulesWindow.h"
-#include "Game/FixedComponents/ActionPanel.h"
-#include "Game/FixedComponents/BoardArea.h"
-#include "Game/FixedComponents/PlayerWindow.h"
-
-class GameMaster;
-class BoardArea;
-class PlayerWindow;
-class ActionPanel;
+// #include "Game/FixedComponents/BoardArea.h"
+// #include "Game/FixedComponents/PlayerWindow.h"
+// #include "Game/FixedComponents/ActionPanel.h"
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 public:
-	explicit MainWindow(GameCycle *gameCycle, QWidget *parent = nullptr);
-	~MainWindow();
+	explicit MainWindow(GameCycleClt *gameCycleClt, QWidget *parent = nullptr);
+// 	~MainWindow();
 
 private slots:
-	void changeDate(int day, int week);
-	void displayRules();
+// 	void changeDate(int day, int week);
+// 	void displayRules();
 
 private:
-	QGraphicsView *graphicsView;
-
-	QMenu *menuGame;
-	QMenu *menuView;
-	QMenu *menuHelp;
-	QLabel *dateDisplay;
-
-	ActionPanel actionPanel_;
-	BoardArea boardArea_;
-	PlayerWindow playerWindow_;
-
-	RulesWindow *rulesWindow_;
+	GameCycleClt *gameCycleClt_;
+//
+// 	QGraphicsView *graphicsView;
+//
+// 	QMenu *menuGame;
+// 	QMenu *menuView;
+// 	QMenu *menuHelp;
+// 	QLabel *dateDisplay;
+//
+// 	ActionPanel actionPanel_;
+// 	BoardArea boardArea_;
+// 	PlayerWindow playerWindow_;
+//
+// 	RulesWindow *rulesWindow_;
 };

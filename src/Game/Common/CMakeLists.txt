@@ -2,12 +2,10 @@
 	DataKeeper.cpp
 	Message.cpp
 	ConnectionAdapter.cpp
-	PlayerDraft.cpp
 )
 
 set (game_common_HEADERS
 	ConnectionAdapter.h
-# 	PlayerDraft.h
 #	DataKeeper.h
 #	Message.h
 )

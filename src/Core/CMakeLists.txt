@@ -8,6 +8,7 @@
 	Containers/ItemWearableModel.cpp
 	Containers/ItemWearable.cpp
 	Containers/Player.cpp
+	Containers/PlayerDraft.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
 	Containers/QuestBook.cpp

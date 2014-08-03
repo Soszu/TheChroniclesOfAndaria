@@ -1,23 +1,27 @@
 ﻿#pragma once
 
+#include "Core/Containers/PlayerDraft.h"
 #include "Game/Server/ConnectionAdapterSrv.h"
-#include "Game/Server/GameCycle.h"
-#include "Game/Common/PlayerDraft.h"
+#include "Game/Server/GameCycleSrv.h"
 
 class NewGameSrv : public QObject {
 	Q_OBJECT
 public:
-	NewGameSrv(GameCycle * gameCycle);
+	NewGameSrv(ConnectionAdapterSrv *connAdapter);
 	void waitForPlayers();
 
 private:
-	GameCycle * gameCycle_;
-	ConnectionAdapterSrv *connectionAdapter_;
+	void gameReady();
 
-	QVector <PlayerDraft> playersDrafts_;
+	ConnectionAdapterSrv *connAdapter_;
+	QHash <UID, PlayerDraft> playersDrafts_;
+	QSet <UID> playersReady_;
 
 private slots:
 	void onUserEntered(UID userID);
 	void onUserQuit(UID userID);
 	void onNewMessage(Message &msg, UID sender);
+
+signals:
+	void gameSet(const QHash <UID, PlayerDraft> &);
 };

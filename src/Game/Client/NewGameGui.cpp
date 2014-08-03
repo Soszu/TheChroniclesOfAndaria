@@ -16,8 +16,6 @@ void NewGameGui::initWindow()
 	mainLayout_ = new QVBoxLayout(this);
 	mainLayout_->setSizeConstraint(QLayout::SetFixedSize);
 
-	connect(newGameClt_, &NewGameClt::showGui, this, &NewGameGui::show);
-	connect(newGameClt_, &NewGameClt::closeGui, this, &NewGameGui::close);
 	connect(newGameClt_, &NewGameClt::newSettings, this, &NewGameGui::refreshOthersDrafts);
 }
 

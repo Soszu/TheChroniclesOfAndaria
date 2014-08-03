@@ -21,20 +21,19 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtWidgets>
 
 #include "Core/Containers/Player.h"
+#include "Core/Containers/PlayerDraft.h"
 #include "Game/Server/ConnectionAdapterSrv.h"
 //#include "Game/GameMaster.h"
 //#include "Game/
 
-class GameCycle : public QObject{
+class GameCycleSrv : public QObject {
 	Q_OBJECT
 public:
-	GameCycle( ConnectionAdapterSrv * connectionAdapter);
-	~GameCycle();
+	GameCycleSrv(ConnectionAdapterSrv * connectionAdapter);
 
 //	GameMaster * gameMaster();
 //	Board * board();
 
-	void beginGame(QList <Player *> players);
 	void showEquipment();
 	void showQuests();
 
@@ -43,6 +42,9 @@ public:
 	const QList <Player *> & players();
 	int day();
 	int week();
+
+public slots:
+	void beginGame(const QHash <UID, PlayerDraft> &playersDrafts);
 
 private:
 	void endTurn();
@@ -60,7 +62,7 @@ private:
 	int day_;
 
 	QList <Player *> players_;
-	ConnectionAdapterSrv *connectionAdapter_;
+	ConnectionAdapterSrv *connAdapter_;
 
 //	Board board_;
 //	GameMaster gameMaster_;

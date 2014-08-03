@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QApplication>
 #include "Game/Common/DataKeeper.h"
 #include "Game/Server/ConnectionAdapterSrv.h"
-#include "Game/Server/GameCycle.h"
+#include "Game/Server/GameCycleSrv.h"
 #include "Game/Server/NewGameSrv.h"
 
 int main(int argc, char *argv[])
@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
 	if (initError)
 		return initError;
 	
-	ConnectionAdapterSrv connectionAdapter;
+	ConnectionAdapterSrv connAdapter;
+	GameCycleSrv gameCycle(&connAdapter);
+	NewGameSrv newGameSrv(&connAdapter);
 
-	GameCycle gameCycle(&connectionAdapter);
-
-	NewGameSrv newGameSrv(&gameCycle);
+	QObject::connect(&newGameSrv, &NewGameSrv::gameSet, &gameCycle, &GameCycleSrv::beginGame);
 	newGameSrv.waitForPlayers();
 
 	return app.exec();

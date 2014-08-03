@@ -71,7 +71,7 @@ void NewGameClt::onNewMessage(Message &msg)
 	//if player drafts newSettings
 
 	// if everyoneReady
-	// emit closeGui();
+	emit gameSet();
 }
 
 

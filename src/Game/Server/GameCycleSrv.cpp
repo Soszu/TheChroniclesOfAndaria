@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,42 +16,35 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Game/Server/GameCycle.h"
+#include "GameCycleSrv.h"
 
-GameCycle::GameCycle(ConnectionAdapterSrv *connectionAdapter) : connectionAdapter_(connectionAdapter) //: board_(this), gameMaster_(this)
-{
+GameCycleSrv::GameCycleSrv(ConnectionAdapterSrv *connAdapter) : connAdapter_(connAdapter) //: board_(this), gameMaster_(this)
+{}
 
-}
-
-GameCycle::~GameCycle()
-{
-	qDeleteAll(players_);
-}
-
-//GameMaster * GameCycle::gameMaster()
+//GameMaster * GameCycleSrv::gameMaster()
 //{
 //	return &gameMaster_;
 //}
 
-//Board * GameCycle::board()
+//Board * GameCycleSrv::board()
 //{
 //	return &board_;
 //}
 
-void GameCycle::beginGame(QList <Player *> players)
+void GameCycleSrv::beginGame(const QHash <UID, PlayerDraft> &playersDrafts)
 {
-	//NOTE need refactoring Logic/Graphic control
-	playersAlive_ = players.size();
-	this->players_ = players;
-
-	init();
-	qDebug() << "Player count: " << players_.size();
-//	gameMaster_->beginGame();
-//	board_->init();
-	movePlayer(currentPlayerIdx_);
+	//NOTE need refactoring Logic/Graphic controlGameCycle::
+// 	playersAlive_ = players.size();
+// 	this->players_ = players;
+//
+// 	init();
+// 	qDebug() << "Player count: " << players_.size();
+// 	gameMaster_->beginGame();
+// 	board_->init();
+// 	movePlayer(currentPlayerIdx_);
 }
 
-void GameCycle::showEquipment()
+void GameCycleSrv::showEquipment()
 {
 //	equipmentWindow_ = new EquipmentWindow(player, this);
 //	equipmentWindow_->setWindowModality(Qt::ApplicationModal);
@@ -59,7 +52,7 @@ void GameCycle::showEquipment()
 //	equipmentWindow_->show();
 }
 
-void GameCycle::showQuests()
+void GameCycleSrv::showQuests()
 {
 //	questWindow_ = new QuestWindow(player, gameMaster_->board());
 //	questWindow_->setWindowModality(Qt::ApplicationModal);
@@ -67,32 +60,32 @@ void GameCycle::showQuests()
 	//	questWindow_->show();
 }
 
-ConnectionAdapterSrv * GameCycle::connectionAdapter()
+ConnectionAdapterSrv * GameCycleSrv::connectionAdapter()
 {
-	return connectionAdapter_;
+	return connAdapter_;
 }
 
-Player *GameCycle::currentPlayer()
+Player *GameCycleSrv::currentPlayer()
 {
 	return players_[currentPlayerIdx_];
 }
 
-const QList<Player *> & GameCycle::players()
+const QList<Player *> & GameCycleSrv::players()
 {
 	return players_;
 }
 
-int GameCycle::day()
+int GameCycleSrv::day()
 {
 	return day_;
 }
 
-int GameCycle::week()
+int GameCycleSrv::week()
 {
 	return week_;
 }
 
-void GameCycle::removeCurrentPlayer()
+void GameCycleSrv::removeCurrentPlayer()
 {
 ////	QMessageBox::information(
 ////		mainWindow_,
@@ -113,7 +106,7 @@ void GameCycle::removeCurrentPlayer()
 //	}
 }
 
-void GameCycle::playerHasWon(Player *player)
+void GameCycleSrv::playerHasWon(Player *player)
 {
 //	QMessageBox::information(
 //		mainWindow_,
@@ -123,7 +116,7 @@ void GameCycle::playerHasWon(Player *player)
 //	mainWindow_->close();
 }
 
-bool GameCycle::hasPlayerWon(Player *player)
+bool GameCycleSrv::hasPlayerWon(Player *player)
 {
 	int maxReputations = 0;
 	for(int i = 0; i < KingdomCount; ++i)
@@ -133,14 +126,14 @@ bool GameCycle::hasPlayerWon(Player *player)
 	return player->level() == MaximumLevel && maxReputations >= MaximumReputationsToWin;
 }
 
-void GameCycle::movePlayer(int index)
+void GameCycleSrv::movePlayer(int index)
 {
 	qDebug() << "Cykl Gry rusza gracza o indeksie: " << currentPlayerIdx_;
 //	board_->movePlayer(index);
 //	gameMaster_->movePlayer(index);
 }
 
-void GameCycle::nextPlayer()
+void GameCycleSrv::nextPlayer()
 {
 	do {
 		++currentPlayerIdx_;
@@ -152,7 +145,7 @@ void GameCycle::nextPlayer()
 	} while (!players_[currentPlayerIdx_]->isActive());
 }
 
-void GameCycle::newDay()
+void GameCycleSrv::newDay()
 {
 	if (day_ < DaysPerWeek) {
 		++day_;
@@ -164,7 +157,7 @@ void GameCycle::newDay()
 //	mainWindow_->changeDate(day_, week_);
 }
 
-void GameCycle::endTurn()
+void GameCycleSrv::endTurn()
 {
 	if (hasPlayerWon(players_[currentPlayerIdx_]))
 		playerHasWon(players_[currentPlayerIdx_]);
@@ -173,7 +166,7 @@ void GameCycle::endTurn()
 	movePlayer(currentPlayerIdx_);
 }
 
-void GameCycle::init()
+void GameCycleSrv::init()
 {
 	week_ = 1;
 	day_ = 1;

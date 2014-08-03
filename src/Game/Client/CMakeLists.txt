@@ -26,11 +26,13 @@
 #	FixedComponents/BoardArea.cpp
 #	FixedComponents/PlayerWindow.cpp
 
-#	MainWindow.cpp
 #	Board.cpp
 #	GameMaster.cpp
+
 	ConnectionAdapterClt.cpp
+	GameCycleClt.cpp
 	main.cpp
+	MainWindow.cpp
 	NewGameClt.cpp
 	NewGameGui.cpp
 )
@@ -52,8 +54,9 @@ set (game_client_HEADERS
 #	FixedComponents/BoardArea.h
 #	FixedComponents/PlayerWindow.h
 
-#	MainWindow.h
 	ConnectionAdapterClt.h
+	GameCycleClt.h
+	MainWindow.h
 	NewGameClt.h
 	NewGameGui.h
 )
