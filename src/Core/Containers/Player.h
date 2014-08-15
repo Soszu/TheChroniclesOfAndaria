@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -19,122 +19,76 @@ This file is part of The Chronicles Of Andaria Project.
 
 #pragma once
 
+#include <QtCore>
+#include "Core/Containers/Entity.h"
 #include "Core/Containers/Equipment.h"
+#include "Core/Containers/Journal.h"
 #include "Core/Containers/Field.h"
-#include "Core/Containers/Quest.h"
-#include "Core/Containers/FightParticipant.h"
-#include "Core/Game.h"
-#include "Core/Util/BiHash.hpp"
-#include "Core/Strings.h"
-
-static const quint8 PlayerRaceCount = 4;
-static const quint8 PlayerClassCount = 4;
-
-EnumClass(Race, quint8, Human, Dwarf, Elf, Halfling);
-const static BiHash <Race, QString> raceLabels {
-	{Race::Human, Names::Human},
-	{Race::Dwarf, Names::Dwarf},
-	{Race::Elf, Names::Elf},
-	{Race::Halfling, Names::Halfling}
-};
-
-EnumClass(Class, quint8, Fighter, Ranger, Mage, Druid);
-const static BiHash <Class, QString> classLabels {
-	{Class::Fighter, Names::Fighter},
-	{Class::Ranger, Names::Ranger},
-	{Class::Mage, Names::Mage},
-	{Class::Druid, Names::Druid},
-};
-
-//TODO CFiend te rozne rodzaje ataku to moze tez powinien byc enum?
-//TODO CFiend i atrybuty tak samo
+#include "Core/Containers/PlayerDraft.h"
 
 
-class Player : public FightParticipant {
+class Prize;
 
+class Player : public Entity {
 public:
-	struct CharacterStats {
-		BattleStats battleStats_;
-		qint8 regeneration_;
-		qint8 movePoints_;
-	};
-	
-	Player(QString name, Race playerRace, Class playerClass, QColor color, bool isAI);
-	virtual ~Player();
+	static const quint8 MaximumLevel = 10;
+	static const quint8 GrowthPointsPerLevel = 3;
+	static const quint8 AttributeGrowth = 1;
+	static const quint8 HealthIncreasePerLevel = 3;
+	static const quint16 LevelBorders[MaximumLevel];
+	static const qint8 MaximumReputation = 5;
+	static const QSet <Effect::Type> extendableAttributes;
 
-	QString name() const;
+	Player(const PlayerDraft &draft);
+
+	const QPixmap & avatar() const;
+	QColor color() const;
+	const Equipment & equipment() const;
+	quint16 experience() const;
+	const Journal & journal() const;
+	quint8 level() const;
+	quint16 gold() const;
+	quint8 growthPoints() const;
+	const QList <Effect> individualEffects() const;
+	const QString & name() const;
 	Race playerRace() const;
 	Class playerClass() const;
-	QColor color() const;
-	bool isAI() const;
-	FieldId position() const;
-	void setPosition(FieldId id);
-	Equipment * equipment() const;
-	QList <Quest *> * quests();
-	Quest * quest(int index) const;
-	void removeQuest(int questId);
-	quint8 level() const;
-	void setLevel(quint8 level);
-	int * reputation(); //TODO CFiend moze lepiej, zeby to bylo cos mocniejszego niz int *
-	void setReputation(int value, int index);
-	int healthMax() const;
-	void setHealthMax(int value);
-	int healthCurrent() const;
-	void setHealthCurrent(int value);
-	int regeneration() const;
-	void setRegeneration(int value);
-	int attackMelee() const;
-	void setAttackMelee(int value);
-	int attackRanged() const;
-	void setAttackRanged(int value);
-	int attackMagical() const;
-	void setAttackMagical(int value);
-	int defence() const;
-	void setDefence(int value);
-	int perception() const;
-	void setPerception(int value);
-	quint8 movePoints() const;
-	void setMovePoints(quint8 value);
-	quint16 gold() const;
-	void setGold(quint16 value);
-	quint16 experience() const;
-	void setExperience(quint16 value);
-	bool hasFoughtRecently() const;
-	void setHasFoughtRecently(bool value);
-	bool isActive() const;
-	void setIsActive(bool value);
+	Coordinates position() const;
+	const qint8 reputation(Kingdom kingdom) const;
 
-	static const quint8 StartingExperience = 0;
-	static const quint8 StartingGold = 3;
-	static const quint8 StartingLevel = 1;
-	static const quint8 StartingMovePoints = 8;
-	static const quint8 StartingReputation = 0;
-
-	static const quint8 MaxLevel = 5;
-
-	// NOTE should it be here? Maybe GameInitSettings later on?
-	static const QHash <QPair <Class, Race>, CharacterStats> & baseClassStats();
-
-	//NOTE Wookesh Changed old array into QMap with new enum
-	//TODO CFiend KILL IT WITH FIRE
-	// should be solved by decent content editor or by reading with board setup
-	static const QHash <Race, FieldId> & raceStartingPosition();
+	void consumeGrowthPoint(Effect::Type attribute);
+	Equipment & equipment();
+	Journal & journal();
+	void grantExperience(quint16 experience);
+	void grantPrize(const Prize &prize);
+	void move(Coordinates field);
+	void regenerate();
+	void shiftGold(qint16 amount);
+	void shiftReputation(Kingdom kingdom, qint8 value);
 
 private:
+	static const quint8  InitialLevel = 1;
+	static const quint8  InitialGrowthPoints = 3;
+	static const quint16 InitialExperience = 0;
+	static const quint16 InitialGold = 3;
+	static const quint8  InitialReputation = 0;
+	static const QHash <Kingdom, qint8> InitialReputations;
+	static const quint8  InitialMovePoints = 8;
+	static const quint16 InitialAttackRange = 10;
+	static QList <Effect> InitialEffects(Class playerClass, Race playerRace);
 
-	Race playerRace_;
-	Class playerClass_;
-	QColor color_;
-	bool isAI_;
-	CharacterStats baseStats_;
-	FieldId position_;
-	Equipment *equipment_; //TODO CFiend sprawdzic czy nie lepiej dac twardy obiekt
-	QList <Quest *> quests_;
-	QList <FieldId> importantFields_;
+	const QString name_;
+	const QPixmap avatar_;
+	const Race playerRace_;
+	const Class playerClass_;
+	const QColor color_;
 	quint8 level_;
-	int reputation_[KingdomCount];
-	quint16 gold_;
+	quint8 growthPoints_;
+	QList <Effect> baseStats_;
 	quint16 experience_;
-	bool hasFoughtRecently_;
-	bool isActive_;
+	quint16 gold_;
+	Coordinates position_;
+	Equipment equipment_;
+	Journal journal_;
+	QHash <Kingdom, qint8> reputations_;
 };

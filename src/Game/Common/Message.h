@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
 #include <QtCore>
-#include "Core/Util/EnumHelpers.hpp"
+#include "Core/Utils/EnumHelpers.hpp"
 
 typedef quint16 msg_size_t;
 

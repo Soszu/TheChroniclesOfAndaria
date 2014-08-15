@@ -30,13 +30,10 @@ int main(int argc, char *argv[])
 	int initError = DataKeeper::instance().initError();
 	if (initError)
 		return initError;
-	
+
 	ConnectionAdapterSrv connAdapter;
 	GameCycleSrv gameCycle(&connAdapter);
-	NewGameSrv newGameSrv(&connAdapter);
-
-	QObject::connect(&newGameSrv, &NewGameSrv::gameSet, &gameCycle, &GameCycleSrv::beginGame);
-	newGameSrv.waitForPlayers();
+	connAdapter.startListen();
 
 	return app.exec();
 }

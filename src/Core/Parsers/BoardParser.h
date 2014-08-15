@@ -1,4 +1,4 @@
-/**
+﻿/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -21,9 +21,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Game/Common/DataKeeper.h"
+#include "Core/DataKeeper.h"
 #include "Core/Paths.h"
-//#include "Core/Board.h"
+#include "Core/Containers/Player.h"
 
 class DataKeeper;
 
@@ -33,11 +33,20 @@ public:
 	bool bladWczytywania();
 	QString trescBledu;
 private:
+	//TMP later on from settings
+	const QHash <Race, Coordinates> initialPositions_{
+		{Race::Human, {18,3}},
+		{Race::Dwarf, {14,18}},
+		{Race::Elf, {28,8}},
+		{Race::Halfling, {2,8}}
+	};
+
 	bool bylBlad;
 	DataKeeper *dataKeeper;
 
 	quint8 szerokosc;
 	quint8 wysokosc;
+
 
 	bool wczytajWymiary(QTextStream* wejscie);
 	bool wczytajLegende(QTextStream* wejscie);

@@ -1,20 +1,66 @@
-﻿#include "PlayerDraft.h"
+﻿#include "Core/Containers/PlayerDraft.h"
+#include "Core/Utils/BiHash.hpp"
+#include "Core/Utils/EnumHelpers.hpp"
+
+inline uint qHash(Race playerRace)
+{
+	return qHash(toUnderlying(playerRace));
+}
+
+QDataStream & operator<<(QDataStream &out, const Race &playerRace)
+{
+	return out << toUnderlying(playerRace);
+}
+
+QDataStream & operator>>(QDataStream &in, Race &playerRace)
+{
+	return in >> toUnderlyingRef(playerRace);
+}
+
+const static BiHash <Race, QString> RaceLabels {
+	{Race::Human,    Label::Human},
+	{Race::Dwarf,    Label::Dwarf},
+	{Race::Elf,      Label::Elf},
+	{Race::Halfling, Label::Halfling}
+};
+
+inline uint qHash(Class playerClass)
+{
+	return qHash(toUnderlying(playerClass));
+}
+
+QDataStream & operator<<(QDataStream &out, const Class &playerClass)
+{
+	return out << toUnderlying(playerClass);
+}
+
+QDataStream & operator>>(QDataStream &in, Class &playerClass)
+{
+	return in >> toUnderlyingRef(playerClass);
+}
+
+const static BiHash <Class, QString> ClassLabels {
+	{Class::Fighter, Label::Fighter},
+	{Class::Hunter,  Label::Hunter},
+	{Class::Mage,    Label::Mage},
+	{Class::Druid,   Label::Druid}
+};
 
 PlayerDraft::PlayerDraft()
-           : name_(generateRandomName()),
-             playerRace_(Race::Human),
+           : color_(generateRandomColor()),
+             name_(generateRandomName()),
              playerClass_(Class::Fighter),
-             color_(generateRandomColor())
+             playerRace_(Race::Human)
 {}
+
+const QColor & PlayerDraft::color() const
+{
+	return color_;
+}
 
 const QString & PlayerDraft::name() const
 {
 	return name_;
-}
-
-Race PlayerDraft::playerRace() const
-{
-	return playerRace_;
 }
 
 Class PlayerDraft::playerClass() const
@@ -22,9 +68,24 @@ Class PlayerDraft::playerClass() const
 	return playerClass_;
 }
 
-const QColor& PlayerDraft::color() const
+Race PlayerDraft::playerRace() const
 {
-	return color_;
+	return playerRace_;
+}
+
+QDataStream & PlayerDraft::toDataStream(QDataStream &out) const
+{
+	return out << color_ << name_ << playerClass_ << playerRace_;
+}
+
+QDataStream & PlayerDraft::fromDataStream(QDataStream &in)
+{
+	return in >> color_ >> name_ >> playerClass_ >> playerRace_;
+}
+
+void PlayerDraft::setColor(const QColor &color)
+{
+	color_ = color;
 }
 
 void PlayerDraft::setName(const QString &name)
@@ -32,19 +93,19 @@ void PlayerDraft::setName(const QString &name)
 	name_ = name;
 }
 
-void PlayerDraft::setPlayerRace(Race playerRace)
-{
-	playerRace_ = playerRace;
-}
-
 void PlayerDraft::setPlayerClass(Class playerClass)
 {
 	playerClass_ = playerClass;
 }
 
-void PlayerDraft::setColor(const QColor &color)
+void PlayerDraft::setPlayerRace(Race playerRace)
 {
-	color_ = color;
+	playerRace_ = playerRace;
+}
+
+QColor PlayerDraft::generateRandomColor()
+{
+	return QColor(static_cast<Qt::GlobalColor>(qrand() % 20));
 }
 
 QString PlayerDraft::generateRandomName()
@@ -57,7 +118,12 @@ QString PlayerDraft::generateRandomName()
 	return name;
 }
 
-QColor PlayerDraft::generateRandomColor()
+QDataStream & operator<<(QDataStream &out, const PlayerDraft &draft)
 {
-	return QColor(static_cast<Qt::GlobalColor>(qrand() % 20));
+	return draft.toDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream &in, PlayerDraft &draft)
+{
+	return draft.fromDataStream(in);
 }

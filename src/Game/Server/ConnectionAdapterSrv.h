@@ -2,7 +2,7 @@
 
 #include <QtCore>
 #include "Game/Server/Strings.h"
-#include "Core/Util/Serial.hpp"
+#include "Core/Utils/Serial.hpp"
 #include "Game/Common/ConnectionAdapter.h"
 
 class ConnectionAdapterSrv : public ConnectionAdapter {
@@ -11,15 +11,10 @@ public:
 	ConnectionAdapterSrv();
 	void startListen();
 
-	static const quint16 srvPort = 42121;
-	static const int ListenError = 1;
-
 public slots:
-	void sendToClt(UID userID, Message &msg);
+	virtual void sendMessage(Message &msg, UID recipient) const;
 
 private:
-	void initServer();
-
 	QTcpServer tcpServer_;
 	Serial usersIDs_;
 	QHash <UID, QTcpSocket *> connectedUsers_;

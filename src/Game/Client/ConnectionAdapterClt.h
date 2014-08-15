@@ -2,13 +2,14 @@
 
 #include "Game/Common/ConnectionAdapter.h"
 
-class ConnectionAdapterClt : public ConnectionAdapter
-{
+class ConnectionAdapterClt : public ConnectionAdapter {
 	Q_OBJECT
 public:
 	ConnectionAdapterClt();
 	void connectToSrv();
-	void sendToSrv(Message &msg);
+
+public slots:
+	virtual void sendMessage(Message &msg, UID recipient) const;
 
 private slots:
 	void onRead();
@@ -18,5 +19,4 @@ private:
 
 signals:
 	void connected();
-
 };

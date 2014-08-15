@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -30,3 +30,6 @@ QWidget * ContentEditor::widget() const
 {
 	return widget_;
 }
+
+void ContentEditor::clear()
+{}

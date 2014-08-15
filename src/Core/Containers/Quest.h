@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,70 +16,38 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUEST_H
-#define QUEST_H
+#pragma once
 
-#include "Core/Containers/Enemy.h"
-#include "Core/Containers/Field.h"
-#include "Core/Containers/Prize.h"
+#include "Core/Containers/Bases/QuestBase.h"
+#include "Core/Actions/Action.h"
+#include "Core/Containers/Test.h"
 
-//TODO CFiend class Quest { public: enum class Type ... }
-enum QuestType {
-	pokonaj = 1,
-	przynies = 2, //realizuje też "dotrzyj na miejsce" jeśli czyPowrótWymagany == false
-	odnajdz = 3
-};
+class Player;
 
-enum QuestLevel {
-	easy,
-	medium,
-	hard
-};
-
-class Quest {
-
+class Quest : public Action {
 public:
-	Quest(int id,
-	      QuestType type,
-	      QuestLevel level,
-	      int fraction,
-	      QString title,
-	      QString description,
-	      bool isReturnRequired,
-	      FieldId targetField,
-		  const Prize *prize,
-		  QList <int> &enemiesToDefeat);
-	Quest(Quest *quest); //TODO CFiend major WTF, to chyba mialo byc Quest(const Quest &)
+	Quest(const QuestBase *base, Coordinates source);
 
-	int id() const;
-	QuestType type() const;
-	QuestLevel level() const;
-	int fraction() const;
-	QString title() const;
+	bool canBeDrawn() const;
 	QString description() const;
+	const Quest *followUp() const;
+	Kingdom fraction() const;
 	bool isReturnRequired() const;
-	FieldId targetField() const;
-	void setTargetField(FieldId field);
+	QuestBase::Level level() const;
+	QHash <Coordinates, TestBase> objectives() const;
 	const Prize *prize() const;
-	const QList <int> &enemiesToDefeat() const;
-	void setEmployerField(FieldId field);
-	FieldId employerField() const;
-	void setIsPartiallyCompleted(bool value);
-	bool isPartiallyCompleted() const;
+	Coordinates source() const;
+	QString title() const;
+	const QSet <Coordinates> & toDo() const;
+	UID uid() const;
+
+	void execute(Player *player);
 
 private:
-	int id_;
-	QuestType type_;
-	QuestLevel level_;
-	int fraction_;
-	QString title_;
-	QString description_;
-	bool isReturnRequired_;
-	FieldId targetField_;
-	const Prize *prize_;
-	QList <int> enemiesToDefeat_;
-	FieldId employerField_;
-	bool isPartiallyCompleted_;
-};
+	const QuestBase *base_;
+	const Coordinates source_;
+	QSet <Coordinates> toDo_;
 
-#endif
+private slots:
+	void testEnded(Player *player, Test::Result result);
+};

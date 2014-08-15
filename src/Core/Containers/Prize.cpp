@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -17,25 +17,26 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Containers/Prize.h"
+#include "Core/Containers/Field.h"
 
-Prize::Prize(int *reputation, quint16 gold, quint16 experience, QStringList groupNames, const QList <int> &items)
-	: reputation_(reputation), gold_(gold), experience_(experience), groupNames_(groupNames), items_(items)
-{
-}
+Prize::Prize() : experience_(0), gold_(0)
+{}
 
-Prize::~Prize()
-{
-	delete [] reputation_; //TODO CFiend skad wiadomo, ze to nalezy do nas? Moze lepiej trzymac stala tablice, zamiast alokowac na stercie?
-}
+Prize::Prize(QList <Effect> effects,
+             quint16 experience,
+             QList <Item> items,
+             quint16 gold,
+             QHash <Kingdom, qint8> reputations)
+     : effects_(effects),
+       experience_(experience),
+       items_(items),
+       gold_(gold),
+       reputations_(reputations)
+{}
 
-int * Prize::reputation() const
+const QList <Effect> & Prize::effects() const
 {
-	return reputation_;
-}
-
-quint16 Prize::gold() const
-{
-	return gold_;
+	return effects_;
 }
 
 quint16 Prize::experience() const
@@ -43,12 +44,83 @@ quint16 Prize::experience() const
 	return experience_;
 }
 
-QStringList Prize::groupNames() const
+quint16 Prize::gold() const
 {
-	return groupNames_;
+	return gold_;
 }
 
-const QList<int> & Prize::items()
+const QList <Item> & Prize::items() const
 {
 	return items_;
+}
+
+const qint8 Prize::reputation(Kingdom kingdom) const
+{
+	return reputations_[kingdom];
+}
+
+const QHash <Kingdom, qint8> & Prize::reputations() const
+{
+	return reputations_;
+}
+
+QDataStream & Prize::toDataStream(QDataStream &out) const
+{
+	return out << effects_ << experience_ << items_ << gold_ << reputations_;
+}
+
+void Prize::addEffect(Effect effect)
+{
+	effects_.append(effect);
+}
+
+
+void Prize::addItem(Item item)
+{
+	items_.append(item);
+}
+
+void Prize::addReputation(Kingdom kingdom, qint8 reputation)
+{
+	reputations_[kingdom] = reputation;
+}
+
+QDataStream & Prize::fromDataStream(QDataStream &in)
+{
+	return in >> effects_ >> experience_ >> items_ >> gold_ >> reputations_;
+}
+
+void Prize::setEffects(QList <Effect> effects)
+{
+	effects_ = effects;
+}
+
+void Prize::setExperience(quint16 experience)
+{
+	experience_ = experience;
+}
+
+void Prize::setGold(quint16 gold)
+{
+	gold_ = gold;
+}
+
+void Prize::setItems(QList <Item> items)
+{
+	items_ = items;
+}
+
+void Prize::setReputations(QHash <Kingdom, qint8> reputations)
+{
+	reputations_ = reputations;
+}
+
+QDataStream & operator<<(QDataStream &out, const Prize &prize)
+{
+	return prize.toDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream &in, Prize &prize)
+{
+	return prize.fromDataStream(in);
 }

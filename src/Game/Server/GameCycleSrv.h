@@ -21,54 +21,31 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtWidgets>
 
 #include "Core/Containers/Player.h"
-#include "Core/Containers/PlayerDraft.h"
+#include "Core/Containers/Date.h"
 #include "Game/Server/ConnectionAdapterSrv.h"
-//#include "Game/GameMaster.h"
-//#include "Game/
+#include "Game/Common/Authority.h"
+#include "Game/Server/NewGameSrv.h"
 
-class GameCycleSrv : public QObject {
+class GameCycleSrv : public Authority {
 	Q_OBJECT
 public:
-	GameCycleSrv(ConnectionAdapterSrv * connectionAdapter);
-
-//	GameMaster * gameMaster();
-//	Board * board();
-
-	void showEquipment();
-	void showQuests();
-
-	ConnectionAdapterSrv * connectionAdapter();
-	Player * currentPlayer();
-	const QList <Player *> & players();
-	int day();
-	int week();
+	GameCycleSrv(ConnectionAdapterSrv *connectionAdapter);
 
 public slots:
 	void beginGame(const QHash <UID, PlayerDraft> &playersDrafts);
 
+protected:
+	virtual void onBecameReceiver(Authority *predecessor);
+
 private:
 	void endTurn();
-	void removeCurrentPlayer();
-	void init();
-	void playerHasWon(Player *player);
-	bool hasPlayerWon(Player *player);
-	void movePlayer(int index);
-	void nextPlayer();
-	void newDay();
 
-	int playersAlive_;
-	int currentPlayerIdx_;
-	int week_;
-	int day_;
-
-	QList <Player *> players_;
 	ConnectionAdapterSrv *connAdapter_;
+	UID currentPlayer_;
+	Date date_;
+	NewGameSrv newGameSrv_;
+	QHash <UID, PlayerDraft> players_;
 
-//	Board board_;
-//	GameMaster gameMaster_;
 signals:
-	void playerChanged();
-	void gameStarted();
-	void statsChanged();
-	void dateChanged(int day, int week);
+	void gameSet();
 };

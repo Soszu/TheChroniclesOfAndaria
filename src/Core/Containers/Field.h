@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,33 +16,57 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FIELD_H
-#define FIELD_H
+#pragma once
 
 #include <QtCore>
+#include "Core/Utils/BiHash.hpp"
+#include "Core/Utils/EnumHelpers.hpp"
+#include "Core/Strings.h"
+#include "Core/Containers/Terrain.h"
 
-typedef QPoint FieldId;
-
-class Field {
-
-public:
-	Field(FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction);
-	FieldId fieldId() const;
-	QString name() const;
-	int moveCost() const;
-	bool hasEnemy() const;
-	bool hasCity() const;
-	QString imageFile() const;
-	int fraction() const;
-
-private:
-	FieldId fieldId_;
-	QString name_;
-	int moveCost_;
-	bool hasEnemy_;
-	bool hasCity_;
-	QString imageFile_;
-	int fraction_;
+enum class ActionId : quint8 {
+	//TODO
 };
 
-#endif
+class Coordinates : public QPoint
+{
+	friend uint qHash(const Coordinates &c, uint seed);
+public:
+	constexpr Coordinates(QPoint p = QPoint{0, 0}) : QPoint(p) {}
+	constexpr Coordinates(int x, int y) : Coordinates(QPoint(x, y)) {}
+
+	QString toString() const {return QString("[%1, %2]").arg(x()).arg(y());}
+};
+
+inline uint qHash(const Coordinates &c, uint seed)
+{
+	return qHash(QPair <int, int>(c.x(), c.y()), seed);
+}
+
+enum class Kingdom : quint8 {
+	Neutral,
+	Humans,
+	Dwarfs,
+	Elves,
+	Halflings
+};
+uint qHash(Kingdom kingdom);
+QDataStream & operator<<(QDataStream &out, const Kingdom &kingdom);
+QDataStream & operator>>(QDataStream &in, Kingdom &kingdom);
+
+
+class Field {
+public:
+	Field(Coordinates coordinates, Kingdom kingdom, Terrain *terrain);
+	const QList <ActionId> & actions() const;
+	quint8 coefficient() const;
+	Coordinates coordinates() const;
+	const QString & imagePath() const;
+	Kingdom kingdom() const;
+	const QString & name() const;
+
+private:
+	Coordinates coordinates_;
+	Kingdom kingdom_;
+	const Terrain *terrain_;
+};

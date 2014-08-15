@@ -8,10 +8,10 @@ ConnectionAdapterClt::ConnectionAdapterClt() : tcpSocket_(this)
 
 void ConnectionAdapterClt::connectToSrv()
 {
-	tcpSocket_.connectToHost("localhost", 42121);
+	tcpSocket_.connectToHost("localhost", DefaultSrvPort);
 }
 
-void ConnectionAdapterClt::sendToSrv(Message &msg)
+void ConnectionAdapterClt::sendMessage(Message &msg, UID recipient) const
 {
 	tcpSocket_.write(msg.data());
 }

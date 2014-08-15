@@ -1,4 +1,4 @@
-/**
+﻿/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 
 #include "Core/Containers/Item.h"
-#include "Game/Common/DataKeeper.h"
+#include "Core/DataKeeper.h"
 #include "Core/Containers/Player.h"
 
 class DataKeeper;

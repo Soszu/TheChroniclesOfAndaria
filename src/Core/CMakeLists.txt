@@ -1,33 +1,30 @@
 ﻿set (core_SOURCES
+	Containers/Bases/EnemyBase.cpp
+	Containers/Bases/ItemBase.cpp
+	Containers/Bases/QuestBase.cpp
+	Containers/Effect.cpp
 	Containers/Enemy.cpp
+	Containers/Entity.cpp
 	Containers/Equipment.cpp
 	Containers/Field.cpp
-	Containers/FightParticipant.cpp
 	Containers/Item.cpp
-	Containers/ItemModel.cpp
-	Containers/ItemWearableModel.cpp
-	Containers/ItemWearable.cpp
+	Containers/Journal.cpp
 	Containers/Player.cpp
 	Containers/PlayerDraft.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
-	Containers/QuestBook.cpp
 
-# 	Operations/EquipmentManagement.cpp
-
-	Parsers/BoardParser.cpp
-	Parsers/EnemyParser.cpp
-	Parsers/ItemParser.cpp
-	Parsers/PrizeParser.cpp
-	Parsers/QuestParser.cpp
+#	Parsers/BoardParser.cpp
+#	Parsers/EnemyParser.cpp
+#	Parsers/ItemParser.cpp
+#	Parsers/PrizeParser.cpp
+#	Parsers/QuestParser.cpp
 
 	Paths.cpp
 	DataManager.cpp
+	DataKeeper.cpp
 )
 set (core_HEADERS
-	Containers/ItemModel.h
-	Containers/ItemWearableModel.h
-
 )
 qt5_wrap_cpp (core_SOURCES ${core_HEADERS})
 

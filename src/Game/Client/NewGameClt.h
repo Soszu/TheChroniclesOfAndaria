@@ -2,8 +2,9 @@
 
 #include "Core/Containers/PlayerDraft.h"
 #include "Game/Client/ConnectionAdapterClt.h"
+#include "Game/Common/Authority.h"
 
-class NewGameClt : public QObject {
+class NewGameClt : public Authority {
 	Q_OBJECT
 public:
 	NewGameClt(ConnectionAdapterClt *connectionAdapter);

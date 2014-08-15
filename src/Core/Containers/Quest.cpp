@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,130 +16,19 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Quest.h"
+#include "Quest.h"
 
-Quest::Quest(int id,
-		 QuestType type,
-		 QuestLevel level,
-		 int fraction,
-		 QString title,
-		 QString description,
-		 bool isReturnRequired,
-		 FieldId targetField,
-		 const Prize *prize,
-		 QList<int> &enemiesToDefeat)
-	: id_(id),
-	  type_(type),
-	  level_(level),
-	  fraction_(fraction),
-	  title_(title),
-	  description_(description),
-	  isReturnRequired_(isReturnRequired),
-	  targetField_(targetField),
-	  prize_(prize),
-	  enemiesToDefeat_(enemiesToDefeat)
+Quest::Quest(const QuestBase *base, Coordinates source) : base_(base), source_(source)
+{}
+
+void Quest::execute(Player *player)
 {
-	FieldId empty = {-1, -1};
-	this->employerField_ = empty;
-	isPartiallyCompleted_ = !isReturnRequired;
-	if (type == pokonaj)
-		isPartiallyCompleted_ = false;
+//find currPos, find Test to do connect to result & take it
 }
 
-//TODO CFiend kill it with fire
-//Soszu note magic below...
-Quest::Quest(Quest *quest)
+void Quest::testEnded(Player *player, Test::Result result)
 {
-	this->id_ = quest->id_;
-	this->type_ = quest->type_;
-	this->level_ = quest->level_;
-	this->fraction_ = quest->fraction_;
-	this->title_ = quest->title_;
-	this->description_ = quest->description_;
-	this->isReturnRequired_ = quest->isReturnRequired_;
-	this->targetField_ = quest->targetField_;
-	this->prize_ = quest->prize_;
-
-	enemiesToDefeat_ = quest->enemiesToDefeat_;
-
-	employerField_ = quest->employerField_;
-
-	isPartiallyCompleted_ = isReturnRequired_ ? false : true;
-	if(type_ == pokonaj)
-		isPartiallyCompleted_ = false;
-}
-
-int Quest::id() const
-{
-	return id_;
-}
-
-QuestType Quest::type() const
-{
-	return type_;
-}
-
-QuestLevel Quest::level() const
-{
-	return level_;
-}
-
-int Quest::fraction() const
-{
-	return fraction_;
-}
-
-QString Quest::title() const
-{
-	return title_;
-}
-
-QString Quest::description() const
-{
-	return description_;
-}
-
-bool Quest::isReturnRequired() const
-{
-	return isReturnRequired_;
-}
-
-FieldId Quest::targetField() const
-{
-	return targetField_;
-}
-
-void Quest::setTargetField(FieldId field)
-{
-	this->targetField_ = field;
-}
-
-const Prize * Quest::prize() const
-{
-	return prize_;
-}
-
-const QList<int> & Quest::enemiesToDefeat() const
-{
-	return enemiesToDefeat_;
-}
-
-void Quest::setEmployerField(FieldId field)
-{
-	employerField_ = field;
-}
-
-FieldId Quest::employerField() const
-{
-	return employerField_;
-}
-
-void Quest::setIsPartiallyCompleted(bool value)
-{
-	isPartiallyCompleted_ = value;
-}
-
-bool Quest::isPartiallyCompleted() const
-{
-	return isPartiallyCompleted_;
+	//if result unsettled -> nothing
+	//if resule pass, check done, give prize, check if need return and add to map, tell to remove / addToDone (be careful to memory), add followUp
+	//if not pass, remove (ew. penalty for failure)
 }

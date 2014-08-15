@@ -20,12 +20,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 QHash <QString, QPixmap *> DataManager::pixmapsMap;
 
-QPixmap DataManager::pixmap(const QString& pathName)
+const QPixmap & DataManager::pixmap(const QString& pathName)
 {
 	const QString path = resolvePath(pathName);
 	if (!pixmapsMap.contains(path)) {
 		QPixmap *image = new QPixmap();
-		if (!image->load(path)) {
+		if (not image->load(path)) {
 			qCritical() << "Error while loading file " << path;
 			exit(EXIT_FAILURE);
 		}

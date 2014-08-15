@@ -1,5 +1,5 @@
-/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+﻿/*
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -17,43 +17,29 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ENEMY_H
-#define ENEMY_H
+#pragma once
 
-#include "Core/Containers/Prize.h"
-#include "FightParticipant.h"
+#include "Core/Containers/Entity.h"
+#include "Core/Containers/Effect.h"
 
-class Enemy : public FightParticipant {
+class Prize;
+class EnemyBase;
 
+class Enemy : public Entity {
 public:
-	
-	static const size_t NUMBER_OF_ENEMIES_GROUPS = 5;
-	
-	Enemy(QString name, 
-			QString pictureName, 
-			qint8 attackMin,
-			//qint8 attackRange, NOTE change this after applying new mechanics
-			qint8 attackMax, 
-			qint8 defence, 
-			qint8 perception, 
-			qint8 healthMax,
-			AttackType defaultAttack,
-			const Prize *prize);
+	Enemy(const EnemyBase *enemyBase);
+	const QPixmap &avatar() const;
+	Attack defaultAttack() const;
+	const QList <Effect> individualEffects() const;
+	quint8 level() const;
+	const QString &name() const;
+	const Prize & prize() const;
+	QDataStream & toDataStream(QDataStream &out) const;
 
-	QString name() const;
-	QString pictureName() const;
-	int attackMin() const;
-	int attackRange() const;
-	int attackMax() const;
-	int defence() const;
-	int perception() const;
-	int healthMax() const;
-	const Prize *prize() const;
+	QDataStream & fromDataStream(QDataStream &in);
 
-protected:
-	BattleStats baseStats_;
-	AttackType defaultAttack_;
-	const Prize *prize_;
+private:
+	const EnemyBase *base_;
 };
-
-#endif
+QDataStream & operator<<(QDataStream &out, const Enemy &enemy);
+QDataStream & operator>>(QDataStream &in, Enemy &enemy);

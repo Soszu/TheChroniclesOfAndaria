@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -25,7 +25,7 @@ This file is part of The Chronicles Of Andaria Project.
 class DataManager
 {
 public:
-	static QPixmap pixmap(const QString &pathName);
+	static const QPixmap & pixmap(const QString &pathName);
 
 private:
 	DataManager() = delete;

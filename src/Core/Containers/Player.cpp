@@ -18,73 +18,82 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Containers/Player.h"
+#include "Core/DataKeeper.h"
 
-Player::Player(QString name, Race playerRace,Class playerClass, QColor color, bool isAI)
-	: FightParticipant(name),
-	  playerRace_(playerRace),
-	  playerClass_(playerClass),
-	  color_(color),
-	  isAI_(isAI),
-	  baseStats_(Player::baseClassStats()[qMakePair(playerClass, playerRace)]),
-	  position_(Player::raceStartingPosition()[this->playerRace_]),
-	  equipment_(new Equipment),
-	  level_(StartingLevel),
-	  gold_(StartingGold),
-	  experience_(StartingExperience),
-	  hasFoughtRecently_(false),
-	  isActive_(true)
+const quint16 Player::LevelBorders[MaximumLevel] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
+
+const QSet <Effect::Type> Player::extendableAttributes = {
+	{Effect::Type::MeleeBase},
+	{Effect::Type::RangedBase},
+	{Effect::Type::MagicalBase},
+	{Effect::Type::Defence},
+	{Effect::Type::Perception},
+};
+
+Player::Player(const PlayerDraft &draft)
+      : name_(draft.name()),
+        playerRace_(draft.playerRace()),
+        playerClass_(draft.playerClass()),
+        color_(draft.color()),
+        level_(InitialLevel),
+        growthPoints_(InitialGrowthPoints),
+        baseStats_(InitialEffects(playerClass_, playerRace_)),
+        experience_(InitialExperience),
+        gold_(InitialGold),
+        position_(DataKeeper::instance().initialPosition(playerRace_)),
+        equipment_(playerClass_),
+        journal_(),
+        reputations_(InitialReputations)
 {
-	for(int i = 0; i < KingdomCount; ++i)
-		this->reputation_[i] = StartingReputation;
-	healthCurrent_ = baseStats_.battleStats_.healthMax_;
+	initHealth();
 }
 
-Player::~Player()
+const QPixmap & Player::avatar() const
 {
-	delete equipment_;
+	return avatar_;
 }
 
-const QHash <QPair <Class, Race>, Player::CharacterStats> & Player::baseClassStats()
+QColor Player::color() const
 {
-	//NOTE rebalance basic damage stats due to new mechanics
-	static const QHash <QPair <Class, Race>, Player::CharacterStats> baseClassStats_{
-		//{Class, Race}, {{healthMax, defence, perception, {{meleDmgMin, meleDmgRange}, {rangeDmgMin, rangeDmgRange}, {magicalDmgMin, magicalDmgRAnge}}}, regeneration, movePoints }
-		{{Class::Fighter, Race::Human}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {3, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
-		{{Class::Ranger,  Race::Human}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Mage,    Race::Human}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Druid,   Race::Human}, {{13, 10, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
-		
-		{{Class::Fighter, Race::Dwarf}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
-		{{Class::Ranger,  Race::Dwarf}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Mage,    Race::Dwarf}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Druid,   Race::Dwarf}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
-		
-		{{Class::Fighter, Race::Elf}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
-		{{Class::Ranger,  Race::Elf}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Mage,    Race::Elf}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Druid,   Race::Elf}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
-		
-		{{Class::Fighter, Race::Halfling}, {{15, 10, 1, {{AttackType::Melee, {10, 0}}, {AttackType::Ranged, {5, 0}}, {AttackType::Magical, { 1, 0}}}}, 2, StartingMovePoints}},
-		{{Class::Ranger,  Race::Halfling}, {{13,  8, 7, {{AttackType::Melee, { 5, 0}}, {AttackType::Ranged, {9, 0}}, {AttackType::Magical, { 1, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Mage,    Race::Halfling}, {{11,  7, 5, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {1, 0}}, {AttackType::Magical, {11, 0}}}}, 3, StartingMovePoints}},
-		{{Class::Druid,   Race::Halfling}, {{13,  9, 3, {{AttackType::Melee, { 2, 0}}, {AttackType::Ranged, {2, 0}}, {AttackType::Magical, { 8, 0}}}}, 5, StartingMovePoints}},
-	};
-	return baseClassStats_;
+	return color_;
 }
 
-const QHash <Race, FieldId> & Player::raceStartingPosition()
+const Equipment & Player::equipment() const
 {
-	static QHash <Race, FieldId> raceStartingPosition_{
-		{Race::Human, {18,3}},
-		{Race::Dwarf, {14,18}},
-		{Race::Elf, {28,8}},
-		{Race::Halfling, {2,8}}
-	};
-	return raceStartingPosition_;
+	return equipment_;
 }
 
+quint16 Player::experience() const
+{
+	return experience_;
+}
 
-QString Player::name() const
+const Journal & Player::journal() const
+{
+	return journal_;
+}
+
+quint8 Player::level() const
+{
+	return level_;
+}
+
+quint16 Player::gold() const
+{
+	return gold_;
+}
+
+quint8 Player::growthPoints() const
+{
+	return growthPoints_;
+}
+
+const QList <Effect> Player::individualEffects() const
+{
+	return baseStats_ + equipment_.activeEffects();
+}
+
+const QString &Player::name() const
 {
 	return name_;
 }
@@ -99,196 +108,131 @@ Class Player::playerClass() const
 	return playerClass_;
 }
 
-QColor Player::color() const
-{
-	return color_;
-}
-
-bool Player::isAI() const
-{
-	return isAI_;
-}
-
-FieldId Player::position() const
+Coordinates Player::position() const
 {
 	return position_;
 }
 
-void Player::setPosition(FieldId id)
+const qint8 Player::reputation(Kingdom kingdom) const
 {
-	this->position_ = id;
+	return reputations_[kingdom];
 }
 
-Equipment * Player::equipment() const
+void Player::consumeGrowthPoint(Effect::Type attribute)
+{
+	if (growthPoints_ == 0 || not extendableAttributes.contains(attribute))
+		return;
+	baseStats_.append(Effect(attribute, AttributeGrowth));
+	--growthPoints_;
+}
+
+Equipment & Player::equipment()
 {
 	return equipment_;
 }
 
-QList <Quest *> * Player::quests()
+Journal & Player::journal()
 {
-	return &quests_; //TODO CFiend taka implementacja uniemozliwia uczynienie tej metody const
+	return journal_;
 }
 
-Quest * Player::quest(int index) const
+void Player::grantExperience(quint16 experience)
 {
-	return quests_[index];
+	experience_ += experience;
+	if (level_ < MaximumLevel && experience >= LevelBorders[level_]) {
+		++level_;
+		growthPoints_ += GrowthPointsPerLevel;
+		baseStats_.append(Effect(Effect::Type::MaxHealth, HealthIncreasePerLevel));
+		heal(HealthIncreasePerLevel);
+	}
 }
 
-void Player::removeQuest(int questId)
+void Player::grantPrize(const Prize &prize)
 {
-	int i = 0;
-	while (i < quests_.size() && quests_[i]->id() != questId)
-		++i;
-	if (i != quests_.size())
-		delete quests_.takeAt(i);
+	imposeEffects(prize.effects());
+	grantExperience(prize.experience());
+	equipment_.addItems(prize.items());
+	shiftGold(prize.gold());
+	for (auto &kingdom : prize.reputations().keys())
+		shiftReputation(kingdom, prize.reputation(kingdom));
 }
 
-quint8 Player::level() const
+void Player::move(Coordinates field)
 {
-	return level_;
+	position_ = field;
 }
 
-void Player::setLevel(quint8 level)
+void Player::regenerate()
 {
-	this->level_ = level;
+	heal(value(Effect::Type::Regeneration));
 }
 
-int * Player::reputation()
+void Player::shiftGold(qint16 amount)
 {
-	return reputation_; //TODO CFiend taka implementacja uniemozliwia uczynienie tej metody const
+	gold_ = qMax(0, qint32(gold_) + amount);
 }
 
-void Player::setReputation(int value, int index)
+void Player::shiftReputation(Kingdom kingdom, qint8 value)
 {
-	reputation_[index] = value;
+	reputations_[kingdom] = qMin(MaximumReputation, static_cast<qint8>(reputation(kingdom) + value));
 }
 
-int Player::healthMax() const
-{
-	return baseStats_.battleStats_.healthMax_;
-}
+const QHash <Kingdom, qint8> Player::InitialReputations {
+	{Kingdom::Humans,    InitialReputation},
+	{Kingdom::Dwarfs,    InitialReputation},
+	{Kingdom::Elves,     InitialReputation},
+	{Kingdom::Halflings, InitialReputation}
+};
 
-void Player::setHealthMax(int value)
+QList <Effect> Player::InitialEffects(Class playerClass, Race playerRace)
 {
-	baseStats_.battleStats_.healthMax_ = value;
-}
+	static const QHash <Race, QList <Effect> > InitialRaceEffects = {
+		{Race::Human,    {}},
+		{Race::Dwarf,    {}},
+		{Race::Elf,      {}},
+		{Race::Halfling, {}},
+	};
 
-int Player::healthCurrent() const
-{
-	return healthCurrent_;
-}
+	static const QHash <Class, QList <Effect> > InitialClassEffects = {
+		{Class::Fighter, {Effect(Effect::Type::MaxHealth,    15),
+		                  Effect(Effect::Type::Defence,      10),
+		                  Effect(Effect::Type::Perception,   1),
+		                  Effect(Effect::Type::Regeneration, 2),
+		                  Effect(Effect::Type::MeleeBase,    10),
+		                  Effect(Effect::Type::RangedBase,   5),
+		                  Effect(Effect::Type::MagicalBase,  1)}},
 
-void Player::setHealthCurrent(int value)
-{
-	healthCurrent_ = value;
-}
+		{Class::Hunter,  {Effect(Effect::Type::MaxHealth,    13),
+		                  Effect(Effect::Type::Defence,      8),
+		                  Effect(Effect::Type::Perception,   7),
+		                  Effect(Effect::Type::Regeneration, 3),
+		                  Effect(Effect::Type::MeleeBase,    5),
+		                  Effect(Effect::Type::RangedBase,   9),
+		                  Effect(Effect::Type::MagicalBase,  1)}},
 
-int Player::regeneration() const
-{
-	return baseStats_.regeneration_;
-}
+		{Class::Mage,    {Effect(Effect::Type::MaxHealth,    11),
+		                  Effect(Effect::Type::Defence,      3),
+		                  Effect(Effect::Type::Perception,   4),
+		                  Effect(Effect::Type::Regeneration, 3),
+		                  Effect(Effect::Type::MeleeBase,    2),
+		                  Effect(Effect::Type::RangedBase,   1),
+		                  Effect(Effect::Type::MagicalBase,  11)}},
 
-void Player::setRegeneration(int value)
-{
-	baseStats_.regeneration_ = value;
-}
+		{Class::Druid,   {Effect(Effect::Type::MaxHealth,    13),
+		                  Effect(Effect::Type::Defence,      9),
+		                  Effect(Effect::Type::Perception,   3),
+		                  Effect(Effect::Type::Regeneration, 5),
+		                  Effect(Effect::Type::MeleeBase,    2),
+		                  Effect(Effect::Type::RangedBase,   2),
+		                  Effect(Effect::Type::MagicalBase,  8)}},
+	};
 
-int Player::attackMelee() const
-{
-	return baseStats_.battleStats_.attacks_[AttackType::Melee].first;
-}
-
-void Player::setAttackMelee(int value)
-{
-	baseStats_.battleStats_.attacks_[AttackType::Melee].first = value;
-}
-
-int Player::attackRanged() const
-{
-	return baseStats_.battleStats_.attacks_[AttackType::Ranged].first;
-}
-
-void Player::setAttackRanged(int value)
-{
-	baseStats_.battleStats_.attacks_[AttackType::Ranged].first = value;
-}
-
-int Player::attackMagical() const
-{
-	return baseStats_.battleStats_.attacks_[AttackType::Magical].first;
-}
-
-void Player::setAttackMagical(int value)
-{
-	baseStats_.battleStats_.attacks_[AttackType::Magical].first = value;
-}
-
-int Player::defence() const
-{
-	return baseStats_.battleStats_.defence_;
-}
-
-void Player::setDefence(int value)
-{
-	baseStats_.battleStats_.defence_ = value;
-}
-
-int Player::perception() const
-{
-	return baseStats_.battleStats_.perception_;
-}
-
-void Player::setPerception(int value)
-{
-	baseStats_.battleStats_.perception_ = value;
-}
-
-quint8 Player::movePoints() const
-{
-	return baseStats_.movePoints_;
-}
-
-void Player::setMovePoints(quint8 value)
-{
-	baseStats_.movePoints_ = value;
-}
-
-quint16 Player::gold() const
-{
-	return gold_;
-}
-
-void Player::setGold(quint16 value)
-{
-	gold_ = value;
-}
-
-quint16 Player::experience() const
-{
-	return experience_;
-}
-
-void Player::setExperience(quint16 value)
-{
-	experience_ = value;
-}
-
-bool Player::hasFoughtRecently() const
-{
-	return hasFoughtRecently_;
-}
-
-void Player::setHasFoughtRecently(bool value)
-{
-	hasFoughtRecently_ = value;
-}
-
-void Player::setIsActive(bool value)
-{
-	isActive_ = value;
-}
-
-bool Player::isActive() const
-{
-	return isActive_;
+	QList <Effect> initialEffects;
+	initialEffects.append(Effect(Effect::Type::MeleeRange, InitialAttackRange));
+	initialEffects.append(Effect(Effect::Type::RangedRange, InitialAttackRange));
+	initialEffects.append(Effect(Effect::Type::MeleeRange, InitialAttackRange));
+	initialEffects.append(Effect(Effect::Type::MovePoints, InitialMovePoints));
+	initialEffects.append(InitialRaceEffects[playerRace]);
+	initialEffects.append(InitialClassEffects[playerClass]);
+	return initialEffects;
 }

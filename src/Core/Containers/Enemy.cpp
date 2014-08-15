@@ -1,5 +1,5 @@
-/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+﻿/*
+Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -18,70 +18,64 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Containers/Enemy.h"
+#include "Core/Containers/Bases/EnemyBase.h"
+#include "Core/DataManager.h"
 
-Enemy::Enemy(QString name, 
-				 QString pictureName, 
-				 qint8 attackMin,
-				 //qint8 attackRange, NOTE change this after applying new mechanics
-				 qint8 attackMax, 
-				 qint8 defence, 
-				 qint8 perception, 
-				 qint8 healthMax,
-				 AttackType defaultAttack,
-				 const Prize *prize)
-	: FightParticipant(name, pictureName, healthMax),
-	  baseStats_({healthMax, 
-	              defence, 
-	              perception, 
-	              {{AttackType::Melee, {attackMin, attackMax - attackMin}}, 
-	               {AttackType::Magical, {attackMin, attackMax - attackMin}}, 
-	               {AttackType::Ranged, {attackMin, attackMax - attackMin}}}}),
-	  defaultAttack_(defaultAttack),
-	  prize_(prize)
+Enemy::Enemy(const EnemyBase *base) : base_(base)
 {
+	initHealth();
 }
 
-QString Enemy::name() const
+const QPixmap &Enemy::avatar() const
 {
-	return name_;
+	return DataManager::pixmap(base_->imagePath());
 }
 
-QString Enemy::pictureName() const
+Attack Enemy::defaultAttack() const
 {
-	return imageFile_;
+	return base_->defaultAttack();
 }
 
-int Enemy::attackMin() const
+const QList <Effect> Enemy::individualEffects() const
 {
-	return baseStats_.attacks_[defaultAttack_].first;
+	return base_->baseStats();
 }
 
-int Enemy::attackRange() const
+quint8 Enemy::level() const
 {
-	return baseStats_.attacks_[defaultAttack_].second;
+	return base_->level();
 }
 
-int Enemy::attackMax() const
+const QString & Enemy::name() const
 {
-	return baseStats_.attacks_[defaultAttack_].second + baseStats_.attacks_[defaultAttack_].first;
+	return base_->name();
 }
 
-int Enemy::defence() const
+const Prize & Enemy::prize() const
 {
-	return baseStats_.defence_;
+	return base_->prize();
 }
 
-int Enemy::perception() const
+QDataStream &Enemy::toDataStream(QDataStream &out) const
 {
-	return baseStats_.perception_;
+	return out << base_->uid();
 }
 
-int Enemy::healthMax() const
+QDataStream &Enemy::fromDataStream(QDataStream &in)
 {
-	return baseStats_.healthMax_;
+	UID uid;
+	in >> uid;
+	//TODO
+	// 	base_ = DataKeeper::giveEnemyBaseByUid(uid);
+	return in;
 }
 
-const Prize * Enemy::prize() const
+QDataStream & operator<<(QDataStream &out, const Enemy &enemy)
 {
-	return prize_;
+	return enemy.toDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream &in, Enemy &enemy)
+{
+	return enemy.fromDataStream(in);
 }

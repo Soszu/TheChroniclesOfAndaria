@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,52 +16,25 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#pragma once
 
 #include "Core/Containers/Item.h"
 
+enum class Class : quint8;
+
 class Equipment {
-
 public:
-	Equipment();
+	static const quint8 ArtifactLimit = 5;
+	static const quint8 ComplexItemsLevelTreshhold = 5;
 
-	//TODO CFiend moze to powinno zwracac const Item & dla wygodniejszej skladni?
-	const Item * head() const;
-	void setHead(const Item *item);
-	const Item * torso() const;
-	void setTorso(const Item *item);
-	const Item * leftHand() const;
-	void setLeftHand(const Item *item);
-	const Item * rightHand() const;
-	void setRightHand(const Item *item);
+// 	static bool canBeUse(const Item);
 
-	quint8 smallPotions() const;
-	void setSmallPotions(quint8 cnt);
-	quint8 largePotions() const;
-	void setLargePotions(quint8 cnt);
+	Equipment(Class playerClass);
 
-	const QList <const Item *> & backpack() const;
-	const QList <const Item *> & usedArtifacts() const;
+	QList <Effect> activeEffects() const;
 
-	void addItem(const Item *item);
-	void removeItem(const Item *item);
-
-	void addArtifact(const Item *item);
-	void removeArtifact(const Item *item);
-
-	static const quint8 StartingNumberOfSmallPotions = 2;
-	static const quint8 StartingNumberOfLargePotions = 1;
-
+	void addItem(const Item &item);
+	void addItems(const QList<Item> &items);
 private:
-	const Item *head_;
-	const Item *torso_;
-	const Item *leftHand_;
-	const Item *rightHand_;
-	QList <const Item *> usedArtifacts_;
-	QList <const Item *> backpack_;
-	quint8 smallPotions_;
-	quint8 largePotions_;
+	Class playerClass_;
 };
-
-#endif

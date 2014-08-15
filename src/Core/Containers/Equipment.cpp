@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,100 +16,110 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Equipment.h"
+#include "Equipment.h"
 
-Equipment::Equipment()
-	: head_(nullptr), torso_(nullptr), leftHand_(nullptr), rightHand_(nullptr),
-	  smallPotions_(StartingNumberOfLargePotions), largePotions_(StartingNumberOfLargePotions)
+Equipment::Equipment(Class playerClass) : playerClass_(playerClass)
+{}
+
+QList <Effect> Equipment::activeEffects() const
 {
+	//TODO
+	return {};
 }
 
-const Item * Equipment::head() const
+void Equipment::addItem(const Item &item)
 {
-	return head_;
+	//TODO
 }
 
-void Equipment::setHead(const Item *item)
+void Equipment::addItems(const QList <Item> &items)
 {
-	head_ = item;
+
 }
 
-const Item * Equipment::torso() const
+/*
+QString effectString(int bonus, QString effect)
 {
-	return torso_;
+	QString result;
+	if (bonus > 0)
+		result = "+";
+	if (bonus < 0)
+		result = "-";
+	if (bonus != 0)
+		result += QString::number(bonus) + " " + effect + "\n";
+
+	return result;
 }
 
-void Equipment::setTorso(const Item *item)
+void equipItem(const Item *item, Player *player)
 {
-	torso_ = item;
+	Equipment *equipment = player->equipment();
+
+	if (item == nullptr || isEquipped(item, player) || (item->type() == Item::Type::Artifact && equipment->usedArtifacts().size() >= Item::ArtifactLimit))
+		return;
+
+	switch (item->type()) {
+		case Item::Type::TwoHanded:
+			unequipItem(equipment->rightHand(), player);
+			unequipItem(equipment->leftHand(), player);
+			equipment->setRightHand(item);
+			break;
+		case Item::Type::OneHanded:
+			unequipItem(equipment->rightHand(), player);
+			equipment->setRightHand(item);
+			break;
+		case Item::Type::Shield:
+			if (equipment->rightHand() != nullptr && equipment->rightHand()->type() == Item::Type::TwoHanded)
+				unequipItem(equipment->rightHand(), player);
+			unequipItem(equipment->leftHand(), player);
+			equipment->setLeftHand(item);
+			break;
+		case Item::Type::Armor:
+			unequipItem(equipment->torso(), player);
+			equipment->setTorso(item);
+			break;
+		case Item::Type::Helmet:
+			unequipItem(equipment->head(), player);
+			equipment->setHead(item);
+			break;
+		case Item::Type::Artifact:
+			if (equipment->usedArtifacts().size() < Item::ArtifactLimit)
+				equipment->addArtifact(item);
+		case Item::Type::Potion:
+			qDebug() << "Proba zalozenia mikstury";
+	}
+
+	activateBonus(item, player);
 }
 
-const Item * Equipment::leftHand() const
+void unequipItem(const Item *item, Player *player)
 {
-	return leftHand_;
-}
+	if (item == nullptr || !isEquipped(item, player))
+		return;
 
-void Equipment::setLeftHand(const Item *item)
-{
-	leftHand_ = item;
-}
+	Equipment *equipment = player->equipment();
 
-const Item * Equipment::rightHand() const
-{
-	return rightHand_;
-}
+	switch (item->type()) {
+		case Item::Type::TwoHanded:
+		case Item::Type::OneHanded:
+			equipment->setRightHand(nullptr);
+			break;
+		case Item::Type::Shield:
+			equipment->setLeftHand(nullptr);
+			break;
+		case Item::Type::Armor:
+			equipment->setTorso(nullptr);
+			break;
+		case Item::Type::Helmet:
+			equipment->setHead(nullptr);
+			break;
+		case Item::Type::Artifact:
+			equipment->removeArtifact(item);
+			break;
+		default:
+			qDebug() << QString::fromUtf8("PrÃ³bowano zaÅoÅ¼yÄ nierozpoznany rodzaj ekwipunku.");
+	}
 
-void Equipment::setRightHand(const Item *item)
-{
-	rightHand_ = item;
+	deactivateBonus(item, player);
 }
-
-quint8 Equipment::smallPotions() const
-{
-	return smallPotions_;
-}
-
-void Equipment::setSmallPotions(quint8 cnt)
-{
-	smallPotions_ = cnt;
-}
-
-quint8 Equipment::largePotions() const
-{
-	return largePotions_;
-}
-
-void Equipment::setLargePotions(quint8 cnt)
-{
-	largePotions_ = cnt;
-}
-
-const QList <const Item *> & Equipment::backpack() const
-{
-	return backpack_;
-}
-
-const QList <const Item *> & Equipment::usedArtifacts() const
-{
-	return usedArtifacts_;
-}
-
-void Equipment::addItem(const Item *item)
-{
-	backpack_.append(item);
-}
-
-void Equipment::removeItem(const Item *item)
-{
-	backpack_.removeOne(item);
-}
-
-void Equipment::addArtifact(const Item *item)
-{
-	usedArtifacts_.append(item);
-}
-
-void Equipment::removeArtifact(const Item *item)
-{
-	usedArtifacts_.removeOne(item);
-}
+*/

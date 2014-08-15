@@ -44,6 +44,8 @@ BoardParser::BoardParser(DataKeeper *dataKeeper)
 		bylBlad = true;
 	}
 	ustawienie.close();
+
+	dataKeeper->initialPositions_ = initialPositions_;
 }
 
 /**
@@ -170,11 +172,11 @@ bool BoardParser::wczytajUstawienie(QTextStream* wejscie)
 				return true;
 			}
 			info dane = legenda[symbol];
-			FieldId miejsce = {j,i};
-			dataKeeper->fields_.push_back(new Field(miejsce, dane.name, dane.wspolczynnik, dane.czyPoleZEnemyiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
+			Coordinates miejsce = {j,i};
+			dataKeeper->fields_.push_back(Field(miejsce, dane.name, dane.wspolczynnik, dane.czyPoleZEnemyiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
 //TODO think if Board include can/should be ommited
 //			if(dane.czyPoleZMiastem)
-//				dataKeeper->cities_.push_back(Board::fieldIdToIndex(miejsce));
+//				dataKeeper->cities_.push_back(Board::coordinatesToIndex(miejsce));
 		}
 	}
 	return false;

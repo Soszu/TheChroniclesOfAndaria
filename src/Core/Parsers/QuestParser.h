@@ -1,4 +1,4 @@
-/**
+﻿/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Enemy.h"
 #include "Core/Containers/Field.h"
 #include "Core/Containers/Quest.h"
-#include "Game/Common/DataKeeper.h"
+#include "Core/DataKeeper.h"
 
 class DataKeeper;
 
@@ -48,7 +48,7 @@ private:
 		QString tytul;
 		QString tresc;
 		bool czyPowrot;
-		FieldId cel;
+		Coordinates cel;
 		int idNagrody;
 		QList <int> idWrogow;
 	};

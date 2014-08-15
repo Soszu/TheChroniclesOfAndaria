@@ -16,27 +16,29 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMBASE_H
-#define ITEMBASE_H
+#pragma once
 
 #include <QtCore>
-#include "Core/Game.h"
-#include "Core/Util/Serial.hpp"
+#include "Core/Utils/Serial.hpp"
+#include "Core/Utils/BiHash.hpp"
+#include "Core/Containers/Effect.h"
 
-namespace TCOA {
-	enum class PlayerClass : quint8;
-	enum class ItemType : quint8 {
+enum class Class : quint8;
+
+class ItemBase {
+public:
+	enum class Type : quint8 {
 		// Wearable items:
-		TwoHandedWeapon,
-		OneHandedWeapon,
-		Shield,
 		Armor,
-		Helmet,
 		Artifact,
-		//One-time use items:
-		Potion,
-		Scroll
+		Helmet,
+		Shield,
+		OneHandedWeapon,
+		TwoHandedWeapon,
+		//disposable use items:
+		Potion
 	};
+	static const BiHash <Type, QString> TypeLabels;
 
 	enum class Quality : quint8 {
 		NotApplicable,
@@ -44,42 +46,53 @@ namespace TCOA {
 		Normal,
 		Good
 	};
-}
+	static const BiHash <Quality, QString> QualityLabels;
 
-public:
-	ItemBase();
-	ItemBase(UID uid, const QString &name);
+	ItemBase(UID uid, const QString & name);
+	ItemBase(UID uid,
+	         const QString & name,
+	         Type type,
+	         quint16 price,
+	         Quality quality,
+	         const QList <Effect> effects,
+	         const QHash<Class, bool> restrictions);
 
+	const QList <Effect> & effects() const;
+	const QString & name() const;
+	quint16 price() const;
+	Quality quality() const;
+	const QHash <Class, bool> & restrictions() const;
+	QDataStream & toDataStream(QDataStream &out) const;
+	Type type() const;
 	UID uid() const;
 
-	QString name() const;
+	void addEffect(const Effect &effect);
+	QDataStream & fromDataStream(QDataStream &in);
+	void setEffects(const QList <Effect> &effects);
 	void setName(const QString &name);
-
-	TCOA::ItemType type() const;
-	void setType(TCOA::ItemType type);
-
-	int value() const;
-	void setValue(int value);
-
-	QHash <TCOA::PlayerClass, bool> restrictions() const;
-	void setRestrictions(QHash <TCOA::PlayerClass, bool> restrictions);
-
-	QList <TCOA::Effect> effects() const;
-	void setEffects(QList <TCOA::Effect> effect);
-
-	friend QDataStream & operator << (QDataStream &out, const ItemBase &item);
-	friend QDataStream & operator >> (QDataStream &in, ItemBase &item);
+	void setPrice(quint16 price);
+	void setQuality(Quality quality);
+	void setRestriction(Class playerClass, bool value);
+	void setRestrictions(const QHash <Class, bool> &restrictions);
+	void setType(Type type);
+	void toggleRestriction(Class playerClass);
 
 private:
+	static const QHash <Class, bool> InitialRestrictions;
+
 	UID uid_;
-
 	QString name_;
-
-	TCOA::ItemType type_;
-	QHash <TCOA::PlayerClass, bool> restrictions_;
-
-	int value_;
-
-	QList <TCOA::Effect> effects_;
+	Type type_;
+	quint16 price_;
+	Quality quality_;
+	QList <Effect> effects_;
+	QHash <Class, bool> restrictions_;
 };
-#endif // ITEMBASE_H
+QDataStream & operator<<(QDataStream &out, const ItemBase &base);
+QDataStream & operator>>(QDataStream &in, ItemBase &base);
+uint qHash(ItemBase::Type type);
+QDataStream & operator<<(QDataStream &out, const ItemBase::Type &type);
+QDataStream & operator>>(QDataStream &in, ItemBase::Type &type);
+uint qHash(ItemBase::Quality quality);
+QDataStream & operator<<(QDataStream &out, const ItemBase::Quality &quality);
+QDataStream & operator>>(QDataStream &in, ItemBase::Quality &quality);

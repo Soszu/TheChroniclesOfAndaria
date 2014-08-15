@@ -2,25 +2,23 @@
 
 #include "Core/Containers/PlayerDraft.h"
 #include "Game/Server/ConnectionAdapterSrv.h"
-#include "Game/Server/GameCycleSrv.h"
+#include "Game/Common/Authority.h"
 
-class NewGameSrv : public QObject {
+class NewGameSrv : public Authority {
 	Q_OBJECT
 public:
-	NewGameSrv(ConnectionAdapterSrv *connAdapter);
-	void waitForPlayers();
+	NewGameSrv() = default;
+
+public slots:
+	void onNewMessage(Message &msg, UID sender);
+	void onUserEntered(UID userID);
+	void onUserQuit(UID userID);
 
 private:
 	void gameReady();
 
-	ConnectionAdapterSrv *connAdapter_;
 	QHash <UID, PlayerDraft> playersDrafts_;
 	QSet <UID> playersReady_;
-
-private slots:
-	void onUserEntered(UID userID);
-	void onUserQuit(UID userID);
-	void onNewMessage(Message &msg, UID sender);
 
 signals:
 	void gameSet(const QHash <UID, PlayerDraft> &);

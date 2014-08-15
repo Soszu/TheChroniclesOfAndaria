@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -17,116 +17,28 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEM_H
-#define ITEM_H
+#pragma once
 
-#include <QtGui>
-#include "Core/Util/EnumHelpers.hpp"
-#include "Core/Util/Serial.hpp"
-
-static const int NUMBER_OF_POSSIBLE_QUALITIES(4);
-
-static const quint8 LICZBA_RODZAJOW_PRZEDMIOTOW = 7;
-
-static const QString RODZAJE_PRZEDMIOTOW[LICZBA_RODZAJOW_PRZEDMIOTOW] = {
-	QString::fromUtf8("broń dwuręczna"),
-	QString::fromUtf8("broń jednoręczna"),
-	QString::fromUtf8("tarcza"),
-	QString::fromUtf8("pancerz"),
-	QString::fromUtf8("hełm"),
-	QString::fromUtf8("artefakt"),
-	QString::fromUtf8("mikstura"),
-};
+#include "Core/Containers/Bases/ItemBase.h"
+#include "Core/Containers/PlayerDraft.h"
 
 class Item {
-
 public:
-	
-	enum class Type : quint8 {
-		// Wearable items:
-		TwoHanded,
-		OneHanded,
-		Shield,
-		Armor,
-		Helmet,
-		Artifact,
-		//One-time use items:  
-		Potion,
-		Scroll
-		//and more
-	};
-	
-	enum class Quality : quint8 {
-		NotApplicable,
-		Poor,
-		Normal,
-		Good
-	};
-	
-	Item(QString name = QString("Default"),
-	     Item::Type type = Type::OneHanded,
-	     int bonusMelee = 0,
-	     int bonusRanged = 0,
-	     int bonusMagical = 0,
-	     int bonusDefence =  0,
-	     int bonusPerception = 0,
-	     int bonusHitPoints  = 0,
-	     int bonusRegeneration = 0,
-	     int restrictions = 0,
-	     int value = 1,
-	     bool isStrong = false,
-	     Item::Quality quality = Quality::Normal);
-	
-	Item(//UID ID,
-	     QString name,
-	     //CharacterStats statsModifiers,
-	     Item::Type type,
-	     //QMap <Player::Class, bool> restriction,
-	     int value,
-	     Item::Quality quality);
+	Item(ItemBase *base = nullptr);
 
-	//UID ID() const;
+	QList <Effect> effects() const;
+	bool isRestricted(Class playerClass) const;
 	QString name() const;
-	Item::Type type() const;
-	int bonusMelee() const;
-	int bonusRanged() const;
-	int bonusMagical() const;
-	int bonusDefence() const;
-	int bonusPerception() const;
-	int bonusHitPoints() const;
-	int bonusRegeneration() const;
-	int restrictions() const;
-	int value() const;
-	bool isStrong() const;
-	Item::Quality quality() const;
+	quint16 price() const;
+	ItemBase::Quality quality() const;
+	QHash <Class, bool> restrictions() const;
+	QDataStream & toDataStream(QDataStream &out) const;
+	ItemBase::Type type() const;
 
-	friend QDataStream & operator<<(QDataStream &out, const Item &item);
-	friend QDataStream & operator>>(QDataStream &in, Item &item);
-	
-	static const quint8 ArtifactLimit = 5;
-	static const QHash <Item::Type, QString> &itemTypes();
-	static const QHash <Item::Quality, QString> &itemQualities();
+	QDataStream & fromDataStream(QDataStream &in);
 
-protected:
-	//UID ID_; 
-	QString name_;
-	//Player::CharacterStats statsModifiers_;
-	Type type_;
-	int bonusMelee_;
-	int bonusRanged_;
-	int bonusMagical_;
-	int bonusDefence_;
-	int bonusPerception_;
-	int bonusHitPoints_;
-	int bonusRegeneration_;
-	int restrictions_;
-	//QMap <Player::Class, bool> restrictions_; //QMap or QHash
-	int value_;
-	bool isStrong_;
-	Item::Quality quality_;
+private:
+	ItemBase *base_;
 };
-
-uint qHash(Item::Type type);
-uint qHash(Item::Quality quality);
-
-#endif
+QDataStream & operator<<(QDataStream &out, const Item &item);
+QDataStream & operator>>(QDataStream &in, Item &item);

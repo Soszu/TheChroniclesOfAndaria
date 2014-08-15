@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,29 +16,48 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PRIZE_H
-#define PRIZE_H
+#pragma once
 
 #include <QtCore>
+#include "Core/Containers/Effect.h"
+#include "Core/Containers/Item.h"
+
+enum class Kingdom : quint8;
 
 class Prize {
-
 public:
-	Prize(int *reputation, quint16 gold, quint16 experience, QStringList groupNames, const QList <int> &items);
-	~Prize();
+	Prize();
+	Prize(QList <Effect> effects,
+	      quint16 experience,
+	      QList <Item> items,
+	      quint16 gold,
+	      QHash <Kingdom, qint8> reputations);
 
-	int * reputation() const;
-	quint16 gold() const;
+	const QList <Effect> &effects() const;
 	quint16 experience() const;
-	QStringList groupNames() const;
-	const QList <int> & items();
+	quint16 gold() const;
+	const QList <Item> & items() const;
+	const qint8 reputation(Kingdom kingdom) const;
+	const QHash <Kingdom, qint8> & reputations() const;
+	QDataStream & toDataStream(QDataStream &out) const;
+
+	void addEffect(Effect effect);
+	void addItem(Item item);
+	void addReputation(Kingdom kingdom, qint8 reputation);
+	QDataStream & fromDataStream(QDataStream &in);
+	void setEffects(QList <Effect> effects);
+	void setExperience(quint16 experience);
+	void setGold(quint16 gold);
+	void setItems(QList <Item> items);
+	void setReputations(QHash <Kingdom, qint8> reputations);
 
 private:
-	int *reputation_; //TODO CFiend to na pewno ma byc pointer, a nie np. kopia albo const pointer const?
-	quint16 gold_;
+	QList <Effect> effects_;
 	quint16 experience_;
-	QStringList groupNames_;
-	QList <int> items_;
+	QList <Item> items_;
+	quint16 gold_;
+	QHash <Kingdom, qint8> reputations_;
 };
 
-#endif
+QDataStream & operator<<(QDataStream &out, const Prize &prize);
+QDataStream & operator>>(QDataStream &in, Prize &prize);

@@ -1,23 +1,9 @@
 ﻿#include "NewGameSrv.h"
 
-NewGameSrv::NewGameSrv(ConnectionAdapterSrv *connAdapter) : connAdapter_(connAdapter)
-{}
-
-void NewGameSrv::waitForPlayers()
-{
-	connect(connAdapter_, &ConnectionAdapterSrv::newUser, this, &NewGameSrv::onUserEntered);
-	connect(connAdapter_, &ConnectionAdapterSrv::userDisconnected, this, &NewGameSrv::onUserQuit);
-	connect(connAdapter_, &ConnectionAdapter::newMessage, this, &NewGameSrv::onNewMessage);
-	connAdapter_->startListen();
-}
-
 void NewGameSrv::gameReady()
 {
-// TODO	send game ready
-	disconnect(connAdapter_, &ConnectionAdapterSrv::newUser, this, &NewGameSrv::onUserEntered);
-	disconnect(connAdapter_, &ConnectionAdapterSrv::userDisconnected, this, &NewGameSrv::onUserQuit);
-	disconnect(connAdapter_, &ConnectionAdapter::newMessage, this, &NewGameSrv::onNewMessage);
 	emit gameSet(playersDrafts_);
+	switchToPredecessor();
 }
 
 void NewGameSrv::onUserEntered(UID userID)

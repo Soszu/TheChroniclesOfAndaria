@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -18,41 +18,64 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Field.h"
 
-Field::Field (FieldId fieldId, QString name, int coefficient, bool hasEnemy, bool hasCity, QString imageFile, int fraction)
-    : fieldId_(fieldId), name_(name), moveCost_(coefficient), hasEnemy_(hasEnemy), hasCity_(hasCity), imageFile_(imageFile), fraction_(fraction)
+inline uint qHash(const QPoint& p)
+{
+	return qHash(p.x()+p.y());
+}
+
+inline uint qHash(Kingdom kingdom)
+{
+	return qHash(toUnderlying(kingdom));
+}
+
+QDataStream & operator<<(QDataStream &out, Kingdom kingdom)
+{
+	return out << toUnderlying(kingdom);
+}
+
+QDataStream & operator>>(QDataStream &in, Kingdom kingdom)
+{
+	return in >> toUnderlyingRef(kingdom);
+}
+
+static const BiHash <Kingdom, QString> KingdomLabels {
+	{Kingdom::Neutral, Label::Neutral},
+	{Kingdom::Humans, Label::Humans},
+	{Kingdom::Dwarfs, Label::Dwarfs},
+	{Kingdom::Elves, Label::Elves},
+	{Kingdom::Halflings, Label::Halflings}
+};
+
+Field::Field(Coordinates coordinates, Kingdom kingdom, Terrain *terrain)
+     : coordinates_(coordinates), kingdom_(kingdom), terrain_(terrain)
 {}
 
-FieldId Field::fieldId() const
+const QList <ActionId> & Field::actions() const
 {
-	return fieldId_;
+	return terrain_->actions();
 }
 
-QString Field::name() const
+Coordinates Field::coordinates() const
 {
-	return name_;
+	return coordinates_;
 }
 
-int Field::moveCost() const
+quint8 Field::coefficient() const
 {
-	return moveCost_;
+	return terrain_->coefficient();
 }
 
-bool Field::hasEnemy() const
+const QString & Field::imagePath() const
 {
-	return hasEnemy_;
+	return terrain_->imagePath();
 }
 
-bool Field::hasCity() const
+Kingdom Field::kingdom() const
 {
-	return hasCity_;
+	return kingdom_;
 }
 
-QString Field::imageFile() const
+const QString & Field::name() const
 {
-	return imageFile_;
-}
-
-int Field::fraction() const
-{
-	return fraction_;
+	return terrain_->name();
 }

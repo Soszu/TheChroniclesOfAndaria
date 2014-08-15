@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,8 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CONTENTEDITOR_H
-#define CONTENTEDITOR_H
+#pragma once
 
 #include <QtWidgets>
 
@@ -30,10 +29,10 @@ public:
 
 	QString name() const;
 	QWidget * widget() const;
-
-	virtual void clear(){}
 	virtual bool isChanged() const = 0;
-	virtual void saveToStream(QDataStream &out) const = 0 ;
+	virtual void saveToStream(QDataStream &out) const = 0;
+
+	virtual void clear();
 	virtual void loadFromStream(QDataStream &in) = 0;
 
 public slots:
@@ -43,5 +42,3 @@ protected:
 	QWidget *widget_;
 	QString name_;
 };
-
-#endif // CONTENTEDITOR_H

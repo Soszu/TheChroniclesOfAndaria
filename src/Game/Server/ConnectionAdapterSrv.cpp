@@ -2,7 +2,6 @@
 
 ConnectionAdapterSrv::ConnectionAdapterSrv() : tcpServer_(this), msgSignalMapper_(this), disconnectSignalMapper_(this)
 {
-	initServer();
 	connect(&tcpServer_, &QTcpServer::newConnection, this, &ConnectionAdapterSrv::handleNewConnection);
 	connect(&msgSignalMapper_, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
 	        this, &ConnectionAdapterSrv::handleMessage);
@@ -12,20 +11,17 @@ ConnectionAdapterSrv::ConnectionAdapterSrv() : tcpServer_(this), msgSignalMapper
 
 void ConnectionAdapterSrv::startListen()
 {
-	if (!tcpServer_.listen(QHostAddress::Any, srvPort)) {
+	if (!tcpServer_.listen(QHostAddress::Any, DefaultSrvPort)) {
 		qDebug() << Server::Errors::ListenFail.arg(tcpServer_.errorString());
 		return;
 	}
-	qDebug() << Server::Logs::ServerIsListening.arg(QString::number(srvPort));
+	qDebug() << Server::Logs::ServerIsListening.arg(QString::number(DefaultSrvPort));
 }
 
-void ConnectionAdapterSrv::sendToClt(UID userID, Message &msg)
+void ConnectionAdapterSrv::sendMessage(Message &msg, UID recipient) const
 {
-	connectedUsers_[userID]->write(msg.data());
+	connectedUsers_[recipient]->write(msg.data());
 }
-
-void ConnectionAdapterSrv::initServer()
-{}
 
 void ConnectionAdapterSrv::handleNewConnection()
 {
