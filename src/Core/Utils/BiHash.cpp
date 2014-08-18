@@ -124,3 +124,15 @@ inline const U BiHash <T, U>::value(const T &arg, const U &defaultValue) const
 		return iter.value();
 	return defaultValue;
 }
+
+template <typename T, typename U>
+inline QList<T> BiHash <T, U>::leftKeys() const
+{
+	return left.keys();
+}
+
+template <typename T, typename U>
+inline QList<U> BiHash <T, U>::rightKeys() const
+{
+	return right.keys();
+}

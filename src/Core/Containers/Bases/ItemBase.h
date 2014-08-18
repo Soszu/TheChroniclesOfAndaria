@@ -42,20 +42,19 @@ public:
 
 	enum class Quality : quint8 {
 		NotApplicable,
-		Poor,
-		Normal,
-		Good
+		Standard,
+		Magical,
+		Legendary
 	};
 	static const BiHash <Quality, QString> QualityLabels;
 
-	ItemBase(UID uid, const QString & name);
+	ItemBase(UID uid = Serial::MinUid, const QString &name = QString());
 	ItemBase(UID uid,
-	         const QString & name,
+	         const QString &name,
 	         Type type,
 	         quint16 price,
 	         Quality quality,
-	         const QList <Effect> effects,
-	         const QHash<Class, bool> restrictions);
+	         const QList <Effect> effects);
 
 	const QList <Effect> & effects() const;
 	const QString & name() const;
@@ -78,7 +77,6 @@ public:
 	void toggleRestriction(Class playerClass);
 
 private:
-	static const QHash <Class, bool> InitialRestrictions;
 
 	UID uid_;
 	QString name_;
@@ -86,8 +84,10 @@ private:
 	quint16 price_;
 	Quality quality_;
 	QList <Effect> effects_;
-	QHash <Class, bool> restrictions_;
 };
+Q_DECLARE_METATYPE(ItemBase::Type)
+Q_DECLARE_METATYPE(ItemBase::Quality)
+
 QDataStream & operator<<(QDataStream &out, const ItemBase &base);
 QDataStream & operator>>(QDataStream &in, ItemBase &base);
 uint qHash(ItemBase::Type type);

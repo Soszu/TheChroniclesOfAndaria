@@ -54,6 +54,9 @@ public:
 	const T value(const U &arg, const T &defaultValue) const;
 	const U value(const T &arg, const U &defaultValue) const;
 
+	QList<T> leftKeys() const;
+	QList<U> rightKeys() const;
+
 private:
 	QHash <T, U> left;
 	QHash <U, T> right;

@@ -1,4 +1,4 @@
-/*
+﻿/*
 The MIT License (MIT)
 
 Copyright (c) 2013 Bartosz Szreder
@@ -39,6 +39,10 @@ public:
         UID next()
         {
                 return nextUid++;
+        }
+        void reset()
+        {
+                nextUid = MinUid;
         }
 
 private:

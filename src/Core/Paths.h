@@ -16,13 +16,11 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PATHS_H
-#define PATHS_H
+#pragma once
 
 #include <QtCore>
 
 //to be wiped out with parsers
-static const QString PLIK_PRZEDMIOTOW = "data/przedmioty.txt";
 static const QString PLIK_PRZECIWNIKOW = "data/przeciwnicy.txt";
 static const QString PLIK_NAGROD = "data/nagrody.txt";
 static const QString PLIK_ZADAN = "data/zadania.txt";
@@ -52,5 +50,3 @@ namespace Paths {
 }
 
 QString resolvePath(const QString &path);
-
-#endif // PATHS_H

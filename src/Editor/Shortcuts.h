@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,18 +16,25 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EDITOR_SHORTCUTS_H
-#define EDITOR_SHORTCUTS_H
+#pragma once
 
 #include <QtCore>
 
-namespace Editor {
-	namespace Shortcuts {
-		const QKeySequence MenuFileNew  = QObject::tr("Ctrl+N");
-		const QKeySequence MenuFileOpen = QObject::tr("Ctrl+O");
-		const QKeySequence MenuFileSave = QObject::tr("Ctrl+S");
-		const QKeySequence MenuFileQuit = QObject::tr("Ctrl+Q");
+namespace Shortcut {
+	namespace Menu {
+		namespace File {
+			const QKeySequence New  = QObject::tr("Ctrl+N");
+			const QKeySequence Open = QObject::tr("Ctrl+O");
+			const QKeySequence Save = QObject::tr("Ctrl+S");
+			const QKeySequence Quit = QObject::tr("Ctrl+Q");
+		}
+	}
+
+	namespace Editor {
+		const QKeySequence Add    = QObject::tr("Insert");
+		const QKeySequence Remove = QObject::tr("Delete");
+
+		const QKeySequence SecondaryAdd    = QObject::tr("Ctrl+Insert");
+		const QKeySequence SecondaryRemove = QObject::tr("Ctrl+Delete");
 	}
 }
-
-#endif //EDITOR_SHORTCUTS_H

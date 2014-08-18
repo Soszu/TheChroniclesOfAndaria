@@ -1,51 +1,59 @@
-﻿#ifndef ITEMMODEL_H
-#define ITEMMODEL_H
+﻿#pragma once
 
-#include "Core/Containers/Item.h"
-#include <QVector>
+#include <QtCore>
+#include "Core/Strings.h"
+#include "Core/Utils/Serial.hpp"
+#include "Core/Containers/Bases/ItemBase.h"
+
+class ItemBase;
 
 class ItemModel : public QAbstractTableModel {
-	Q_OBJECT;
 public:
+	static const int Name              = 0;
+	static const int Type              = 1;
+	static const int Price             = 2;
+	static const int Quality           = 3;
+	static const int Effects           = 4;
+	static const int ColumnCount       = 5;
+
 	explicit ItemModel(QObject *parent = nullptr);
-	
-	int columnCount(const QModelIndex & index = QModelIndex()) const;
-	int rowCount(const QModelIndex & = QModelIndex()) const;
-	
-	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::ItemFlags flags(const QModelIndex &index = QModelIndex()) const;
+	ItemModel(const ItemModel &) = delete;
+	ItemModel(ItemModel &&) = delete;
+	void operator=(const ItemModel &) = delete;
+	void operator=(ItemModel &&) = delete;
+	~ItemModel();
 
+	int columnCount(const QModelIndex &index = QModelIndex()) const;
+	QVariant data(const QModelIndex &index, int role) const;
+	bool empty() const;
+	Qt::ItemFlags flags(const QModelIndex &index) const;
+	bool hasItem(const QString &name) const;
+	const ItemBase * itemInRow(int row) const;
+	const ItemBase * item(UID uid) const;
+	const ItemBase * item(const QModelIndex &index) const;
+	const ItemBase * item(const QString &name) const;
+	const QList <ItemBase *> & items() const;
+	bool isChanged() const;
+	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	QDataStream & toDataStream(QDataStream &out) const;
+
+	void addNewItem();
+	QDataStream & fromDataStream(QDataStream &in);
 	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
+	void removeItem(UID uid);
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
+	void reset();
+	void setChanged(bool changed);
+	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
-	static const int Uid = 0;
-	static const int Name = 1;
-	static const int Type = 2;
-	static const int BonusHitPoints = 3;
-	static const int BonusDefence = 4;
-	static const int BonusPerception = 5;
-	static const int BonusMeleeMin = 6;
-	static const int BonusMeleeRng = 7;
-	static const int BonusRangedMin = 8;
-	static const int BonusRangedRng = 9;
-	static const int BonusMagicalMin = 10;
-	static const int BonusMagicalRng = 11;
-	static const int BonusRegeneration = 12;
-	static const int BonusMovePoints = 13;
-	static const int RestrictionFighter = 14;
-	static const int RestrictionRanger = 15;
-	static const int RestrictionMage = 16;
-	static const int RestrictionDruid = 17;
-	static const int Value = 18;
-	static const int ColumnCount = 19;
-	
-	friend QDataStream & operator<<(QDataStream &out, const ItemModel &itemModel);
-	friend QDataStream & operator>>(QDataStream &in, ItemModel &itemModel);
-protected:
+private:
+	void addItem(int row, ItemBase *item);
+	void removeItemFromRow(int row);
+
+	bool changed_;
+	QList <ItemBase *> items_;
 	Serial serial_;
-	QVector <Item *> items_;
+	QHash <UID, ItemBase *> uidToItem_;
 };
-
-
-#endif
+QDataStream & operator<<(QDataStream &out, const ItemModel &model);
+QDataStream & operator>>(QDataStream &in, ItemModel &model);

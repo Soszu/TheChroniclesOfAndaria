@@ -1,4 +1,4 @@
-/*
+﻿/*
  *TODO
  * paths
  * window and widgets size in const variables listed in one place
@@ -23,12 +23,12 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QtWidgets>
 #include "Editor/Strings.h"
-#include "Editor/ContentEditor.h"
+#include "Editor/Shortcuts.h"
+#include "Editor/Editors/ContentEditor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -70,5 +70,3 @@ private slots:
 signals:
 	void modelSaved();
 };
-
-#endif // MAINWINDOW_H

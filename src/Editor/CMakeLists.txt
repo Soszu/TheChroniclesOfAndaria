@@ -1,14 +1,22 @@
-set (Editor_SRCS
+﻿set (Editor_SRCS
 	main.cpp
 	MainWindow.cpp
-	ContentEditor.cpp
+
+	CustomWidgets/EffectsListEdit.cpp
+	CustomWidgets/EnumEdit.cpp
+
+	Editors/ContentEditor.cpp
+	Editors/ItemsEditor.cpp
 )
 
 set (Editor_HDRS
 	MainWindow.h
-	ContentEditor.h
-	Strings.h
-	Shortcuts.h
+
+	CustomWidgets/EffectsListEdit.h
+	CustomWidgets/EnumEdit.h
+
+	Editors/ContentEditor.h
+	Editors/ItemsEditor.h
 )
 
 qt5_wrap_cpp (Editor_SRCS ${Editor_HDRS})

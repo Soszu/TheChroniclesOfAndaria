@@ -1,136 +1,227 @@
-﻿#include "ItemModel.h"
+﻿#include "Core/Containers/Models/ItemModel.h"
 
-
-ItemModel::ItemModel(QObject *parent): QAbstractTableModel(parent)
+ItemModel::ItemModel(QObject *parent) : QAbstractTableModel(parent), changed_(false)
 {
+	auto modelChanged = [this]{
+		this->changed_ = true;
+	};
+
+	connect(this, &QAbstractTableModel::dataChanged,  modelChanged);
+	connect(this, &QAbstractTableModel::rowsInserted, modelChanged);
+	connect(this, &QAbstractTableModel::rowsMoved,    modelChanged);
+	connect(this, &QAbstractTableModel::rowsRemoved,  modelChanged);
 }
 
-int ItemModel::columnCount(const QModelIndex &) const
+ItemModel::~ItemModel()
 {
+	qDeleteAll(items_);
+}
+
+int ItemModel::columnCount(const QModelIndex& index) const
+{
+	if (index.isValid())
+		return 0;
 	return ColumnCount;
 }
 
-int ItemModel::rowCount(const QModelIndex &) const
+QVariant ItemModel::data(const QModelIndex &index, int role) const
 {
-	return items_.count();
+	if (!index.isValid())
+		return QVariant();
+
+	if (role == Qt::DisplayRole || role == Qt::EditRole) {
+		const ItemBase *item = items_[index.row()];
+		switch (index.column()) {
+			case Name:                return item->name();
+			case Type:                return QVariant::fromValue(item->type());
+			case Price:               return item->price();
+			case Quality:             return QVariant::fromValue(item->quality());
+			case Effects:             return QVariant::fromValue(item->effects());
+		}
+	}
+
+	return QVariant();
+}
+
+bool ItemModel::empty() const
+{
+	return items_.empty();
 }
 
 Qt::ItemFlags ItemModel::flags(const QModelIndex &index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
-	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+	return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-
-QVariant ItemModel::headerData(int section, Qt::Orientation orientation, int role) const
+bool ItemModel::hasItem(const QString &name) const
 {
-	if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
-		return QVariant();
+	return item(name) != nullptr;
+}
 
-	switch (section) {
-		case Uid : return tr("ID");
-		case Name : return tr("Name");
-		case Type : return tr("Type");;
-		case BonusHitPoints : return tr("Bonus Hit Points");
-		case BonusDefence : return tr("Bonus Defence");
-		case BonusPerception : return tr("Bonus Perception");
-		case BonusMeleeMin : return tr("Bonus Melee Minimum Damage");
-		case BonusMeleeRng : return tr("Bonus Melee Damage Range");
-		case BonusRangedMin : return tr("Bonus Ranged Minimum Damage");
-		case BonusRangedRng : return tr("Bonus Ranged Damage Range");
-		case BonusMagicalMin : return tr("Bonus Magical Minimum Damage");
-		case BonusMagicalRng : return tr("Bonus Magical Damage Range");
-		case BonusRegeneration : return tr("Bonus Regeneration");
-		case BonusMovePoints : return tr("Bonus Move Points");
-		case RestrictionFighter : return tr("Restriction for Fighter");
-		case RestrictionRanger : return tr("Restriction for Ranger");
-		case RestrictionMage : return tr("Restriction for Mage");
-		case RestrictionDruid : return tr("Restriction for Druid");
-		case Value : return tr("Value");
+const ItemBase * ItemModel::itemInRow(int row) const
+{
+	return items_.value(row, nullptr);
+}
+
+const ItemBase * ItemModel::item(UID uid) const
+{
+	return uidToItem_.value(uid, nullptr);
+}
+
+const ItemBase * ItemModel::item(const QModelIndex &index) const
+{
+	return items_.value(index.row(), nullptr);
+}
+
+const ItemBase * ItemModel::item(const QString &name) const
+{
+	for (const ItemBase * item : items_)
+		if (item->name() == name)
+			return item;
+
+		return nullptr;
+}
+
+const QList <ItemBase *> & ItemModel::items() const
+{
+	return items_;
+}
+
+bool ItemModel::isChanged() const
+{
+	return changed_;
+}
+
+int ItemModel::rowCount(const QModelIndex &parent) const
+{
+	return items_.count();
+}
+
+QDataStream &ItemModel::toDataStream(QDataStream &out) const
+{
+	out << serial_ << static_cast<UID>(items_.count());
+	for (const ItemBase *item : items_)
+		out << *item;
+	return out;
+}
+
+void ItemModel::addNewItem(){
+	insertRows(items_.count(), 1);
+}
+
+QDataStream &ItemModel::fromDataStream(QDataStream &in)
+{
+	beginResetModel();
+	qDeleteAll(items_);
+	items_.clear();
+	uidToItem_.clear();
+
+	UID count;
+	in >> serial_ >> count;
+	for (UID i = 0; i < count; ++i) {
+		ItemBase *item = new ItemBase;
+		in >> *item;
+		addItem(i, item);
 	}
+	endResetModel();
 
-	return QVariant();
+	return in;
 }
 
-QVariant ItemModel::data(const QModelIndex &index, int role) const
+bool ItemModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-	if (!index.isValid() || (role != Qt::DisplayRole))
-		return QVariant();
-	
-	const Item * item = items_[index.row()];
-	switch (index.column()) {
-		//case Uid : return item->ID(); break;
-		case Name : return item->name(); break;
-		case Type : return Item::itemTypes()[item->type()]; break;
-// 		case BonusHitPoints : return item->statsModifiers().battleStats_.maxHealth_; break;
-// 		case BonusDefence : return item->statsModifiers().battleStats_.defence_; break;
-// 		case BonusPerception : return item->statsModifiers().battleStats_.perception_; break;
-// 		case BonusMeleeMin : return item->statsModifiers().battleStats_.attacks_[AttackType::meele].first; break;
-// 		case BonusMeleeRng : return item->statsModifiers().battleStats_.attacks_[AttackType::meele].second; break;
-// 		case BonusRangedMin : return item->statsModifiers().battleStats_.attacks_[AttackType::range].first; break;
-// 		case BonusRangedRng : return item->statsModifiers().battleStats_.attacks_[AttackType::range].second; break;
-// 		case BonusMagicalMin : return item->statsModifiers().battleStats_.attacks_[AttackType::magical].first; break;
-// 		case BonusMagicalRng : return item->statsModifiers().battleStats_.attacks_[AttackType::magical].second; break;
-// 		case BonusRegeneration : return item->statsModifiers().regeneration_; break;
-// 		case BonusMovePoints : return item->statsModifiers().movePoints_; break;
-// 		case RestrictionFighter : return item->restrictions()[PlayerClass::fighter]; break;
-// 		case RestrictionRanger : return item->restrictions()[PlayerClass::ranger]; break;
-// 		case RestrictionMage : return item->restrictions()[PlayerClass::mage]; break;
-// 		case RestrictionDruid : return item->restrictions()[PlayerClass::druid]; break;
-		case Value : return item->value(); break;
-	}
-	
-	return QVariant();
-}
-
-bool ItemModel::insertRows(int row, int count, const QModelIndex &)
-{
+	int nameSuffix = 0;
 	beginInsertRows(QModelIndex(), row, row + count - 1);
 	for (int i = 0; i < count; ++i) {
-		Item * item = new Item(//serial_.next(),
-									  "Default",
-								     //CharacterStats(),
-									  Item::Type::OneHanded,
-								     //QMap <Player::Class, bool>(),
-									  1,
-									  Item::Quality::Good);
-		items_.insert(row, item);
+		QString itemName;
+		do {
+			++nameSuffix;
+			itemName = QString("%1 %2").arg(Default::ItemName).arg(nameSuffix);
+		} while (hasItem(itemName));
+
+		items_.insert(row + i, new ItemBase(serial_.next(), itemName));
 	}
 	endInsertRows();
 
 	return true;
 }
 
-bool ItemModel::removeRows(int row, int count, const QModelIndex &)
+void ItemModel::removeItem(UID uid)
+{
+	for (int i = 0; i < items_.count(); ++i) {
+		if (items_[i]->uid() == uid) {
+			beginRemoveRows(QModelIndex(), i, i);
+			delete items_.takeAt(i);
+			endRemoveRows();
+			uidToItem_.remove(uid);
+			return;
+		}
+	}
+}
+
+bool ItemModel::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
-	items_.remove(row, count);
+	for (int i = 0; i < count; ++i)
+		removeItemFromRow(row);
 	endRemoveRows();
 
 	return true;
 }
 
-QDataStream & operator<<(QDataStream &out, const ItemModel &itemModel)
+void ItemModel::reset()
 {
-	out << itemModel.serial_ << itemModel.items_.count();
-	for (const Item * item : itemModel.items_)
-		out << (*item);
-	
-	return out;
+	beginResetModel();
+	removeRows(0, rowCount());
+	serial_.reset();
+	changed_ = false;
+	endResetModel();
 }
 
-QDataStream & operator>>(QDataStream &in, ItemModel &itemModel)
+void ItemModel::setChanged(bool changed)
 {
-	int count;
-	in >> itemModel.serial_ >> count;
-	for (int i = 0; i < count; ++i) {
-		Item *item = new Item();
-		in >> (*item);
-		itemModel.items_.push_back(item);
+	changed_ = changed;
+}
+
+bool ItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	if (!index.isValid() || role != Qt::EditRole)
+		return false;
+
+	ItemBase *item = items_[index.row()];
+	switch (index.column()) {
+		case Name:                item->setName(value.toString()); break;
+		case Type:                item->setType(value.value<ItemBase::Type>()); break;
+		case Quality:             item->setQuality(value.value<ItemBase::Quality>()); break;
+		case Price:               item->setPrice(value.toInt()); break;
+		case Effects:             item->setEffects(value.value<QList <Effect> >()); break;
 	}
-	
-	return in;
+
+	emit dataChanged(index, index);
+
+	return true;
 }
 
+void ItemModel::addItem(int row, ItemBase* item)
+{
+	items_.insert(row, item);
+	uidToItem_[item->uid()] = item;
+}
 
+void ItemModel::removeItemFromRow(int row)
+{
+	uidToItem_.remove(items_[row]->uid());
+	delete items_.takeAt(row);
+}
+
+QDataStream & operator<<(QDataStream &out, const ItemModel &model)
+{
+	return model.toDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream &in, ItemModel &model)
+{
+	return model.fromDataStream(in);
+}

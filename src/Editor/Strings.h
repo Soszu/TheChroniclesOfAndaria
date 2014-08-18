@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,32 +16,64 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EDITOR_STRINGS_H
-#define EDITOR_STRINGS_H
+#pragma once
 
 #include <QtCore>
-#include "Editor/Shortcuts.h"
 
-namespace Editor {
-	namespace Messages {
-		const QString HowToStart    = QObject::tr("Use \"New\" or \"Open\" from \"File\" menu to start");
-		const QString ContentLoaded = QObject::tr("Content loaded");
-		const QString ContentSaved  = QObject::tr("Content saved");
-	}
+namespace Message {
+	const QString HowToStart    = QObject::tr("Use \"New\" or \"Open\" from \"File\" menu to start");
+	const QString ContentLoaded = QObject::tr("Content loaded");
+	const QString ContentSaved  = QObject::tr("Content saved");
+}
 
-	namespace Strings {
-		const QString MenuFile       = QObject::tr("&File");
-		const QString MenuFileNew    = QObject::tr("New");
-		const QString MenuFileOpen   = QObject::tr("Open");
-		const QString MenuFileSave   = QObject::tr("Save");
-		const QString MenuFileSaveAs = QObject::tr("Save as");
-		const QString MenuFileQuit   = QObject::tr("Quit");
-
-		const QString OpenFileDialog        = QObject::tr("Open Content");
-		const QString SaveFileDialog        = QObject::tr("Save Content");
-		const QString ContentFilesExtension = QObject::tr("tcoa");
-		const QString ContentFiles          = QObject::tr("TCOA content files (*.%1)").arg(ContentFilesExtension);
+namespace Menu {
+	namespace File {
+		const QString Main   = QObject::tr("&File");
+		const QString New    = QObject::tr("New");
+		const QString Open   = QObject::tr("Open");
+		const QString Save   = QObject::tr("Save");
+		const QString SaveAs = QObject::tr("Save as");
+		const QString Quit   = QObject::tr("Quit");
 	}
 }
 
-#endif //EDITOR_STRINGS_H
+namespace Title {
+	const QString EditorWindow   = QObject::tr("TCOA Editor");
+	const QString OpenFileDialog = QObject::tr("Open Content");
+	const QString SaveFileDialog = QObject::tr("Save Content");
+
+	const QString Items   = QObject::tr("Items");
+	const QString Enemies = QObject::tr("Enemies");
+	const QString Quests  = QObject::tr("Quests");
+}
+
+namespace Label {
+	namespace Item {
+		const QString Name    = QObject::tr("Name");
+		const QString Type    = QObject::tr("Type");
+		const QString Quality = QObject::tr("Quality");
+		const QString Price   = QObject::tr("Price");
+		const QString Effects = QObject::tr("Effects");
+	}
+	namespace Editor {
+		const QString Add      = QObject::tr("Add");
+		const QString Remove   = QObject::tr("Remove");
+	}
+
+	namespace Effect {
+		const QString List     = QObject::tr("List");
+		const QString Details  = QObject::tr("Details");
+
+		const QString Type     = QObject::tr("Type");
+		const QString Value    = QObject::tr("Value");
+		const QString Duration = QObject::tr("Duration");
+
+		const QString Add      = QObject::tr("Add");
+		const QString Remove   = QObject::tr("Remove");
+	}
+}
+
+namespace String {
+	const QString ContentFilesExtension = QObject::tr("tcoa");
+	const QString ContentFiles          = QObject::tr("TCOA content files (*.%1)").arg(ContentFilesExtension);
+}

@@ -85,9 +85,14 @@ namespace Label {
 		const QString Potion          = QObject::tr("Potion");
 
 		//Quality
-		const QString NotApplicable = QObject::tr("NotApplicable");
-		const QString Poor          = QObject::tr("Poor");
-		const QString Normal        = QObject::tr("Normal");
-		const QString Good          = QObject::tr("Good");
+		const QString NotApplicable = QObject::tr("Not Applicable");
+		const QString Standard      = QObject::tr("Standard");
+		const QString Magical       = QObject::tr("Magical");
+		const QString Legendary     = QObject::tr("Legendary");
 	}
+}
+
+//Defaults
+namespace Default {
+	const QString ItemName = QObject::tr("Item");
 }

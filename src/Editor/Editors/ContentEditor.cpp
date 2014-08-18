@@ -16,20 +16,33 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Editor/ContentEditor.h"
+#include "Editor/Editors/ContentEditor.h"
 
-ContentEditor::ContentEditor(const QString& name) : name_(name)
+ContentEditor::ContentEditor(const QString &title, QObject *parent)
+             : QObject(parent)
+             , placeholder_(nullptr)
+             , title_(title)
 {}
 
-QString ContentEditor::name() const
+QWidget * ContentEditor::placeholder() const
 {
-	return name_;
+	return placeholder_;
 }
 
-QWidget * ContentEditor::widget() const
+QString ContentEditor::title() const
 {
-	return widget_;
+	return title_;
 }
 
 void ContentEditor::clear()
 {}
+
+void ContentEditor::setPlaceholder(QWidget *placeholder)
+{
+placeholder_ = placeholder;
+}
+
+void ContentEditor::setTitle(const QString &title)
+{
+	title_ = title;
+}

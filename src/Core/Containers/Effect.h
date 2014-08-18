@@ -40,9 +40,10 @@ public:
 	static const Duration Disposable = -1;
 	static const Duration Permanent = -2;
 
-	inline bool isDisposable(const Effect &effect);
-	inline bool isPermanent(const Effect &effect);
-	inline bool expired(const Effect &effect);
+	static bool isDisposable(const Effect &effect);
+	static bool isPermanent(const Effect &effect);
+	static QString description(const Effect &effect);
+	static bool expired(const Effect &effect);
 	static bool contains(const QList <Effect> &effects, Type type);
 	static QList <Effect> filter(const QList <Effect> &effects, Type type);
 	static Value sumValue(const QList <Effect> &effects);
@@ -51,12 +52,17 @@ public:
 	Effect(Type type = Type::MaxHealth, Value value = 0, Duration duration = Permanent);
 	Effect(const Effect &effect) = default;
 
+	bool operator==(const Effect &other) const;
+
 	Duration duration() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	Type type() const;
 	Value value() const;
 
 	QDataStream & fromDataStream(QDataStream &in);
+	void setDuration(Effect::Duration);
+	void setType(Effect::Type);
+	void setValue(Effect::Value);
 	void shorten();
 
 private:
@@ -64,6 +70,8 @@ private:
 	Value value_;
 	Duration duration_;
 };
+Q_DECLARE_METATYPE(Effect)
+Q_DECLARE_METATYPE(Effect::Type)
 
 QDataStream & operator<<(QDataStream &out, const Effect &effect);
 QDataStream & operator>>(QDataStream &in, Effect &effect);

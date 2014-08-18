@@ -1,7 +1,5 @@
 ﻿set (core_SOURCES
-	Containers/Bases/EnemyBase.cpp
-	Containers/Bases/ItemBase.cpp
-	Containers/Bases/QuestBase.cpp
+
 	Containers/Effect.cpp
 	Containers/Enemy.cpp
 	Containers/Entity.cpp
@@ -14,9 +12,14 @@
 	Containers/Prize.cpp
 	Containers/Quest.cpp
 
+	Containers/Bases/EnemyBase.cpp
+	Containers/Bases/ItemBase.cpp
+	Containers/Bases/QuestBase.cpp
+
+	Containers/Models/ItemModel.cpp
+
 #	Parsers/BoardParser.cpp
 #	Parsers/EnemyParser.cpp
-#	Parsers/ItemParser.cpp
 #	Parsers/PrizeParser.cpp
 #	Parsers/QuestParser.cpp
 

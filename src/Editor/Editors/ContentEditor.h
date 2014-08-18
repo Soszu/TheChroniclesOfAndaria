@@ -25,10 +25,10 @@ class ContentEditor : public QObject
 Q_OBJECT
 
 public:
-	ContentEditor(const QString &name);
+	ContentEditor(const QString &title, QObject *parent = nullptr);
 
-	QString name() const;
-	QWidget * widget() const;
+	QWidget * placeholder() const;
+	QString title() const;
 	virtual bool isChanged() const = 0;
 	virtual void saveToStream(QDataStream &out) const = 0;
 
@@ -39,6 +39,10 @@ public slots:
 	virtual void modelSaved() = 0;
 
 protected:
-	QWidget *widget_;
-	QString name_;
+	void setPlaceholder(QWidget *placeholder);
+	void setTitle(const QString &title);
+
+private:
+	QWidget *placeholder_;
+	QString title_;
 };

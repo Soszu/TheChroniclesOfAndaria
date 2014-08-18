@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -17,10 +17,11 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Editor/MainWindow.h"
+#include "Editor/Editors/ItemsEditor.h"
 
 MainWindow::MainWindow()
 {
-	resize(800, 600);
+	resize(1024, 768);
 
 	initMenuAndActions();
 	initContentEditors();
@@ -36,13 +37,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::initMenuAndActions()
 {
-	QMenu *fileMenu = menuBar()->addMenu(Editor::Strings::MenuFile);
+	QMenu *fileMenu = menuBar()->addMenu(Menu::File::Main);
 
-	QAction *menuFileNew    = new QAction(Editor::Strings::MenuFileNew, this);
-	QAction *menuFileLoad   = new QAction(Editor::Strings::MenuFileOpen, this);
-	menuFileSave            = new QAction(Editor::Strings::MenuFileSave, this);
-	menuFileSaveAs          = new QAction(Editor::Strings::MenuFileSaveAs, this);
-	QAction *menuFileQuit   = new QAction(Editor::Strings::MenuFileQuit, this);
+	QAction *menuFileNew    = new QAction(Menu::File::New, this);
+	QAction *menuFileLoad   = new QAction(Menu::File::Open, this);
+	menuFileSave            = new QAction(Menu::File::Save, this);
+	menuFileSaveAs          = new QAction(Menu::File::SaveAs, this);
+	QAction *menuFileQuit   = new QAction(Menu::File::Quit, this);
 
 	connect(menuFileNew, &QAction::triggered, this, &MainWindow::onNewActivated);
 	connect(menuFileLoad, &QAction::triggered, this, &MainWindow::onLoadActivated);
@@ -50,10 +51,10 @@ void MainWindow::initMenuAndActions()
 	connect(menuFileSaveAs, &QAction::triggered, this, &MainWindow::onSaveAsActivated);
 	connect(menuFileQuit, &QAction::triggered, this, &MainWindow::onQuitActivated);
 
-	menuFileNew->setShortcut(Editor::Shortcuts::MenuFileNew);
-	menuFileLoad->setShortcut(Editor::Shortcuts::MenuFileOpen);
-	menuFileSave->setShortcut(Editor::Shortcuts::MenuFileSave);
-	menuFileQuit->setShortcut(Editor::Shortcuts::MenuFileQuit);
+	menuFileNew->setShortcut(Shortcut::Menu::File::New);
+	menuFileLoad->setShortcut(Shortcut::Menu::File::Open);
+	menuFileSave->setShortcut(Shortcut::Menu::File::Save);
+	menuFileQuit->setShortcut(Shortcut::Menu::File::Quit);
 
 	menuFileSave->setEnabled(false);
 	menuFileSaveAs->setEnabled(false);
@@ -69,7 +70,7 @@ void MainWindow::initMenuAndActions()
 void MainWindow::initContentEditors()
 {
 	//ADD CONTENT EDITORS HERE
-	//contentEditors_.push_back(new SomeContentEditor());
+	contentEditors_.append(new ItemsEditor(this));
 
 	for (ContentEditor *editor : contentEditors_)
 		connect(this, &MainWindow::modelSaved, editor, &ContentEditor::modelSaved);
@@ -79,14 +80,14 @@ void MainWindow::initModelsList()
 {
 	modelsList_ = new QListWidget();
 	for (ContentEditor *editor : contentEditors_)
-		modelsList_->addItem(editor->name());
+		modelsList_->addItem(editor->title());
 }
 
 void MainWindow::initEditorsWidgets()
 {
 	modelsWidgets_ = new QStackedWidget();
 	for (ContentEditor *editor : contentEditors_)
-		modelsWidgets_->addWidget(editor->widget());
+		modelsWidgets_->addWidget(editor->placeholder());
 
 	connect (modelsList_, &QListWidget::currentRowChanged, modelsWidgets_, &QStackedWidget::setCurrentIndex);
 }
@@ -103,7 +104,7 @@ void MainWindow::initLayout()
 
 	placeholder->setVisible(false);
 
-	statusBar()->showMessage(Editor::Messages::HowToStart);
+	statusBar()->showMessage(Message::HowToStart);
 }
 
 void MainWindow::startEditing()
@@ -129,7 +130,7 @@ bool MainWindow::loadContent(const QString &path)
 		editor->loadFromStream(in);
 
 	file.close();
-	statusBar()->showMessage(Editor::Messages::ContentLoaded);
+	statusBar()->showMessage(Message::ContentLoaded);
 	return true;
 }
 
@@ -148,7 +149,7 @@ bool MainWindow::saveContent(const QString &path)
 		editor->saveToStream(out);
 
 	file.close();
-	statusBar()->showMessage(Editor::Messages::ContentSaved);
+	statusBar()->showMessage(Message::ContentSaved);
 	return true;
 }
 
@@ -202,7 +203,7 @@ void MainWindow::onLoadActivated()
 			return;
 	}
 
-	QString path = QFileDialog::getOpenFileName(this, Editor::Strings::OpenFileDialog, QString(), Editor::Strings::ContentFiles);
+	QString path = QFileDialog::getOpenFileName(this, Title::OpenFileDialog, QString(), String::ContentFiles);
 	if (loadContent(path))
 		startEditing();
 }
@@ -218,7 +219,7 @@ void MainWindow::onSaveActivated()
 
 void MainWindow::onSaveAsActivated()
 {
-	QString path = QFileDialog::getSaveFileName(this, Editor::Strings::SaveFileDialog, QString(), Editor::Strings::ContentFiles);
+	QString path = QFileDialog::getSaveFileName(this, Title::SaveFileDialog, QString(), String::ContentFiles);
 
 	if (saveContent(path)){
 		emit modelSaved();

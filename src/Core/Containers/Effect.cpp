@@ -15,7 +15,7 @@ QDataStream & operator>>(QDataStream &in, Effect::Type &effectType)
 	return in >> toUnderlyingRef(effectType);
 }
 
-static const BiHash <Effect::Type, QString> TypeLabels = {
+const BiHash <Effect::Type, QString> Effect::TypeLabels = {
 	{Effect::Type::MaxHealth,       Label::MaxHealth},
 	{Effect::Type::Perception,      Label::Perception},
 	{Effect::Type::Defence,         Label::Defence},
@@ -33,6 +33,13 @@ static const BiHash <Effect::Type, QString> TypeLabels = {
 	{Effect::Type::Fear,            Label::Fear},
 	{Effect::Type::Retention,       Label::Retention}
 };
+
+QString Effect::description(const Effect &effect)
+{
+	return TypeLabels[effect.type()]
+	       + "(V: " + QString::number(effect.value())
+	       + " D: " + QString::number(effect.duration()) + ")";
+}
 
 bool Effect::expired(const Effect &effect)
 {
@@ -83,6 +90,11 @@ Effect::Effect(Type type, Effect::Value value, Effect::Duration duration)
       : type_(type), value_(value), duration_(duration)
 {}
 
+bool Effect::operator==(const Effect &other) const
+{
+	return (type_ == other.type() && value_ == other.value() && duration_ == other.duration());
+}
+
 Effect::Duration Effect::duration() const
 {
 	return duration_;
@@ -103,15 +115,30 @@ Effect::Value Effect::value() const
 	return value_;
 }
 
+QDataStream & Effect::fromDataStream(QDataStream &in)
+{
+	return in >> type_ >> value_ >> duration_;
+}
+
+void Effect::setDuration(Effect::Duration duration)
+{
+	duration_ = duration;
+}
+
+void Effect::setType(Effect::Type type)
+{
+	type_ = type;
+}
+
+void Effect::setValue(Effect::Value value)
+{
+	value_ = value;
+}
+
 void Effect::shorten()
 {
 	if (duration_ > 0)
 		--duration_;
-}
-
-QDataStream & Effect::fromDataStream(QDataStream &in)
-{
-	return in >> type_ >> value_ >> duration_;
 }
 
 QDataStream & operator<<(QDataStream &out, const Effect &effect)
