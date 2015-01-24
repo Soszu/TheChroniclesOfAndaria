@@ -21,7 +21,6 @@ This file is part of The Chronicles Of Andaria Project.
 
 int main(int argc, char **argv)
 {
-
 	QApplication app(argc, argv);
 
 	MainWindow mainWindow;

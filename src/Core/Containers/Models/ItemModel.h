@@ -3,7 +3,6 @@
 #include <QtCore>
 #include "Core/Strings.h"
 #include "Core/Utils/Serial.hpp"
-#include "Core/Containers/Bases/ItemBase.h"
 
 class ItemBase;
 

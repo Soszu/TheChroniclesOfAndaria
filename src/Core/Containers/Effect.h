@@ -24,14 +24,16 @@ public:
 		MovePoints,
 		//operations
 		Heal,
-		Wamp,
+		Vamp,
+		Deflect,
+		Absorb,
 		//bonuses
 		GoldBonus,
 		ExperienceBonus,
 		TradeBonus,
 		//states
 		Fear,
-		Retention
+		Stun
 	};
 	static const BiHash <Type, QString> TypeLabels;
 

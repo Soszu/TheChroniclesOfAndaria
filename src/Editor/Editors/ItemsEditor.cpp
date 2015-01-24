@@ -1,10 +1,11 @@
 ﻿#include "Editor/Editors/ItemsEditor.h"
 #include "Editor/Strings.h"
 #include "Editor/Shortcuts.h"
+#include "Core/Containers/Bases/ItemBase.h"
 
 ItemsEditor::ItemsEditor(QObject *parent) : ContentEditor(Title::Items, parent)
 {
-	initModels();
+	initModel();
 	initEditPart();
 	initViewPart();
 	initLayout();
@@ -36,7 +37,7 @@ void ItemsEditor::modelSaved()
 	itemModel_->setChanged(false);
 }
 
-void ItemsEditor::initModels()
+void ItemsEditor::initModel()
 {
 	itemModel_ = new ItemModel(this);
 	itemMapper_ = new QDataWidgetMapper(this);

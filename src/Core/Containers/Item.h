@@ -40,5 +40,6 @@ public:
 private:
 	ItemBase *base_;
 };
+
 QDataStream & operator<<(QDataStream &out, const Item &item);
 QDataStream & operator>>(QDataStream &in, Item &item);

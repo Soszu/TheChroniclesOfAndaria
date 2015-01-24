@@ -1,11 +1,5 @@
 ﻿#include "Core/Containers/Entity.h"
 
-static const BiHash <Attack, QString> attackTypeLabels {
-	{Attack::Melee, Label::Melee},
-	{Attack::Ranged, Label::Ranged},
-	{Attack::Magical, Label::Magical},
-};
-
 inline uint qHash(Attack attack)
 {
 	return qHash(toUnderlying(attack));

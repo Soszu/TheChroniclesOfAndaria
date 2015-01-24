@@ -50,9 +50,10 @@ enum class Kingdom : quint8 {
 	Elves,
 	Halflings
 };
+Q_DECLARE_METATYPE(Kingdom)
 uint qHash(Kingdom kingdom);
-QDataStream & operator<<(QDataStream &out, const Kingdom &kingdom);
-QDataStream & operator>>(QDataStream &in, Kingdom &kingdom);
+QDataStream & operator<<(QDataStream &out, Kingdom kingdom);
+QDataStream & operator>>(QDataStream &in, Kingdom kingdom);
 
 
 class Field {

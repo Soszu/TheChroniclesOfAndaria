@@ -6,6 +6,7 @@
 	CustomWidgets/EnumEdit.cpp
 
 	Editors/ContentEditor.cpp
+	Editors/EnemiesEditor.cpp
 	Editors/ItemsEditor.cpp
 )
 
@@ -16,6 +17,7 @@ set (Editor_HDRS
 	CustomWidgets/EnumEdit.h
 
 	Editors/ContentEditor.h
+	Editors/EnemiesEditor.h
 	Editors/ItemsEditor.h
 )
 

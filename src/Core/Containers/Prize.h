@@ -42,22 +42,22 @@ public:
 	QDataStream & toDataStream(QDataStream &out) const;
 
 	void addEffect(Effect effect);
-	void addItem(Item item);
 	void addReputation(Kingdom kingdom, qint8 reputation);
 	QDataStream & fromDataStream(QDataStream &in);
 	void setEffects(QList <Effect> effects);
 	void setExperience(quint16 experience);
 	void setGold(quint16 gold);
-	void setItems(QList <Item> items);
+// 	void setItems(QList <Item> items);
 	void setReputations(QHash <Kingdom, qint8> reputations);
 
 private:
 	QList <Effect> effects_;
 	quint16 experience_;
-	QList <Item> items_;
+// 	QList <Item> items_;
 	quint16 gold_;
 	QHash <Kingdom, qint8> reputations_;
 };
+Q_DECLARE_METATYPE(Prize)
 
 QDataStream & operator<<(QDataStream &out, const Prize &prize);
 QDataStream & operator>>(QDataStream &in, Prize &prize);

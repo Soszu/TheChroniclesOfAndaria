@@ -11,11 +11,13 @@
 	Containers/PlayerDraft.cpp
 	Containers/Prize.cpp
 	Containers/Quest.cpp
+	Containers/Terrain.cpp
 
 	Containers/Bases/EnemyBase.cpp
 	Containers/Bases/ItemBase.cpp
 	Containers/Bases/QuestBase.cpp
 
+	Containers/Models/EnemyModel.cpp
 	Containers/Models/ItemModel.cpp
 
 #	Parsers/BoardParser.cpp

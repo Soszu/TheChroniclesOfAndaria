@@ -28,10 +28,13 @@ const BiHash <Effect::Type, QString> Effect::TypeLabels = {
 	{Effect::Type::Regeneration,    Label::Regeneration},
 	{Effect::Type::MovePoints,      Label::MovePoints},
 	{Effect::Type::Heal,            Label::Heal},
+	{Effect::Type::Vamp,            Label::Vamp},
+	{Effect::Type::Deflect,         Label::Deflect},
+	{Effect::Type::Absorb,          Label::Absorb},
 	{Effect::Type::GoldBonus,       Label::GoldBonus},
 	{Effect::Type::ExperienceBonus, Label::ExperienceBonus},
 	{Effect::Type::Fear,            Label::Fear},
-	{Effect::Type::Retention,       Label::Retention}
+	{Effect::Type::Stun,            Label::Stun},
 };
 
 QString Effect::description(const Effect &effect)

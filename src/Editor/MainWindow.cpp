@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Editor/MainWindow.h"
 #include "Editor/Editors/ItemsEditor.h"
+#include "Editor/Editors/EnemiesEditor.h"
 
 MainWindow::MainWindow()
 {
@@ -71,6 +72,7 @@ void MainWindow::initContentEditors()
 {
 	//ADD CONTENT EDITORS HERE
 	contentEditors_.append(new ItemsEditor(this));
+	contentEditors_.append(new EnemiesEditor(this));
 
 	for (ContentEditor *editor : contentEditors_)
 		connect(this, &MainWindow::modelSaved, editor, &ContentEditor::modelSaved);

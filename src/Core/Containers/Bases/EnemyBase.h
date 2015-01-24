@@ -27,7 +27,7 @@ enum class Attack : quint8 ;
 
 class EnemyBase {
 public:
-	EnemyBase(UID uid, QString name);
+	EnemyBase(UID uid = Serial::MinUid, QString name = QString());
 
 	const QList <Effect> & baseStats() const;
 	Attack defaultAttack() const;

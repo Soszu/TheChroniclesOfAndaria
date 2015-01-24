@@ -55,6 +55,14 @@ namespace Label {
 		const QString Price   = QObject::tr("Price");
 		const QString Effects = QObject::tr("Effects");
 	}
+	namespace Enemy {
+		const QString Name          = QObject::tr("Name");
+		const QString ImagePath     = QObject::tr("Image path");
+		const QString Level         = QObject::tr("Level");
+		const QString DefaultAttack = QObject::tr("Default attack");
+		const QString BaseStats     = QObject::tr("Base stats");
+		const QString WinningPrize  = QObject::tr("Winning prize");
+	}
 	namespace Editor {
 		const QString Add      = QObject::tr("Add");
 		const QString Remove   = QObject::tr("Remove");

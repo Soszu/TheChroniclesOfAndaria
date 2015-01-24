@@ -39,7 +39,7 @@ void ContentEditor::clear()
 
 void ContentEditor::setPlaceholder(QWidget *placeholder)
 {
-placeholder_ = placeholder;
+	placeholder_ = placeholder;
 }
 
 void ContentEditor::setTitle(const QString &title)

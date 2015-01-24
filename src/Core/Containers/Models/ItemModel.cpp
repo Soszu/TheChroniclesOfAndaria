@@ -1,4 +1,5 @@
 ﻿#include "Core/Containers/Models/ItemModel.h"
+#include "Core/Containers/Bases/ItemBase.h"
 
 ItemModel::ItemModel(QObject *parent) : QAbstractTableModel(parent), changed_(false)
 {

@@ -30,9 +30,8 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Shortcuts.h"
 #include "Editor/Editors/ContentEditor.h"
 
-class MainWindow : public QMainWindow
-{
-Q_OBJECT;
+class MainWindow : public QMainWindow {
+	Q_OBJECT
 public:
 	MainWindow();
 	~MainWindow();

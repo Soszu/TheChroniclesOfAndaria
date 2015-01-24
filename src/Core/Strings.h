@@ -58,12 +58,14 @@ namespace Label {
 	const QString Regeneration    = QObject::tr("Regeneration");
 	const QString MovePoints      = QObject::tr("Move Points");
 	const QString Heal            = QObject::tr("Heal");
-	const QString Wamp            = QObject::tr("Wamp");
+	const QString Vamp            = QObject::tr("Vamp");
+	const QString Absorb          = QObject::tr("Absorb");
+	const QString Deflect         = QObject::tr("Deflect");
 	const QString GoldBonus       = QObject::tr("Gold Bonus");
 	const QString ExperienceBonus = QObject::tr("Experience Bonus");
 	const QString TradeBonus      = QObject::tr("Trade Bonus");
 	const QString Fear            = QObject::tr("Fear");
-	const QString Retention       = QObject::tr("Retention");
+	const QString Stun            = QObject::tr("Stun");
 
 	//Quest
 	namespace Quest {
@@ -94,5 +96,6 @@ namespace Label {
 
 //Defaults
 namespace Default {
-	const QString ItemName = QObject::tr("Item");
+	const QString EnemyName = QObject::tr("Enemy");
+	const QString ItemName  = QObject::tr("Item");
 }

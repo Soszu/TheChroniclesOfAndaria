@@ -29,7 +29,7 @@ Prize::Prize(QList <Effect> effects,
              QHash <Kingdom, qint8> reputations)
      : effects_(effects),
        experience_(experience),
-       items_(items),
+//       items_(items),
        gold_(gold),
        reputations_(reputations)
 {}
@@ -48,11 +48,11 @@ quint16 Prize::gold() const
 {
 	return gold_;
 }
-
+/*
 const QList <Item> & Prize::items() const
 {
 	return items_;
-}
+}*/
 
 const qint8 Prize::reputation(Kingdom kingdom) const
 {
@@ -66,18 +66,7 @@ const QHash <Kingdom, qint8> & Prize::reputations() const
 
 QDataStream & Prize::toDataStream(QDataStream &out) const
 {
-	return out << effects_ << experience_ << items_ << gold_ << reputations_;
-}
-
-void Prize::addEffect(Effect effect)
-{
-	effects_.append(effect);
-}
-
-
-void Prize::addItem(Item item)
-{
-	items_.append(item);
+	return out << effects_ << experience_ /*<< items_ */<< gold_ << reputations_;
 }
 
 void Prize::addReputation(Kingdom kingdom, qint8 reputation)
@@ -87,7 +76,7 @@ void Prize::addReputation(Kingdom kingdom, qint8 reputation)
 
 QDataStream & Prize::fromDataStream(QDataStream &in)
 {
-	return in >> effects_ >> experience_ >> items_ >> gold_ >> reputations_;
+	return in >> effects_ >> experience_ >> /*items_ >> */gold_ >> reputations_;
 }
 
 void Prize::setEffects(QList <Effect> effects)
@@ -104,11 +93,11 @@ void Prize::setGold(quint16 gold)
 {
 	gold_ = gold;
 }
-
+/*
 void Prize::setItems(QList <Item> items)
 {
 	items_ = items;
-}
+}*/
 
 void Prize::setReputations(QHash <Kingdom, qint8> reputations)
 {

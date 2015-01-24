@@ -1,4 +1,4 @@
-﻿//liczba_porządkowa ;nazwa; nazwa_zdjęcia; atak; obrona; HP;nagroda(indeks);percepcja
+﻿//liczba_porządkowa ;nazwa; nazwa_zdjęcia; atak(min,max); obrona; HP;nagroda(indeks);percepcja
 
 $1
 1;Goblin zwiadowca;goblin1.png;8,13;16;10;6;3

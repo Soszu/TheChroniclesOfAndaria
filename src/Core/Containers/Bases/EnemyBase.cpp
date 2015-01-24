@@ -59,7 +59,7 @@ const Prize & EnemyBase::prize() const
 
 QDataStream & EnemyBase::toDataStream(QDataStream &out) const
 {
-	return out << uid_ << name_ << imagePath_ << level_ << toUnderlying(defaultAttack_) << baseStats_ << prize_;
+	return out << uid_ << name_ << imagePath_ << level_ << defaultAttack_ << baseStats_ << prize_;
 }
 
 UID EnemyBase::uid() const
@@ -74,12 +74,12 @@ void EnemyBase::addStat(const Effect &effect)
 
 QDataStream & EnemyBase::fromDataStream(QDataStream &in)
 {
-	return in >> uid_ >> name_ >> imagePath_ >> level_ >> toUnderlyingRef(defaultAttack_) >> baseStats_ >> prize_;
+	return in >> uid_ >> name_ >> imagePath_ >> level_ >> defaultAttack_ >> baseStats_ >> prize_;
 }
 
 void EnemyBase::setBaseStats(const QList <Effect> &baseStats)
 {
-	baseStats_ = baseStats_;
+	baseStats_ = baseStats;
 }
 
 void EnemyBase::setDefaultAttack(Attack type)

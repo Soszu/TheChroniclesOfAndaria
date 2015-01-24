@@ -28,11 +28,12 @@ enum class Class : quint8;
 class ItemBase {
 public:
 	enum class Type : quint8 {
+		Artifact,
 		// Wearable items:
 		Armor,
-		Artifact,
 		Helmet,
 		Shield,
+		Aura,
 		OneHandedWeapon,
 		TwoHandedWeapon,
 		//disposable use items:
