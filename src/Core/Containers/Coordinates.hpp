@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,44 +15,17 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 
-#include "Core/Containers/Field.h"
+#include <QtGui>
 
-inline uint qHash(const QPoint& p)
+class Coordinates : public QPoint
 {
-	return qHash(p.x()+p.y());
-}
+	friend uint qHash(const Coordinates &c, uint seed);
+public:
+	//FIXME it was once constexpr, but some problems occured
+	Coordinates(QPoint p = QPoint{0, 0});
+	Coordinates(int x, int y);
 
-Field::Field(Coordinates coordinates, Kingdom kingdom, Terrain *terrain)
-     : coordinates_(coordinates), kingdom_(kingdom), terrain_(terrain)
-{}
-
-const QList <ActionId> & Field::actions() const
-{
-	return terrain_->actions();
-}
-
-Coordinates Field::coordinates() const
-{
-	return coordinates_;
-}
-
-quint8 Field::coefficient() const
-{
-	return terrain_->coefficient();
-}
-
-const QString & Field::imagePath() const
-{
-	return terrain_->imagePath();
-}
-
-Kingdom Field::kingdom() const
-{
-	return kingdom_;
-}
-
-const QString & Field::name() const
-{
-	return terrain_->name();
-}
+	QString toString() const;
+};

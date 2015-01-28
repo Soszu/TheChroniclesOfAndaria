@@ -32,13 +32,10 @@ private:
 
 	int checkForUnsavedChanges();
 
-	QString currentFilePath_;
-
-	QAction *menuModSave_;
-	QAction *menuModSaveAs_;
-
 	Mod *mod_;
 	QTabWidget *editorTabs_;
+
+	QString currentFilePath_;
 
 private slots:
 	void onNewActivated();
@@ -46,8 +43,6 @@ private slots:
 	void onSaveActivated();
 	void onSaveAsActivated();
 	void onQuitActivated();
-
-	void startEditing();
 
 signals:
 	void modelSaved();

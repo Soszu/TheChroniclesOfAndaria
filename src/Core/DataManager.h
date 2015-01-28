@@ -15,12 +15,9 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef DATAMANAGER_H
-#define DATAMANAGER_H
+#pragma once
 
 #include <QtWidgets>
-#include "Paths.h"
 
 class DataManager
 {
@@ -33,6 +30,3 @@ private:
 
 	static QHash <QString, QPixmap *> pixmapsMap;
 };
-
-
-#endif // DATAMANAGER_H

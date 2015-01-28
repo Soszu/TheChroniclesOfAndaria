@@ -44,6 +44,7 @@ namespace Editor {
 		const QString OpenFileDialog = QObject::tr("Open mod");
 		const QString SaveFileDialog = QObject::tr("Save mod");
 
+		const QString Board   = QObject::tr("Board");
 		const QString Items   = QObject::tr("Items");
 		const QString Enemies = QObject::tr("Enemies");
 		const QString Quests  = QObject::tr("Quests");
@@ -52,12 +53,27 @@ namespace Editor {
 	namespace Labels {
 		const QString Add      = QObject::tr("Add");
 		const QString Remove   = QObject::tr("Remove");
+
 		namespace Effects {
 			const QString List     = QObject::tr("List");
 			const QString Details  = QObject::tr("Details");
 
 			const QString Add      = QObject::tr("Add");
 			const QString Remove   = QObject::tr("Remove");
+		}
+
+		namespace Prize {
+			const QString Experience = QObject::tr("Experience");
+			const QString Gold       = QObject::tr("Gold");
+		}
+		namespace BoardTools {
+			const QString BoardSize        = QObject::tr("Board size");
+			const QString BoardColumns     = QObject::tr("Board columns");
+			const QString BoardRows        = QObject::tr("Board rows");
+
+			const QString Terrains         = QObject::tr("Terrains");
+			const QString Ruling           = QObject::tr("Ruling");
+			const QString InitialPositions = QObject::tr("Initial Positions");
 		}
 	}
 }

@@ -17,6 +17,8 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Parsers/BoardParser.h"
+#include "Core/DataManager.h"
+#include "Core/Containers/Coordinates.hpp"
 
 BoardParser::BoardParser(Mod *dataKeeper)
 {
@@ -32,6 +34,8 @@ BoardParser::BoardParser(Mod *dataKeeper)
 	}
 	QTextStream wejscie(&ustawienie);
 
+	dataKeeper->board_.setInitialPositions(initialPositions_);
+
 	bylBlad = wczytajWymiary(&wejscie);
 	if(!bylBlad)
 		bylBlad = wczytajLegende(&wejscie);
@@ -45,7 +49,6 @@ BoardParser::BoardParser(Mod *dataKeeper)
 	}
 	ustawienie.close();
 
-	dataKeeper->initialPositions_ = initialPositions_;
 }
 
 /**
@@ -76,9 +79,10 @@ bool BoardParser::wczytajWymiary(QTextStream* wejscie)
 	bool ok1 = true;
 	bool ok2 = true;
 	szerokosc = podzial.at(0).toUInt(&ok1);
-	dataKeeper->boardWidth_ = szerokosc;
 	wysokosc = podzial.at(1).toUInt(&ok2);
-	dataKeeper->boardHeight_ = wysokosc;
+
+	dataKeeper->board_.setSize(QSize(szerokosc, wysokosc));
+
 	if(!ok1 || !ok2 || szerokosc < 1 || wysokosc < 1)
 	{
 		trescBledu = QString::fromUtf8("Podane wymiary nie są poprawne.");
@@ -139,7 +143,19 @@ bool BoardParser::wczytajLegende(QTextStream* wejscie)
 			trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu legendy.\nZły element: ") + QString::number(i + 1);
 			return true;
 		}
+
+		QList<Action> actions;
+		if (informacje.czyPoleZEnemyiem)
+			actions.append(Action::FightWithMonster);
+		if (informacje.czyPoleZMiastem) {
+			actions.append(Action::GoToMarket);
+			actions.append(Action::GoToTavern);
+		}
+
+		key.insert(podzial.at(0), Terrain(informacje.name, informacje.plik, informacje.wspolczynnik, actions));
 		legenda.insert(podzial.at(0), informacje);
+
+		dataKeeper->board_.addTerrain(key[podzial.at(0)]);
 	}
 	return false;
 }
@@ -171,12 +187,10 @@ bool BoardParser::wczytajUstawienie(QTextStream* wejscie)
 				trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu odwzorowania.\nNie znaleniono odpowiedniego symbolu.\nWadliwy wiersz: ")  + QString::number(i + 1) + QString(". Symbol: ") + symbol;
 				return true;
 			}
-			info dane = legenda[symbol];
-			Coordinates miejsce = {j,i};
-			dataKeeper->fields_.push_back(Field(miejsce, dane.name, dane.wspolczynnik, dane.czyPoleZEnemyiem, dane.czyPoleZMiastem, dane.plik, dane.frakcja));
-//TODO think if Board include can/should be ommited
-//			if(dane.czyPoleZMiastem)
-//				dataKeeper->cities_.push_back(Board::coordinatesToIndex(miejsce));
+// 			info dane = legenda[symbol];
+// 			Coordinates miejsce = {j,i};
+// 			Field *field = new Field(miejsce, kingdoms[dane.frakcja], key[symbol]);
+// 			dataKeeper->board_.addField(miejsce, field);
 		}
 	}
 	return false;

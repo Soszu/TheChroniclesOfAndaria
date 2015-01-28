@@ -49,6 +49,13 @@ namespace Labels {
 		const QString Magical = QObject::tr("Magical");
 	}
 
+	namespace Actions {
+		const QString GoToMarket       = QObject::tr("Go to market");
+		const QString GoToTavern       = QObject::tr("Go to tavern");
+		const QString FightWithMonster = QObject::tr("Fight with monster");
+		const QString EndTurn          = QObject::tr("End turn");
+	}
+
 	namespace Effect {
 		const QString Type     = QObject::tr("Type");
 		const QString Value    = QObject::tr("Value");

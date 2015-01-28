@@ -27,16 +27,17 @@ static const QString PLIK_PRZEDMIOTOW = "data/przedmioty.txt";
 static const QString PLIK_ZADAN = "data/zadania.txt";
 static const QString PLIK_USTAWIENIA_PLANSZY = "data/plansza.txt";
 
+//To be wiped out with editor & mod & .qrc file
 namespace Path {
 	static const QString DataPrefix = "data/";
 
 	static const QString ModsDir   = DataPrefix + "mods/";
 	static const QString NativeMod = ModsDir + "native.tcoa";
 
-	static const QString ImagesPrefix  = DataPrefix + "images/";
-	static const QString IconsPrefix   = ImagesPrefix + "icons/";
-	static const QString HexesPrefix   = ImagesPrefix + "hexes/";
-	static const QString EnemiesPrefix = ImagesPrefix + "enemies/";
+	static const QString ImagesPrefix   = DataPrefix + "images/";
+	static const QString IconsPrefix    = ImagesPrefix + "icons/";
+	static const QString TerrainsPrefix = ImagesPrefix + "terrains/";
+	static const QString EnemiesPrefix  = ImagesPrefix + "enemies/";
 
 	static const QString IconColor        = IconsPrefix + "color.png";
 	static const QString IconMelee        = IconsPrefix + "melee.png";

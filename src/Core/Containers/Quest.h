@@ -19,12 +19,11 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Containers/Bases/QuestBase.h"
-#include "Core/Actions/Action.h"
 #include "Core/Containers/Test.h"
 
 class Player;
 
-class Quest : public Action {
+class Quest {
 public:
 	Quest(const QuestBase *base, Coordinates source);
 
@@ -34,7 +33,7 @@ public:
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
 	QuestBase::Level level() const;
-	QHash <Coordinates, TestBase> objectives() const;
+	QHash <Coordinates, Test> objectives() const;
 	const Prize *prize() const;
 	Coordinates source() const;
 	QString title() const;

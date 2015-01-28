@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Mod.h"
 
+#include "Core/Parsers/BoardParser.h"
 #include "Core/Parsers/ItemParser.h"
 #include "Core/Parsers/PrizeParser.h"
 #include "Core/Parsers/EnemyParser.h"
@@ -26,44 +27,33 @@ This file is part of The Chronicles Of Andaria Project.
 Mod::Mod()
 {
 // 	TODO Parsers should be replaced with models
-//
+
 // 	BoardParser boardParser(this);
-// 	if (boardParser.bladWczytywania()) {
-// 		initError_ = blad_parsera_ustawienia_planszy;
-// 		displayErrorMessage(QString::fromUtf8("Wystąpił błąd przy wczytywaniu ustawienia planszy\n\n") + boardParser.trescBledu);
-// 		return;
-// 	}
-// 	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
+// 	qDebug() << boardParser.trescBledu << board_.size()
+// 	<< "terrains" <<board_.terrains().size();
 
 	ItemParser itemParser(this);
-
 // 	qDebug() << itemParser.trescBledu << "items" << items_.size();
 
 	PrizeParser prizeParser(this);
-
 // 	qDebug() << prizeParser.trescBledu << "prizes" << prizes_.size();
 
 	EnemyParser enemyParser(this);
-
 // 	qDebug() <<enemyParser.trescBledu 	<< "enemies: " << enemies_.size();
 
 
 // 	QuestParser questParser(this);
-// 	if (questParser.bladWczytywania()) {
-// 		initError_ = blad_parsera_zadan;
-// 		displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych zadaÅ\n\n") + questParser.trescBledu);
-// 		return;
-// 	} else if (quests_.size() < QuestsInTavernCount) {
-// 		initError_ = blad_liczby_zadan;
-// 		displayErrorMessage(QString::fromUtf8("Wczytano za maÅo zadaÅ.\n\n"));
-// 		return;
-// 	}
-// 	qDebug() << QString::fromUtf8("Informacje o zadaniach wczytano poprawnie");
+// 	qDebug() << questParser.trescBledu 	<< "quests: " << quests_.size();
 }
 
 Mod::~Mod()
 {
 	qDeleteAll(prizes_);
+}
+
+bool Mod::unsavedChanges() const
+{
+	return (itemModel_.isChanged() || enemyModel_.isChanged());
 }
 
 bool Mod::load(const QString &path)
@@ -85,11 +75,7 @@ bool Mod::load(const QString &path)
 			enemyModel_.addEnemyBase(enemy);
 	}
 	else
-		in >> itemModel_ >> enemyModel_;
-
-	for (int i = 0; i < 10; ++i)
-		if (itemModel_.item(i) != nullptr)
-			qDebug() << itemModel_.item(i)->name();
+		in >> itemModel_ >> enemyModel_ >> board_;
 
 		file.close();
 	return true;
@@ -106,7 +92,7 @@ bool Mod::save(const QString &path)
 
 	QDataStream out(&file);
 
-	out << itemModel_ << enemyModel_;
+	out << itemModel_ << enemyModel_ << board_;
 
 	itemModel_.setChanged(false);
 	enemyModel_.setChanged(false);
@@ -115,15 +101,15 @@ bool Mod::save(const QString &path)
 	return true;
 }
 
-bool Mod::unsavedChanges() const
-{
-	return (itemModel_.isChanged() || enemyModel_.isChanged());
-}
-
 void Mod::reset()
 {
 	itemModel_.reset();
 	enemyModel_.reset();
+}
+
+Board * Mod::board()
+{
+	return &board_;
 }
 
 EnemyModel * Mod::enemyModel()
@@ -136,22 +122,22 @@ ItemModel * Mod::itemModel()
 	return &itemModel_;
 }
 
-Coordinates Mod::initialPosition(Race playerRace) const
+const Board & Mod::board() const
 {
-	return initialPositions_[playerRace];
+	return board_;
 }
 
-const QList<Field> & Mod::fields() const
+const EnemyModel & Mod::enemyModel() const
 {
-	return fields_;
+	return enemyModel_;
 }
 
-quint8 Mod::boardHeight() const
+const ItemModel & Mod::itemModel() const
 {
-	return boardHeight_;
+	return itemModel_;
 }
 
-quint8 Mod::boardWidth() const
+Coordinates Mod::initialPosition(Race race) const
 {
-	return boardWidth_;
+	return board_.initialPosition(race);
 }

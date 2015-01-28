@@ -22,22 +22,20 @@ public:
 	void setPrize(const Prize &prize);
 
 private:
-	Prize prize_;
-// 	static const int SpinBoxWidth = 50;
-//
-// 	void initButtons();
-// 	void initEdits();
-// 	void initList();
+	void initWidgets();
 	void initLayout();
 	void simulateFocusLoss();
+
+	Prize prize_;
+
+	QSpinBox *experienceEdit_;
+	QSpinBox *goldEdit_;
 //
 // 	QList <Effect> effects_;
 // 	QStringListModel *effectsModel_;
 //
 // 	QListView *listView_;
 // 	QComboBox *typeEdit_;
-// 	QSpinBox *valueEdit_;
-// 	QSpinBox *durationEdit_;
 //
 // 	QPushButton *addEffectButton_;
 // 	QPushButton *removeEffectButton_;
@@ -48,8 +46,8 @@ private slots:
 // 	void updateEdits(const QModelIndex &index);
 //
 // 	void updateType(QString text);
-// 	void updateValue(int x);
-// 	void updateDuration(int x);
+	void updateExperience(int x);
+	void updateGold(int x);
 
 signals:
 	void prizeChanged(Prize prize);

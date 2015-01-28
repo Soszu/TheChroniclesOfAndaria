@@ -1,13 +1,9 @@
 ﻿#pragma once
 
 #include <QtCore>
-#include "Core/Utils/BiHash.hpp"
-#include "Core/Containers/TestBase.h"
 
-class Player;
+class Test {
 
-class Test : public QObject {
-	Q_OBJECT
 public:
 	enum class Result : quint8 {
 		Fail,
@@ -15,9 +11,11 @@ public:
 		Unsettled
 	};
 
-	Test() = default;
-	void take(Player *player) const;
-
-signals:
-	void result(Player *, Result);
+	enum class Type : quint8 {
+		Fight,
+		Blank,
+		Skills
+	};
 };
+QDataStream & operator<<(QDataStream &out, const Test &effect);
+QDataStream & operator>>(QDataStream &in, Test &effect);

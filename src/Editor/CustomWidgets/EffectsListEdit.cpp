@@ -123,10 +123,9 @@ void EffectsListEdit::initEdits()
 	connect(typeEdit_, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
 	        this, &EffectsListEdit::updateType);
 
-	for (QSpinBox **spinBox : {&valueEdit_, &durationEdit_}) {
-		*spinBox = new QSpinBox;
-		(*spinBox)->setFixedWidth(SpinBoxWidth);
-	}
+	valueEdit_ = new QSpinBox;
+	durationEdit_ = new QSpinBox;
+
 	connect(valueEdit_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &EffectsListEdit::updateValue);
 	connect(durationEdit_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -145,7 +144,7 @@ void EffectsListEdit::initList()
 
 void EffectsListEdit::initLayout()
 {
-	QVBoxLayout *itemEffectsLayout = new QVBoxLayout(this);
+	QHBoxLayout *itemEffectsLayout = new QHBoxLayout(this);
 	QLabel *listLabel = new QLabel(Editor::Labels::Effects::List);
 	QGroupBox *effectDetails = new QGroupBox(Editor::Labels::Effects::Details);
 	QFormLayout *effectDetailsLayout = new QFormLayout(effectDetails);
@@ -155,6 +154,7 @@ void EffectsListEdit::initLayout()
 	itemEffectsLayout->addWidget(effectDetails);
 	itemEffectsLayout->addLayout(effectsListLayout);
 
+	effectDetailsLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
 	effectDetailsLayout->addRow(Labels::Effect::Type,     typeEdit_);
 	effectDetailsLayout->addRow(Labels::Effect::Value,    valueEdit_);
 	effectDetailsLayout->addRow(Labels::Effect::Duration, durationEdit_);

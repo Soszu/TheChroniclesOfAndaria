@@ -21,8 +21,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/DataKeeper.h"
+#include "Core/Mod.h"
 #include "Core/Paths.h"
+#include "Core/Enums.hpp"
 #include "Core/Containers/Player.h"
 
 class Mod;
@@ -33,12 +34,19 @@ public:
 	bool bladWczytywania();
 	QString trescBledu;
 private:
-	//TMP later on from settings
 	const QHash <Race, Coordinates> initialPositions_{
 		{Race::Human, {18,3}},
 		{Race::Dwarf, {14,18}},
 		{Race::Elf, {28,8}},
 		{Race::Halfling, {2,8}}
+	};
+
+	const QHash <int, Kingdom> kingdoms{
+		{0, Kingdom::Humans},
+		{1, Kingdom::Dwarfs},
+		{2, Kingdom::Elves},
+		{3, Kingdom::Halflings},
+		{4, Kingdom::Neutral}
 	};
 
 	bool bylBlad;
@@ -63,6 +71,7 @@ private:
 		int frakcja;
 	};
 	QMap<QString, info> legenda;
+	QMap<QString, Terrain> key;
 };
 
 #endif

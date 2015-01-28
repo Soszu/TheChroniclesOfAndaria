@@ -22,12 +22,13 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Strings.h"
 #include "Editor/Editors/ItemsEditor.h"
 #include "Editor/Editors/EnemiesEditor.h"
+#include "Editor/Editors/BoardEditor.hpp"
 #include "Editor/Strings.h"
 #include "Editor/Shortcuts.h"
 
 MainWindow::MainWindow() : mod_(new Mod)
 {
-	resize(800, 600);
+	resize(1024, 768);
 	setWindowTitle(Editor::Titles::EditorWindow);
 
 	initMenuAndActions();
@@ -40,11 +41,11 @@ void MainWindow::initMenuAndActions()
 
 	QMenu *modMenu = menuBar()->addMenu(Menus::Mod::Main);
 
-	QAction *menuModNew  = new QAction(Menus::Mod::New,    this);
-	QAction *menuModLoad = new QAction(Menus::Mod::Open,   this);
-	menuModSave_         = new QAction(Menus::Mod::Save,   this);
-	menuModSaveAs_       = new QAction(Menus::Mod::SaveAs, this);
-	QAction *menuModQuit = new QAction(Menus::Mod::Quit,   this);
+	QAction *menuModNew     = new QAction(Menus::Mod::New,    this);
+	QAction *menuModLoad    = new QAction(Menus::Mod::Open,   this);
+	QAction *menuModSave_   = new QAction(Menus::Mod::Save,   this);
+	QAction *menuModSaveAs_ = new QAction(Menus::Mod::SaveAs, this);
+	QAction *menuModQuit    = new QAction(Menus::Mod::Quit,   this);
 
 	connect(menuModNew,     &QAction::triggered, this, &MainWindow::onNewActivated);
 	connect(menuModLoad,    &QAction::triggered, this, &MainWindow::onLoadActivated);
@@ -73,19 +74,9 @@ void MainWindow::initEditors()
 	editorTabs_ = new QTabWidget;
 	setCentralWidget(editorTabs_);
 
-	editorTabs_->hide();
-
+	editorTabs_->addTab(new BoardEditor(mod_->board()), Editor::Titles::Board);
 	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()), Editor::Titles::Items);
 	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), Editor::Titles::Enemies);
-
-}
-
-void MainWindow::startEditing()
-{
-	menuModSave_->setEnabled(true);
-	menuModSaveAs_->setEnabled(true);
-
-	editorTabs_->show();
 }
 
 int MainWindow::checkForUnsavedChanges()
@@ -114,8 +105,6 @@ void MainWindow::onNewActivated()
 		default :
 			return;
 	}
-
-	startEditing();
 }
 
 void MainWindow::onLoadActivated()
@@ -132,8 +121,7 @@ void MainWindow::onLoadActivated()
 
 	QString path = QFileDialog::getOpenFileName(this, Editor::Titles::OpenFileDialog,
 	                                            Path::ModsDir, Strings::ModFiles);
-	if (mod_->load(path))
-		startEditing();
+	 mod_->load(path);
 
 	currentFilePath_ = path;
 }

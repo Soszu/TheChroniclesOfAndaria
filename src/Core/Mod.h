@@ -20,11 +20,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/Containers/Field.h"
+#include "Core/Containers/Coordinates.hpp"
 #include "Core/Enums.hpp"
 
 #include "Core/Containers/Models/EnemyModel.h"
 #include "Core/Containers/Models/ItemModel.h"
+#include "Core/Containers/Board.h"
 
 #include "Core/Containers/Prize.h"
 #include "Core/Containers/Bases/EnemyBase.h"
@@ -46,31 +47,27 @@ public:
 	Mod();
 	~Mod();
 
+	bool unsavedChanges() const;
+
 	bool load(const QString &path);
 	bool save(const QString &path);
-	bool unsavedChanges() const;
 	void reset();
-
-	ItemModel * itemModel();
+	Board * board();
 	EnemyModel * enemyModel();
+	ItemModel * itemModel();
 
-	Coordinates initialPosition(Race playerRace) const;
-	const QList<Field> & fields() const;
-	quint8 boardHeight() const;
-	quint8 boardWidth() const;
+	const Board & board() const;
+	const EnemyModel & enemyModel() const;
+	const ItemModel & itemModel() const;
+	Coordinates initialPosition(Race race) const;
 
 private:
-
-	ItemModel itemModel_;
 	EnemyModel enemyModel_;
+	ItemModel itemModel_;
+	Board board_;
 
 	//TMP
 	QMap<int, ItemBase*> items_;
 	QMap<int, Prize*> prizes_;
 	QMap<int, EnemyBase*> enemies_;
-
-	QList <Field> fields_;
-	QHash <Race, Coordinates> initialPositions_;
-	quint8 boardHeight_;
-	quint8 boardWidth_;
 };

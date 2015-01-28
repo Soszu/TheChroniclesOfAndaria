@@ -15,9 +15,7 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "Core/Containers/Prize.h"
-#include "Core/Containers/Field.h"
 
 Prize::Prize() : experience_(0), gold_(0)
 {}

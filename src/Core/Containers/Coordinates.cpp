@@ -15,44 +15,26 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 
-#include <QtCore>
+#include "Core/Containers/Coordinates.hpp"
 
-#include "Core/Enums.hpp"
-#include "Core/Containers/Terrain.h"
+Coordinates::Coordinates(QPoint p) : QPoint(p)
+{}
 
-enum class ActionId : quint8 {
-	//TODO
-};
+Coordinates::Coordinates(int x, int y) : QPoint(x, y)
+{}
 
-class Coordinates : public QPoint
+QString Coordinates::toString() const
 {
-	friend uint qHash(const Coordinates &c, uint seed);
-public:
-	constexpr Coordinates(QPoint p = QPoint{0, 0}) : QPoint(p) {}
-	constexpr Coordinates(int x, int y) : Coordinates(QPoint(x, y)) {}
-
-	QString toString() const {return QString("[%1, %2]").arg(x()).arg(y());}
-};
+	return QString("[%1, %2]").arg(x()).arg(y());
+}
 
 inline uint qHash(const Coordinates &c, uint seed)
 {
 	return qHash(QPair <int, int>(c.x(), c.y()), seed);
 }
 
-class Field {
-public:
-	Field(Coordinates coordinates, Kingdom kingdom, Terrain *terrain);
-	const QList <ActionId> & actions() const;
-	quint8 coefficient() const;
-	Coordinates coordinates() const;
-	const QString & imagePath() const;
-	Kingdom kingdom() const;
-	const QString & name() const;
-
-private:
-	Coordinates coordinates_;
-	Kingdom kingdom_;
-	const Terrain *terrain_;
-};
+inline uint qHash(const QPoint& p)
+{
+	return qHash(p.x() + p.y());
+}

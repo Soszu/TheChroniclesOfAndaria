@@ -6,6 +6,7 @@
 	CustomWidgets/EnumEdit.cpp
 	CustomWidgets/PrizeEdit.cpp
 
+	Editors/BoardEditor.cpp
 	Editors/EnemiesEditor.cpp
 	Editors/ItemsEditor.cpp
 )

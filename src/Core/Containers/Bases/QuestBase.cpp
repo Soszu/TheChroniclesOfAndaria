@@ -1,4 +1,5 @@
 ﻿#include "Core/Containers/Bases/QuestBase.h"
+
 #include "Core/Utils/EnumHelpers.hpp"
 
 static const BiHash <QuestBase::Level, QString> LevelLabels = {
@@ -23,13 +24,13 @@ QDataStream & operator>>(QDataStream &in, QuestBase::Level &level)
 }
 
 QuestBase::QuestBase(UID uid, QString title)
-         : uid_(uid)
-         , title_(title)
-         , fraction_(Kingdom::Humans)
-         , level_(Level::Easy)
-         , isReturnRequired_(false)
-         , followUp_(Serial::EmptyUid)
-         , canBeDrawn_(true)
+: uid_(uid),
+  title_(title),
+  fraction_(Kingdom::Humans),
+  level_(Level::Easy),
+  isReturnRequired_(false),
+  followUp_(Serial::EmptyUid),
+  canBeDrawn_(true)
 {}
 
 QuestBase::QuestBase(UID uid,
@@ -40,18 +41,18 @@ QuestBase::QuestBase(UID uid,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
-                     const QMap <Coordinates, TestBase> &objectives,
+                     const QHash <Coordinates, Test> &objectives,
                      const Prize &prize)
-         : uid_(uid),
-           title_(title),
-           description_(description),
-           fraction_(fraction),
-           level_(level),
-           isReturnRequired_(isReturnRequired),
-           followUp_(followUp),
-           canBeDrawn_(canBeDrawn),
-           objectives_(objectives),
-           prize_(prize)
+: uid_(uid),
+  title_(title),
+  description_(description),
+  fraction_(fraction),
+  level_(level),
+  isReturnRequired_(isReturnRequired),
+  followUp_(followUp),
+  canBeDrawn_(canBeDrawn),
+  objectives_(objectives),
+  prize_(prize)
 {}
 
 bool QuestBase::canBeDrawn() const
@@ -84,7 +85,7 @@ QuestBase::Level QuestBase::level() const
 	return level_;
 }
 
-const QMap <Coordinates, TestBase> & QuestBase::objectives() const
+const QHash <Coordinates, Test> & QuestBase::objectives() const
 {
 	return objectives_;
 }
@@ -102,7 +103,7 @@ const QString & QuestBase::title() const
 QDataStream & QuestBase::toDataStream(QDataStream &out) const
 {
 	return out << uid_ << title_ << description_ << fraction_ << level_ << isReturnRequired_
-	           << followUp_ << canBeDrawn_ /*<< objectives_ */<< prize_;
+	           << followUp_ << canBeDrawn_ << objectives_ << prize_;
 }
 
 UID QuestBase::uid() const
@@ -110,15 +111,15 @@ UID QuestBase::uid() const
 	return uid_;
 }
 
-void QuestBase::addObjective(Coordinates coordinates, const TestBase &test)
+void QuestBase::addObjective(Coordinates coordinates, const Test &test)
 {
-// 	objectives_[coordinates] = test;
+	objectives_[coordinates] = test;
 }
 
 QDataStream & QuestBase::fromDataStream(QDataStream &in)
 {
 	return in >> uid_ >> title_ >> description_ >> fraction_ >> level_ >> isReturnRequired_
-	          >> followUp_ >> canBeDrawn_ /*>> objectives_*/ >> prize_;
+	          >> followUp_ >> canBeDrawn_ >> objectives_ >> prize_;
 }
 
 void QuestBase::setCanBeDrawn(bool canBeDrawn)
@@ -151,7 +152,7 @@ void QuestBase::setLevel(QuestBase::Level level)
 	level_ = level;
 }
 
-void QuestBase::setObjectives(const QMap <Coordinates, TestBase> &objectives)
+void QuestBase::setObjectives(const QHash <Coordinates, Test> &objectives)
 {
 	objectives_ = objectives;
 }

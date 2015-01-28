@@ -79,3 +79,18 @@ QDataStream & operator>>(QDataStream &in, Attack &attack)
 {
 	return in >> toUnderlyingRef(attack);
 }
+
+inline uint qHash(Action action)
+{
+	return qHash(toUnderlying(action));
+}
+
+QDataStream & operator<<(QDataStream &out, const Action &action)
+{
+	return out << toUnderlying(action);
+}
+
+QDataStream & operator>>(QDataStream &in, Action &action)
+{
+	return in >> toUnderlyingRef(action);
+}

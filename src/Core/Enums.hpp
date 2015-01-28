@@ -87,3 +87,20 @@ const BiHash <Attack, QString> AttackLabels {
 	{Attack::Ranged,  Labels::Attacks::Ranged},
 	{Attack::Magical, Labels::Attacks::Magical},
 };
+
+enum class Action : quint8 {
+	GoToMarket,
+	GoToTavern,
+	FightWithMonster,
+	EndTurn
+};
+Q_DECLARE_METATYPE(Action)
+uint qHash(Action action);
+QDataStream & operator<<(QDataStream &out, const Action &action);
+QDataStream & operator>>(QDataStream &in, Action &action);
+const BiHash <Action, QString> ActionLabels {
+	{Action::GoToMarket,       Labels::Actions::GoToMarket},
+	{Action::GoToTavern,       Labels::Actions::GoToTavern},
+	{Action::FightWithMonster, Labels::Actions::FightWithMonster},
+	{Action::EndTurn,          Labels::Actions::EndTurn},
+};

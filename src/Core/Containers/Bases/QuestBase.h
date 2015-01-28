@@ -20,8 +20,8 @@
 
 #include "Core/Utils/BiHash.hpp"
 #include "Core/Utils/Serial.hpp"
-#include "Core/Containers/Field.h"
-#include "Core/Containers/TestBase.h"
+#include "Core/Containers/Coordinates.hpp"
+#include "Core/Containers/Test.h"
 #include "Core/Containers/Prize.h"
 
 class QuestBase {
@@ -42,7 +42,7 @@ public:
 	          bool isReturnRequired,
 	          UID followUp,
 	          bool canBeDrawn,
-	          const QMap <Coordinates, TestBase> &objectives,
+	          const QHash <Coordinates, Test> &objectives,
 	          const Prize &prize);
 
 	bool canBeDrawn() const;
@@ -51,13 +51,13 @@ public:
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
 	Level level() const;
-	const QMap <Coordinates, TestBase> & objectives() const;
+	const QHash <Coordinates, Test> & objectives() const;
 	const Prize & prize() const;
 	const QString & title() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	UID uid() const;
 
-	void addObjective(Coordinates coordinates, const TestBase &test);
+	void addObjective(Coordinates coordinates, const Test &test);
 	QDataStream & fromDataStream(QDataStream &in);
 	void setCanBeDrawn(bool canBeDrawn);
 	void setDescription (const QString &description);
@@ -65,7 +65,7 @@ public:
 	void setFraction(Kingdom fraction);
 	void setIsReturnRequired(bool isReturnRequired);
 	void setLevel(Level level);
-	void setObjectives(const QMap <Coordinates, TestBase> &objectives);
+	void setObjectives(const QHash <Coordinates, Test> &objectives);
 	void setPrize(const Prize &prize);
 	void setTitle(const QString &title);
 
@@ -78,7 +78,7 @@ private:
 	bool isReturnRequired_;
 	UID followUp_;
 	bool canBeDrawn_;
-	QMap <Coordinates, TestBase> objectives_;
+	QHash <Coordinates, Test> objectives_;
 	Prize prize_;
 };
 QDataStream & operator<<(QDataStream &out, const QuestBase &base);

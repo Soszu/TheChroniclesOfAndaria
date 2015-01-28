@@ -24,7 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Entity.h"
 #include "Core/Containers/Equipment.h"
 #include "Core/Containers/Journal.h"
-#include "Core/Containers/Field.h"
+#include "Core/Containers/Coordinates.hpp"
 
 class Mod;
 class PlayerDraft;

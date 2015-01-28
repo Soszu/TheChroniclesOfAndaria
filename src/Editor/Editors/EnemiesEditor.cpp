@@ -68,6 +68,7 @@ void EnemiesEditor::initEditPart()
 	editLayout_->addRow(Labels::Enemy::Level,         levelEdit_);
 	editLayout_->addRow(Labels::Enemy::DefaultAttack, defaultAttackEdit_);
 	editLayout_->addRow(Labels::Enemy::BaseStats,     baseStatsEdit_);
+	editLayout_->addRow(Labels::Enemy::WinningPrize,  prizeEdit_);
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
 // 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);

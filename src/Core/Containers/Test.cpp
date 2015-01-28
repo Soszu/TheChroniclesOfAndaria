@@ -1,6 +1,11 @@
 ﻿#include "Test.h"
 
-void Test::take(Player *player) const
+QDataStream & operator<<(QDataStream &out, const Test &effectType)
 {
-	emit result(player, Test::Result::Pass);
+	return out;
+}
+
+QDataStream & operator>>(QDataStream &in, Test &effectType)
+{
+	return in;
 }

@@ -22,8 +22,6 @@ public:
 	void setEffects(const QList <Effect> &effects);
 
 private:
-	static const int SpinBoxWidth = 50;
-
 	void initButtons();
 	void initEdits();
 	void initList();
