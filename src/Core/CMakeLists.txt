@@ -21,8 +21,9 @@
 	Containers/Models/ItemModel.cpp
 
 #	Parsers/BoardParser.cpp
-# 	Parsers/EnemyParser.cpp
+	Parsers/EnemyParser.cpp
 	Parsers/PrizeParser.cpp
+	Parsers/ItemParser.cpp
 #	Parsers/QuestParser.cpp
 
 	Paths.cpp

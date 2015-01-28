@@ -1,6 +1,5 @@
-﻿/*
+/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -16,29 +15,45 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 
-#include "Core/Containers/Bases/ItemBase.h"
-#include "Core/Enums.hpp"
-#include "Core/Containers/PlayerDraft.h"
+#ifndef ITEMPARSER_H
+#define ITEMPARSER_H
 
-class Item {
+#include <QtCore>
+
+#include "Core/Mod.h"
+
+
+class ItemParser
+{
 public:
-	Item(ItemBase *base = nullptr);
-
-	QList <Effect> effects() const;
-	bool isRestricted(Class playerClass) const;
-	QString name() const;
-	quint16 price() const;
-	ItemBase::Quality quality() const;
-	QDataStream & toDataStream(QDataStream &out) const;
-	ItemBase::Type type() const;
-
-	QDataStream & fromDataStream(QDataStream &in);
-
+	ItemParser(Mod* mod);
+	bool bladWczytywania();
+	QString trescBledu;
 private:
-	ItemBase *base_;
+	bool bylBlad;
+	Mod* mod;
+	bool wczytajDane(QTextStream* wejscie);
+	QString nastepny(QTextStream* wejscie);
+	QString aktualnaGrupa;
+
+	struct informacje{
+		int id;
+		QString name;
+		char typ;
+		int wrecz;
+		int dystans;
+		int magia;
+		int defence;
+		int perception;
+		int HP;
+		int HPregen;
+		int ograniczenie;
+		bool czy1Reczna;
+		bool czyMocny;
+		int wartosc;
+		int jakosc;
+	};
 };
 
-QDataStream & operator<<(QDataStream &out, const Item &item);
-QDataStream & operator>>(QDataStream &in, Item &item);
+#endif

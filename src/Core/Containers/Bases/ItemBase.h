@@ -61,10 +61,10 @@ public:
 	const QString & name() const;
 	quint16 price() const;
 	Quality quality() const;
-	const QHash <Class, bool> & restrictions() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	Type type() const;
 	UID uid() const;
+	bool isRestricted(Class playerClass) const;
 
 	void addEffect(const Effect &effect);
 	QDataStream & fromDataStream(QDataStream &in);
@@ -72,10 +72,7 @@ public:
 	void setName(const QString &name);
 	void setPrice(quint16 price);
 	void setQuality(Quality quality);
-	void setRestriction(Class playerClass, bool value);
-	void setRestrictions(const QHash <Class, bool> &restrictions);
 	void setType(Type type);
-	void toggleRestriction(Class playerClass);
 
 private:
 

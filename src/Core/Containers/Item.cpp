@@ -29,7 +29,7 @@ QList <Effect> Item::effects() const
 
 bool Item::isRestricted(Class playerClass) const
 {
-	return base_->restrictions()[playerClass];
+	return base_->isRestricted(playerClass);
 }
 
 QString Item::name() const
@@ -45,11 +45,6 @@ quint16 Item::price() const
 ItemBase::Quality Item::quality() const
 {
 	return base_->quality();
-}
-
-QHash <Class, bool> Item::restrictions() const
-{
-	return base_->restrictions();
 }
 
 QDataStream &Item::toDataStream(QDataStream &out) const

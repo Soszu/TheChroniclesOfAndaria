@@ -18,6 +18,9 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Parsers/EnemyParser.h"
 
+#include "Core/Containers/Bases/EnemyBase.h"
+#include "Core/Containers/Effect.h"
+
 #include "Core/Paths.h"
 #include "Core/Enums.hpp"
 
@@ -38,13 +41,6 @@ EnemyParser::EnemyParser(Mod *dataKeeper)
 
 	bylBlad = wczytajDane(&wejscie);
 	plik.close();
-
-	if(!bylBlad && aktualnaGrupa != -1 && !dataKeeper->enemyGroups_.contains(aktualnaGrupa))
-	{
-		trescBledu = QString::fromUtf8("Grupa nie może być pusta.\n Pusta jest grupa: ") + aktualnaGrupa;
-		bylBlad = true;
-	}
-
 }
 
 /**
@@ -145,25 +141,23 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 		}
 
 //-----------ZAPISANIE DANYCH
-		QList<int>* poprzednia;
-		if(enemyGroups_.contains(aktualnaGrupa))
-			poprzednia = enemyGroups_[aktualnaGrupa];
-		else
-		{
-			poprzednia = new QList<int>;
-			enemyGroups_.insert(aktualnaGrupa, poprzednia);
-		}
-		poprzednia->push_back(info.id);
 
-		Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, AttackTypeMelee, dataKeeper->prizes_[info.idNagrody]);
+		EnemyBase* nowy = new EnemyBase(info.id, info.name);
+
+		nowy->addStat(Effect(Effect::Type::MaxHealth,  info.zdrowie));
+		nowy->addStat(Effect(Effect::Type::Perception, info.perception));
+		nowy->addStat(Effect(Effect::Type::Defence,    info.defence));
+		nowy->addStat(Effect(Effect::Type::MeleeBase,  info.atakMin));
+		nowy->addStat(Effect(Effect::Type::MeleeRange, info.atakMaks - info.atakMin + 1));
+		nowy->setDefaultAttack(Attack::Melee);
+		nowy->setImageName(info.nameObrazka);
+		nowy->setLevel(aktualnaGrupa);
+		nowy->setPrize(*(dataKeeper->prizes_[info.idNagrody]));
 
 		dataKeeper->enemies_.insert(info.id, nowy);
 
 		++numerLinii;
 	}
-	//copy from temporary map to origin with const QList
-	for (auto group : enemyGroups_.keys())
-		dataKeeper->enemyGroups_.insert(group, enemyGroups_[group]);
 	return false;
 }
 

@@ -23,6 +23,7 @@ This file is part of The Chronicles Of Andaria Project.
 //to be wiped out with parsers
 static const QString PLIK_PRZECIWNIKOW = "data/przeciwnicy.txt";
 static const QString PLIK_NAGROD = "data/nagrody.txt";
+static const QString PLIK_PRZEDMIOTOW = "data/przedmioty.txt";
 static const QString PLIK_ZADAN = "data/zadania.txt";
 static const QString PLIK_USTAWIENIA_PLANSZY = "data/plansza.txt";
 

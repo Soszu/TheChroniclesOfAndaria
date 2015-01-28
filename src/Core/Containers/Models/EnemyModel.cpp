@@ -200,12 +200,21 @@ bool EnemyModel::setData(const QModelIndex &index, const QVariant &value, int ro
 		case Level:               enemy->setLevel(value.toInt()); break;
 		case DefaultAttack:       enemy->setDefaultAttack(value.value<Attack>()); break;
 		case BaseStats:           enemy->setBaseStats(value.value<QList <Effect> >()); break;
-		case WinningPrize:               enemy->setPrize(value.value<Prize>()); break;
+		case WinningPrize:        enemy->setPrize(value.value<Prize>()); break;
 	}
 
 	emit dataChanged(index, index);
 
 	return true;
+}
+
+void EnemyModel::addEnemyBase(EnemyBase* eb)
+{
+	beginResetModel();
+
+	addEnemy(rowCount(), eb);
+
+	endResetModel();
 }
 
 void EnemyModel::addEnemy(int row, EnemyBase* enemy)

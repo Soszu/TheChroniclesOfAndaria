@@ -18,7 +18,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Mod.h"
 
+#include "Core/Parsers/ItemParser.h"
 #include "Core/Parsers/PrizeParser.h"
+#include "Core/Parsers/EnemyParser.h"
 #include "Core/Containers/Bases/ItemBase.h"
 
 Mod::Mod()
@@ -32,31 +34,20 @@ Mod::Mod()
 // 		return;
 // 	}
 // 	qDebug() << QString::fromUtf8("Ustawienie planszy wczytano poprawnie");
-//
-// 	ItemParser itemParser(this);
-// 	if (itemParser.bladWczytywania()) {
-// 		initError_ = blad_parsera_przedmiotow;
-// 		displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych przedmiotow\n\n") + itemParser.trescBledu);
-// 		return;
-// 	}
-// 	qDebug() << QString::fromUtf8("Informacje o przedmiotach wczytano poprawnie");
+
+	ItemParser itemParser(this);
+
+// 	qDebug() << itemParser.trescBledu << "items" << items_.size();
 
 	PrizeParser prizeParser(this);
 
-// 	qDebug() <<prizeParser.trescBledu;
+// 	qDebug() << prizeParser.trescBledu << "prizes" << prizes_.size();
 
-// 	EnemyParser enemyParser(this);
-// 	if (enemyParser.bladWczytywania()) {
-// 		initError_ = blad_parsera_przeciwnikow;
-// 		displayErrorMessage(QString::fromUtf8("WystÄpiÅ bÅÄd przy wczytywaniu danych przeciwnikÃ³w\n\n") + enemyParser.trescBledu);
-// 		return;
-// 	} else if (enemyGroups_.size() != Enemy::NUMBER_OF_ENEMIES_GROUPS) {
-// 		initError_ = blad_liczby_grup_przeciwnikow;
-// 		displayErrorMessage(QString::fromUtf8("Wczytano za maÅo albo za duÅ¼o grup przedmiotÃ³w.\n\n"));
-// 		return;
-// 	}
-// 	qDebug() << QString::fromUtf8("Informacje o przeciwnikach wczytano poprawnie");
-//
+	EnemyParser enemyParser(this);
+
+// 	qDebug() <<enemyParser.trescBledu 	<< "enemies: " << enemies_.size();
+
+
 // 	QuestParser questParser(this);
 // 	if (questParser.bladWczytywania()) {
 // 		initError_ = blad_parsera_zadan;
@@ -86,12 +77,21 @@ bool Mod::load(const QString &path)
 
 	QDataStream in(&file);
 
-	in >> itemModel_ >> enemyModel_;
-/*
+	if (LoadFromTxt) {
+		for (auto &item : items_)
+			itemModel_.addItemBase(item);
+
+		for (auto &enemy : enemies_)
+			enemyModel_.addEnemyBase(enemy);
+	}
+	else
+		in >> itemModel_ >> enemyModel_;
+
 	for (int i = 0; i < 10; ++i)
 		if (itemModel_.item(i) != nullptr)
-			qDebug() << itemModel_.item(i)->name();*/
-	file.close();
+			qDebug() << itemModel_.item(i)->name();
+
+		file.close();
 	return true;
 }
 

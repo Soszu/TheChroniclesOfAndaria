@@ -46,6 +46,9 @@ public:
 	void setChanged(bool changed);
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
+	//TMP for migration from parser
+	void addEnemyBase(EnemyBase *eb);
+
 private:
 	void addEnemy(int row, EnemyBase *enemy);
 	void removeEnemyFromRow(int row);

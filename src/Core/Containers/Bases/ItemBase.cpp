@@ -102,6 +102,12 @@ UID ItemBase::uid() const
 	return uid_;
 }
 
+bool ItemBase::isRestricted(Class playerClass) const
+{
+	//TODO map from item <<ItemBase::Type, Class>, bool> or sth like that
+	return false;
+}
+
 QDataStream & ItemBase::toDataStream(QDataStream &out) const
 {
 	return out << uid_ << name_ << type_ << price_ << quality_ << effects_;

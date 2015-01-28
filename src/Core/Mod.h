@@ -25,7 +25,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Models/EnemyModel.h"
 #include "Core/Containers/Models/ItemModel.h"
+
 #include "Core/Containers/Prize.h"
+#include "Core/Containers/Bases/EnemyBase.h"
+#include "Core/Containers/Bases/ItemBase.h"
+
+const bool LoadFromTxt = true;
 
 //Mod, Variant, Rule(s), Option, Extension, Version, Chronicle, Guide, Set, Model, Story, Content
 //Tale, Form, Adaptation,
@@ -59,7 +64,10 @@ private:
 	ItemModel itemModel_;
 	EnemyModel enemyModel_;
 
+	//TMP
+	QMap<int, ItemBase*> items_;
 	QMap<int, Prize*> prizes_;
+	QMap<int, EnemyBase*> enemies_;
 
 	QList <Field> fields_;
 	QHash <Race, Coordinates> initialPositions_;

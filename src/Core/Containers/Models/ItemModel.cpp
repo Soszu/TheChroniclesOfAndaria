@@ -193,16 +193,25 @@ bool ItemModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
 	ItemBase *item = items_[index.row()];
 	switch (index.column()) {
-		case Name:                item->setName(value.toString()); break;
-		case Type:                item->setType(value.value<ItemBase::Type>()); break;
-		case Quality:             item->setQuality(value.value<ItemBase::Quality>()); break;
-		case Price:               item->setPrice(value.toInt()); break;
-		case Effects:             item->setEffects(value.value<QList <Effect> >()); break;
+		case Name:    item->setName(value.toString()); break;
+		case Type:    item->setType(value.value<ItemBase::Type>()); break;
+		case Quality: item->setQuality(value.value<ItemBase::Quality>()); break;
+		case Price:   item->setPrice(value.toInt()); break;
+		case Effects: item->setEffects(value.value<QList <Effect> >()); break;
 	}
 
 	emit dataChanged(index, index);
 
 	return true;
+}
+
+void ItemModel::addItemBase(ItemBase* item)
+{
+	beginResetModel();
+
+	addItem(rowCount(), item);
+
+	endResetModel();
 }
 
 void ItemModel::addItem(int row, ItemBase* item)

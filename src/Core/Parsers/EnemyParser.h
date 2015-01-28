@@ -22,7 +22,6 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 
 #include "Core/Mod.h"
-#include "Core/Containers/Enemy.h"
 
 class Mod;
 

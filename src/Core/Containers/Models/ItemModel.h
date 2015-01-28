@@ -45,6 +45,8 @@ public:
 	void setChanged(bool changed);
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
+	//TMP for migration from parsers
+	void addItemBase(ItemBase *item);
 private:
 	void addItem(int row, ItemBase *item);
 	void removeItemFromRow(int row);
