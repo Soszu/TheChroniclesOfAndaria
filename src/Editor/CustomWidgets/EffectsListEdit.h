@@ -1,9 +1,10 @@
 ﻿#pragma once
 
 #include <QtWidgets>
+
 #include "Core/Containers/Effect.h"
 
-class EffectsListEdit : public QGroupBox {
+class EffectsListEdit : public QWidget {
 	Q_OBJECT
 	Q_PROPERTY(QList <Effect> effects_
 	           READ effects
@@ -11,8 +12,9 @@ class EffectsListEdit : public QGroupBox {
 	           RESET reset
 	           NOTIFY effectsChanged
 	           USER true)
+
 public:
-	EffectsListEdit(const QString &title, QWidget *parent = nullptr);
+	EffectsListEdit(QWidget *parent = nullptr);
 
 	QList <Effect> effects() const;
 

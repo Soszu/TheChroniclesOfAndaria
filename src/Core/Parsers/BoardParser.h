@@ -1,4 +1,4 @@
-﻿/**
+/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -25,11 +25,11 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Paths.h"
 #include "Core/Containers/Player.h"
 
-class DataKeeper;
+class Mod;
 
 class BoardParser {
 public:
-	BoardParser(DataKeeper *dataKeeper);
+	BoardParser(Mod *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
@@ -42,7 +42,7 @@ private:
 	};
 
 	bool bylBlad;
-	DataKeeper *dataKeeper;
+	Mod *dataKeeper;
 
 	quint8 szerokosc;
 	quint8 wysokosc;

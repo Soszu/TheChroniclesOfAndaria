@@ -1,26 +1,8 @@
-﻿#pragma once
+#pragma once
 
 #include <QtWidgets>
-#include "Core/Utils/EnumHelpers.hpp"
-#include "Core/Utils/BiHash.hpp"
-#include "Core/Strings.h"
+
 #include "Core/Containers/Effect.h"
-
-enum class Attack : quint8 {
-	Melee,
-	Ranged,
-	Magical
-};
-Q_DECLARE_METATYPE(Attack)
-uint qHash(Attack attack);
-QDataStream & operator<<(QDataStream &out, const Attack &attack);
-QDataStream & operator>>(QDataStream &in, Attack &attack);
-static const BiHash <Attack, QString> attackTypeLabels {
-	{Attack::Melee,   Label::Melee},
-	{Attack::Ranged,  Label::Ranged},
-	{Attack::Magical, Label::Magical},
-};
-
 
 class Entity {
 public:

@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/BoardParser.h"
 
-BoardParser::BoardParser(DataKeeper *dataKeeper)
+BoardParser::BoardParser(Mod *dataKeeper)
 {
 	bylBlad = false;
 	this->dataKeeper = dataKeeper;

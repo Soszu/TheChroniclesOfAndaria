@@ -23,29 +23,6 @@ inline uint qHash(const QPoint& p)
 	return qHash(p.x()+p.y());
 }
 
-inline uint qHash(Kingdom kingdom)
-{
-	return qHash(toUnderlying(kingdom));
-}
-
-QDataStream & operator<<(QDataStream &out, Kingdom kingdom)
-{
-	return out << toUnderlying(kingdom);
-}
-
-QDataStream & operator>>(QDataStream &in, Kingdom kingdom)
-{
-	return in >> toUnderlyingRef(kingdom);
-}
-
-static const BiHash <Kingdom, QString> KingdomLabels {
-	{Kingdom::Neutral, Label::Neutral},
-	{Kingdom::Humans, Label::Humans},
-	{Kingdom::Dwarfs, Label::Dwarfs},
-	{Kingdom::Elves, Label::Elves},
-	{Kingdom::Halflings, Label::Halflings}
-};
-
 Field::Field(Coordinates coordinates, Kingdom kingdom, Terrain *terrain)
      : coordinates_(coordinates), kingdom_(kingdom), terrain_(terrain)
 {}

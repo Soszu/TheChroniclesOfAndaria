@@ -22,29 +22,29 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 
 #include "Core/Containers/Prize.h"
-#include "Core/DataKeeper.h"
+#include "Core/Enums.hpp"
 
-class DataKeeper;
+class Mod;
 
 class PrizeParser
 {
 public:
-	PrizeParser(DataKeeper *dataKeeper);
+	PrizeParser(Mod *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	bool bylBlad;
-	DataKeeper *dataKeeper;
+	Mod *mod;
 	bool wczytajDane(QTextStream* wejscie);
 	QString nastepny(QTextStream* wejscie);
 
 	struct informacje{
 		int id;
-		int* reputacja;
-		int zloto;
-		int doswiadczenie;
+		QHash <Kingdom, qint8> reputacja;
+		uint zloto;
+		uint doswiadczenie;
 		QStringList grupy;
-		QList<int> przedmioty;
+		QList<uint> przedmioty;
 	};
 };
 

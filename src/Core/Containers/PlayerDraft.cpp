@@ -1,56 +1,10 @@
 ﻿#include "Core/Containers/PlayerDraft.h"
-#include "Core/Utils/BiHash.hpp"
-#include "Core/Utils/EnumHelpers.hpp"
-
-inline uint qHash(Race playerRace)
-{
-	return qHash(toUnderlying(playerRace));
-}
-
-QDataStream & operator<<(QDataStream &out, const Race &playerRace)
-{
-	return out << toUnderlying(playerRace);
-}
-
-QDataStream & operator>>(QDataStream &in, Race &playerRace)
-{
-	return in >> toUnderlyingRef(playerRace);
-}
-
-const static BiHash <Race, QString> RaceLabels {
-	{Race::Human,    Label::Human},
-	{Race::Dwarf,    Label::Dwarf},
-	{Race::Elf,      Label::Elf},
-	{Race::Halfling, Label::Halfling}
-};
-
-inline uint qHash(Class playerClass)
-{
-	return qHash(toUnderlying(playerClass));
-}
-
-QDataStream & operator<<(QDataStream &out, const Class &playerClass)
-{
-	return out << toUnderlying(playerClass);
-}
-
-QDataStream & operator>>(QDataStream &in, Class &playerClass)
-{
-	return in >> toUnderlyingRef(playerClass);
-}
-
-const static BiHash <Class, QString> ClassLabels {
-	{Class::Fighter, Label::Fighter},
-	{Class::Hunter,  Label::Hunter},
-	{Class::Mage,    Label::Mage},
-	{Class::Druid,   Label::Druid}
-};
 
 PlayerDraft::PlayerDraft()
-           : color_(generateRandomColor()),
-             name_(generateRandomName()),
-             playerClass_(Class::Fighter),
-             playerRace_(Race::Human)
+: color_(generateRandomColor()),
+  name_(generateRandomName()),
+  playerClass_(Class::Fighter),
+  playerRace_(Race::Human)
 {}
 
 const QColor & PlayerDraft::color() const

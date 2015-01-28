@@ -19,13 +19,13 @@ QDataStream & operator>>(QDataStream &in, ItemBase::Type &type)
 }
 
 const BiHash <ItemBase::Type, QString> ItemBase::TypeLabels = {
-	{ItemBase::Type::Armor, Label::Item::Armor},
-	{ItemBase::Type::Artifact, Label::Item::Artifact},
-	{ItemBase::Type::Helmet, Label::Item::Helmet},
-	{ItemBase::Type::Shield, Label::Item::Shield},
-	{ItemBase::Type::OneHandedWeapon, Label::Item::OneHandedWeapon},
-	{ItemBase::Type::TwoHandedWeapon, Label::Item::TwoHandedWeapon},
-	{ItemBase::Type::Potion, Label::Item::Potion}
+	{ItemBase::Type::Armor,           Labels::Item::Types::Armor},
+	{ItemBase::Type::Artifact,        Labels::Item::Types::Artifact},
+	{ItemBase::Type::Helmet,          Labels::Item::Types::Helmet},
+	{ItemBase::Type::Shield,          Labels::Item::Types::Shield},
+	{ItemBase::Type::OneHandedWeapon, Labels::Item::Types::OneHandedWeapon},
+	{ItemBase::Type::TwoHandedWeapon, Labels::Item::Types::TwoHandedWeapon},
+	{ItemBase::Type::Potion,          Labels::Item::Types::Potion}
 };
 
 inline uint qHash(ItemBase::Quality quality)
@@ -44,10 +44,10 @@ QDataStream & operator>>(QDataStream &in, ItemBase::Quality &quality)
 }
 
 const BiHash <ItemBase::Quality, QString> ItemBase::QualityLabels = {
-	{ItemBase::Quality::NotApplicable, Label::Item::NotApplicable},
-	{ItemBase::Quality::Standard,      Label::Item::Standard},
-	{ItemBase::Quality::Magical,       Label::Item::Magical},
-	{ItemBase::Quality::Legendary,     Label::Item::Legendary},
+	{ItemBase::Quality::NotApplicable, Labels::Item::Qualities::NotApplicable},
+	{ItemBase::Quality::Standard,      Labels::Item::Qualities::Standard},
+	{ItemBase::Quality::Magical,       Labels::Item::Qualities::Magical},
+	{ItemBase::Quality::Legendary,     Labels::Item::Qualities::Legendary},
 };
 
 ItemBase::ItemBase(UID uid, const QString &name)

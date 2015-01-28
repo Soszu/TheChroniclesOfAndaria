@@ -21,20 +21,21 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/DataKeeper.h"
+#include "Core/Mod.h"
 #include "Core/Containers/Enemy.h"
 
-class DataKeeper;
+class Mod;
 
-class EnemyParser
-{
+class EnemyParser {
+
 public:
-	EnemyParser(DataKeeper *dataKeeper);
+	EnemyParser(Mod *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
+
 private:
 	bool bylBlad;
-	DataKeeper *dataKeeper;
+	Mod *dataKeeper;
 	bool wczytajDane(QTextStream* wejscie);
 	QString nastepny(QTextStream* wejscie);
 	int aktualnaGrupa;

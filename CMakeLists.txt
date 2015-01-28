@@ -13,4 +13,4 @@ message (Current\ build\ type:\ ${CMAKE_BUILD_TYPE})
 
 add_subdirectory (src)
 
-install (DIRECTORY data img DESTINATION "${EXECUTABLE_OUTPUT_PATH}")
+install (DIRECTORY data DESTINATION "${EXECUTABLE_OUTPUT_PATH}")

@@ -27,14 +27,9 @@ QList <Effect> Equipment::activeEffects() const
 	return {};
 }
 
-void Equipment::addItem(const Item &item)
+void Equipment::addItems(const QList <UID> &items)
 {
-	//TODO
-}
-
-void Equipment::addItems(const QList <Item> &items)
-{
-
+//TODO
 }
 
 /*

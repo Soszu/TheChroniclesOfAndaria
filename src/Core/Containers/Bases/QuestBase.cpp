@@ -2,9 +2,9 @@
 #include "Core/Utils/EnumHelpers.hpp"
 
 static const BiHash <QuestBase::Level, QString> LevelLabels = {
-	{QuestBase::Level::Easy, Label::Quest::Easy},
-	{QuestBase::Level::Hard, Label::Quest::Medium},
-	{QuestBase::Level::Hard, Label::Quest::Hard}
+	{QuestBase::Level::Easy, Labels::Quest::Levels::Easy},
+	{QuestBase::Level::Hard, Labels::Quest::Levels::Medium},
+	{QuestBase::Level::Hard, Labels::Quest::Levels::Hard}
 };
 
 inline uint qHash(QuestBase::Level level)

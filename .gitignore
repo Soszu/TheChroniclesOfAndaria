@@ -4,5 +4,5 @@ build/
 docs/
 CMakeLists.txt.user
 *.kdev4
-img/enemies
+data/images/enemies
 /

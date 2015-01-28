@@ -1,20 +1,5 @@
 ﻿#include "Core/Containers/Entity.h"
 
-inline uint qHash(Attack attack)
-{
-	return qHash(toUnderlying(attack));
-}
-
-QDataStream & operator<<(QDataStream &out, const Attack &attack)
-{
-	return out << toUnderlying(attack);
-}
-
-QDataStream & operator>>(QDataStream &in, Attack &attack)
-{
-	return in >> toUnderlyingRef(attack);
-}
-
 Entity::Entity(): health_(0)
 {}
 

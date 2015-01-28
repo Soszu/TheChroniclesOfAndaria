@@ -1,4 +1,5 @@
-﻿#include "Core/Containers/Models/ItemModel.h"
+#include "Core/Containers/Models/ItemModel.h"
+
 #include "Core/Containers/Bases/ItemBase.h"
 
 ItemModel::ItemModel(QObject *parent) : QAbstractTableModel(parent), changed_(false)
@@ -139,7 +140,7 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex &parent)
 		QString itemName;
 		do {
 			++nameSuffix;
-			itemName = QString("%1 %2").arg(Default::ItemName).arg(nameSuffix);
+			itemName = QString("%1 %2").arg(Labels::Item::DefaultName).arg(nameSuffix);
 		} while (hasItem(itemName));
 
 		items_.insert(row + i, new ItemBase(serial_.next(), itemName));
@@ -177,7 +178,6 @@ void ItemModel::reset()
 	beginResetModel();
 	removeRows(0, rowCount());
 	serial_.reset();
-	changed_ = false;
 	endResetModel();
 }
 

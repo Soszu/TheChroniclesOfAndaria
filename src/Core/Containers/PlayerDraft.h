@@ -1,30 +1,8 @@
 ﻿#pragma once
 
 #include <QtWidgets>
-#include "Core/Strings.h"
 
-enum class Race : quint8 {
-	Human,
-	Dwarf,
-	Elf,
-	Halfling
-};
-Q_DECLARE_METATYPE(Race)
-uint qHash(Race playerRace);
-QDataStream & operator<<(QDataStream &out, const Race &playerRace);
-QDataStream & operator>>(QDataStream &in, Race &playerRace);
-
-enum class Class : quint8 {
-	Fighter,
-	Hunter,
-	Mage,
-	Druid
-};
-Q_DECLARE_METATYPE(Class)
-uint qHash(Class playerClass);
-QDataStream & operator<<(QDataStream &out, const Class &playerClass);
-QDataStream & operator>>(QDataStream &in, Class &playerClass);
-
+#include "Core/Enums.hpp"
 
 static const int MinPlayers = 2;
 static const int MaxPlayers = 8;

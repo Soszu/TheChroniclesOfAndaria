@@ -1,15 +1,16 @@
 ﻿#pragma once
 
 #include <QtWidgets>
-#include "Core/Containers/Models/ItemModel.h"
-#include "Editor/Editors/ContentEditor.h"
-#include "Editor/CustomWidgets/EffectsListEdit.h"
-#include "Editor/CustomWidgets/EnumEdit.h"
 
-class ItemsEditor : public ContentEditor {
+class ItemModel;
+class EffectsListEdit;
+class EnumEdit;
+
+class ItemsEditor : public QWidget {
 	Q_OBJECT
+
 public:
-	ItemsEditor(QObject *parent = nullptr);
+	ItemsEditor(ItemModel *itemModel, QWidget *parent = nullptr);
 	void clear();
 	void loadFromStream(QDataStream& in);
 	void saveToStream(QDataStream& out) const;
@@ -21,13 +22,12 @@ public slots:
 private:
 	static const int SpinBoxWidth = 50;
 
-	void initModel();
 	void initEditPart();
 	void initViewPart();
 	void initLayout();
 	void initMapper();
 
-	QVBoxLayout *editLayout_;
+	QFormLayout *editLayout_;
 	QVBoxLayout *viewLayout_;
 
 	ItemModel *itemModel_;

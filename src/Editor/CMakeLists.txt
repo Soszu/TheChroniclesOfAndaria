@@ -4,8 +4,8 @@
 
 	CustomWidgets/EffectsListEdit.cpp
 	CustomWidgets/EnumEdit.cpp
+	CustomWidgets/PrizeEdit.cpp
 
-	Editors/ContentEditor.cpp
 	Editors/EnemiesEditor.cpp
 	Editors/ItemsEditor.cpp
 )
@@ -15,8 +15,8 @@ set (Editor_HDRS
 
 	CustomWidgets/EffectsListEdit.h
 	CustomWidgets/EnumEdit.h
+	CustomWidgets/PrizeEdit.hpp
 
-	Editors/ContentEditor.h
 	Editors/EnemiesEditor.h
 	Editors/ItemsEditor.h
 )

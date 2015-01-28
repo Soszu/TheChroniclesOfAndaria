@@ -21,13 +21,14 @@
 	Containers/Models/ItemModel.cpp
 
 #	Parsers/BoardParser.cpp
-#	Parsers/EnemyParser.cpp
-#	Parsers/PrizeParser.cpp
+# 	Parsers/EnemyParser.cpp
+	Parsers/PrizeParser.cpp
 #	Parsers/QuestParser.cpp
 
 	Paths.cpp
+	Enums.cpp
 	DataManager.cpp
-	DataKeeper.cpp
+	Mod.cpp
 )
 set (core_HEADERS
 )

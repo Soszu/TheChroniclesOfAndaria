@@ -18,7 +18,8 @@ This file is part of The Chronicles Of Andaria Project.
 
 #pragma once
 
-#include "Core/Containers/Item.h"
+#include "Core/Containers/Effect.h"
+#include "Core/Utils/Serial.hpp"
 
 enum class Class : quint8;
 
@@ -33,8 +34,7 @@ public:
 
 	QList <Effect> activeEffects() const;
 
-	void addItem(const Item &item);
-	void addItems(const QList<Item> &items);
+	void addItems(const QList<UID> &items);
 private:
 	Class playerClass_;
 };

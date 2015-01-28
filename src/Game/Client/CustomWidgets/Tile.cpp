@@ -20,7 +20,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 Tile::Tile(const Field *field, qreal side)
 	: side_(side), height_(BoardArea::calcHeight(side_)), field_(field), boardArea_(boardArea),
-	highlighted_(false), selected_(false), framed_(false), tilePath_(Paths::HexesPrefix + field_->imageFile())
+	highlighted_(false), selected_(false), framed_(false), tilePath_(Path::HexesPrefix + field_->imageFile())
 {
 	setPos(BoardArea::calcCenter(field_->coordinates(), side_));
 	setAcceptHoverEvents(true);
@@ -50,7 +50,7 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		QPointF swordShift(height_ * 0.7, side_ * 0.3);
 		QRectF swordRect(boundingRect().topLeft() + swordShift, boundingRect().size() * 0.3);
 
-		painter->drawPixmap(swordRect.toRect(), DataManager::pixmap(Paths::IconFightSymbol));
+		painter->drawPixmap(swordRect.toRect(), DataManager::pixmap(Path::IconFightSymbol));
 	}
 
 	if (field_->hasCity()) {

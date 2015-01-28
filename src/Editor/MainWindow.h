@@ -1,11 +1,4 @@
 ﻿/*
- *TODO
- * paths
- * window and widgets size in const variables listed in one place
- * separate common files if any
- */
-
-/*
 Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -22,40 +15,30 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include <QtWidgets>
-#include "Editor/Strings.h"
-#include "Editor/Shortcuts.h"
-#include "Editor/Editors/ContentEditor.h"
+
+class Mod;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 public:
 	MainWindow();
-	~MainWindow();
 
 private:
 	void initMenuAndActions();
-	void initContentEditors();
-	void initModelsList();
-	void initEditorsWidgets();
-	void initLayout();
+	void initEditors();
 
-	bool loadContent(const QString &path);
-	bool saveContent(const QString &path);
 	int checkForUnsavedChanges();
 
-	QString openedFilePath;
+	QString currentFilePath_;
 
-	QAction *menuFileSave;
-	QAction *menuFileSaveAs;
+	QAction *menuModSave_;
+	QAction *menuModSaveAs_;
 
-	QSplitter *placeholder;
-	QListWidget *modelsList_;
-	QStackedWidget *modelsWidgets_;
-	QList<ContentEditor *> contentEditors_;
+	Mod *mod_;
+	QTabWidget *editorTabs_;
 
 private slots:
 	void onNewActivated();

@@ -1,9 +1,8 @@
-﻿#include "Editor/CustomWidgets/EffectsListEdit.h"
+#include "Editor/CustomWidgets/EffectsListEdit.h"
 #include "Editor/Strings.h"
 #include "Editor/Shortcuts.h"
 
-EffectsListEdit::EffectsListEdit(const QString &title, QWidget *parent)
-               : QGroupBox(title, parent)
+EffectsListEdit::EffectsListEdit(QWidget *parent) : QWidget(parent)
 {
 	setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	initButtons();
@@ -107,12 +106,12 @@ void EffectsListEdit::updateDuration(int x)
 
 void EffectsListEdit::initButtons()
 {
-	addEffectButton_ = new QPushButton(Label::Effect::Add);
-	addEffectButton_->setShortcut(Shortcut::Editor::SecondaryAdd);
+	addEffectButton_ = new QPushButton(Editor::Labels::Effects::Add);
+	addEffectButton_->setShortcut(Editor::Shortcuts::SecondaryAdd);
 	connect(addEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::addEffect);
 
-	removeEffectButton_ = new QPushButton(Label::Effect::Remove);
-	removeEffectButton_->setShortcut(Shortcut::Editor::SecondaryRemove);
+	removeEffectButton_ = new QPushButton(Editor::Labels::Effects::Remove);
+	removeEffectButton_->setShortcut(Editor::Shortcuts::SecondaryRemove);
 	connect(removeEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::removeEffect);
 }
 
@@ -147,8 +146,8 @@ void EffectsListEdit::initList()
 void EffectsListEdit::initLayout()
 {
 	QVBoxLayout *itemEffectsLayout = new QVBoxLayout(this);
-	QLabel *listLabel = new QLabel(Label::Effect::List);
-	QGroupBox *effectDetails = new QGroupBox(Label::Effect::Details);
+	QLabel *listLabel = new QLabel(Editor::Labels::Effects::List);
+	QGroupBox *effectDetails = new QGroupBox(Editor::Labels::Effects::Details);
 	QFormLayout *effectDetailsLayout = new QFormLayout(effectDetails);
 	QVBoxLayout *effectsListLayout = new QVBoxLayout;
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
@@ -156,9 +155,9 @@ void EffectsListEdit::initLayout()
 	itemEffectsLayout->addWidget(effectDetails);
 	itemEffectsLayout->addLayout(effectsListLayout);
 
-	effectDetailsLayout->addRow(Label::Effect::Type,     typeEdit_);
-	effectDetailsLayout->addRow(Label::Effect::Value,    valueEdit_);
-	effectDetailsLayout->addRow(Label::Effect::Duration, durationEdit_);
+	effectDetailsLayout->addRow(Labels::Effect::Type,     typeEdit_);
+	effectDetailsLayout->addRow(Labels::Effect::Value,    valueEdit_);
+	effectDetailsLayout->addRow(Labels::Effect::Duration, durationEdit_);
 
 	effectsListLayout->addWidget(listLabel);
 	effectsListLayout->addWidget(listView_);

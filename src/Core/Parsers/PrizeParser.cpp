@@ -17,11 +17,13 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Parsers/PrizeParser.h"
+#include "Core/Mod.h"
+#include "Core/Paths.h"
 
-PrizeParser::PrizeParser(DataKeeper *dataKeeper)
+PrizeParser::PrizeParser(Mod *mod)
 {
 	bylBlad = false;
-	this->dataKeeper = dataKeeper;
+	this->mod = mod;
 	QFile plik(PLIK_NAGROD);
 	if(!plik.open(QIODevice::ReadOnly))
 	{
@@ -63,7 +65,7 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 		QStringList reputacja = podzial.at(1).split(",");
-		if(reputacja.size() != KingdomCount)
+		if(reputacja.size() != 4)
 		{
 			trescBledu = QString::fromUtf8( "Zła ilość pól reputacji.\nWadliwa linia: ") + QString::number(numerLinii);
 			return true;
@@ -77,8 +79,8 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 		bool okZloto;
 		bool okDoswiadczenie;
 		info.id = podzial.at(0).toInt(&okID);
-		info.zloto = podzial.at(2).toInt(&okZloto);
-		info.doswiadczenie = podzial.at(3).toInt(&okDoswiadczenie);
+		info.zloto = podzial.at(2).toUInt(&okZloto);
+		info.doswiadczenie = podzial.at(3).toUInt(&okDoswiadczenie);
 
 		if(!okID ||!okZloto || !okDoswiadczenie)
 		{
@@ -92,12 +94,21 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			return true;
 		}
 //-----------REPUTACJA
-		info.reputacja = new int[KingdomCount];
 		bool blad = false;
-		for(int i = 0; i < KingdomCount; ++i)
+		for(int i = 0; i < 4; ++i)
 		{
 			bool ok;
-			info.reputacja[i] = reputacja.at(i).toInt(&ok);
+
+			Kingdom kingdom;
+			switch (i) {
+				case 0: kingdom = Kingdom::Humans; break;
+				case 1: kingdom = Kingdom::Dwarfs; break;
+				case 2: kingdom = Kingdom::Elves; break;
+				case 3: kingdom = Kingdom::Halflings; break;
+			}
+
+			info.reputacja.insert(kingdom, reputacja.at(i).toInt(&ok));
+
 			if (!ok)
 				blad = true;
 		}
@@ -114,21 +125,21 @@ bool PrizeParser::wczytajDane(QTextStream* wejscie)
 			for(int i = 0; i < konkrety.size(); ++i)
 			{
 				bool ok;
-				info.przedmioty.push_back(konkrety.at(i).toInt(&ok));
+				info.przedmioty.push_back(konkrety.at(i).toUInt(&ok));
 				if(!ok)
 					blad = true;
-				else
-					if(!dataKeeper->items_.contains(info.przedmioty.back()))
-					{
-						trescBledu = QString::fromUtf8("Niepoprawny identyfikator przedmiotu w linii ") + QString::number(numerLinii);
-						return true;
-					}
+// 				else
+// 					if(!dataKeeper->items_.contains(info.przedmioty.back()))
+// 					{
+// 						trescBledu = QString::fromUtf8("Niepoprawny identyfikator przedmiotu w linii ") + QString::number(numerLinii);
+// 						return true;
+// 					}
 			}
 		}
 //-----------ZAPISANIE DANYCH
-		const Prize* nowy = new Prize(info.reputacja, info.zloto, info.doswiadczenie, info.grupy, info.przedmioty);
-		dataKeeper->prizes_.insert(info.id, nowy);
-
+// 		const Prize* nowy = new Prize(info.reputacja, info.zloto, info.doswiadczenie, info.grupy, info.przedmioty);
+		Prize* nowy = new Prize({}, info.doswiadczenie, info.przedmioty, info.zloto, info.reputacja);
+		mod->prizes_.insert(info.id, nowy);
 		++numerLinii;
 	}
 	return false;
@@ -149,4 +160,3 @@ QString PrizeParser::nastepny(QTextStream *wejscie)
 	}
 	return "";
 }
-

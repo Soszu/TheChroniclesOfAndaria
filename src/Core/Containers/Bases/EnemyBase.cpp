@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,16 +16,20 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "EnemyBase.h"
+
+#include "Core/DataManager.h"
 #include "Core/Containers/Entity.h"
+#include "Core/Paths.h"
 
 EnemyBase::EnemyBase(UID uid, QString name)
          : uid_(uid),
            name_(name),
            level_(0),
            defaultAttack_(Attack::Melee)
-{}
+{
+	//TODO add sth to baseStats hp, armor, ...
+}
 
 const QList <Effect> & EnemyBase::baseStats() const
 {
@@ -37,9 +41,14 @@ Attack EnemyBase::defaultAttack() const
 	return defaultAttack_;
 }
 
-const QString &EnemyBase::imagePath() const
+const QString & EnemyBase::imageName() const
 {
-	return imagePath_;
+	return imageName_;
+}
+
+const QPixmap & EnemyBase::avatar() const
+{
+	return DataManager::pixmap(resolveEnemyImage(imageName_));
 }
 
 quint8 EnemyBase::level() const
@@ -59,7 +68,7 @@ const Prize & EnemyBase::prize() const
 
 QDataStream & EnemyBase::toDataStream(QDataStream &out) const
 {
-	return out << uid_ << name_ << imagePath_ << level_ << defaultAttack_ << baseStats_ << prize_;
+	return out << uid_ << name_ << imageName_ << level_ << defaultAttack_ << baseStats_ << prize_;
 }
 
 UID EnemyBase::uid() const
@@ -74,7 +83,7 @@ void EnemyBase::addStat(const Effect &effect)
 
 QDataStream & EnemyBase::fromDataStream(QDataStream &in)
 {
-	return in >> uid_ >> name_ >> imagePath_ >> level_ >> defaultAttack_ >> baseStats_ >> prize_;
+	return in >> uid_ >> name_ >> imageName_ >> level_ >> defaultAttack_ >> baseStats_ >> prize_;
 }
 
 void EnemyBase::setBaseStats(const QList <Effect> &baseStats)
@@ -87,9 +96,9 @@ void EnemyBase::setDefaultAttack(Attack type)
 	defaultAttack_ = type;
 }
 
-void EnemyBase::setImagePath(const QString &imagePath)
+void EnemyBase::setImageName(const QString &imageName)
 {
-	imagePath_ = imagePath;
+	imageName_ = imageName;
 }
 
 void EnemyBase::setLevel(quint8 level)

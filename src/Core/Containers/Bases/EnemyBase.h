@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,12 +16,14 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-#include "Core/Utils/Serial.hpp"
+#include <QtGui>
+
 #include "Core/Containers/Prize.h"
 #include "Core/Containers/Effect.h"
+#include "Core/Utils/Serial.hpp"
+#include "Core/Enums.hpp"
 
 enum class Attack : quint8 ;
 
@@ -31,7 +33,8 @@ public:
 
 	const QList <Effect> & baseStats() const;
 	Attack defaultAttack() const;
-	const QString & imagePath() const;
+	const QString & imageName() const;
+	const QPixmap & avatar() const;
 	quint8 level() const;
 	const QString & name() const;
 	const Prize & prize() const;
@@ -42,7 +45,7 @@ public:
 	QDataStream & fromDataStream(QDataStream &in);
 	void setBaseStats(const QList <Effect> &baseStats);
 	void setDefaultAttack(Attack type);
-	void setImagePath(const QString &imagePath);
+	void setImageName(const QString &imageName);
 	void setLevel(quint8 level);
 	void setName(const QString &name);
 	void setPrize(const Prize &prize);
@@ -50,7 +53,7 @@ public:
 private:
 	UID uid_;
 	QString name_;
-	QString imagePath_;
+	QString imageName_;
 	qint8 level_;
 	Attack defaultAttack_;
 	QList <Effect> baseStats_;

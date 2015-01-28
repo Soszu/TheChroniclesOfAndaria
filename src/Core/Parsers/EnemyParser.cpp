@@ -16,10 +16,12 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "Core/Parsers/EnemyParser.h"
 
-EnemyParser::EnemyParser(DataKeeper *dataKeeper)
+#include "Core/Paths.h"
+#include "Core/Enums.hpp"
+
+EnemyParser::EnemyParser(Mod *dataKeeper)
 {
 	this->dataKeeper = dataKeeper;
 	aktualnaGrupa = -1;
@@ -152,7 +154,9 @@ bool EnemyParser::wczytajDane(QTextStream* wejscie)
 			enemyGroups_.insert(aktualnaGrupa, poprzednia);
 		}
 		poprzednia->push_back(info.id);
-		const Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, FightParticipant::AttackType::Melee, dataKeeper->prizes_[info.idNagrody]);
+
+		Enemy* nowy = new Enemy(info.name, info.nameObrazka, info.atakMin, info.atakMaks, info.defence, info.perception, info.zdrowie, AttackTypeMelee, dataKeeper->prizes_[info.idNagrody]);
+
 		dataKeeper->enemies_.insert(info.id, nowy);
 
 		++numerLinii;

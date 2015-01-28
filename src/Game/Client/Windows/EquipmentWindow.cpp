@@ -40,13 +40,13 @@ EquipmentWindow::EquipmentWindow(Player *player, PlayerWindow *playerWindow)
 	mainLayout->addLayout(upperLayout);
 
 	buttonSmallPotion_ = new QPushButton();
-	buttonSmallPotion_->setIcon(DataManager::pixmap(Paths::IconSmallHealthMixture));
+	buttonSmallPotion_->setIcon(DataManager::pixmap(Path::IconSmallHealthMixture));
 	buttonSmallPotion_->setText(QString("(") + QString::number(player->equipment()->smallPotions()) + QString(")"));
 	if (player->equipment()->smallPotions() == 0)
 		buttonSmallPotion_->setEnabled(false);
 
 	buttonLargePotion_ = new QPushButton();
-	buttonLargePotion_->setIcon(DataManager::pixmap(Paths::IconBigHealthMixture));
+	buttonLargePotion_->setIcon(DataManager::pixmap(Path::IconBigHealthMixture));
 	buttonLargePotion_->setText(QString("(") + QString::number(player->equipment()->largePotions()) + QString(")"));
 	if (player->equipment()->largePotions() == 0)
 		buttonLargePotion_->setEnabled(false);

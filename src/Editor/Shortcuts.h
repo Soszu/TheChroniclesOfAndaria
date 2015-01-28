@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,26 +15,25 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include <QtCore>
 
-namespace Shortcut {
-	namespace Menu {
-		namespace File {
-			const QKeySequence New  = QObject::tr("Ctrl+N");
-			const QKeySequence Open = QObject::tr("Ctrl+O");
-			const QKeySequence Save = QObject::tr("Ctrl+S");
-			const QKeySequence Quit = QObject::tr("Ctrl+Q");
-		}
-	}
-
-	namespace Editor {
+namespace Editor {
+	namespace Shortcuts {
 		const QKeySequence Add    = QObject::tr("Insert");
 		const QKeySequence Remove = QObject::tr("Delete");
 
 		const QKeySequence SecondaryAdd    = QObject::tr("Ctrl+Insert");
 		const QKeySequence SecondaryRemove = QObject::tr("Ctrl+Delete");
+
+		namespace Menus {
+			namespace Mod {
+				const QKeySequence New  = QObject::tr("Ctrl+N");
+				const QKeySequence Open = QObject::tr("Ctrl+O");
+				const QKeySequence Save = QObject::tr("Ctrl+S");
+				const QKeySequence Quit = QObject::tr("Ctrl+Q");
+			}
+		}
 	}
 }

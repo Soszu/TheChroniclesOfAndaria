@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Parsers/QuestParser.h"
 
-QuestParser::QuestParser(DataKeeper *dataKeeper)
+QuestParser::QuestParser(Mod *dataKeeper)
 {
 	bylBlad = false;
 	this->dataKeeper = dataKeeper;

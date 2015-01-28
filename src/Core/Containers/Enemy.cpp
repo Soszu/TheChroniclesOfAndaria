@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
@@ -28,7 +28,7 @@ Enemy::Enemy(const EnemyBase *base) : base_(base)
 
 const QPixmap &Enemy::avatar() const
 {
-	return DataManager::pixmap(base_->imagePath());
+	return base_->avatar();
 }
 
 Attack Enemy::defaultAttack() const

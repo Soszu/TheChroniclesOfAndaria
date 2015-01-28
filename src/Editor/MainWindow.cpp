@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,160 +15,87 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "Editor/MainWindow.h"
+
+#include "Core/Mod.h"
+#include "Core/Paths.h"
+#include "Core/Strings.h"
 #include "Editor/Editors/ItemsEditor.h"
 #include "Editor/Editors/EnemiesEditor.h"
+#include "Editor/Strings.h"
+#include "Editor/Shortcuts.h"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : mod_(new Mod)
 {
-	resize(1024, 768);
+	resize(800, 600);
+	setWindowTitle(Editor::Titles::EditorWindow);
 
 	initMenuAndActions();
-	initContentEditors();
-	initModelsList();
-	initEditorsWidgets();
-	initLayout();
-}
-
-MainWindow::~MainWindow()
-{
-	qDeleteAll(contentEditors_);
+	initEditors();
 }
 
 void MainWindow::initMenuAndActions()
 {
-	QMenu *fileMenu = menuBar()->addMenu(Menu::File::Main);
+	using namespace Editor;
 
-	QAction *menuFileNew    = new QAction(Menu::File::New, this);
-	QAction *menuFileLoad   = new QAction(Menu::File::Open, this);
-	menuFileSave            = new QAction(Menu::File::Save, this);
-	menuFileSaveAs          = new QAction(Menu::File::SaveAs, this);
-	QAction *menuFileQuit   = new QAction(Menu::File::Quit, this);
+	QMenu *modMenu = menuBar()->addMenu(Menus::Mod::Main);
 
-	connect(menuFileNew, &QAction::triggered, this, &MainWindow::onNewActivated);
-	connect(menuFileLoad, &QAction::triggered, this, &MainWindow::onLoadActivated);
-	connect(menuFileSave, &QAction::triggered, this, &MainWindow::onSaveActivated);
-	connect(menuFileSaveAs, &QAction::triggered, this, &MainWindow::onSaveAsActivated);
-	connect(menuFileQuit, &QAction::triggered, this, &MainWindow::onQuitActivated);
+	QAction *menuModNew  = new QAction(Menus::Mod::New,    this);
+	QAction *menuModLoad = new QAction(Menus::Mod::Open,   this);
+	menuModSave_         = new QAction(Menus::Mod::Save,   this);
+	menuModSaveAs_       = new QAction(Menus::Mod::SaveAs, this);
+	QAction *menuModQuit = new QAction(Menus::Mod::Quit,   this);
 
-	menuFileNew->setShortcut(Shortcut::Menu::File::New);
-	menuFileLoad->setShortcut(Shortcut::Menu::File::Open);
-	menuFileSave->setShortcut(Shortcut::Menu::File::Save);
-	menuFileQuit->setShortcut(Shortcut::Menu::File::Quit);
+	connect(menuModNew,     &QAction::triggered, this, &MainWindow::onNewActivated);
+	connect(menuModLoad,    &QAction::triggered, this, &MainWindow::onLoadActivated);
+	connect(menuModSave_,   &QAction::triggered, this, &MainWindow::onSaveActivated);
+	connect(menuModSaveAs_, &QAction::triggered, this, &MainWindow::onSaveAsActivated);
+	connect(menuModQuit,    &QAction::triggered, this, &MainWindow::onQuitActivated);
 
-	menuFileSave->setEnabled(false);
-	menuFileSaveAs->setEnabled(false);
+	menuModNew->setShortcut(Shortcuts::Menus::Mod::New);
+	menuModLoad->setShortcut(Shortcuts::Menus::Mod::Open);
+	menuModSave_->setShortcut(Shortcuts::Menus::Mod::Save);
+	menuModQuit->setShortcut(Shortcuts::Menus::Mod::Quit);
 
-	fileMenu->addAction(menuFileNew);
-	fileMenu->addAction(menuFileLoad);
-	fileMenu->addAction(menuFileSave);
-	fileMenu->addAction(menuFileSaveAs);
-	fileMenu->addSeparator();
-	fileMenu->addAction(menuFileQuit);
+	menuModSave_->setEnabled(false);
+	menuModSaveAs_->setEnabled(false);
+
+	modMenu->addAction(menuModNew);
+	modMenu->addAction(menuModLoad);
+	modMenu->addAction(menuModSave_);
+	modMenu->addAction(menuModSaveAs_);
+	modMenu->addSeparator();
+	modMenu->addAction(menuModQuit);
 }
 
-void MainWindow::initContentEditors()
+void MainWindow::initEditors()
 {
-	//ADD CONTENT EDITORS HERE
-	contentEditors_.append(new ItemsEditor(this));
-	contentEditors_.append(new EnemiesEditor(this));
+	editorTabs_ = new QTabWidget;
+	setCentralWidget(editorTabs_);
 
-	for (ContentEditor *editor : contentEditors_)
-		connect(this, &MainWindow::modelSaved, editor, &ContentEditor::modelSaved);
-}
+	editorTabs_->hide();
 
-void MainWindow::initModelsList()
-{
-	modelsList_ = new QListWidget();
-	for (ContentEditor *editor : contentEditors_)
-		modelsList_->addItem(editor->title());
-}
+	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()), Editor::Titles::Items);
+	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), Editor::Titles::Enemies);
 
-void MainWindow::initEditorsWidgets()
-{
-	modelsWidgets_ = new QStackedWidget();
-	for (ContentEditor *editor : contentEditors_)
-		modelsWidgets_->addWidget(editor->placeholder());
-
-	connect (modelsList_, &QListWidget::currentRowChanged, modelsWidgets_, &QStackedWidget::setCurrentIndex);
-}
-
-void MainWindow::initLayout()
-{
-	placeholder = new QSplitter(this);
-	placeholder->addWidget(modelsList_);
-	placeholder->addWidget(modelsWidgets_);
-
-	setCentralWidget(placeholder);
-
-	modelsList_->setMaximumWidth(100);
-
-	placeholder->setVisible(false);
-
-	statusBar()->showMessage(Message::HowToStart);
 }
 
 void MainWindow::startEditing()
 {
-	menuFileSave->setEnabled(true);
-	menuFileSaveAs->setEnabled(true);
+	menuModSave_->setEnabled(true);
+	menuModSaveAs_->setEnabled(true);
 
-	placeholder->setVisible(true);
-}
-
-bool MainWindow::loadContent(const QString &path)
-{
-	if (path.isEmpty())
-		return false;
-
-	QFile file(path);
-	if (!file.open(QIODevice::ReadOnly))
-		return false;
-
-	QDataStream in(&file);
-
-	for (ContentEditor * editor : contentEditors_)
-		editor->loadFromStream(in);
-
-	file.close();
-	statusBar()->showMessage(Message::ContentLoaded);
-	return true;
-}
-
-bool MainWindow::saveContent(const QString &path)
-{
-	if (path.isEmpty())
-		return false;
-
-	QFile file(path);
-	if (!file.open(QIODevice::WriteOnly))
-		return false;
-
-	QDataStream out(&file);
-
-	for (ContentEditor * editor : contentEditors_)
-		editor->saveToStream(out);
-
-	file.close();
-	statusBar()->showMessage(Message::ContentSaved);
-	return true;
+	editorTabs_->show();
 }
 
 int MainWindow::checkForUnsavedChanges()
 {
-	bool unsavedChanges = false;
-	for (ContentEditor *editor : contentEditors_)
-		if (editor->isChanged()){
-			unsavedChanges = true;
-			break;
-		}
-		if (!unsavedChanges)
-			return QMessageBox::Discard;
+	if (not mod_->unsavedChanges())
+		return QMessageBox::Discard;
 
-		QMessageBox msgBox;
-	msgBox.setText("Content has been modified.");
-	msgBox.setInformativeText("Do you want to save your changes?");
+	QMessageBox msgBox;
+	msgBox.setText(Editor::Messages::ModModified);
+	msgBox.setInformativeText(Editor::Messages::AskIfSaveChanges);
 	msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 	msgBox.setDefaultButton(QMessageBox::Save);
 
@@ -177,20 +104,18 @@ int MainWindow::checkForUnsavedChanges()
 
 void MainWindow::onNewActivated()
 {
-	startEditing();
-
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
 			onSaveActivated();
 			return;
 		case QMessageBox::Discard:
-
-			for (ContentEditor *editor : contentEditors_)
-				editor->clear();
-			return;
+			mod_->reset();
+			break;
 		default :
 			return;
 	}
+
+	startEditing();
 }
 
 void MainWindow::onLoadActivated()
@@ -205,27 +130,31 @@ void MainWindow::onLoadActivated()
 			return;
 	}
 
-	QString path = QFileDialog::getOpenFileName(this, Title::OpenFileDialog, QString(), String::ContentFiles);
-	if (loadContent(path))
+	QString path = QFileDialog::getOpenFileName(this, Editor::Titles::OpenFileDialog,
+	                                            Path::ModsDir, Strings::ModFiles);
+	if (mod_->load(path))
 		startEditing();
+
+	currentFilePath_ = path;
 }
 
 void MainWindow::onSaveActivated()
 {
-	if (openedFilePath.isEmpty())
+	if (currentFilePath_.isEmpty())
 		onSaveAsActivated();
 
-	if (saveContent(openedFilePath))
+	if (mod_->save(currentFilePath_))
 		emit modelSaved();
 }
 
 void MainWindow::onSaveAsActivated()
 {
-	QString path = QFileDialog::getSaveFileName(this, Title::SaveFileDialog, QString(), String::ContentFiles);
+	QString path = QFileDialog::getSaveFileName(this, Editor::Titles::SaveFileDialog,
+	                                            Path::ModsDir, Strings::ModFiles);
 
-	if (saveContent(path)){
+	if (mod_->save(path)){
 		emit modelSaved();
-		openedFilePath = path;
+		currentFilePath_ = path;
 	}
 }
 

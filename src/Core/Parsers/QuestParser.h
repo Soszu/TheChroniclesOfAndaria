@@ -1,4 +1,4 @@
-﻿/**
+/**
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -24,18 +24,18 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Quest.h"
 #include "Core/DataKeeper.h"
 
-class DataKeeper;
+class Mod;
 
 class QuestParser {
 public:
-	QuestParser(DataKeeper *dataKeeper);
+	QuestParser(Mod *dataKeeper);
 	bool bladWczytywania();
 	QString trescBledu;
 private:
 	quint8 wysokoscPlanszy;
 	quint8 szerokoscPlanszy;
 	bool bylBlad;
-	DataKeeper *dataKeeper;
+	Mod *dataKeeper;
 	bool wczytajWymiary(QTextStream *wejscie);
 	bool wczytajDane(QTextStream *wejscie);
 	QString nastepny(QTextStream *wejscie);

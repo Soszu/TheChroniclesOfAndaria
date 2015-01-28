@@ -15,28 +15,29 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include <QtCore>
-#include "Core/Containers/Effect.h"
-#include "Core/Containers/Item.h"
 
-enum class Kingdom : quint8;
+#include "Core/Enums.hpp"
+#include "Core/Containers/Effect.h"
+#include "Core/Utils/Serial.hpp"
 
 class Prize {
 public:
 	Prize();
 	Prize(QList <Effect> effects,
 	      quint16 experience,
-	      QList <Item> items,
+	      QList <UID> items,
 	      quint16 gold,
 	      QHash <Kingdom, qint8> reputations);
+
+	bool operator==(const Prize &other) const;
 
 	const QList <Effect> &effects() const;
 	quint16 experience() const;
 	quint16 gold() const;
-	const QList <Item> & items() const;
+	const QList <UID> & items() const;
 	const qint8 reputation(Kingdom kingdom) const;
 	const QHash <Kingdom, qint8> & reputations() const;
 	QDataStream & toDataStream(QDataStream &out) const;
@@ -47,17 +48,16 @@ public:
 	void setEffects(QList <Effect> effects);
 	void setExperience(quint16 experience);
 	void setGold(quint16 gold);
-// 	void setItems(QList <Item> items);
+	void setItems(QList <UID> items);
 	void setReputations(QHash <Kingdom, qint8> reputations);
 
 private:
 	QList <Effect> effects_;
 	quint16 experience_;
-// 	QList <Item> items_;
+	QList <UID> items_;
 	quint16 gold_;
 	QHash <Kingdom, qint8> reputations_;
 };
 Q_DECLARE_METATYPE(Prize)
-
 QDataStream & operator<<(QDataStream &out, const Prize &prize);
 QDataStream & operator>>(QDataStream &in, Prize &prize);

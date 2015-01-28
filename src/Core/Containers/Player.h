@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,17 +16,18 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include <QtCore>
+
+#include "Core/Enums.hpp"
 #include "Core/Containers/Entity.h"
 #include "Core/Containers/Equipment.h"
 #include "Core/Containers/Journal.h"
 #include "Core/Containers/Field.h"
-#include "Core/Containers/PlayerDraft.h"
 
-
+class Mod;
+class PlayerDraft;
 class Prize;
 
 class Player : public Entity {
@@ -37,9 +38,10 @@ public:
 	static const quint8 HealthIncreasePerLevel = 3;
 	static const quint16 LevelBorders[MaximumLevel];
 	static const qint8 MaximumReputation = 5;
+
 	static const QSet <Effect::Type> extendableAttributes;
 
-	Player(const PlayerDraft &draft);
+	Player(const PlayerDraft &draft, const Mod &mod);
 
 	const QPixmap & avatar() const;
 	QColor color() const;
@@ -59,7 +61,6 @@ public:
 	void consumeGrowthPoint(Effect::Type attribute);
 	Equipment & equipment();
 	Journal & journal();
-	void grantExperience(quint16 experience);
 	void grantPrize(const Prize &prize);
 	void move(Coordinates field);
 	void regenerate();
@@ -76,6 +77,8 @@ private:
 	static const quint8  InitialMovePoints = 8;
 	static const quint16 InitialAttackRange = 10;
 	static QList <Effect> InitialEffects(Class playerClass, Race playerRace);
+
+	void grantExperience(quint16 experience);
 
 	const QString name_;
 	const QPixmap avatar_;

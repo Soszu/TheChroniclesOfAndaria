@@ -24,15 +24,24 @@ Prize::Prize() : experience_(0), gold_(0)
 
 Prize::Prize(QList <Effect> effects,
              quint16 experience,
-             QList <Item> items,
+             QList <UID> items,
              quint16 gold,
              QHash <Kingdom, qint8> reputations)
-     : effects_(effects),
-       experience_(experience),
-//       items_(items),
-       gold_(gold),
-       reputations_(reputations)
+	: effects_(effects),
+	  experience_(experience),
+	  items_(items),
+	  gold_(gold),
+	  reputations_(reputations)
 {}
+
+bool Prize::operator==(const Prize& other) const
+{
+	return effects_ == other.effects_ &&
+	       experience_ == other.experience_ &&
+	       items_ == other.items_ &&
+	       gold_ == other.gold_ &&
+	       reputations_ == other.reputations_;
+}
 
 const QList <Effect> & Prize::effects() const
 {
@@ -48,15 +57,15 @@ quint16 Prize::gold() const
 {
 	return gold_;
 }
-/*
-const QList <Item> & Prize::items() const
+
+const QList <UID> & Prize::items() const
 {
 	return items_;
-}*/
+}
 
 const qint8 Prize::reputation(Kingdom kingdom) const
 {
-	return reputations_[kingdom];
+	return reputations_.value(kingdom, 0);
 }
 
 const QHash <Kingdom, qint8> & Prize::reputations() const
@@ -67,6 +76,11 @@ const QHash <Kingdom, qint8> & Prize::reputations() const
 QDataStream & Prize::toDataStream(QDataStream &out) const
 {
 	return out << effects_ << experience_ /*<< items_ */<< gold_ << reputations_;
+}
+
+void Prize::addEffect(Effect effect)
+{
+	effects_.append(effect);
 }
 
 void Prize::addReputation(Kingdom kingdom, qint8 reputation)
@@ -93,11 +107,11 @@ void Prize::setGold(quint16 gold)
 {
 	gold_ = gold;
 }
-/*
-void Prize::setItems(QList <Item> items)
+
+void Prize::setItems(QList <UID> items)
 {
 	items_ = items;
-}*/
+}
 
 void Prize::setReputations(QHash <Kingdom, qint8> reputations)
 {

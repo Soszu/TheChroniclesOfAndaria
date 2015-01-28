@@ -17,8 +17,9 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "Core/Containers/PlayerDraft.h"
 #include "Core/Containers/Player.h"
-#include "Core/DataKeeper.h"
+#include "Core/Mod.h"
 
 const quint16 Player::LevelBorders[MaximumLevel] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 
@@ -30,7 +31,7 @@ const QSet <Effect::Type> Player::extendableAttributes = {
 	{Effect::Type::Perception},
 };
 
-Player::Player(const PlayerDraft &draft)
+Player::Player(const PlayerDraft &draft, const Mod &mod)
       : name_(draft.name()),
         playerRace_(draft.playerRace()),
         playerClass_(draft.playerClass()),
@@ -40,7 +41,7 @@ Player::Player(const PlayerDraft &draft)
         baseStats_(InitialEffects(playerClass_, playerRace_)),
         experience_(InitialExperience),
         gold_(InitialGold),
-        position_(DataKeeper::instance().initialPosition(playerRace_)),
+        position_(mod.initialPosition(playerRace_)),
         equipment_(playerClass_),
         journal_(),
         reputations_(InitialReputations)
@@ -136,17 +137,6 @@ Journal & Player::journal()
 	return journal_;
 }
 
-void Player::grantExperience(quint16 experience)
-{
-	experience_ += experience;
-	if (level_ < MaximumLevel && experience >= LevelBorders[level_]) {
-		++level_;
-		growthPoints_ += GrowthPointsPerLevel;
-		baseStats_.append(Effect(Effect::Type::MaxHealth, HealthIncreasePerLevel));
-		heal(HealthIncreasePerLevel);
-	}
-}
-
 void Player::grantPrize(const Prize &prize)
 {
 	imposeEffects(prize.effects());
@@ -235,4 +225,15 @@ QList <Effect> Player::InitialEffects(Class playerClass, Race playerRace)
 	initialEffects.append(InitialRaceEffects[playerRace]);
 	initialEffects.append(InitialClassEffects[playerClass]);
 	return initialEffects;
+}
+
+void Player::grantExperience(quint16 experience)
+{
+	experience_ += experience;
+	if (level_ < MaximumLevel && experience >= LevelBorders[level_]) {
+		++level_;
+		growthPoints_ += GrowthPointsPerLevel;
+		baseStats_.append(Effect(Effect::Type::MaxHealth, HealthIncreasePerLevel));
+		heal(HealthIncreasePerLevel);
+	}
 }

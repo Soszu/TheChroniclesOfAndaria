@@ -26,8 +26,13 @@ static const QString PLIK_NAGROD = "data/nagrody.txt";
 static const QString PLIK_ZADAN = "data/zadania.txt";
 static const QString PLIK_USTAWIENIA_PLANSZY = "data/plansza.txt";
 
-namespace Paths {
-	static const QString ImagesPrefix  = "img/";
+namespace Path {
+	static const QString DataPrefix = "data/";
+
+	static const QString ModsDir   = DataPrefix + "mods/";
+	static const QString NativeMod = ModsDir + "native.tcoa";
+
+	static const QString ImagesPrefix  = DataPrefix + "images/";
 	static const QString IconsPrefix   = ImagesPrefix + "icons/";
 	static const QString HexesPrefix   = ImagesPrefix + "hexes/";
 	static const QString EnemiesPrefix = ImagesPrefix + "enemies/";
@@ -45,8 +50,9 @@ namespace Paths {
 
 	static const QString IconFightSymbol = IconsPrefix + "fight_symbol.png";
 
-	static const QString IconSmallHealthMixture= IconsPrefix + "small_hp_mixture.png";
+	static const QString IconSmallHealthMixture = IconsPrefix + "small_hp_mixture.png";
 	static const QString IconBigHealthMixture   = IconsPrefix + "big_hp_mixture.png";
 }
 
 QString resolvePath(const QString &path);
+QString resolveEnemyImage(const QString &imageName);

@@ -1,11 +1,17 @@
-﻿#include "Editor/Editors/ItemsEditor.h"
-#include "Editor/Strings.h"
-#include "Editor/Shortcuts.h"
-#include "Core/Containers/Bases/ItemBase.h"
+#include "Editor/Editors/ItemsEditor.h"
 
-ItemsEditor::ItemsEditor(QObject *parent) : ContentEditor(Title::Items, parent)
+#include "Core/Containers/Bases/ItemBase.h"
+#include "Core/Containers/Models/ItemModel.h"
+#include "Editor/CustomWidgets/EffectsListEdit.h"
+#include "Editor/CustomWidgets/EnumEdit.h"
+#include "Editor/Shortcuts.h"
+#include "Editor/Strings.h"
+
+ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent)
+: QWidget(parent),
+  itemModel_(itemModel),
+  itemMapper_(new QDataWidgetMapper(this))
 {
-	initModel();
 	initEditPart();
 	initViewPart();
 	initLayout();
@@ -37,12 +43,6 @@ void ItemsEditor::modelSaved()
 	itemModel_->setChanged(false);
 }
 
-void ItemsEditor::initModel()
-{
-	itemModel_ = new ItemModel(this);
-	itemMapper_ = new QDataWidgetMapper(this);
-}
-
 void ItemsEditor::initEditPart()
 {
 	nameEdit_ = new QLineEdit;
@@ -58,33 +58,29 @@ void ItemsEditor::initEditPart()
 	priceEdit_ = new QSpinBox;
 	priceEdit_->setFixedWidth(SpinBoxWidth);
 
-	QFormLayout *baseInfoLayout = new QFormLayout;
-	baseInfoLayout->addRow(Label::Item::Name, nameEdit_);
-	baseInfoLayout->addRow(Label::Item::Type, typeEdit_);
-	baseInfoLayout->addRow(Label::Item::Quality, qualityEdit_);
-	baseInfoLayout->addRow(Label::Item::Price, priceEdit_);
+	effectsEdit_ = new EffectsListEdit;
 
-	effectsEdit_ = new EffectsListEdit(Label::Item::Effects);
+	editLayout_ = new QFormLayout;
+	editLayout_->addRow(Labels::Item::Name,      nameEdit_);
+	editLayout_->addRow(Labels::Item::Type,      typeEdit_);
+	editLayout_->addRow(Labels::Item::Quality,   qualityEdit_);
+	editLayout_->addRow(Labels::Item::Price,     priceEdit_);
+	editLayout_->addRow(Labels::Item::Effects,   effectsEdit_);
 
-	editLayout_ = new QVBoxLayout;
-	editLayout_->addLayout(baseInfoLayout);
-	editLayout_->addWidget(effectsEdit_);
-
-	baseInfoLayout->setRowWrapPolicy(QFormLayout::DontWrapRows);
-// 	baseInfoLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
-// 	baseInfoLayout->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
-	baseInfoLayout->setLabelAlignment(Qt::AlignLeft);
+	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
+// 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
+// 	editLayout_>setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
+	editLayout_->setLabelAlignment(Qt::AlignLeft);
 }
 
 void ItemsEditor::initLayout()
 {
-	QWidget *placeholder = new QWidget;
-	QHBoxLayout *mainLayout = new QHBoxLayout(placeholder);
+	QHBoxLayout *mainLayout = new QHBoxLayout;
 
-	mainLayout->addLayout(editLayout_);
 	mainLayout->addLayout(viewLayout_);
+	mainLayout->addLayout(editLayout_);
 
-	setPlaceholder(placeholder);
+	setLayout(mainLayout);
 }
 
 void ItemsEditor::initMapper()
@@ -103,17 +99,12 @@ void ItemsEditor::initMapper()
 
 void ItemsEditor::initViewPart()
 {
-	itemsList_ = new QListView;
-	itemsList_->setModel(itemModel_);
-	itemsList_->setModelColumn(ItemModel::Name);
-	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
-
-	addItemButton_ = new QPushButton(Label::Editor::Add);
-	addItemButton_->setShortcut(Shortcut::Editor::Add);
+	addItemButton_ = new QPushButton(Editor::Labels::Add);
+	addItemButton_->setShortcut(Editor::Shortcuts::Add);
 	connect(addItemButton_, &QPushButton::clicked, this, &ItemsEditor::addItem);
 
-	removeItemButton_ = new QPushButton(Label::Editor::Remove);
-	removeItemButton_->setShortcut(Shortcut::Editor::Remove);
+	removeItemButton_ = new QPushButton(Editor::Labels::Remove);
+	removeItemButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeItemButton_, &QPushButton::clicked, this, &ItemsEditor::removeItem);
 
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
@@ -121,9 +112,14 @@ void ItemsEditor::initViewPart()
 	buttonsLayout->addWidget(removeItemButton_);
 	buttonsLayout->addStretch();
 
+	itemsList_ = new QListView;
+	itemsList_->setModel(itemModel_);
+	itemsList_->setModelColumn(ItemModel::Name);
+	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
+
 	viewLayout_ = new QVBoxLayout;
-	viewLayout_->addWidget(itemsList_);
 	viewLayout_->addLayout(buttonsLayout);
+	viewLayout_->addWidget(itemsList_);
 }
 
 void ItemsEditor::addItem()
