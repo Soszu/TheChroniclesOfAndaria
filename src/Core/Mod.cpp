@@ -112,14 +112,19 @@ Board * Mod::board()
 	return &board_;
 }
 
+ItemModel * Mod::itemModel()
+{
+	return &itemModel_;
+}
+
 EnemyModel * Mod::enemyModel()
 {
 	return &enemyModel_;
 }
 
-ItemModel * Mod::itemModel()
+QuestModel* Mod::questModel()
 {
-	return &itemModel_;
+	return &questModel_;
 }
 
 const Board & Mod::board() const
@@ -127,14 +132,19 @@ const Board & Mod::board() const
 	return board_;
 }
 
+const ItemModel & Mod::itemModel() const
+{
+	return itemModel_;
+}
+
 const EnemyModel & Mod::enemyModel() const
 {
 	return enemyModel_;
 }
 
-const ItemModel & Mod::itemModel() const
+const QuestModel& Mod::questModel() const
 {
-	return itemModel_;
+	return questModel_;
 }
 
 Coordinates Mod::initialPosition(Race race) const

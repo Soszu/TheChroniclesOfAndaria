@@ -26,6 +26,7 @@
 
 	Containers/Models/EnemyModel.cpp
 	Containers/Models/ItemModel.cpp
+	Containers/Models/QuestModel.cpp
 
 	Parsers/BoardParser.cpp
 	Parsers/EnemyParser.cpp

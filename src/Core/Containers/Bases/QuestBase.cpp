@@ -2,10 +2,10 @@
 
 #include "Core/Utils/EnumHelpers.hpp"
 
-static const BiHash <QuestBase::Level, QString> LevelLabels = {
-	{QuestBase::Level::Easy, Labels::Quest::Levels::Easy},
-	{QuestBase::Level::Hard, Labels::Quest::Levels::Medium},
-	{QuestBase::Level::Hard, Labels::Quest::Levels::Hard}
+const BiHash <QuestBase::Level, QString> QuestBase::LevelLabels = {
+	{QuestBase::Level::Easy,   Labels::Quest::Levels::Easy},
+	{QuestBase::Level::Medium, Labels::Quest::Levels::Medium},
+	{QuestBase::Level::Hard,   Labels::Quest::Levels::Hard}
 };
 
 inline uint qHash(QuestBase::Level level)
@@ -26,7 +26,7 @@ QDataStream & operator>>(QDataStream &in, QuestBase::Level &level)
 QuestBase::QuestBase(UID uid, QString title)
 : uid_(uid),
   title_(title),
-  fraction_(Kingdom::Humans),
+  fraction_(Kingdom::Neutral),
   level_(Level::Easy),
   isReturnRequired_(false),
   followUp_(Serial::EmptyUid),
@@ -42,7 +42,7 @@ QuestBase::QuestBase(UID uid,
                      UID followUp,
                      bool canBeDrawn,
                      const QHash <Coordinates, Test> &objectives,
-                     const Prize &prize)
+                     const Prize &reward)
 : uid_(uid),
   title_(title),
   description_(description),
@@ -52,7 +52,7 @@ QuestBase::QuestBase(UID uid,
   followUp_(followUp),
   canBeDrawn_(canBeDrawn),
   objectives_(objectives),
-  prize_(prize)
+  reward_(reward)
 {}
 
 bool QuestBase::canBeDrawn() const
@@ -90,9 +90,9 @@ const QHash <Coordinates, Test> & QuestBase::objectives() const
 	return objectives_;
 }
 
-const Prize & QuestBase::prize() const
+const Prize & QuestBase::reward() const
 {
-	return prize_;
+	return reward_;
 }
 
 const QString & QuestBase::title() const
@@ -103,7 +103,7 @@ const QString & QuestBase::title() const
 QDataStream & QuestBase::toDataStream(QDataStream &out) const
 {
 	return out << uid_ << title_ << description_ << fraction_ << level_ << isReturnRequired_
-	           << followUp_ << canBeDrawn_ << objectives_ << prize_;
+	           << followUp_ << canBeDrawn_ << objectives_ << reward_;
 }
 
 UID QuestBase::uid() const
@@ -119,7 +119,7 @@ void QuestBase::addObjective(Coordinates coordinates, const Test &test)
 QDataStream & QuestBase::fromDataStream(QDataStream &in)
 {
 	return in >> uid_ >> title_ >> description_ >> fraction_ >> level_ >> isReturnRequired_
-	          >> followUp_ >> canBeDrawn_ >> objectives_ >> prize_;
+	          >> followUp_ >> canBeDrawn_ >> objectives_ >> reward_;
 }
 
 void QuestBase::setCanBeDrawn(bool canBeDrawn)
@@ -157,9 +157,9 @@ void QuestBase::setObjectives(const QHash <Coordinates, Test> &objectives)
 	objectives_ = objectives;
 }
 
-void QuestBase::setPrize(const Prize &prize)
+void QuestBase::setReward(const Prize &reward)
 {
-	prize_ = prize;
+	reward_ = reward;
 }
 
 void QuestBase::setTitle(const QString &title)

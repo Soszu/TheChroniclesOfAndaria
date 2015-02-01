@@ -29,3 +29,5 @@ public:
 
 	QString toString() const;
 };
+uint qHash(const Coordinates &c, uint seed);
+Q_DECLARE_METATYPE(Coordinates)

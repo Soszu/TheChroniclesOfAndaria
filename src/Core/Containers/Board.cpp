@@ -52,7 +52,7 @@ const QHash<Race, Coordinates> & Board::initialPositions() const
 
 QDataStream & Board::toDataStream(QDataStream &out) const
 {
-	return out << size_ << fields_ << rulers_ << initialPositions_ << terrains_;
+	return out << size_ << fields_ << rulers_ << initialPositions_ << terrains_ << terrainSerial_;
 }
 
 bool Board::setSize(const QSize &newSize)
@@ -138,7 +138,7 @@ UID Board::addTerrain(Terrain &terrain)
 
 QDataStream & Board::fromDataStream(QDataStream &in)
 {
-	return in >> size_ >> fields_ >> rulers_ >> initialPositions_ >> terrains_;
+	return in >> size_ >> fields_ >> rulers_ >> initialPositions_ >> terrains_ >> terrainSerial_;
 }
 
 const UID Board::NullTerrainUid = Serial::EmptyUid;

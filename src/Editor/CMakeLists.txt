@@ -9,6 +9,7 @@
 	Editors/BoardEditor.cpp
 	Editors/EnemiesEditor.cpp
 	Editors/ItemsEditor.cpp
+	Editors/QuestEditor.cpp
 )
 
 set (Editor_HDRS
@@ -20,6 +21,7 @@ set (Editor_HDRS
 
 	Editors/EnemiesEditor.h
 	Editors/ItemsEditor.h
+	Editors/QuestEditor.h
 )
 
 qt5_wrap_cpp (Editor_SRCS ${Editor_HDRS})

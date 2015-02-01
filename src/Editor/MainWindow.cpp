@@ -20,9 +20,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Mod.h"
 #include "Core/Paths.h"
 #include "Core/Strings.h"
+#include "Editor/Editors/BoardEditor.hpp"
 #include "Editor/Editors/ItemsEditor.h"
 #include "Editor/Editors/EnemiesEditor.h"
-#include "Editor/Editors/BoardEditor.hpp"
+#include "Editor/Editors/QuestEditor.h"
 #include "Editor/Strings.h"
 #include "Editor/Shortcuts.h"
 
@@ -74,9 +75,10 @@ void MainWindow::initEditors()
 	editorTabs_ = new QTabWidget;
 	setCentralWidget(editorTabs_);
 
-	editorTabs_->addTab(new BoardEditor(mod_->board()), Editor::Titles::Board);
-	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()), Editor::Titles::Items);
+	editorTabs_->addTab(new BoardEditor(mod_->board()),        Editor::Titles::Board);
+	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()),    Editor::Titles::Items);
 	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), Editor::Titles::Enemies);
+	editorTabs_->addTab(new QuestEditor(mod_->questModel()),   Editor::Titles::Quests);
 }
 
 int MainWindow::checkForUnsavedChanges()

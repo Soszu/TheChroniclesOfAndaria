@@ -15,7 +15,6 @@
  *	You should have received a copy of the GNU General Public License
  *	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #pragma once
 
 #include "Core/Utils/BiHash.hpp"
@@ -33,7 +32,7 @@ public:
 	};
 	static const BiHash <Level, QString> LevelLabels;
 
-	QuestBase(UID uid, QString title);
+	QuestBase(UID uid = Serial::EmptyUid, QString title ={});
 	QuestBase(UID uid,
 	          const QString &title,
 	          const QString &description,
@@ -43,7 +42,7 @@ public:
 	          UID followUp,
 	          bool canBeDrawn,
 	          const QHash <Coordinates, Test> &objectives,
-	          const Prize &prize);
+	          const Prize &reward);
 
 	bool canBeDrawn() const;
 	const QString & description() const;
@@ -52,7 +51,7 @@ public:
 	bool isReturnRequired() const;
 	Level level() const;
 	const QHash <Coordinates, Test> & objectives() const;
-	const Prize & prize() const;
+	const Prize & reward() const;
 	const QString & title() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	UID uid() const;
@@ -66,7 +65,7 @@ public:
 	void setIsReturnRequired(bool isReturnRequired);
 	void setLevel(Level level);
 	void setObjectives(const QHash <Coordinates, Test> &objectives);
-	void setPrize(const Prize &prize);
+	void setReward(const Prize &reward);
 	void setTitle(const QString &title);
 
 private:
@@ -79,8 +78,9 @@ private:
 	UID followUp_;
 	bool canBeDrawn_;
 	QHash <Coordinates, Test> objectives_;
-	Prize prize_;
+	Prize reward_;
 };
+Q_DECLARE_METATYPE(QuestBase::Level)
 QDataStream & operator<<(QDataStream &out, const QuestBase &base);
 QDataStream & operator>>(QDataStream &in, QuestBase &base);
 uint qHash(QuestBase::Level level);

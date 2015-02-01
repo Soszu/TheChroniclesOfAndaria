@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <QtWidgets>
+#include <QComboBox>
 #include "Core/Utils/BiHash.hpp"
 
 class EnumEdit : public QComboBox {

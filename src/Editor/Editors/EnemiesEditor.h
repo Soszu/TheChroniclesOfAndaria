@@ -21,8 +21,6 @@ public slots:
 	void modelSaved();
 
 private:
-	static const int SpinBoxWidth = 50;
-
 	void initEditPart();
 	void initViewPart();
 	void initLayout();

@@ -23,9 +23,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Coordinates.hpp"
 #include "Core/Enums.hpp"
 
-#include "Core/Containers/Models/EnemyModel.h"
-#include "Core/Containers/Models/ItemModel.h"
 #include "Core/Containers/Board.h"
+#include "Core/Containers/Models/ItemModel.h"
+#include "Core/Containers/Models/EnemyModel.h"
+#include "Core/Containers/Models/QuestModel.h"
 
 #include "Core/Containers/Prize.h"
 #include "Core/Containers/Bases/EnemyBase.h"
@@ -55,16 +56,19 @@ public:
 	Board * board();
 	EnemyModel * enemyModel();
 	ItemModel * itemModel();
+	QuestModel * questModel();
 
 	const Board & board() const;
 	const EnemyModel & enemyModel() const;
 	const ItemModel & itemModel() const;
+	const QuestModel & questModel() const;
 	Coordinates initialPosition(Race race) const;
 
 private:
-	EnemyModel enemyModel_;
-	ItemModel itemModel_;
 	Board board_;
+	ItemModel itemModel_;
+	EnemyModel enemyModel_;
+	QuestModel questModel_;
 
 	//TMP
 	QMap<int, ItemBase*> items_;

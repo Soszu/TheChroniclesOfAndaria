@@ -17,5 +17,6 @@ public:
 		Skills
 	};
 };
+Q_DECLARE_METATYPE(Test)
 QDataStream & operator<<(QDataStream &out, const Test &effect);
 QDataStream & operator>>(QDataStream &in, Test &effect);

@@ -85,6 +85,16 @@ namespace Labels {
 	}
 
 	namespace Quest {
+		const QString DefaultName      = QObject::tr("Quest");
+		const QString Title            = QObject::tr("Title");
+		const QString Description      = QObject::tr("Description");
+		const QString Fraction         = QObject::tr("Fraction");
+		const QString Level            = QObject::tr("Level");
+		const QString IsReturnRequired = QObject::tr("Is return required?");
+		const QString CanBeDrawn       = QObject::tr("Can be drawn\nfrom deck?");
+		const QString FollowUp         = QObject::tr("Follow Up");
+		const QString Objectives       = QObject::tr("Objectives");
+		const QString Reward           = QObject::tr("Reward");
 		namespace Levels {
 			const QString Easy   = QObject::tr("Easy");
 			const QString Medium = QObject::tr("Medium");

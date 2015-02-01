@@ -29,12 +29,7 @@ QString Coordinates::toString() const
 	return QString("[%1, %2]").arg(x()).arg(y());
 }
 
-inline uint qHash(const Coordinates &c, uint seed)
+uint qHash(const Coordinates &c, uint seed)
 {
 	return qHash(QPair <int, int>(c.x(), c.y()), seed);
-}
-
-inline uint qHash(const QPoint& p)
-{
-	return qHash(p.x() + p.y());
 }

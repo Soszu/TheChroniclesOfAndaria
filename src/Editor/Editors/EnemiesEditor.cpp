@@ -52,7 +52,6 @@ void EnemiesEditor::initEditPart()
 	imageNameEdit_ = new QLineEdit;
 
 	levelEdit_ = new QSpinBox;
-	levelEdit_->setFixedWidth(SpinBoxWidth);
 
 	defaultAttackEdit_ = new EnumEdit;
 	for (auto &attack : AttackLabels.leftKeys())
@@ -71,7 +70,7 @@ void EnemiesEditor::initEditPart()
 	editLayout_->addRow(Labels::Enemy::WinningPrize,  prizeEdit_);
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
-// 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
+	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
 // 	editLayout_->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
 	editLayout_->setLabelAlignment(Qt::AlignLeft);
 }

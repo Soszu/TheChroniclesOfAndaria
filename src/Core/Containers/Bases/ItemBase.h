@@ -49,7 +49,7 @@ public:
 	};
 	static const BiHash <Quality, QString> QualityLabels;
 
-	ItemBase(UID uid = Serial::MinUid, const QString &name = QString());
+	ItemBase(UID uid = Serial::MinUid, const QString &name = {});
 	ItemBase(UID uid,
 	         const QString &name,
 	         Type type,
