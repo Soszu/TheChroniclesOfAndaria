@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -16,15 +16,15 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Game/Client/MainWindow.h"
+#include "Game/Client/MainWindow.hpp"
 #include <QtCore>
 #include <QtGui>
 
 
-MainWindow::MainWindow(GameCycleClt *gameCycleClt, QWidget *parent)
-          : QMainWindow(parent),
-            gameCycleClt_(gameCycleClt)
-//             actionPanel_(gameCycle->gameMaster()),
+MainWindow::MainWindow(GameCycleClt *gameCycleClt, QWidget *parent) :
+	QMainWindow(parent),
+	gameCycleClt_(gameCycleClt)
+//  actionPanel_(gameCycle->gameMaster()),
 //             boardArea_(gameCycle->board())
 {/*
 	QWidget *centralWidget = new QWidget();

@@ -1,7 +1,26 @@
-﻿#include "NewGameGui.h"
+﻿/*
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+This file is part of The Chronicles Of Andaria Project.
 
-NewGameGui::NewGameGui(NewGameClt *newGameClt)
-          : newGameClt_(newGameClt)
+	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "NewGameGui.hpp"
+
+#include "Core/Enums.hpp"
+
+NewGameGui::NewGameGui(NewGameClt *newGameClt) :
+	newGameClt_(newGameClt)
 {
 	initWindow();
 	initStripes();
@@ -28,19 +47,19 @@ void NewGameGui::initStripes()
 	connect(nameEdit_, &QLineEdit::textChanged, newGameClt_, &NewGameClt::setMyName);
 
 	playerRaceCombo_ = new QComboBox();
-	for (auto race : Race::labels())
-		playerRaceCombo_->addItem(raceLabels[race]);
+	for (auto &label : RaceLabels.rightKeys())
+		playerRaceCombo_->addItem(label);
 	connect(playerRaceCombo_, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
 	        this, &NewGameGui::playerRaceChanged);
 
 	playerClassCombo_ = new QComboBox();
-	for (auto _class : Class::labels())
-		playerClassCombo_->addItem(classLabels[_class]);
+	for (auto &label : ClassLabels.rightKeys())
+		playerClassCombo_->addItem(label);
 	connect(playerClassCombo_, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
 	        this, &NewGameGui::playerClassChanged);
 
-	QIcon colorIcon = QIcon(DataManager::pixmap(Paths::IconColor));
-	colorButton_ = new QPushButton(colorIcon, Client::Strings::PickColor);
+// 	QIcon colorIcon = QIcon(DataManager::pixmap(Paths::IconColor));
+	colorButton_ = new QPushButton(/*colorIcon, */Client::Strings::PickColor);
 	colorDialog_ = new QColorDialog(newGameClt_->myDraft().color(), this);
 	connect(colorButton_, &QPushButton::clicked, this, &NewGameGui::showColorDialog);
 
@@ -100,8 +119,8 @@ QHBoxLayout * NewGameGui::draftToStripe(const PlayerDraft &draft)
 	QHBoxLayout *stripe = new QHBoxLayout();
 	QLabel *name = new QLabel(draft.name());
 	QLabel *color = new QLabel(draft.color().name());
-	QLabel *playerRace = new QLabel(raceLabels[draft.playerRace()]);
-	QLabel *playerClass = new QLabel(classLabels[draft.playerClass()]);
+	QLabel *playerRace = new QLabel(RaceLabels[draft.playerRace()]);
+	QLabel *playerClass = new QLabel(ClassLabels[draft.playerClass()]);
 
 	stripe->addWidget(name);
 	stripe->addWidget(color);
@@ -124,12 +143,12 @@ void NewGameGui::refreshOthersDrafts()
 
 void NewGameGui::playerRaceChanged(const QString &playerRace)
 {
-	newGameClt_->setMyRace(raceLabels.value(playerRace, Race::Human));
+	newGameClt_->setMyRace(RaceLabels.value(playerRace, Race::Human));
 }
 
 void NewGameGui::playerClassChanged(const QString &playerClass)
 {
-	newGameClt_->setMyClass(classLabels.value(playerClass, Class::Fighter));
+	newGameClt_->setMyClass(ClassLabels.value(playerClass, Class::Fighter));
 }
 
 void NewGameGui::playerReady()

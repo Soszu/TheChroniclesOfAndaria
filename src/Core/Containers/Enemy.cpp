@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -17,11 +17,12 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Containers/Enemy.h"
-#include "Core/Containers/Bases/EnemyBase.h"
-#include "Core/DataManager.h"
+#include "Core/Containers/Enemy.hpp"
+#include "Core/Containers/Bases/EnemyBase.hpp"
+#include "Core/DataManager.hpp"
 
-Enemy::Enemy(const EnemyBase *base) : base_(base)
+Enemy::Enemy(const EnemyBase *base) :
+	base_(base)
 {
 	initHealth();
 }

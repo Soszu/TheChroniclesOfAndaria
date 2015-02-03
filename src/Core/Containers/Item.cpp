@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,10 +16,10 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "Item.hpp"
 
-#include "Item.h"
-
-Item::Item(ItemBase *base) : base_(base)
+Item::Item(ItemBase *base) :
+	base_(base)
 {}
 
 QList <Effect> Item::effects() const

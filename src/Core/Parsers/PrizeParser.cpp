@@ -16,9 +16,9 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Parsers/PrizeParser.h"
-#include "Core/Mod.h"
-#include "Core/Paths.h"
+#include "Core/Parsers/PrizeParser.hpp"
+#include "Core/Mod.hpp"
+#include "Core/Paths.hpp"
 
 PrizeParser::PrizeParser(Mod *mod)
 {

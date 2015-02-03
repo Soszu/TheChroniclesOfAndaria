@@ -16,9 +16,10 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Parsers/BoardParser.h"
-#include "Core/DataManager.h"
+#include "Core/Parsers/BoardParser.hpp"
+#include "Core/DataManager.hpp"
 #include "Core/Containers/Coordinates.hpp"
+#include "Core/Containers/Board.hpp"
 
 BoardParser::BoardParser(Mod *dataKeeper)
 {

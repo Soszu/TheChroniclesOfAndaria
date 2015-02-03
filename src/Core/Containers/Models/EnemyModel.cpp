@@ -1,10 +1,29 @@
-#include "Core/Containers/Models/EnemyModel.h"
+/*
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+This file is part of The Chronicles Of Andaria Project.
 
-#include "Core/Containers/Enemy.h"
-#include "Core/Containers/Bases/EnemyBase.h"
-#include "Core/Containers/Prize.h"
+	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-EnemyModel::EnemyModel(QObject *parent) : QAbstractTableModel(parent), changed_(false)
+	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "EnemyModel.hpp"
+
+#include "Core/Containers/Enemy.hpp"
+#include "Core/Containers/Bases/EnemyBase.hpp"
+#include "Core/Containers/Prize.hpp"
+
+EnemyModel::EnemyModel(QObject *parent) :
+	QAbstractTableModel(parent),
+	changed_(false)
 {
 	auto modelChanged = [this]{
 		this->changed_ = true;
@@ -36,12 +55,12 @@ QVariant EnemyModel::data(const QModelIndex &index, int role) const
 	if (role == Qt::DisplayRole || role == Qt::EditRole) {
 		const EnemyBase *enemy = enemies_[index.row()];
 		switch (index.column()) {
-			case Name:                return enemy->name();
-			case ImageName:           return enemy->imageName();
-			case Level:               return enemy->level();
-			case DefaultAttack:       return QVariant::fromValue(enemy->defaultAttack());
-			case BaseStats:           return QVariant::fromValue(enemy->baseStats());
-			case WinningPrize:               return QVariant::fromValue(enemy->prize());
+			case Name:          return enemy->name();
+			case ImageName:     return enemy->imageName();
+			case Level:         return enemy->level();
+			case DefaultAttack: return QVariant::fromValue(enemy->defaultAttack());
+			case BaseStats:     return QVariant::fromValue(enemy->baseStats());
+			case WinningPrize:  return QVariant::fromValue(enemy->prize());
 		}
 	}
 	return QVariant();
@@ -195,12 +214,12 @@ bool EnemyModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 	EnemyBase *enemy = enemies_[index.row()];
 	switch (index.column()) {
-		case Name:                enemy->setName(value.toString()); break;
-		case ImageName:           enemy->setImageName(value.toString()); break;
-		case Level:               enemy->setLevel(value.toInt()); break;
-		case DefaultAttack:       enemy->setDefaultAttack(value.value<Attack>()); break;
-		case BaseStats:           enemy->setBaseStats(value.value<QList <Effect> >()); break;
-		case WinningPrize:        enemy->setPrize(value.value<Prize>()); break;
+		case Name:          enemy->setName(value.toString()); break;
+		case ImageName:     enemy->setImageName(value.toString()); break;
+		case Level:         enemy->setLevel(value.toInt()); break;
+		case DefaultAttack: enemy->setDefaultAttack(value.value<Attack>()); break;
+		case BaseStats:     enemy->setBaseStats(value.value<QList <Effect> >()); break;
+		case WinningPrize:  enemy->setPrize(value.value<Prize>()); break;
 	}
 
 	emit dataChanged(index, index);

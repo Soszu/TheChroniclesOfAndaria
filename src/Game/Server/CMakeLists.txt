@@ -36,25 +36,25 @@
 )
 
 set (game_server_HEADERS
-#	Windows/EquipmentWindow.h
-#	Windows/FightWindow.h
-#	Windows/HealerWindow.h
-#	Windows/MarketWindow.h
-#	Windows/NewGameWindow.h
-#	Windows/PrizeWindow.h
-#	Windows/QuestWindow.h
-#	Windows/TavernWindow.h
-#	Windows/MarketViewWindow.h
+#	Windows/EquipmentWindow.hpp
+#	Windows/FightWindow.hpp
+#	Windows/HealerWindow.hpp
+#	Windows/MarketWindow.hpp
+#	Windows/NewGameWindow.hpp
+#	Windows/PrizeWindow.hpp
+#	Windows/QuestWindow.hpp
+#	Windows/TavernWindow.hpp
+#	Windows/MarketViewWindow.hpp
 
-#	Handlers/HandlerTemplate.h
+#	Handlers/HandlerTemplate.hpp
 
-#	FixedComponents/ActionPanel.h
-#	FixedComponents/BoardArea.h
-#	FixedComponents/PlayerWindow.h
+#	FixedComponents/ActionPanel.hpp
+#	FixedComponents/BoardArea.hpp
+#	FixedComponents/PlayerWindow.hpp
 
-	ConnectionAdapterSrv.h
-	GameCycleSrv.h
-	NewGameSrv.h
+	ConnectionAdapterSrv.hpp
+	GameCycleSrv.hpp
+	NewGameSrv.hpp
 )
 qt5_wrap_cpp (game_server_SOURCES ${game_server_HEADERS})
 

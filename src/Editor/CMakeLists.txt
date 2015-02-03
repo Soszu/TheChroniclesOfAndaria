@@ -13,15 +13,15 @@
 )
 
 set (Editor_HDRS
-	MainWindow.h
+	MainWindow.hpp
 
-	CustomWidgets/EffectsListEdit.h
-	CustomWidgets/EnumEdit.h
+	CustomWidgets/EffectsListEdit.hpp
+	CustomWidgets/EnumEdit.hpp
 	CustomWidgets/PrizeEdit.hpp
 
-	Editors/EnemiesEditor.h
-	Editors/ItemsEditor.h
-	Editors/QuestEditor.h
+	Editors/EnemiesEditor.hpp
+	Editors/ItemsEditor.hpp
+	Editors/QuestEditor.hpp
 )
 
 qt5_wrap_cpp (Editor_SRCS ${Editor_HDRS})

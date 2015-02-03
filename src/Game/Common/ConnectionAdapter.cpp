@@ -1,23 +1,28 @@
-﻿#include "ConnectionAdapter.h"
+﻿/*
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+This file is part of The Chronicles Of Andaria Project.
 
-ConnectionAdapter::ConnectionAdapter() : authorityInControl_(nullptr), nextBlockSize_(0)
+	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "ConnectionAdapter.hpp"
+
+ConnectionAdapter::ConnectionAdapter() :
+	nextBlockSize_(0)
 {}
 
 void ConnectionAdapter::sendMessage(Message &msg, UID recipient) const
 {}
-
-void ConnectionAdapter::setAuthorityInControl(Authority *authority)
-{
-	if (authorityInControl_ != nullptr) {
-		disconnect(authorityInControl_, &Authority::send, this, &ConnectionAdapter::sendMessage);
-		disconnect(authorityInControl_, &Authority::switchAuthority, this, &ConnectionAdapter::setAuthorityInControl);
-	}
-
-	authorityInControl_ = authority;
-	connect(authorityInControl_, &Authority::send, this, &ConnectionAdapter::sendMessage);
-	connect(authorityInControl_, &Authority::switchAuthority, this, &ConnectionAdapter::setAuthorityInControl);
-	authority->becameReceiver();
-}
 
 void ConnectionAdapter::handleRead(QTcpSocket *socket, UID sender)
 {
@@ -35,7 +40,6 @@ void ConnectionAdapter::handleRead(QTcpSocket *socket, UID sender)
 			break;
 
 		Message msg(socket->read(nextBlockSize_));
-		authorityInControl_->onNewMessage(msg, sender);
 
 		nextBlockSize_ = 0;
 	}

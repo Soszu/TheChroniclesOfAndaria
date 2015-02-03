@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,10 +16,10 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "Core/Containers/Player.hpp"
 
-#include "Core/Containers/PlayerDraft.h"
-#include "Core/Containers/Player.h"
-#include "Core/Mod.h"
+#include "Core/Containers/PlayerDraft.hpp"
+#include "Core/Mod.hpp"
 
 const quint16 Player::LevelBorders[MaximumLevel] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 
@@ -31,20 +31,20 @@ const QSet <Effect::Type> Player::extendableAttributes = {
 	{Effect::Type::Perception},
 };
 
-Player::Player(const PlayerDraft &draft, const Mod &mod)
-      : name_(draft.name()),
-        playerRace_(draft.playerRace()),
-        playerClass_(draft.playerClass()),
-        color_(draft.color()),
-        level_(InitialLevel),
-        growthPoints_(InitialGrowthPoints),
-        baseStats_(InitialEffects(playerClass_, playerRace_)),
-        experience_(InitialExperience),
-        gold_(InitialGold),
-        position_(mod.initialPosition(playerRace_)),
-        equipment_(playerClass_),
-        journal_(),
-        reputations_(InitialReputations)
+Player::Player(const PlayerDraft &draft, const Mod &mod) :
+	name_(draft.name()),
+	playerRace_(draft.playerRace()),
+	playerClass_(draft.playerClass()),
+	color_(draft.color()),
+	level_(InitialLevel),
+	growthPoints_(InitialGrowthPoints),
+	baseStats_(InitialEffects(playerClass_, playerRace_)),
+	experience_(InitialExperience),
+	gold_(InitialGold),
+	position_(mod.initialPosition(playerRace_)),
+	equipment_(playerClass_),
+	journal_(),
+	reputations_(InitialReputations)
 {
 	initHealth();
 }

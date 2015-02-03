@@ -1,7 +1,24 @@
-﻿#include "ItemBase.h"
-#include "Core/Utils/EnumHelpers.hpp"
-#include "Core/Containers/PlayerDraft.h"
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+This file is part of The Chronicles Of Andaria Project.
 
+	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "ItemBase.hpp"
+
+#include "Core/Utils/EnumHelpers.hpp"
+#include "Core/Containers/PlayerDraft.hpp"
 
 inline uint qHash(ItemBase::Type type)
 {
@@ -50,12 +67,12 @@ const BiHash <ItemBase::Quality, QString> ItemBase::QualityLabels = {
 	{ItemBase::Quality::Legendary,     Labels::Item::Qualities::Legendary},
 };
 
-ItemBase::ItemBase(UID uid, const QString &name)
-        : uid_(uid),
-          name_(name),
-          type_(Type::Armor),
-          price_(0),
-          quality_(Quality::NotApplicable)
+ItemBase::ItemBase(UID uid, const QString &name) :
+	uid_(uid),
+	name_(name),
+	type_(Type::Armor),
+	price_(0),
+	quality_(Quality::NotApplicable)
 {}
 
 ItemBase::ItemBase(UID uid,
@@ -63,13 +80,13 @@ ItemBase::ItemBase(UID uid,
                    ItemBase::Type type,
                    quint16 price,
                    ItemBase::Quality quality,
-                   const QList <Effect> effects)
-        : uid_(uid),
-          name_(name),
-          type_(type),
-          price_(price),
-          quality_(quality),
-          effects_(effects)
+                   const QList <Effect> effects) :
+	uid_(uid),
+	name_(name),
+	type_(type),
+	price_(price),
+	quality_(quality),
+	effects_(effects)
 {}
 
 const QList <Effect> & ItemBase::effects() const

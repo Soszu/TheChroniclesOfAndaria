@@ -16,17 +16,17 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "EnemyBase.h"
+#include "EnemyBase.hpp"
 
-#include "Core/DataManager.h"
-#include "Core/Containers/Entity.h"
-#include "Core/Paths.h"
+#include "Core/DataManager.hpp"
+#include "Core/Containers/Entity.hpp"
+#include "Core/Paths.hpp"
 
-EnemyBase::EnemyBase(UID uid, QString name)
-         : uid_(uid),
-           name_(name),
-           level_(0),
-           defaultAttack_(Attack::Melee)
+EnemyBase::EnemyBase(UID uid, QString name) :
+	uid_(uid),
+	name_(name),
+	level_(0),
+	defaultAttack_(Attack::Melee)
 {
 	//TODO add sth to baseStats hp, armor, ...
 }

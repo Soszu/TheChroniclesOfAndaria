@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,21 +15,16 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include <QApplication>
-#include "Game/Common/DataKeeper.h"
-#include "Game/Client/ConnectionAdapterClt.h"
-#include "Game/Client/MainWindow.h"
-#include "Game/Client/NewGameGui.h"
+
+#include "Game/Client/ConnectionAdapterClt.hpp"
+#include "Game/Client/MainWindow.hpp"
+#include "Game/Client/NewGameGui.hpp"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	qsrand(QDateTime::currentDateTime().toTime_t());
-
-	int initError = DataKeeper::instance().initError();
-	if (initError)
-		return initError;
 
 	ConnectionAdapterClt connAdapter;
 

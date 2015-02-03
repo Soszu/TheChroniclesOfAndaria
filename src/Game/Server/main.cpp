@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2013-2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -17,19 +17,15 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include <QApplication>
-#include "Game/Common/DataKeeper.h"
-#include "Game/Server/ConnectionAdapterSrv.h"
-#include "Game/Server/GameCycleSrv.h"
-#include "Game/Server/NewGameSrv.h"
+
+#include "Game/Server/ConnectionAdapterSrv.hpp"
+#include "Game/Server/GameCycleSrv.hpp"
+#include "Game/Server/NewGameSrv.hpp"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	qsrand(QDateTime::currentDateTime().toTime_t());
-
-	int initError = DataKeeper::instance().initError();
-	if (initError)
-		return initError;
 
 	ConnectionAdapterSrv connAdapter;
 	GameCycleSrv gameCycle(&connAdapter);
@@ -37,4 +33,3 @@ int main(int argc, char *argv[])
 
 	return app.exec();
 }
-

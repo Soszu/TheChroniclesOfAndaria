@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -15,7 +15,7 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Paths.h"
+#include "Paths.hpp"
 
 QString resolvePath(const QString &path)
 {

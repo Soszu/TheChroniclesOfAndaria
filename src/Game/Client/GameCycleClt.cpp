@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2014 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -16,9 +16,10 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "GameCycleClt.h"
+#include "GameCycleClt.hpp"
 
-GameCycleClt::GameCycleClt(ConnectionAdapterClt *connAdapter) : connAdapter_(connAdapter) //: board_(this), gameMaster_(this)
+GameCycleClt::GameCycleClt(ConnectionAdapterClt *connAdapter) :
+	connAdapter_(connAdapter) //: board_(this), gameMaster_(this)
 {}
 
 ConnectionAdapterClt * GameCycleClt::connectionAdapter()

@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,10 +15,10 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "Equipment.hpp"
 
-#include "Equipment.h"
-
-Equipment::Equipment(Class playerClass) : playerClass_(playerClass)
+Equipment::Equipment(Class playerClass) :
+	playerClass_(playerClass)
 {}
 
 QList <Effect> Equipment::activeEffects() const

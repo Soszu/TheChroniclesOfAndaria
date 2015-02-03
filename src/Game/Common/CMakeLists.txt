@@ -4,8 +4,7 @@
 )
 
 set (game_common_HEADERS
-	ConnectionAdapter.h
-#	Message.h
+	ConnectionAdapter.hpp
 )
 qt5_wrap_cpp (game_common_SOURCES ${game_common_HEADERS})
 

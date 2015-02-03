@@ -16,12 +16,12 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Core/Parsers/EnemyParser.h"
+#include "Core/Parsers/EnemyParser.hpp"
 
-#include "Core/Containers/Bases/EnemyBase.h"
-#include "Core/Containers/Effect.h"
+#include "Core/Containers/Bases/EnemyBase.hpp"
+#include "Core/Containers/Effect.hpp"
 
-#include "Core/Paths.h"
+#include "Core/Paths.hpp"
 #include "Core/Enums.hpp"
 
 EnemyParser::EnemyParser(Mod *dataKeeper)

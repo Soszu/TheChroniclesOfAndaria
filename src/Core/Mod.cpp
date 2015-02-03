@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -16,13 +16,13 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Mod.h"
+#include "Core/Mod.hpp"
 
-#include "Core/Parsers/BoardParser.h"
-#include "Core/Parsers/ItemParser.h"
-#include "Core/Parsers/PrizeParser.h"
-#include "Core/Parsers/EnemyParser.h"
-#include "Core/Containers/Bases/ItemBase.h"
+#include "Core/Parsers/BoardParser.hpp"
+#include "Core/Parsers/ItemParser.hpp"
+#include "Core/Parsers/PrizeParser.hpp"
+#include "Core/Parsers/EnemyParser.hpp"
+#include "Core/Containers/Bases/ItemBase.hpp"
 
 Mod::Mod()
 {

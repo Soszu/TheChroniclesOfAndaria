@@ -15,19 +15,20 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Editor/MainWindow.h"
+#include "Editor/MainWindow.hpp"
 
-#include "Core/Mod.h"
-#include "Core/Paths.h"
-#include "Core/Strings.h"
+#include "Core/Mod.hpp"
+#include "Core/Paths.hpp"
+#include "Core/Strings.hpp"
 #include "Editor/Editors/BoardEditor.hpp"
-#include "Editor/Editors/ItemsEditor.h"
-#include "Editor/Editors/EnemiesEditor.h"
-#include "Editor/Editors/QuestEditor.h"
-#include "Editor/Strings.h"
-#include "Editor/Shortcuts.h"
+#include "Editor/Editors/ItemsEditor.hpp"
+#include "Editor/Editors/EnemiesEditor.hpp"
+#include "Editor/Editors/QuestEditor.hpp"
+#include "Editor/Strings.hpp"
+#include "Editor/Shortcuts.hpp"
 
-MainWindow::MainWindow() : mod_(new Mod)
+MainWindow::MainWindow() :
+	mod_(new Mod)
 {
 	resize(1024, 768);
 	setWindowTitle(Editor::Titles::EditorWindow);

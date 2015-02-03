@@ -18,12 +18,12 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Parsers/ItemParser.h"
+#include "Core/Parsers/ItemParser.hpp"
 
-#include "Core/Paths.h"
+#include "Core/Paths.hpp"
 #include "Core/Enums.hpp"
 
-#include "Core/Containers/Bases/ItemBase.h"
+#include "Core/Containers/Bases/ItemBase.hpp"
 
 ItemParser::ItemParser(Mod *mod)
 {

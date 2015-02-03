@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2013 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -16,9 +16,11 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Quest.h"
+#include "Quest.hpp"
 
-Quest::Quest(const QuestBase *base, Coordinates source) : base_(base), source_(source)
+Quest::Quest(const QuestBase *base, Coordinates source) :
+	base_(base),
+	source_(source)
 {}
 
 void Quest::execute(Player *player)

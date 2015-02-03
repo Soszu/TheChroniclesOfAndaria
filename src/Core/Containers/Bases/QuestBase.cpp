@@ -1,4 +1,21 @@
-﻿#include "Core/Containers/Bases/QuestBase.h"
+/*
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+This file is part of The Chronicles Of Andaria Project.
+
+	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The Chronicles of Andaria Project is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "QuestBase.hpp"
 
 #include "Core/Utils/EnumHelpers.hpp"
 
@@ -23,14 +40,14 @@ QDataStream & operator>>(QDataStream &in, QuestBase::Level &level)
 	return in >> toUnderlyingRef(level);
 }
 
-QuestBase::QuestBase(UID uid, QString title)
-: uid_(uid),
-  title_(title),
-  fraction_(Kingdom::Neutral),
-  level_(Level::Easy),
-  isReturnRequired_(false),
-  followUp_(Serial::EmptyUid),
-  canBeDrawn_(true)
+QuestBase::QuestBase(UID uid, QString title) :
+	uid_(uid),
+	title_(title),
+	fraction_(Kingdom::Neutral),
+	level_(Level::Easy),
+	isReturnRequired_(false),
+	followUp_(Serial::EmptyUid),
+	canBeDrawn_(true)
 {}
 
 QuestBase::QuestBase(UID uid,
@@ -42,17 +59,17 @@ QuestBase::QuestBase(UID uid,
                      UID followUp,
                      bool canBeDrawn,
                      const QHash <Coordinates, Test> &objectives,
-                     const Prize &reward)
-: uid_(uid),
-  title_(title),
-  description_(description),
-  fraction_(fraction),
-  level_(level),
-  isReturnRequired_(isReturnRequired),
-  followUp_(followUp),
-  canBeDrawn_(canBeDrawn),
-  objectives_(objectives),
-  reward_(reward)
+                     const Prize &reward) :
+	uid_(uid),
+	title_(title),
+	description_(description),
+	fraction_(fraction),
+	level_(level),
+	isReturnRequired_(isReturnRequired),
+	followUp_(followUp),
+	canBeDrawn_(canBeDrawn),
+	objectives_(objectives),
+	reward_(reward)
 {}
 
 bool QuestBase::canBeDrawn() const

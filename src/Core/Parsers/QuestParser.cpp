@@ -16,7 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Core/Parsers/QuestParser.h"
+#include "Core/Parsers/QuestParser.hpp"
 
 QuestParser::QuestParser(Mod *dataKeeper)
 {
