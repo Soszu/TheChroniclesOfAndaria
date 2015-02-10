@@ -28,7 +28,7 @@ EnemyBase::EnemyBase(UID uid, QString name) :
 	level_(0),
 	defaultAttack_(Attack::Melee)
 {
-	//TODO add sth to baseStats hp, armor, ...
+	//TODO add sth to baseStats [hp, armor, ...]
 }
 
 const QList <Effect> & EnemyBase::baseStats() const

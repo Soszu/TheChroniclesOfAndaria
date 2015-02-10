@@ -22,15 +22,3 @@ Quest::Quest(const QuestBase *base, Coordinates source) :
 	base_(base),
 	source_(source)
 {}
-
-void Quest::execute(Player *player)
-{
-//find currPos, find Test to do connect to result & take it
-}
-
-void Quest::testEnded(Player *player, Test::Result result)
-{
-	//if result unsettled -> nothing
-	//if resule pass, check done, give prize, check if need return and add to map, tell to remove / addToDone (be careful to memory), add followUp
-	//if not pass, remove (ew. penalty for failure)
-}

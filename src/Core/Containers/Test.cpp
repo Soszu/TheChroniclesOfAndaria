@@ -17,12 +17,37 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Test.hpp"
 
-QDataStream & operator<<(QDataStream &out, const Test &effectType)
+Test::Test(Test::Type type, const QVariant & data) :
+	type_(type),
+	data_(data)
+{}
+
+Test::Type Test::type() const
+{
+	return type_;
+}
+
+const QVariant & Test::data() const
+{
+	return data_;
+}
+
+void Test::setType(Test::Type type)
+{
+	type_ = type;
+}
+
+void Test::setData(const QVariant & data)
+{
+	data_ = data;
+}
+
+QDataStream & operator<<(QDataStream & out, const Test & effectType)
 {
 	return out;
 }
 
-QDataStream & operator>>(QDataStream &in, Test &effectType)
+QDataStream & operator>>(QDataStream & in, Test & effectType)
 {
 	return in;
 }

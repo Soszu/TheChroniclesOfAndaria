@@ -15,7 +15,6 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include "Core/Containers/Bases/QuestBase.hpp"
@@ -40,13 +39,8 @@ public:
 	const QSet <Coordinates> & toDo() const;
 	UID uid() const;
 
-	void execute(Player *player);
-
 private:
-	const QuestBase *base_;
+	const QuestBase * base_;
 	const Coordinates source_;
 	QSet <Coordinates> toDo_;
-
-private slots:
-	void testEnded(Player *player, Test::Result result);
 };

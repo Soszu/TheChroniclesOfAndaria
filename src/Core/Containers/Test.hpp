@@ -19,21 +19,34 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-class Test {
-
+class Test
+{
 public:
-	enum class Result : quint8 {
-		Fail,
-		Pass,
-		Unsettled
-	};
+// 	enum class Result : quint8 {
+// 		Fail,
+// 		Pass,
+// 		Unsettled
+// 	};
 
 	enum class Type : quint8 {
-		Fight,
 		Blank,
+		Fight,
 		Skills
 	};
+
+	Test(Type type = Type::Blank, const QVariant & data = {});
+
+	Type type() const;
+	const QVariant & data() const;
+
+	void setType(Type type);
+	void setData(const QVariant & data);
+
+private:
+	Type type_;
+	QVariant data_;
+
 };
 Q_DECLARE_METATYPE(Test)
-QDataStream & operator<<(QDataStream &out, const Test &effect);
-QDataStream & operator>>(QDataStream &in, Test &effect);
+QDataStream & operator<<(QDataStream & out, const Test & effect);
+QDataStream & operator>>(QDataStream & in, Test & effect);
