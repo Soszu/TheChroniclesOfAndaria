@@ -5,7 +5,6 @@
 	DataManager.cpp
 	Mod.cpp
 
-	Containers/Board.cpp
 	Containers/Coordinates.cpp
 	Containers/Effect.cpp
 	Containers/Enemy.cpp
@@ -24,6 +23,7 @@
 	Containers/Bases/ItemBase.cpp
 	Containers/Bases/QuestBase.cpp
 
+	Containers/Models/BoardModel.cpp
 	Containers/Models/EnemyModel.cpp
 	Containers/Models/ItemModel.cpp
 	Containers/Models/QuestModel.cpp
@@ -35,9 +35,13 @@
 #	Parsers/QuestParser.cpp
 
 	Widgets/Map.cpp
+	Widgets/Tile.cpp
 )
 
 set (core_HEADERS
+	Widgets/Map.hpp
+
+	Containers/Models/BoardModel.hpp
 )
 
 qt5_wrap_cpp (core_SOURCES ${core_HEADERS})

@@ -40,6 +40,7 @@ private:
 private slots:
 	void onNewActivated();
 	void onLoadActivated();
+	void onLoadTxtActivated();
 	void onSaveActivated();
 	void onSaveAsActivated();
 	void onQuitActivated();

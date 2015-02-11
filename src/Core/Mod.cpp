@@ -15,7 +15,6 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #include "Core/Mod.hpp"
 
 #include "Core/Parsers/BoardParser.hpp"
@@ -25,26 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/ItemBase.hpp"
 
 Mod::Mod()
-{
-// 	TODO Parsers should be replaced with models
-
-// 	BoardParser boardParser(this);
-// 	qDebug() << boardParser.trescBledu << board_.size()
-// 	<< "terrains" <<board_.terrains().size();
-
-	ItemParser itemParser(this);
-// 	qDebug() << itemParser.trescBledu << "items" << items_.size();
-
-	PrizeParser prizeParser(this);
-// 	qDebug() << prizeParser.trescBledu << "prizes" << prizes_.size();
-
-	EnemyParser enemyParser(this);
-// 	qDebug() <<enemyParser.trescBledu 	<< "enemies: " << enemies_.size();
-
-
-// 	QuestParser questParser(this);
-// 	qDebug() << questParser.trescBledu 	<< "quests: " << quests_.size();
-}
+{}
 
 Mod::~Mod()
 {
@@ -56,7 +36,36 @@ bool Mod::unsavedChanges() const
 	return (itemModel_.isChanged() || enemyModel_.isChanged());
 }
 
-bool Mod::load(const QString &path)
+void Mod::loadFromTxt()
+{
+	// 	TODO Parsers should be replaced with models
+
+	ItemParser itemParser(this);
+	// 	qDebug() << itemParser.trescBledu << "items" << items_.size();
+
+	PrizeParser prizeParser(this);
+	// 	qDebug() << prizeParser.trescBledu << "prizes" << prizes_.size();
+
+	EnemyParser enemyParser(this);
+	// 	qDebug() <<enemyParser.trescBledu 	<< "enemies: " << enemies_.size();
+
+
+	// 	QuestParser questParser(this);
+	// 	qDebug() << questParser.trescBledu 	<< "quests: " << quests_.size();
+
+	for (auto &item : items_)
+		itemModel_.addItemBase(item);
+
+	for (auto &enemy : enemies_)
+		enemyModel_.addEnemyBase(enemy);
+
+	//it fills board_ in constructor
+	BoardParser boardParser(this);
+	
+// 	qDebug() << boardParser.trescBledu << boardModel_.size() << boardModel_.terrainUids().size();
+}
+
+bool Mod::load(const QString & path)
 {
 	if (path.isEmpty())
 		return false;
@@ -67,21 +76,14 @@ bool Mod::load(const QString &path)
 
 	QDataStream in(&file);
 
-	if (LoadFromTxt) {
-		for (auto &item : items_)
-			itemModel_.addItemBase(item);
+	in >> itemModel_ >> enemyModel_ >> boardModel_;
 
-		for (auto &enemy : enemies_)
-			enemyModel_.addEnemyBase(enemy);
-	}
-	else
-		in >> itemModel_ >> enemyModel_ >> board_;
+	file.close();
 
-		file.close();
 	return true;
 }
 
-bool Mod::save(const QString &path)
+bool Mod::save(const QString & path)
 {
 	if (path.isEmpty())
 		return false;
@@ -92,7 +94,7 @@ bool Mod::save(const QString &path)
 
 	QDataStream out(&file);
 
-	out << itemModel_ << enemyModel_ << board_;
+	out << itemModel_ << enemyModel_ << boardModel_;
 
 	itemModel_.setChanged(false);
 	enemyModel_.setChanged(false);
@@ -105,11 +107,12 @@ void Mod::reset()
 {
 	itemModel_.reset();
 	enemyModel_.reset();
+	boardModel_.reset();
 }
 
-Board * Mod::board()
+BoardModel * Mod::boardModel()
 {
-	return &board_;
+	return &boardModel_;
 }
 
 ItemModel * Mod::itemModel()
@@ -122,14 +125,14 @@ EnemyModel * Mod::enemyModel()
 	return &enemyModel_;
 }
 
-QuestModel* Mod::questModel()
+QuestModel * Mod::questModel()
 {
 	return &questModel_;
 }
 
-const Board & Mod::board() const
+const BoardModel & Mod::boardModel() const
 {
-	return board_;
+	return boardModel_;
 }
 
 const ItemModel & Mod::itemModel() const
@@ -142,12 +145,7 @@ const EnemyModel & Mod::enemyModel() const
 	return enemyModel_;
 }
 
-const QuestModel& Mod::questModel() const
+const QuestModel & Mod::questModel() const
 {
 	return questModel_;
-}
-
-Coordinates Mod::initialPosition(Race race) const
-{
-	return board_.initialPosition(race);
 }

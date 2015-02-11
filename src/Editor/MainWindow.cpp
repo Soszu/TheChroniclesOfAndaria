@@ -43,14 +43,16 @@ void MainWindow::initMenuAndActions()
 
 	QMenu *modMenu = menuBar()->addMenu(Menus::Mod::Main);
 
-	QAction *menuModNew     = new QAction(Menus::Mod::New,    this);
-	QAction *menuModLoad    = new QAction(Menus::Mod::Open,   this);
-	QAction *menuModSave_   = new QAction(Menus::Mod::Save,   this);
-	QAction *menuModSaveAs_ = new QAction(Menus::Mod::SaveAs, this);
-	QAction *menuModQuit    = new QAction(Menus::Mod::Quit,   this);
+	QAction *menuModNew     = new QAction(Menus::Mod::New,     this);
+	QAction *menuModLoad    = new QAction(Menus::Mod::Open,    this);
+	QAction *menuModLoadTxt = new QAction(Menus::Mod::LoadTxt, this);
+	QAction *menuModSave_   = new QAction(Menus::Mod::Save,    this);
+	QAction *menuModSaveAs_ = new QAction(Menus::Mod::SaveAs,  this);
+	QAction *menuModQuit    = new QAction(Menus::Mod::Quit,    this);
 
 	connect(menuModNew,     &QAction::triggered, this, &MainWindow::onNewActivated);
 	connect(menuModLoad,    &QAction::triggered, this, &MainWindow::onLoadActivated);
+	connect(menuModLoadTxt, &QAction::triggered, this, &MainWindow::onLoadTxtActivated);
 	connect(menuModSave_,   &QAction::triggered, this, &MainWindow::onSaveActivated);
 	connect(menuModSaveAs_, &QAction::triggered, this, &MainWindow::onSaveAsActivated);
 	connect(menuModQuit,    &QAction::triggered, this, &MainWindow::onQuitActivated);
@@ -60,11 +62,9 @@ void MainWindow::initMenuAndActions()
 	menuModSave_->setShortcut(Shortcuts::Menus::Mod::Save);
 	menuModQuit->setShortcut(Shortcuts::Menus::Mod::Quit);
 
-	menuModSave_->setEnabled(false);
-	menuModSaveAs_->setEnabled(false);
-
 	modMenu->addAction(menuModNew);
 	modMenu->addAction(menuModLoad);
+	modMenu->addAction(menuModLoadTxt);
 	modMenu->addAction(menuModSave_);
 	modMenu->addAction(menuModSaveAs_);
 	modMenu->addSeparator();
@@ -76,7 +76,7 @@ void MainWindow::initEditors()
 	editorTabs_ = new QTabWidget;
 	setCentralWidget(editorTabs_);
 
-	editorTabs_->addTab(new BoardEditor(mod_->board()),        Editor::Titles::Board);
+	editorTabs_->addTab(new BoardEditor(mod_->boardModel()),        Editor::Titles::Board);
 	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()),    Editor::Titles::Items);
 	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), Editor::Titles::Enemies);
 	editorTabs_->addTab(new QuestEditor(mod_->questModel()),   Editor::Titles::Quests);
@@ -127,6 +127,21 @@ void MainWindow::onLoadActivated()
 	 mod_->load(path);
 
 	currentFilePath_ = path;
+}
+
+void MainWindow::onLoadTxtActivated()
+{
+	switch (checkForUnsavedChanges()) {
+		case QMessageBox::Save:
+			onSaveActivated();
+			return;
+		case QMessageBox::Discard:
+			break;
+		default :
+			return;
+	}
+
+	mod_->loadFromTxt();
 }
 
 void MainWindow::onSaveActivated()

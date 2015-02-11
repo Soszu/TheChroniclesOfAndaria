@@ -15,10 +15,33 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Map.hpp"
+#include "Core/Widgets/Map.hpp"
 
-#include "Core/Containers/Board.hpp"
+#include "Core/Containers/Models/BoardModel.hpp"
+#include "Core/Widgets/Tile.hpp"
 
-Map::Map(Board *board) :
+Map::Map(BoardModel * board) :
 	board_(board)
-{}
+{
+	repaint();
+}
+
+void Map::repaint()
+{
+	clear();
+
+	for (int row = 0; row < board_->rowCount(); ++row)
+		for (int column = 0; column < board_->columnCount(); ++column) {
+			Tile * tile = new Tile(board_->terrain(Coordinates(row, column)));
+
+			qreal xPos = column * tile->boundingRect().width();
+			if (row % 2 == 1) xPos += tile->width() / 2;
+
+			qreal yPos = row * tile->boundingRect().height();
+			yPos -= row * tile->height() / 4;
+
+			tile->setPos(xPos, yPos);
+
+			addItem(tile);
+		}
+}

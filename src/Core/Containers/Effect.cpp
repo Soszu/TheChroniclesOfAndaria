@@ -66,9 +66,9 @@ bool Effect::expired(const Effect &effect)
 	return (effect.duration() == 0);
 }
 
-bool Effect::isDisposable(const Effect &effect)
+bool Effect::isInstant(const Effect &effect)
 {
-	return (effect.duration() == Effect::Disposable);
+	return (effect.duration() == Effect::Instant);
 }
 
 bool Effect::isPermanent(const Effect &effect)

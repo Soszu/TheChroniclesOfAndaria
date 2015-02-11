@@ -23,7 +23,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 const quint16 Player::LevelBorders[MaximumLevel] = {0, 500, 1100, 1800, 2600, 3500, 4500, 5600, 6800, 8100};
 
-const QSet <Effect::Type> Player::extendableAttributes = {
+const QSet<Effect::Type> Player::extendableAttributes = {
 	{Effect::Type::MeleeBase},
 	{Effect::Type::RangedBase},
 	{Effect::Type::MagicalBase},
@@ -31,7 +31,7 @@ const QSet <Effect::Type> Player::extendableAttributes = {
 	{Effect::Type::Perception},
 };
 
-Player::Player(const PlayerDraft &draft, const Mod &mod) :
+Player::Player(const PlayerDraft & draft, const Mod & mod) :
 	name_(draft.name()),
 	playerRace_(draft.playerRace()),
 	playerClass_(draft.playerClass()),
@@ -41,7 +41,7 @@ Player::Player(const PlayerDraft &draft, const Mod &mod) :
 	baseStats_(InitialEffects(playerClass_, playerRace_)),
 	experience_(InitialExperience),
 	gold_(InitialGold),
-	position_(mod.initialPosition(playerRace_)),
+	position_(mod.boardModel().initialPosition(playerRace_)),
 	equipment_(playerClass_),
 	journal_(),
 	reputations_(InitialReputations)
@@ -89,12 +89,12 @@ quint8 Player::growthPoints() const
 	return growthPoints_;
 }
 
-const QList <Effect> Player::individualEffects() const
+const QList<Effect> Player::individualEffects() const
 {
 	return baseStats_ + equipment_.activeEffects();
 }
 
-const QString &Player::name() const
+const QString & Player::name() const
 {
 	return name_;
 }
@@ -167,23 +167,23 @@ void Player::shiftReputation(Kingdom kingdom, qint8 value)
 	reputations_[kingdom] = qMin(MaximumReputation, static_cast<qint8>(reputation(kingdom) + value));
 }
 
-const QHash <Kingdom, qint8> Player::InitialReputations {
+const QHash<Kingdom, qint8> Player::InitialReputations {
 	{Kingdom::Humans,    InitialReputation},
 	{Kingdom::Dwarfs,    InitialReputation},
 	{Kingdom::Elves,     InitialReputation},
 	{Kingdom::Halflings, InitialReputation}
 };
 
-QList <Effect> Player::InitialEffects(Class playerClass, Race playerRace)
+const QList<Effect> & Player::InitialEffects(Class playerClass, Race playerRace)
 {
-	static const QHash <Race, QList <Effect> > InitialRaceEffects = {
+	static const QHash<Race, QList<Effect>> InitialRaceEffects = {
 		{Race::Human,    {}},
 		{Race::Dwarf,    {}},
 		{Race::Elf,      {}},
 		{Race::Halfling, {}},
 	};
 
-	static const QHash <Class, QList <Effect> > InitialClassEffects = {
+	static const QHash<Class, QList<Effect>> InitialClassEffects = {
 		{Class::Fighter, {Effect(Effect::Type::MaxHealth,    15),
 		                  Effect(Effect::Type::Defence,      10),
 		                  Effect(Effect::Type::Perception,   1),
@@ -217,7 +217,7 @@ QList <Effect> Player::InitialEffects(Class playerClass, Race playerRace)
 		                  Effect(Effect::Type::MagicalBase,  8)}},
 	};
 
-	QList <Effect> initialEffects;
+	static QList <Effect> initialEffects;
 	initialEffects.append(Effect(Effect::Type::MeleeRange, InitialAttackRange));
 	initialEffects.append(Effect(Effect::Type::RangedRange, InitialAttackRange));
 	initialEffects.append(Effect(Effect::Type::MeleeRange, InitialAttackRange));

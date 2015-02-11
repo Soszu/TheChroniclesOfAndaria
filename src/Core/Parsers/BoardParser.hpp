@@ -68,9 +68,9 @@ private:
 		bool czyPoleZMiastem;
 		int wspolczynnik;
 		int frakcja;
+		UID uid;
 	};
 	QMap<QString, info> legenda;
-	QMap<QString, Terrain> key;
 };
 
 #endif

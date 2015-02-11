@@ -56,10 +56,10 @@ public:
 
 	typedef qint32 Value;
 	typedef qint32 Duration;
-	static const Duration Disposable = -1;
+	static const Duration Instant = -1;
 	static const Duration Permanent = -2;
 
-	static bool isDisposable(const Effect &effect);
+	static bool isInstant(const Effect &effect);
 	static bool isPermanent(const Effect &effect);
 	static QString description(const Effect &effect);
 	static bool expired(const Effect &effect);

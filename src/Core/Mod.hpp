@@ -15,24 +15,20 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
 #include <QtCore>
 
-#include "Core/Containers/Coordinates.hpp"
 #include "Core/Enums.hpp"
 
-#include "Core/Containers/Board.hpp"
+#include "Core/Containers/Models/BoardModel.hpp"
 #include "Core/Containers/Models/ItemModel.hpp"
 #include "Core/Containers/Models/EnemyModel.hpp"
 #include "Core/Containers/Models/QuestModel.hpp"
 
-#include "Core/Containers/Prize.hpp"
-#include "Core/Containers/Bases/EnemyBase.hpp"
-#include "Core/Containers/Bases/ItemBase.hpp"
-
-const bool LoadFromTxt = true;
+class Prize;
+class EnemyBase;
+class ItemBase;
 
 //Mod, Variant, Rule(s), Option, Extension, Version, Chronicle, Guide, Set, Model, Story, Content
 //Tale, Form, Adaptation,
@@ -50,28 +46,28 @@ public:
 
 	bool unsavedChanges() const;
 
-	bool load(const QString &path);
-	bool save(const QString &path);
+	void loadFromTxt();
+	bool load(const QString & path);
+	bool save(const QString & path);
 	void reset();
-	Board * board();
+	BoardModel * boardModel();
 	EnemyModel * enemyModel();
 	ItemModel * itemModel();
 	QuestModel * questModel();
 
-	const Board & board() const;
+	const BoardModel & boardModel() const;
 	const EnemyModel & enemyModel() const;
 	const ItemModel & itemModel() const;
 	const QuestModel & questModel() const;
-	Coordinates initialPosition(Race race) const;
 
 private:
-	Board board_;
+	BoardModel boardModel_;
 	ItemModel itemModel_;
 	EnemyModel enemyModel_;
 	QuestModel questModel_;
 
 	//TMP
-	QMap<int, ItemBase*> items_;
-	QMap<int, Prize*> prizes_;
-	QMap<int, EnemyBase*> enemies_;
+	QMap<int, ItemBase *> items_;
+	QMap<int, Prize *> prizes_;
+	QMap<int, EnemyBase *> enemies_;
 };

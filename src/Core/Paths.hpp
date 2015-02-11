@@ -56,5 +56,6 @@ namespace Path {
 	static const QString IconBigHealthMixture   = IconsPrefix + "big_hp_mixture.png";
 }
 
-QString resolvePath(const QString &path);
-QString resolveEnemyImage(const QString &imageName);
+QString resolvePath(const QString & path);
+QString resolveEnemyImage(const QString & imageName);
+QString resolveTerrainPath(const QString & terrainName);

@@ -39,9 +39,9 @@ public:
 	static const quint16 LevelBorders[MaximumLevel];
 	static const qint8 MaximumReputation = 5;
 
-	static const QSet <Effect::Type> extendableAttributes;
+	static const QSet<Effect::Type> extendableAttributes;
 
-	Player(const PlayerDraft &draft, const Mod &mod);
+	Player(const PlayerDraft & draft, const Mod & mod);
 
 	const QPixmap & avatar() const;
 	QColor color() const;
@@ -51,7 +51,7 @@ public:
 	quint8 level() const;
 	quint16 gold() const;
 	quint8 growthPoints() const;
-	const QList <Effect> individualEffects() const;
+	const QList<Effect> individualEffects() const;
 	const QString & name() const;
 	Race playerRace() const;
 	Class playerClass() const;
@@ -61,7 +61,7 @@ public:
 	void consumeGrowthPoint(Effect::Type attribute);
 	Equipment & equipment();
 	Journal & journal();
-	void grantPrize(const Prize &prize);
+	void grantPrize(const Prize & prize);
 	void move(Coordinates field);
 	void regenerate();
 	void shiftGold(qint16 amount);
@@ -73,10 +73,10 @@ private:
 	static const quint16 InitialExperience = 0;
 	static const quint16 InitialGold = 3;
 	static const quint8  InitialReputation = 0;
-	static const QHash <Kingdom, qint8> InitialReputations;
+	static const QHash<Kingdom, qint8> InitialReputations;
 	static const quint8  InitialMovePoints = 8;
 	static const quint16 InitialAttackRange = 10;
-	static QList <Effect> InitialEffects(Class playerClass, Race playerRace);
+	static const QList<Effect> & InitialEffects(Class playerClass, Race playerRace);
 
 	void grantExperience(quint16 experience);
 
@@ -87,11 +87,11 @@ private:
 	const QColor color_;
 	quint8 level_;
 	quint8 growthPoints_;
-	QList <Effect> baseStats_;
+	QList<Effect> baseStats_;
 	quint16 experience_;
 	quint16 gold_;
 	Coordinates position_;
 	Equipment equipment_;
 	Journal journal_;
-	QHash <Kingdom, qint8> reputations_;
+	QHash<Kingdom, qint8> reputations_;
 };

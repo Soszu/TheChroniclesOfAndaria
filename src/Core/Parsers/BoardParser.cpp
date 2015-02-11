@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Parsers/BoardParser.hpp"
 #include "Core/DataManager.hpp"
 #include "Core/Containers/Coordinates.hpp"
-#include "Core/Containers/Board.hpp"
+#include "Core/Containers/Models/BoardModel.hpp"
 
 BoardParser::BoardParser(Mod *dataKeeper)
 {
@@ -35,7 +35,7 @@ BoardParser::BoardParser(Mod *dataKeeper)
 	}
 	QTextStream wejscie(&ustawienie);
 
-	dataKeeper->board_.setInitialPositions(initialPositions_);
+	dataKeeper->boardModel_.setInitialPositions(initialPositions_);
 
 	bylBlad = wczytajWymiary(&wejscie);
 	if(!bylBlad)
@@ -82,7 +82,7 @@ bool BoardParser::wczytajWymiary(QTextStream* wejscie)
 	szerokosc = podzial.at(0).toUInt(&ok1);
 	wysokosc = podzial.at(1).toUInt(&ok2);
 
-	dataKeeper->board_.setSize(QSize(szerokosc, wysokosc));
+	dataKeeper->boardModel_.setSize(QSize(szerokosc, wysokosc));
 
 	if(!ok1 || !ok2 || szerokosc < 1 || wysokosc < 1)
 	{
@@ -145,18 +145,21 @@ bool BoardParser::wczytajLegende(QTextStream* wejscie)
 			return true;
 		}
 
-		QList<Action> actions;
-		if (informacje.czyPoleZEnemyiem)
-			actions.append(Action::FightWithMonster);
-		if (informacje.czyPoleZMiastem) {
-			actions.append(Action::GoToMarket);
-			actions.append(Action::GoToTavern);
-		}
+		Terrain * terrain = new Terrain;
+		terrain->setName(informacje.name);
+		terrain->setPixmapName(informacje.plik);
+		terrain->setMoveCost(informacje.wspolczynnik);
 
-		key.insert(podzial.at(0), Terrain(informacje.name, informacje.plik, informacje.wspolczynnik, actions));
+		if (informacje.czyPoleZEnemyiem)
+			terrain->addAction(Action::FightWithMonster);
+		if (informacje.czyPoleZMiastem) {
+			terrain->addAction(Action::GoToMarket);
+			terrain->addAction(Action::GoToTavern);
+		}
+		informacje.uid = dataKeeper->boardModel_.addTerrain(terrain);
+
 		legenda.insert(podzial.at(0), informacje);
 
-		dataKeeper->board_.addTerrain(key[podzial.at(0)]);
 	}
 	return false;
 }
@@ -188,8 +191,9 @@ bool BoardParser::wczytajUstawienie(QTextStream* wejscie)
 				trescBledu = QString::fromUtf8("Wystąpił błąd przy wczytywaniu odwzorowania.\nNie znaleniono odpowiedniego symbolu.\nWadliwy wiersz: ")  + QString::number(i + 1) + QString(". Symbol: ") + symbol;
 				return true;
 			}
-// 			info dane = legenda[symbol];
-// 			Coordinates miejsce = {j,i};
+// 			info dane = legenda[symbol].uid;
+			Coordinates miejsce = {i, j};
+			dataKeeper->boardModel_.setTerrain(miejsce, legenda[symbol].uid);
 // 			Field *field = new Field(miejsce, kingdoms[dane.frakcja], key[symbol]);
 // 			dataKeeper->board_.addField(miejsce, field);
 		}

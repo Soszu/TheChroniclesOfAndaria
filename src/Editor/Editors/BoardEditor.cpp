@@ -17,72 +17,91 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "BoardEditor.hpp"
 
-#include "Core/Containers/Board.hpp"
+#include "Core/Containers/Models/BoardModel.hpp"
+#include "Core/Widgets/Map.hpp"
 #include "Editor/Strings.hpp"
 
-BoardEditor::BoardEditor(Board *board) :
+BoardEditor::BoardEditor(BoardModel * board) :
 	board_(board)
 {
-	initMap();
-	initTools();
 	initLayout();
 }
 
-void BoardEditor::initMap()
+QWidget * BoardEditor::createMap()
 {
 	map_ = new Map(board_);
-	map_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	connect(board_, &BoardModel::modelChanged, map_, &Map::repaint);
+
+	QGraphicsView * mapView = new QGraphicsView;
+	mapView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	mapView->setScene(map_);
+
+	return mapView;
 }
 
-void BoardEditor::initTools()
+QWidget * BoardEditor::createTools()
 {
 	initBoardSizeTools();
 	terrainsTools_ = new QWidget;
 	rulingTools_ = new QWidget;
 	initialPositionsTools_ = new QWidget;
 
-	tools_ = new QToolBox;
-	tools_->addItem(boardSizeTools_,        Editor::Labels::BoardTools::BoardSize);
-	tools_->addItem(terrainsTools_,         Editor::Labels::BoardTools::Terrains);
-	tools_->addItem(rulingTools_,           Editor::Labels::BoardTools::Ruling);
-	tools_->addItem(initialPositionsTools_, Editor::Labels::BoardTools::InitialPositions);
+	QToolBox * tools = new QToolBox;
+	tools->addItem(boardSizeTools_,        Editor::Labels::BoardTools::BoardSize);
+	tools->addItem(terrainsTools_,         Editor::Labels::BoardTools::Terrains);
+	tools->addItem(rulingTools_,           Editor::Labels::BoardTools::Ruling);
+	tools->addItem(initialPositionsTools_, Editor::Labels::BoardTools::InitialPositions);
+
+	return tools;
 }
 
 void BoardEditor::initBoardSizeTools()
 {
 	boardSizeTools_ = new QWidget;
-	QFormLayout *layout = new QFormLayout;
+	QFormLayout * layout = new QFormLayout;
 	boardSizeTools_->setLayout(layout);
 
-	QSpinBox *boardColumns = new QSpinBox;
-	boardColumns->setValue(board_->columnCount());
-	boardColumns->setMinimum(1);
-	connect(boardColumns, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+	boardColumns_ = new QSpinBox;
+	boardColumns_->setValue(board_->columnCount());
+	boardColumns_->setMinimum(1);
+	connect(boardColumns_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &BoardEditor::changeBoardWidth);
 
-	QSpinBox *boardRows = new QSpinBox;
-	boardRows->setValue(board_->rowCount());
-	boardRows->setMinimum(1);
-	connect(boardRows, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+	boardRows_ = new QSpinBox;
+	boardRows_->setValue(board_->rowCount());
+	boardRows_->setMinimum(1);
+	connect(boardRows_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &BoardEditor::changeBoardHeight);
 
-	layout->addRow(Editor::Labels::BoardTools::BoardColumns, boardColumns);
-	layout->addRow(Editor::Labels::BoardTools::BoardRows,    boardRows);
+	layout->addRow(Editor::Labels::BoardTools::BoardColumns, boardColumns_);
+	layout->addRow(Editor::Labels::BoardTools::BoardRows,    boardRows_);
+
+	connect(board_, &BoardModel::modelChanged, this, &BoardEditor::updateBoardSizeTools);
 }
 
 void BoardEditor::initLayout()
 {
-	setLayout(new QHBoxLayout);
-	layout()->addWidget(map_);
-	layout()->addWidget(tools_);
+	QHBoxLayout * mainLayout = new QHBoxLayout;
+	setLayout(mainLayout);
+
+	mainLayout->addWidget(createMap(), 1);
+	mainLayout->addWidget(createTools(), 0);
+}
+
+void BoardEditor::updateBoardSizeTools()
+{
+	boardRows_->setValue(board_->rowCount());
+	boardColumns_->setValue(board_->columnCount());
 }
 
 void BoardEditor::changeBoardWidth(int val)
 {
 	board_->setSize(QSize(val, board_->size().height()));
+	emit boardChanged();
 }
 
 void BoardEditor::changeBoardHeight(int val)
 {
 	board_->setSize(QSize(board_->size().width(), val));
+	emit boardChanged();
 }

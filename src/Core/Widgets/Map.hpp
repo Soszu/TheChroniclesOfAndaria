@@ -19,13 +19,17 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-class Board;
+class BoardModel;
 
-class Map : public QGraphicsView {
-
+class Map : public QGraphicsScene
+{
+	Q_OBJECT
 public:
-    Map(Board* board);
+    Map(BoardModel * board);
+
+public slots:
+	void repaint();
 
 private:
-	Board *board_;
+	BoardModel * board_;
 };

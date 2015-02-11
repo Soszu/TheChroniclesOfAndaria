@@ -21,28 +21,35 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Widgets/Map.hpp"
 
-class Board;
+class BoardModel;
 
-class BoardEditor : public QWidget {
-
+class BoardEditor : public QWidget
+{
+	Q_OBJECT;
 public:
-	BoardEditor(Board *board);
+	BoardEditor(BoardModel * board);
 
 private:
-	void initMap();
-	void initTools();
+	QWidget * createMap();
+	QWidget * createTools();
 	void initBoardSizeTools();
 	void initLayout();
 
-	Board *board_;
-	Map *map_;
-	QToolBox *tools_;
-	QWidget *boardSizeTools_;
-	QWidget *terrainsTools_;
-	QWidget *rulingTools_;
-	QWidget *initialPositionsTools_;
+	BoardModel * const board_;
+	Map * map_;
+	QWidget * boardSizeTools_;
+	QSpinBox * boardColumns_;
+	QSpinBox * boardRows_;
+
+	QWidget * terrainsTools_;
+	QWidget * rulingTools_;
+	QWidget * initialPositionsTools_;
 
 private slots:
+	void updateBoardSizeTools();
 	void changeBoardWidth(int val);
 	void changeBoardHeight(int val);
+
+signals:
+	void boardChanged();
 };

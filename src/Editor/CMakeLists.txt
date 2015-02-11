@@ -19,6 +19,7 @@ set (Editor_HDRS
 	CustomWidgets/EnumEdit.hpp
 	CustomWidgets/PrizeEdit.hpp
 
+	Editors/BoardEditor.hpp
 	Editors/EnemiesEditor.hpp
 	Editors/ItemsEditor.hpp
 	Editors/QuestEditor.hpp

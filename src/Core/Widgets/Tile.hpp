@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -15,21 +15,30 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Paths.hpp"
+#pragma once
 
-QString resolvePath(const QString & path)
-{
-	if (QDir::isAbsolutePath(path))
-		return path;
-	return QCoreApplication::applicationDirPath() + '/' + path;
-}
+#include <QtWidgets>
 
-QString resolveEnemyImage(const QString & imageName)
-{
-	return Path::EnemiesPrefix + imageName;
-}
+class Terrain;
 
-QString resolveTerrainPath(const QString & terrainName)
+class Tile : public QGraphicsItem
 {
-		return Path::TerrainsPrefix + terrainName;
-}
+public:
+	Tile(const Terrain * terrain);
+
+	qreal sideSize() const;
+	qreal height() const;
+	qreal width() const;
+	virtual QRectF boundingRect() const;
+
+	void setSideSize(qreal sideSize1);
+	virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
+
+private:
+	static const qreal DefaultSideSize;
+
+	QVector<QPointF> nodes();
+
+	qreal sideSize_;
+	const Terrain * terrain_;
+};

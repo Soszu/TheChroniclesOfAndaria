@@ -33,6 +33,7 @@ namespace Editor {
 			const QString Main   = QObject::tr("&Mod");
 			const QString New    = QObject::tr("&New");
 			const QString Open   = QObject::tr("&Open...");
+			const QString LoadTxt= QObject::tr("&Load from txt");
 			const QString Save   = QObject::tr("&Save");
 			const QString SaveAs = QObject::tr("Save &As...");
 			const QString Quit   = QObject::tr("&Quit");

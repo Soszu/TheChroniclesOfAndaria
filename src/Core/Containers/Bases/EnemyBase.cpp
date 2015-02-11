@@ -31,7 +31,7 @@ EnemyBase::EnemyBase(UID uid, QString name) :
 	//TODO add sth to baseStats [hp, armor, ...]
 }
 
-const QList <Effect> & EnemyBase::baseStats() const
+const QList<Effect> & EnemyBase::baseStats() const
 {
 	return baseStats_;
 }
@@ -116,12 +116,12 @@ void EnemyBase::setPrize(const Prize &prize)
 	prize_ = prize;
 }
 
-QDataStream & operator<<(QDataStream &out, const EnemyBase &base)
+QDataStream & operator<<(QDataStream & out, const EnemyBase & base)
 {
 	return base.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, EnemyBase &base)
+QDataStream & operator>>(QDataStream & in, EnemyBase & base)
 {
 	return base.fromDataStream(in);
 }
