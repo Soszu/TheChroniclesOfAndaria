@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -61,6 +62,8 @@ void PrizeEdit::initWidgets()
 	goldEdit_ = new QSpinBox;
 	connect(goldEdit_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &PrizeEdit::updateGold);
+	listEdit_ = new EffectsListEdit();
+	connect(listEdit_, &EffectsListEdit::effectsChanged, this, &PrizeEdit::updateEffects);
 }
 
 void PrizeEdit::initLayout()
@@ -71,6 +74,7 @@ void PrizeEdit::initLayout()
 
 	mainLayout->addRow(Editor::Labels::Prize::Experience, experienceEdit_);
 	mainLayout->addRow(Editor::Labels::Prize::Gold, goldEdit_);
+	mainLayout->addRow(Editor::Labels::Prize::Effects, listEdit_);
 }
 
 void PrizeEdit::simulateFocusLoss()
@@ -89,6 +93,13 @@ void PrizeEdit::updateExperience(int x)
 void PrizeEdit::updateGold(int x)
 {
 	prize_.setGold(x);
+	emit prizeChanged(prize_);
+	simulateFocusLoss();
+}
+
+void PrizeEdit::updateEffects(const QList<Effect> & effects)
+{
+	prize_.setEffects(effects);
 	emit prizeChanged(prize_);
 	simulateFocusLoss();
 }
