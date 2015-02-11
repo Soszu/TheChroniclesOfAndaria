@@ -1,5 +1,6 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -43,11 +44,13 @@ private:
 	void initViewPart();
 	void initLayout();
 	void initMapper();
+	void characterTyped(const QString & text);
 
 	QFormLayout *editLayout_;
 	QVBoxLayout *viewLayout_;
 
 	ItemModel *itemModel_;
+	QSortFilterProxyModel *proxyModel_;
 	QDataWidgetMapper *itemMapper_;
 
 	//--- Item name ---
@@ -61,6 +64,7 @@ private:
 	QListView *itemsList_;
 	QPushButton *addItemButton_;
 	QPushButton *removeItemButton_;
+	QLineEdit *searchLine_;
 
 private slots:
 	void addItem();

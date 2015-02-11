@@ -1,5 +1,6 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -33,6 +34,7 @@ public:
 	void loadFromStream(QDataStream& in);
 	void saveToStream(QDataStream& out) const;
 	bool isChanged() const;
+	void characterTyped(const QString & text);
 
 public slots:
 	void modelSaved();
@@ -47,6 +49,7 @@ private:
 	QVBoxLayout *viewLayout_;
 
 	EnemyModel *enemyModel_;
+	QSortFilterProxyModel *proxyModel_;
 	QDataWidgetMapper *enemyMapper_;
 
 	//--- Edits ---
@@ -61,6 +64,7 @@ private:
 	QListView *enemiesList_;
 	QPushButton *addEnemyButton_;
 	QPushButton *removeEnemyButton_;
+	QLineEdit *searchLine_;
 
 private slots:
 	void addEnemy();

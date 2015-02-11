@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -104,7 +105,7 @@ void EnemiesEditor::initLayout()
 
 void EnemiesEditor::initMapper()
 {
-	enemyMapper_->setModel(enemyModel_);
+	enemyMapper_->setModel(proxyModel_);
 	enemyMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
 	enemyMapper_->addMapping(nameEdit_,          EnemyModel::Name);
@@ -117,6 +118,11 @@ void EnemiesEditor::initMapper()
 	connect(enemiesList_->selectionModel(), &QItemSelectionModel::currentRowChanged, enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
 }
 
+void EnemiesEditor::characterTyped(const QString & text)
+{
+	proxyModel_->setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
+}
+
 void EnemiesEditor::initViewPart()
 {
 	addEnemyButton_ = new QPushButton(Editor::Labels::Add);
@@ -127,14 +133,21 @@ void EnemiesEditor::initViewPart()
 	removeEnemyButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeEnemyButton_, &QPushButton::clicked, this, &EnemiesEditor::removeEnemy);
 
+	searchLine_ = new QLineEdit(this);
+	connect(searchLine_, &QLineEdit::textChanged, this, &EnemiesEditor::characterTyped);
+
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
 	buttonsLayout->addWidget(new QLabel(Editor::Titles::Enemies));
 	buttonsLayout->addStretch();
+	buttonsLayout->addWidget(searchLine_);
 	buttonsLayout->addWidget(addEnemyButton_);
 	buttonsLayout->addWidget(removeEnemyButton_);
 
+	proxyModel_ = new QSortFilterProxyModel(this);
+	proxyModel_->setSourceModel(enemyModel_);
+
 	enemiesList_ = new QListView;
-	enemiesList_->setModel(enemyModel_);
+	enemiesList_->setModel(proxyModel_);
 	enemiesList_->setModelColumn(EnemyModel::Name);
 	enemiesList_->setSelectionMode(QAbstractItemView::SingleSelection);
 

@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -102,7 +103,7 @@ void ItemsEditor::initLayout()
 
 void ItemsEditor::initMapper()
 {
-	itemMapper_->setModel(itemModel_);
+	itemMapper_->setModel(proxyModel_);
 	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
 	itemMapper_->addMapping(nameEdit_,    ItemModel::Name);
@@ -112,6 +113,11 @@ void ItemsEditor::initMapper()
 	itemMapper_->addMapping(effectsEdit_, ItemModel::Effects);
 
 	connect(itemsList_->selectionModel(), &QItemSelectionModel::currentRowChanged, itemMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+}
+
+void ItemsEditor::characterTyped(const QString & text)
+{
+	proxyModel_->setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
 }
 
 void ItemsEditor::initViewPart()
@@ -124,13 +130,20 @@ void ItemsEditor::initViewPart()
 	removeItemButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeItemButton_, &QPushButton::clicked, this, &ItemsEditor::removeItem);
 
+	searchLine_ = new QLineEdit(this);
+	connect(searchLine_, &QLineEdit::textChanged, this, &ItemsEditor::characterTyped);
+
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
 	buttonsLayout->addWidget(addItemButton_);
 	buttonsLayout->addWidget(removeItemButton_);
+	buttonsLayout->addWidget(searchLine_);
 	buttonsLayout->addStretch();
 
+	proxyModel_ = new QSortFilterProxyModel(this);
+	proxyModel_->setSourceModel(itemModel_);
+
 	itemsList_ = new QListView;
-	itemsList_->setModel(itemModel_);
+	itemsList_->setModel(proxyModel_);
 	itemsList_->setModelColumn(ItemModel::Name);
 	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
 
