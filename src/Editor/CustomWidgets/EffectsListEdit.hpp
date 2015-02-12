@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -23,7 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 class EffectsListEdit : public QWidget {
 	Q_OBJECT
-	Q_PROPERTY(QList <Effect> effects_
+	Q_PROPERTY(QList <Effect> effects
 	           READ effects
 	           WRITE setEffects
 	           RESET reset
@@ -34,16 +35,17 @@ public:
 	EffectsListEdit(QWidget *parent = nullptr);
 
 	QList <Effect> effects() const;
-
-	void reset();
 	void setEffects(const QList <Effect> &effects);
+
+public slots:
+	void reset();
 
 private:
 	void initButtons();
 	void initEdits();
 	void initList();
 	void initLayout();
-	void simulateFocusLoss();
+	void setEditWidgetsEnabled(bool enabled);
 
 	QList <Effect> effects_;
 	QStringListModel *effectsModel_;
@@ -59,12 +61,12 @@ private:
 private slots:
 	void addEffect();
 	void removeEffect();
-	void updateEdits(const QModelIndex &index);
+	void selectionChanged();
 
 	void updateType(QString text);
 	void updateValue(int x);
 	void updateDuration(int x);
 
 signals:
-	void effectsChanged(QList <Effect> effects_);
+	void effectsChanged();
 };

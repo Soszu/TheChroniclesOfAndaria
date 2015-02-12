@@ -41,8 +41,8 @@ private slots:
 	void onNewActivated();
 	void onLoadActivated();
 	void onLoadTxtActivated();
-	void onSaveActivated();
-	void onSaveAsActivated();
+	bool onSaveActivated();
+	bool onSaveAsActivated();
 	void onQuitActivated();
 
 signals:

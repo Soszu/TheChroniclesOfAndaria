@@ -37,13 +37,13 @@ Remember to mark your contribution by inserting **one** of the lines below into 
 
 ### Code marks
 - **TODO** - Places to fill later with needed code.
-- **FIXME** - Places with quick fix to make sth else work, but will propably cause problems if thoroughly used.
+- **FIXME** - Places with quick fix to make sth else work, but will probably cause problems if thoroughly used.
 - **WARNING** - Places with assumptions not 100% clear.
 - **NOTE** - Additional developer notes.
-- **BUG** - Bug spoted, marked for grep later on.
+- **BUG** - Bug spotted, marked for grep later on.
 
 ### Lines length
-Preffered is 100 characters, but 120 is max.
+Preferred is 100 characters, but 120 is max.
 Although modern monitors have relatively big resolution,
 it's good for fast reading as well as opening two files side by side
 
@@ -86,11 +86,12 @@ const QString & name_;
 QWidget * window_;
 const QString & name() const;
 QWidget * window();
+ItemModel * const itemModel_;
 ```
 
 #### Templates
 ```
-QVector<QList<QPair <int, int>>> overlyComplexedVariable;
+QVector<QList<QPair <int, int>>> overlyComplexType;
 static_cast<int>(number);
 ```
 
@@ -102,13 +103,13 @@ TODO
 TODO
 
 ### More
-If something is not documented and you can't make your made about coding style try to find answer here,
+If something is not documented and you can't make your mind about coding style try to find answer
 in [Linux kernel coding style](https://www.kernel.org/doc/Documentation/CodingStyle).
 
 
 ### Good programming rules
 0. Keep const corectness.
-1. Keep logic and graphic apart.
+1. Keep logic and graphics apart.
 2. Don't hesitate to create new files, classes & functions.
 3. Use forward declarations if possible.
 4. [Single responsibility principle](http://en.wikipedia.org/wiki/Single_responsibility_principle)

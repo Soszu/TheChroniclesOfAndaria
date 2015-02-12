@@ -25,7 +25,7 @@ const QPixmap & DataManager::pixmap(const QString& pathName)
 	const QString path = resolvePath(pathName);
 	if (!pixmapsMap.contains(path)) {
 		QPixmap *image = new QPixmap();
-		if (not image->load(path)) {
+		if (!image->load(path)) {
 			qCritical() << "Error while loading file " << path;
 			exit(EXIT_FAILURE);
 		}

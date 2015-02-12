@@ -1,5 +1,6 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -28,7 +29,6 @@ class ItemsEditor : public QWidget {
 
 public:
 	ItemsEditor(ItemModel *itemModel, QWidget *parent = nullptr);
-	void clear();
 	void loadFromStream(QDataStream& in);
 	void saveToStream(QDataStream& out) const;
 	bool isChanged() const;
@@ -39,16 +39,14 @@ public slots:
 private:
 	static const int SpinBoxWidth = 50;
 
-	void initEditPart();
-	void initViewPart();
+	QLayout * createEditPart();
+	QLayout * createViewPart();
 	void initLayout();
 	void initMapper();
+	void setEditWidgetsEnabled(bool enabled);
 
-	QFormLayout *editLayout_;
-	QVBoxLayout *viewLayout_;
-
-	ItemModel *itemModel_;
-	QDataWidgetMapper *itemMapper_;
+	ItemModel * const itemModel_;
+	QDataWidgetMapper * const itemMapper_;
 
 	//--- Item name ---
 	QLineEdit *nameEdit_;
@@ -65,4 +63,5 @@ private:
 private slots:
 	void addItem();
 	void removeItem();
+	void selectionChanged();
 };

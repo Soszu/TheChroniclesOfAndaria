@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -29,15 +30,9 @@ ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent) :
 	itemModel_(itemModel),
 	itemMapper_(new QDataWidgetMapper(this))
 {
-	initEditPart();
-	initViewPart();
 	initLayout();
 	initMapper();
-}
-
-void ItemsEditor::clear()
-{
-	itemModel_->reset();
+	setEditWidgetsEnabled(false);
 }
 
 void ItemsEditor::loadFromStream(QDataStream& in)
@@ -52,7 +47,7 @@ void ItemsEditor::saveToStream(QDataStream& out) const
 
 bool ItemsEditor::isChanged() const
 {
-	return (itemModel_->isChanged());
+	return itemModel_->isChanged();
 }
 
 void ItemsEditor::modelSaved()
@@ -60,7 +55,7 @@ void ItemsEditor::modelSaved()
 	itemModel_->setChanged(false);
 }
 
-void ItemsEditor::initEditPart()
+QLayout * ItemsEditor::createEditPart()
 {
 	nameEdit_ = new QLineEdit;
 
@@ -76,45 +71,24 @@ void ItemsEditor::initEditPart()
 	priceEdit_->setFixedWidth(SpinBoxWidth);
 
 	effectsEdit_ = new EffectsListEdit;
+	connect(itemModel_, &QAbstractItemModel::modelReset, effectsEdit_, &EffectsListEdit::reset);
 
-	editLayout_ = new QFormLayout;
-	editLayout_->addRow(Labels::Item::Name,      nameEdit_);
-	editLayout_->addRow(Labels::Item::Type,      typeEdit_);
-	editLayout_->addRow(Labels::Item::Quality,   qualityEdit_);
-	editLayout_->addRow(Labels::Item::Price,     priceEdit_);
-	editLayout_->addRow(Labels::Item::Effects,   effectsEdit_);
+	QFormLayout *editLayout = new QFormLayout;
+	editLayout->addRow(Labels::Item::Name,      nameEdit_);
+	editLayout->addRow(Labels::Item::Type,      typeEdit_);
+	editLayout->addRow(Labels::Item::Quality,   qualityEdit_);
+	editLayout->addRow(Labels::Item::Price,     priceEdit_);
+	editLayout->addRow(Labels::Item::Effects,   effectsEdit_);
 
-	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
-// 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
-// 	editLayout_>setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
-	editLayout_->setLabelAlignment(Qt::AlignLeft);
+	editLayout->setRowWrapPolicy(QFormLayout::DontWrapRows);
+// 	editLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
+// 	editLayout->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
+	editLayout->setLabelAlignment(Qt::AlignLeft);
+
+	return editLayout;
 }
 
-void ItemsEditor::initLayout()
-{
-	QHBoxLayout *mainLayout = new QHBoxLayout;
-
-	mainLayout->addLayout(viewLayout_);
-	mainLayout->addLayout(editLayout_);
-
-	setLayout(mainLayout);
-}
-
-void ItemsEditor::initMapper()
-{
-	itemMapper_->setModel(itemModel_);
-	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-
-	itemMapper_->addMapping(nameEdit_,    ItemModel::Name);
-	itemMapper_->addMapping(typeEdit_,    ItemModel::Type);
-	itemMapper_->addMapping(qualityEdit_, ItemModel::Quality);
-	itemMapper_->addMapping(priceEdit_,   ItemModel::Price);
-	itemMapper_->addMapping(effectsEdit_, ItemModel::Effects);
-
-	connect(itemsList_->selectionModel(), &QItemSelectionModel::currentRowChanged, itemMapper_, &QDataWidgetMapper::setCurrentModelIndex);
-}
-
-void ItemsEditor::initViewPart()
+QLayout * ItemsEditor::createViewPart()
 {
 	addItemButton_ = new QPushButton(Editor::Labels::Add);
 	addItemButton_->setShortcut(Editor::Shortcuts::Add);
@@ -134,9 +108,42 @@ void ItemsEditor::initViewPart()
 	itemsList_->setModelColumn(ItemModel::Name);
 	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	viewLayout_ = new QVBoxLayout;
-	viewLayout_->addLayout(buttonsLayout);
-	viewLayout_->addWidget(itemsList_);
+	QVBoxLayout *viewLayout = new QVBoxLayout;
+	viewLayout->addLayout(buttonsLayout);
+	viewLayout->addWidget(itemsList_);
+
+	return viewLayout;
+}
+
+void ItemsEditor::initLayout()
+{
+	QHBoxLayout *mainLayout = new QHBoxLayout;
+
+	mainLayout->addLayout(createViewPart());
+	mainLayout->addLayout(createEditPart());
+
+	setLayout(mainLayout);
+}
+
+void ItemsEditor::initMapper()
+{
+	itemMapper_->setModel(itemModel_);
+	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+
+	itemMapper_->addMapping(nameEdit_,    ItemModel::Name);
+	itemMapper_->addMapping(typeEdit_,    ItemModel::Type);
+	itemMapper_->addMapping(qualityEdit_, ItemModel::Quality);
+	itemMapper_->addMapping(priceEdit_,   ItemModel::Price);
+	itemMapper_->addMapping(effectsEdit_, ItemModel::Effects);
+
+	connect(effectsEdit_, &EffectsListEdit::effectsChanged, itemMapper_, &QDataWidgetMapper::submit);
+	connect(itemsList_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ItemsEditor::selectionChanged);
+}
+
+void ItemsEditor::setEditWidgetsEnabled(bool enabled)
+{
+	for (QWidget *widget : std::initializer_list<QWidget *>{nameEdit_, typeEdit_, qualityEdit_, priceEdit_, effectsEdit_})
+		widget->setEnabled(enabled);
 }
 
 void ItemsEditor::addItem()
@@ -151,4 +158,12 @@ void ItemsEditor::removeItem()
 		return;
 
 	itemModel_->removeRows(selected.row(), 1);
+}
+
+void ItemsEditor::selectionChanged()
+{
+	const QItemSelectionModel *selection = itemsList_->selectionModel();
+	setEditWidgetsEnabled(selection->hasSelection());
+	if (selection->hasSelection())
+		itemMapper_->setCurrentModelIndex(selection->currentIndex());
 }

@@ -84,7 +84,7 @@ void MainWindow::initEditors()
 
 int MainWindow::checkForUnsavedChanges()
 {
-	if (not mod_->unsavedChanges())
+	if (!mod_->unsavedChanges())
 		return QMessageBox::Discard;
 
 	QMessageBox msgBox;
@@ -100,12 +100,13 @@ void MainWindow::onNewActivated()
 {
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
-			onSaveActivated();
-			return;
+			if (!onSaveActivated())
+				return;
+			/* NOTE: fall-through */
 		case QMessageBox::Discard:
 			mod_->reset();
 			break;
-		default :
+		default:
 			return;
 	}
 }
@@ -114,17 +115,18 @@ void MainWindow::onLoadActivated()
 {
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
-			onSaveActivated();
-			return;
+			if (!onSaveActivated())
+				return;
+			/* NOTE: fall-through */
 		case QMessageBox::Discard:
 			break;
-		default :
+		default:
 			return;
 	}
 
 	QString path = QFileDialog::getOpenFileName(this, Editor::Titles::OpenFileDialog,
-	                                            Path::ModsDir, Strings::ModFiles);
-	 mod_->load(path);
+	                                            resolvePath(Path::ModsDir), Strings::ModFiles);
+	mod_->load(path);
 
 	currentFilePath_ = path;
 }
@@ -133,38 +135,59 @@ void MainWindow::onLoadTxtActivated()
 {
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
-			onSaveActivated();
-			return;
-		case QMessageBox::Discard:
-			break;
-		default :
-			return;
+			if (!onSaveActivated())
+				return;
+			/* NOTE: fall-through */
+			case QMessageBox::Discard:
+				break;
+			default:
+				return;
 	}
 
 	mod_->loadFromTxt();
 }
 
-void MainWindow::onSaveActivated()
+bool MainWindow::onSaveActivated()
 {
 	if (currentFilePath_.isEmpty())
-		onSaveAsActivated();
+		return onSaveAsActivated();
 
-	if (mod_->save(currentFilePath_))
+	if (mod_->save(currentFilePath_)) {
 		emit modelSaved();
+		return true;
+	}
+
+	return false;
 }
 
-void MainWindow::onSaveAsActivated()
+bool MainWindow::onSaveAsActivated()
 {
 	QString path = QFileDialog::getSaveFileName(this, Editor::Titles::SaveFileDialog,
-	                                            Path::ModsDir, Strings::ModFiles);
+	                                            resolvePath(Path::ModsDir), Strings::ModFiles);
 
-	if (mod_->save(path)){
+	if (!path.endsWith(Strings::ModFilesExtension))
+		path.append(Strings::ModFilesExtension);
+
+	if (mod_->save(path)) {
 		emit modelSaved();
 		currentFilePath_ = path;
+		return true;
 	}
+
+	return false;
 }
 
 void MainWindow::onQuitActivated()
 {
-	close();
+	switch (checkForUnsavedChanges()) {
+		case QMessageBox::Save:
+			if (!onSaveActivated())
+				return;
+			/* NOTE: fall-through */
+		case QMessageBox::Discard:
+			close();
+			break;
+		default:
+			break;
+	}
 }

@@ -138,6 +138,6 @@ namespace Labels {
 }
 
 namespace Strings {
-	const QString ModFilesExtension = QObject::tr("tcoa");
-	const QString ModFiles          = QObject::tr("TCOA mod files (*.%1)").arg(ModFilesExtension);
+	const QString ModFilesExtension = QObject::tr(".tcoa");
+	const QString ModFiles          = QObject::tr("TCOA mod files (*%1)").arg(ModFilesExtension);
 }

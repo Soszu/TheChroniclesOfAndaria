@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -22,22 +23,16 @@ This file is part of The Chronicles Of Andaria Project.
 EffectsListEdit::EffectsListEdit(QWidget *parent) :
 	QWidget(parent)
 {
-	setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	initButtons();
 	initEdits();
 	initList();
 	initLayout();
+	setEditWidgetsEnabled(false);
 }
 
 QList <Effect> EffectsListEdit::effects() const
 {
 	return effects_;
-}
-
-void EffectsListEdit::reset()
-{
-	effectsModel_->removeRows(0, effects_.count());
-	emit effectsChanged(effects_);
 }
 
 void EffectsListEdit::setEffects(const QList <Effect> &effects)
@@ -50,8 +45,15 @@ void EffectsListEdit::setEffects(const QList <Effect> &effects)
 		effectsNames.append(Effect::description(effect));
 	effectsModel_->setStringList(effectsNames);
 	effects_ = effects;
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	setEditWidgetsEnabled(!effects_.isEmpty());
+	emit effectsChanged();
+}
+
+void EffectsListEdit::reset()
+{
+	setEditWidgetsEnabled(false);
+	effectsModel_->removeRows(0, effects_.count());
+	emit effectsChanged();
 }
 
 void EffectsListEdit::addEffect()
@@ -59,8 +61,7 @@ void EffectsListEdit::addEffect()
 	effectsModel_->insertRow(effects_.count());
 	effects_.push_back(Effect());
 	effectsModel_->setData(effectsModel_->index(effects_.count() - 1), Effect::description(effects_.back()));
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	emit effectsChanged();
 }
 
 void EffectsListEdit::removeEffect()
@@ -71,19 +72,19 @@ void EffectsListEdit::removeEffect()
 
 	effectsModel_->removeRow(selected.row());
 	effects_.removeAt(selected.row());
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	emit effectsChanged();
 }
 
-void EffectsListEdit::updateEdits(const QModelIndex& index)
+void EffectsListEdit::selectionChanged()
 {
-	if (!index.isValid())
-		return;
-
-	Effect &effect = effects_[index.row()];
-	typeEdit_->setCurrentIndex(typeEdit_->findText(Effect::TypeLabels[effect.type()]));
-	valueEdit_->setValue(effect.value());
-	durationEdit_->setValue(effect.duration());
+	const QItemSelectionModel *selection = listView_->selectionModel();
+	setEditWidgetsEnabled(selection->hasSelection());
+	if (selection->hasSelection()) {
+		Effect &effect = effects_[selection->currentIndex().row()];
+		typeEdit_->setCurrentIndex(typeEdit_->findText(Effect::TypeLabels[effect.type()]));
+		valueEdit_->setValue(effect.value());
+		durationEdit_->setValue(effect.duration());
+	}
 }
 
 void EffectsListEdit::updateType(QString text)
@@ -94,8 +95,7 @@ void EffectsListEdit::updateType(QString text)
 
 	effects_[selected.row()].setType(Effect::TypeLabels[text]);
 	effectsModel_->setData(selected, Effect::description(effects_[selected.row()]));
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	emit effectsChanged();
 }
 
 void EffectsListEdit::updateValue(int x)
@@ -106,8 +106,7 @@ void EffectsListEdit::updateValue(int x)
 
 	effects_[selected.row()].setValue(x);
 	effectsModel_->setData(selected, Effect::description(effects_[selected.row()]));
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	emit effectsChanged();
 }
 
 void EffectsListEdit::updateDuration(int x)
@@ -118,8 +117,7 @@ void EffectsListEdit::updateDuration(int x)
 
 	effects_[selected.row()].setDuration(x);
 	effectsModel_->setData(selected, Effect::description(effects_[selected.row()]));
-	emit effectsChanged(effects_);
-	simulateFocusLoss();
+	emit effectsChanged();
 }
 
 void EffectsListEdit::initButtons()
@@ -157,7 +155,7 @@ void EffectsListEdit::initList()
 	listView_ = new QListView;
 	listView_->setModel(effectsModel_);
 
-	connect(listView_, &QListView::clicked, this, &EffectsListEdit::updateEdits);
+	connect(listView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EffectsListEdit::selectionChanged);
 }
 
 void EffectsListEdit::initLayout()
@@ -186,8 +184,8 @@ void EffectsListEdit::initLayout()
 	buttonsLayout->addStretch();
 }
 
-void EffectsListEdit::simulateFocusLoss()
+void EffectsListEdit::setEditWidgetsEnabled(bool enabled)
 {
-	setFocus(Qt::OtherFocusReason);
-	clearFocus();
+	for (QWidget *widget : std::initializer_list<QWidget *>{typeEdit_, valueEdit_, durationEdit_})
+		widget->setEnabled(enabled);
 }

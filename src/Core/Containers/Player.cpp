@@ -121,7 +121,7 @@ const qint8 Player::reputation(Kingdom kingdom) const
 
 void Player::consumeGrowthPoint(Effect::Type attribute)
 {
-	if (growthPoints_ == 0 || not extendableAttributes.contains(attribute))
+	if (growthPoints_ == 0 || !extendableAttributes.contains(attribute))
 		return;
 	baseStats_.append(Effect(attribute, AttributeGrowth));
 	--growthPoints_;
