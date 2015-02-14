@@ -18,10 +18,12 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "Core/Containers/Prize.hpp"
+#include "Core/Enums.hpp"
+
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
+
+#include <QtWidgets>
 
 class PrizeEdit : public QWidget {
 	Q_OBJECT
@@ -49,8 +51,11 @@ private:
 
 	QSpinBox *experienceEdit_;
 	QSpinBox *goldEdit_;
-
 	EffectsListEdit *listEdit_;
+
+	QVector<QSpinBox*> repSpins_;
+	QFormLayout *repLayout_;
+
 //
 // 	QList <Effect> effects_;
 // 	QStringListModel *effectsModel_;
@@ -70,6 +75,7 @@ private slots:
 	void updateExperience(int x);
 	void updateGold(int x);
 	void updateEffects(const QList<Effect> & effects);
+	void updateKingdom(int value);
 
 signals:
 	void prizeChanged(Prize prize);

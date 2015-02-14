@@ -64,10 +64,13 @@ namespace Editor {
 		}
 
 		namespace Prize {
-			const QString Experience = QObject::tr("Experience");
-			const QString Gold       = QObject::tr("Gold");
-			const QString Effects    = QObject::tr("Effects");
+			const QString Experience         = QObject::tr("Experience");
+			const QString Gold               = QObject::tr("Gold");
+			const QString Effects            = QObject::tr("Effects");
+			const QString KingdomReputations = QObject::tr("Kingdom Reputations");
+			const QString AddKingdom         = QObject::tr("Add Kingdom");
 		}
+
 		namespace BoardTools {
 			const QString BoardSize        = QObject::tr("Board size");
 			const QString BoardColumns     = QObject::tr("Board columns");

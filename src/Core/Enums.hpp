@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
++Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -29,6 +30,12 @@ enum class Kingdom : quint8 {
 };
 Q_DECLARE_METATYPE(Kingdom)
 uint qHash(Kingdom kingdom);
+const QVector<Kingdom> KingdomsForReputation {
+	Kingdom::Humans,
+	Kingdom::Dwarfs,
+	Kingdom::Elves,
+	Kingdom::Halflings
+};
 QDataStream & operator<<(QDataStream &out, Kingdom kingdom);
 QDataStream & operator>>(QDataStream &in, Kingdom kingdom);
 const BiHash <Kingdom, QString> KingdomLabels {
