@@ -1,5 +1,6 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -64,9 +65,13 @@ namespace Editor {
 		}
 
 		namespace Prize {
-			const QString Experience = QObject::tr("Experience");
-			const QString Gold       = QObject::tr("Gold");
+			const QString Experience         = QObject::tr("Experience");
+			const QString Gold               = QObject::tr("Gold");
+			const QString Effects            = QObject::tr("Effects");
+			const QString KingdomReputations = QObject::tr("Kingdom Reputations");
+			const QString AddKingdom         = QObject::tr("Add Kingdom");
 		}
+
 		namespace BoardTools {
 			const QString BoardSize        = QObject::tr("Board size");
 			const QString BoardColumns     = QObject::tr("Board columns");

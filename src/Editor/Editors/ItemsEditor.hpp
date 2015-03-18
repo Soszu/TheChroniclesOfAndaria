@@ -1,6 +1,7 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -28,9 +29,9 @@ class ItemsEditor : public QWidget {
 	Q_OBJECT
 
 public:
-	ItemsEditor(ItemModel *itemModel, QWidget *parent = nullptr);
-	void loadFromStream(QDataStream& in);
-	void saveToStream(QDataStream& out) const;
+	ItemsEditor(ItemModel * itemModel, QWidget * parent = nullptr);
+	void loadFromStream(QDataStream & in);
+	void saveToStream(QDataStream & out) const;
 	bool isChanged() const;
 
 public slots:
@@ -44,21 +45,27 @@ private:
 	void initLayout();
 	void initMapper();
 	void setEditWidgetsEnabled(bool enabled);
+	void characterTyped(const QString & text);
 
 	ItemModel * const itemModel_;
 	QDataWidgetMapper * const itemMapper_;
+	QSortFilterProxyModel * proxyModel_;
+
+	QFormLayout * editLayout_;
+	QVBoxLayout * viewLayout_;
 
 	//--- Item name ---
-	QLineEdit *nameEdit_;
-	EnumEdit *typeEdit_;
-	EnumEdit *qualityEdit_;
-	QSpinBox *priceEdit_;
-	EffectsListEdit *effectsEdit_;
+	QLineEdit * nameEdit_;
+	EnumEdit * typeEdit_;
+	EnumEdit * qualityEdit_;
+	QSpinBox * priceEdit_;
+	EffectsListEdit * effectsEdit_;
 
 	//--- Item list---
-	QListView *itemsList_;
-	QPushButton *addItemButton_;
-	QPushButton *removeItemButton_;
+	QListView * itemsList_;
+	QPushButton * addItemButton_;
+	QPushButton * removeItemButton_;
+	QLineEdit * searchLine_;
 
 private slots:
 	void addItem();

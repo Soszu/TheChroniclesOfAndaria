@@ -1,6 +1,7 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -108,6 +109,9 @@ QLayout * ItemsEditor::createViewPart()
 	itemsList_->setModelColumn(ItemModel::Name);
 	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
 
+	proxyModel_ = new QSortFilterProxyModel(this);
+	proxyModel_->setSourceModel(itemModel_);
+
 	QVBoxLayout *viewLayout = new QVBoxLayout;
 	viewLayout->addLayout(buttonsLayout);
 	viewLayout->addWidget(itemsList_);
@@ -127,7 +131,7 @@ void ItemsEditor::initLayout()
 
 void ItemsEditor::initMapper()
 {
-	itemMapper_->setModel(itemModel_);
+	itemMapper_->setModel(proxyModel_);
 	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
 	itemMapper_->addMapping(nameEdit_,    ItemModel::Name);
@@ -144,6 +148,11 @@ void ItemsEditor::setEditWidgetsEnabled(bool enabled)
 {
 	for (QWidget *widget : std::initializer_list<QWidget *>{nameEdit_, typeEdit_, qualityEdit_, priceEdit_, effectsEdit_})
 		widget->setEnabled(enabled);
+}
+
+void ItemsEditor::characterTyped(const QString & text)
+{
+	proxyModel_->setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
 }
 
 void ItemsEditor::addItem()

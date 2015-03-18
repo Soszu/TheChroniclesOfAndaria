@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -45,6 +46,10 @@ void PrizeEdit::setPrize(const Prize &prize)
 	prize_ = prize;
 	experienceEdit_->setValue(prize.experience());
 	goldEdit_->setValue(prize.gold());
+	//TODO maria_ update list of effects
+	for (int i = 0; i < repSpins_.size(); i++) {
+		repSpins_[i]->setValue(prize.reputations()[KingdomsForReputation[i]]);
+	}
 
 	emit prizeChanged(prize_);
 	simulateFocusLoss();
@@ -61,6 +66,15 @@ void PrizeEdit::initWidgets()
 	goldEdit_ = new QSpinBox;
 	connect(goldEdit_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &PrizeEdit::updateGold);
+	listEdit_ = new EffectsListEdit;
+	connect(listEdit_, &EffectsListEdit::effectsChanged, this, &PrizeEdit::updateEffects);
+	repLayout_ = new QFormLayout;
+	for (int i = 0; i < KingdomsForReputation.size(); i++) {
+		repSpins_.push_back(new QSpinBox);
+		repLayout_->addRow(KingdomLabels[KingdomsForReputation[i]], repSpins_.back());
+		connect(repSpins_.back(), static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+			this, &PrizeEdit::updateKingdom);
+	}
 }
 
 void PrizeEdit::initLayout()
@@ -71,6 +85,7 @@ void PrizeEdit::initLayout()
 
 	mainLayout->addRow(Editor::Labels::Prize::Experience, experienceEdit_);
 	mainLayout->addRow(Editor::Labels::Prize::Gold, goldEdit_);
+	mainLayout->addRow(Editor::Labels::Prize::KingdomReputations, repLayout_);
 }
 
 void PrizeEdit::simulateFocusLoss()
@@ -89,6 +104,25 @@ void PrizeEdit::updateExperience(int x)
 void PrizeEdit::updateGold(int x)
 {
 	prize_.setGold(x);
+	emit prizeChanged(prize_);
+	simulateFocusLoss();
+}
+
+void PrizeEdit::updateEffects()
+{
+	prize_.setEffects(listEdit_->effects());
+	emit prizeChanged(prize_);
+	simulateFocusLoss();
+}
+
+void PrizeEdit::updateKingdom(int value)
+{
+	for (int i = 0; i < repSpins_.size(); i++) {
+		if (sender() == repSpins_[i]) {
+			prize_.addReputation(KingdomsForReputation[i], value);
+			break;
+		}
+	}
 	emit prizeChanged(prize_);
 	simulateFocusLoss();
 }

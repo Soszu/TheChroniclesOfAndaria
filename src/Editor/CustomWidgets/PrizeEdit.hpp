@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -17,9 +18,12 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "Core/Containers/Prize.hpp"
+#include "Core/Enums.hpp"
+
+#include "Editor/CustomWidgets/EffectsListEdit.hpp"
+
+#include <QtWidgets>
 
 class PrizeEdit : public QWidget {
 	Q_OBJECT
@@ -47,6 +51,11 @@ private:
 
 	QSpinBox *experienceEdit_;
 	QSpinBox *goldEdit_;
+	EffectsListEdit *listEdit_;
+
+	QVector<QSpinBox*> repSpins_;
+	QFormLayout *repLayout_;
+
 //
 // 	QList <Effect> effects_;
 // 	QStringListModel *effectsModel_;
@@ -65,6 +74,8 @@ private slots:
 // 	void updateType(QString text);
 	void updateExperience(int x);
 	void updateGold(int x);
+	void updateEffects();
+	void updateKingdom(int value);
 
 signals:
 	void prizeChanged(Prize prize);
