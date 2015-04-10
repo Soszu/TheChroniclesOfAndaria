@@ -57,7 +57,7 @@ public:
 
 	//TMP
 	UID addTerrain(Terrain * terrain);
-
+	void setModified();
 
 private:
 	static const UID NullTerrainUid;

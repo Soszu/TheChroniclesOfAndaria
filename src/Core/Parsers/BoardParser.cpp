@@ -50,6 +50,7 @@ BoardParser::BoardParser(Mod *dataKeeper)
 	}
 	ustawienie.close();
 
+	dataKeeper->boardModel_.setModified();
 }
 
 /**

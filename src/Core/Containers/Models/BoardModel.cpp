@@ -211,6 +211,11 @@ UID BoardModel::addTerrain(Terrain * terrain)
 	return uid;
 }
 
+void BoardModel::setModified()
+{
+	emit modelChanged();
+}
+
 QDataStream & BoardModel::fromDataStream(QDataStream & in)
 {
 	in >> size_ >> fields_ >> rulers_ >> initialPositions_;
