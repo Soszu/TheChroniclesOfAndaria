@@ -59,6 +59,7 @@ private:
 	EnumEdit * typeEdit_;
 	EnumEdit * qualityEdit_;
 	QSpinBox * priceEdit_;
+	QCheckBox * canBeDrawnEdit_;
 	EffectsListEdit * effectsEdit_;
 
 	//--- Item list---
@@ -70,5 +71,5 @@ private:
 private slots:
 	void addItem();
 	void removeItem();
-	void selectionChanged();
+	void rowChanged();
 };

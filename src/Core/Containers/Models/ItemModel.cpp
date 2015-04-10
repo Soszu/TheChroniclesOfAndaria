@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Bases/ItemBase.hpp"
 
-ItemModel::ItemModel(QObject *parent) :
+ItemModel::ItemModel(QObject * parent) :
 	QAbstractTableModel(parent),
 	changed_(false)
 {
@@ -38,14 +38,14 @@ ItemModel::~ItemModel()
 	qDeleteAll(items_);
 }
 
-int ItemModel::columnCount(const QModelIndex& index) const
+int ItemModel::columnCount(const QModelIndex & index) const
 {
 	if (index.isValid())
 		return 0;
 	return ColumnCount;
 }
 
-QVariant ItemModel::data(const QModelIndex &index, int role) const
+QVariant ItemModel::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -57,6 +57,7 @@ QVariant ItemModel::data(const QModelIndex &index, int role) const
 			case Type:                return QVariant::fromValue(item->type());
 			case Price:               return item->price();
 			case Quality:             return QVariant::fromValue(item->quality());
+			case CanBeDrawn:          return item->canBeDrawn();
 			case Effects:             return QVariant::fromValue(item->effects());
 		}
 	}
@@ -69,14 +70,14 @@ bool ItemModel::empty() const
 	return items_.empty();
 }
 
-Qt::ItemFlags ItemModel::flags(const QModelIndex &index) const
+Qt::ItemFlags ItemModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
 	return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-bool ItemModel::hasItem(const QString &name) const
+bool ItemModel::hasItem(const QString & name) const
 {
 	return item(name) != nullptr;
 }
@@ -91,12 +92,12 @@ const ItemBase * ItemModel::item(UID uid) const
 	return uidToItem_.value(uid, nullptr);
 }
 
-const ItemBase * ItemModel::item(const QModelIndex &index) const
+const ItemBase * ItemModel::item(const QModelIndex & index) const
 {
 	return items_.value(index.row(), nullptr);
 }
 
-const ItemBase * ItemModel::item(const QString &name) const
+const ItemBase * ItemModel::item(const QString & name) const
 {
 	for (const ItemBase * item : items_)
 		if (item->name() == name)
@@ -115,12 +116,12 @@ bool ItemModel::isChanged() const
 	return changed_;
 }
 
-int ItemModel::rowCount(const QModelIndex &parent) const
+int ItemModel::rowCount(const QModelIndex & parent) const
 {
 	return items_.count();
 }
 
-QDataStream &ItemModel::toDataStream(QDataStream &out) const
+QDataStream & ItemModel::toDataStream(QDataStream & out) const
 {
 	out << serial_ << static_cast<UID>(items_.count());
 	for (const ItemBase *item : items_)
@@ -132,7 +133,7 @@ void ItemModel::addNewItem(){
 	insertRows(items_.count(), 1);
 }
 
-QDataStream &ItemModel::fromDataStream(QDataStream &in)
+QDataStream &ItemModel::fromDataStream(QDataStream & in)
 {
 	beginResetModel();
 	qDeleteAll(items_);
@@ -142,7 +143,7 @@ QDataStream &ItemModel::fromDataStream(QDataStream &in)
 	UID count;
 	in >> serial_ >> count;
 	for (UID i = 0; i < count; ++i) {
-		ItemBase *item = new ItemBase;
+		ItemBase * item = new ItemBase;
 		in >> *item;
 		addItem(i, item);
 	}
@@ -151,7 +152,7 @@ QDataStream &ItemModel::fromDataStream(QDataStream &in)
 	return in;
 }
 
-bool ItemModel::insertRows(int row, int count, const QModelIndex &parent)
+bool ItemModel::insertRows(int row, int count, const QModelIndex & parent)
 {
 	int nameSuffix = 0;
 	beginInsertRows(QModelIndex(), row, row + count - 1);
@@ -182,7 +183,7 @@ void ItemModel::removeItem(UID uid)
 	}
 }
 
-bool ItemModel::removeRows(int row, int count, const QModelIndex &parent)
+bool ItemModel::removeRows(int row, int count, const QModelIndex & parent)
 {
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
 	for (int i = 0; i < count; ++i)
@@ -205,18 +206,19 @@ void ItemModel::setChanged(bool changed)
 	changed_ = changed;
 }
 
-bool ItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ItemModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
 	if (!index.isValid() || role != Qt::EditRole)
 		return false;
 
-	ItemBase *item = items_[index.row()];
+	ItemBase * item = items_[index.row()];
 	switch (index.column()) {
-		case Name:    item->setName(value.toString()); break;
-		case Type:    item->setType(value.value<ItemBase::Type>()); break;
-		case Quality: item->setQuality(value.value<ItemBase::Quality>()); break;
-		case Price:   item->setPrice(value.toInt()); break;
-		case Effects: item->setEffects(value.value<QList <Effect> >()); break;
+		case Name:       item->setName(value.toString()); break;
+		case Type:       item->setType(value.value<ItemBase::Type>()); break;
+		case Quality:    item->setQuality(value.value<ItemBase::Quality>()); break;
+		case Price:      item->setPrice(value.toInt()); break;
+		case CanBeDrawn: item->setPrice(value.toBool()); break;
+		case Effects:    item->setEffects(value.value<QList <Effect> >()); break;
 	}
 
 	emit dataChanged(index, index);
@@ -233,7 +235,7 @@ void ItemModel::addItemBase(ItemBase* item)
 	endResetModel();
 }
 
-void ItemModel::addItem(int row, ItemBase* item)
+void ItemModel::addItem(int row, ItemBase * item)
 {
 	items_.insert(row, item);
 	uidToItem_[item->uid()] = item;
@@ -245,12 +247,12 @@ void ItemModel::removeItemFromRow(int row)
 	delete items_.takeAt(row);
 }
 
-QDataStream & operator<<(QDataStream &out, const ItemModel &model)
+QDataStream & operator<<(QDataStream & out, const ItemModel & model)
 {
 	return model.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, ItemModel &model)
+QDataStream & operator>>(QDataStream & in, ItemModel & model)
 {
 	return model.fromDataStream(in);
 }

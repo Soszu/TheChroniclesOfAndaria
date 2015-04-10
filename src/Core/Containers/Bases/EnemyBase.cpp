@@ -94,7 +94,7 @@ const Prize & EnemyBase::prize() const
 	return prize_;
 }
 
-QDataStream & EnemyBase::toDataStream(QDataStream &out) const
+QDataStream & EnemyBase::toDataStream(QDataStream & out) const
 {
 	return out << uid_ << name_ << imageName_ << level_ << type_ << defaultAttack_
 	           << baseStats_ << prize_;
@@ -105,23 +105,23 @@ UID EnemyBase::uid() const
 	return uid_;
 }
 
-void EnemyBase::addStat(const Effect &effect)
+void EnemyBase::addStat(const Effect & effect)
 {
 	baseStats_.append(effect);
 }
 
-QDataStream & EnemyBase::fromDataStream(QDataStream &in)
+QDataStream & EnemyBase::fromDataStream(QDataStream & in)
 {
 	return in >> uid_ >> name_ >> imageName_ >> level_ >> type_ >> defaultAttack_
 	          >> baseStats_ >> prize_;
 }
 
-void EnemyBase::setName(const QString &name)
+void EnemyBase::setName(const QString & name)
 {
 	name_ = name;
 }
 
-void EnemyBase::setImageName(const QString &imageName)
+void EnemyBase::setImageName(const QString & imageName)
 {
 	imageName_ = imageName;
 }
@@ -141,12 +141,12 @@ void EnemyBase::setDefaultAttack(Attack type)
 	defaultAttack_ = type;
 }
 
-void EnemyBase::setBaseStats(const QList <Effect> &baseStats)
+void EnemyBase::setBaseStats(const QList <Effect> & baseStats)
 {
 	baseStats_ = baseStats;
 }
 
-void EnemyBase::setPrize(const Prize &prize)
+void EnemyBase::setPrize(const Prize & prize)
 {
 	prize_ = prize;
 }

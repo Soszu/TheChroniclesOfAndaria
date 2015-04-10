@@ -107,8 +107,9 @@ namespace Labels {
 		const QString DefaultName = QObject::tr("Item");
 		const QString Name        = QObject::tr("Name");
 		const QString Type        = QObject::tr("Type");
-		const QString Quality     = QObject::tr("Quality");
 		const QString Price       = QObject::tr("Price");
+		const QString Quality     = QObject::tr("Quality");
+		const QString CanBeDrawn  = QObject::tr("CanBeDrawn");
 		const QString Effects     = QObject::tr("Effects");
 		namespace Types {
 			const QString Armor           = QObject::tr("Armor");

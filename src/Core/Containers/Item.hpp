@@ -31,6 +31,7 @@ public:
 	QString name() const;
 	quint16 price() const;
 	ItemBase::Quality quality() const;
+	bool canBeDrawn() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	ItemBase::Type type() const;
 

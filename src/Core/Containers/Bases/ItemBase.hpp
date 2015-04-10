@@ -48,27 +48,30 @@ public:
 	};
 	static const BiHash <Quality, QString> QualityLabels;
 
-	ItemBase(UID uid = Serial::MinUid, const QString &name = {});
+	ItemBase(UID uid = Serial::MinUid, const QString & name = {});
 	ItemBase(UID uid,
-	         const QString &name,
+	         const QString & name,
 	         Type type,
 	         quint16 price,
 	         Quality quality,
+	         bool canBeDrawn,
 	         const QList <Effect> effects);
 
 	const QList <Effect> & effects() const;
 	const QString & name() const;
+	Type type() const;
 	quint16 price() const;
 	Quality quality() const;
-	QDataStream & toDataStream(QDataStream &out) const;
-	Type type() const;
+	bool canBeDrawn() const;
+	QDataStream & toDataStream(QDataStream & out) const;
 	UID uid() const;
 	bool isRestricted(Class playerClass) const;
 
-	void addEffect(const Effect &effect);
-	QDataStream & fromDataStream(QDataStream &in);
-	void setEffects(const QList <Effect> &effects);
-	void setName(const QString &name);
+	void addEffect(const Effect & effect);
+	QDataStream & fromDataStream(QDataStream & in);
+	void setCanBeDrawn(bool canBeDrawn);
+	void setEffects(const QList <Effect> & effects);
+	void setName(const QString & name);
 	void setPrice(quint16 price);
 	void setQuality(Quality quality);
 	void setType(Type type);
@@ -80,16 +83,17 @@ private:
 	Type type_;
 	quint16 price_;
 	Quality quality_;
+	bool canBeDrawn_;
 	QList <Effect> effects_;
 };
 Q_DECLARE_METATYPE(ItemBase::Type)
 Q_DECLARE_METATYPE(ItemBase::Quality)
 
-QDataStream & operator<<(QDataStream &out, const ItemBase &base);
-QDataStream & operator>>(QDataStream &in, ItemBase &base);
+QDataStream & operator<<(QDataStream & out, const ItemBase & base);
+QDataStream & operator>>(QDataStream & in, ItemBase & base);
 uint qHash(ItemBase::Type type);
-QDataStream & operator<<(QDataStream &out, const ItemBase::Type &type);
-QDataStream & operator>>(QDataStream &in, ItemBase::Type &type);
+QDataStream & operator<<(QDataStream & out, const ItemBase::Type & type);
+QDataStream & operator>>(QDataStream & in, ItemBase::Type & type);
 uint qHash(ItemBase::Quality quality);
-QDataStream & operator<<(QDataStream &out, const ItemBase::Quality &quality);
-QDataStream & operator>>(QDataStream &in, ItemBase::Quality &quality);
+QDataStream & operator<<(QDataStream & out, const ItemBase::Quality & quality);
+QDataStream & operator>>(QDataStream & in, ItemBase::Quality & quality);

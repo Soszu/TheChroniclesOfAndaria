@@ -47,6 +47,11 @@ ItemBase::Quality Item::quality() const
 	return base_->quality();
 }
 
+bool Item::canBeDrawn() const
+{
+	return base_->canBeDrawn();
+}
+
 QDataStream &Item::toDataStream(QDataStream &out) const
 {
 	return out << base_->uid();

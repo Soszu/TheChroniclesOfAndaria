@@ -71,15 +71,18 @@ QLayout * ItemsEditor::createEditPart()
 	priceEdit_ = new QSpinBox;
 	priceEdit_->setFixedWidth(SpinBoxWidth);
 
+	canBeDrawnEdit_ = new QCheckBox;
+
 	effectsEdit_ = new EffectsListEdit;
 	connect(itemModel_, &QAbstractItemModel::modelReset, effectsEdit_, &EffectsListEdit::reset);
 
 	QFormLayout *editLayout = new QFormLayout;
-	editLayout->addRow(Labels::Item::Name,      nameEdit_);
-	editLayout->addRow(Labels::Item::Type,      typeEdit_);
-	editLayout->addRow(Labels::Item::Quality,   qualityEdit_);
-	editLayout->addRow(Labels::Item::Price,     priceEdit_);
-	editLayout->addRow(Labels::Item::Effects,   effectsEdit_);
+	editLayout->addRow(Labels::Item::Name,       nameEdit_);
+	editLayout->addRow(Labels::Item::Type,       typeEdit_);
+	editLayout->addRow(Labels::Item::Quality,    qualityEdit_);
+	editLayout->addRow(Labels::Item::Price,      priceEdit_);
+	editLayout->addRow(Labels::Item::CanBeDrawn, canBeDrawnEdit_);
+	editLayout->addRow(Labels::Item::Effects,    effectsEdit_);
 
 	editLayout->setRowWrapPolicy(QFormLayout::DontWrapRows);
 // 	editLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
@@ -99,10 +102,15 @@ QLayout * ItemsEditor::createViewPart()
 	removeItemButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeItemButton_, &QPushButton::clicked, this, &ItemsEditor::removeItem);
 
+	searchLine_ = new QLineEdit(this);
+	connect(searchLine_, &QLineEdit::textChanged, this, &ItemsEditor::characterTyped);
+
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
+	buttonsLayout->addWidget(new QLabel(Editor::Titles::Items));
+	buttonsLayout->addStretch();
+	buttonsLayout->addWidget(searchLine_);
 	buttonsLayout->addWidget(addItemButton_);
 	buttonsLayout->addWidget(removeItemButton_);
-	buttonsLayout->addStretch();
 
 	itemsList_ = new QListView;
 	itemsList_->setModel(itemModel_);
@@ -134,19 +142,23 @@ void ItemsEditor::initMapper()
 	itemMapper_->setModel(proxyModel_);
 	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
-	itemMapper_->addMapping(nameEdit_,    ItemModel::Name);
-	itemMapper_->addMapping(typeEdit_,    ItemModel::Type);
-	itemMapper_->addMapping(qualityEdit_, ItemModel::Quality);
-	itemMapper_->addMapping(priceEdit_,   ItemModel::Price);
-	itemMapper_->addMapping(effectsEdit_, ItemModel::Effects);
+	itemMapper_->addMapping(nameEdit_,       ItemModel::Name);
+	itemMapper_->addMapping(typeEdit_,       ItemModel::Type);
+	itemMapper_->addMapping(qualityEdit_,    ItemModel::Quality);
+	itemMapper_->addMapping(priceEdit_,      ItemModel::Price);
+	itemMapper_->addMapping(canBeDrawnEdit_, ItemModel::CanBeDrawn);
+	itemMapper_->addMapping(effectsEdit_,    ItemModel::Effects);
 
-	connect(effectsEdit_, &EffectsListEdit::effectsChanged, itemMapper_, &QDataWidgetMapper::submit);
-	connect(itemsList_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ItemsEditor::selectionChanged);
+	connect(effectsEdit_, &EffectsListEdit::effectsChanged,
+	        itemMapper_, &QDataWidgetMapper::submit);
+	connect(itemsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
+	        this, &ItemsEditor::rowChanged);
 }
 
 void ItemsEditor::setEditWidgetsEnabled(bool enabled)
 {
-	for (QWidget *widget : std::initializer_list<QWidget *>{nameEdit_, typeEdit_, qualityEdit_, priceEdit_, effectsEdit_})
+	for (QWidget *widget : std::initializer_list<QWidget *>{nameEdit_, typeEdit_, qualityEdit_,
+	                       priceEdit_, canBeDrawnEdit_, effectsEdit_})
 		widget->setEnabled(enabled);
 }
 
@@ -169,7 +181,7 @@ void ItemsEditor::removeItem()
 	itemModel_->removeRows(selected.row(), 1);
 }
 
-void ItemsEditor::selectionChanged()
+void ItemsEditor::rowChanged()
 {
 	const QItemSelectionModel *selection = itemsList_->selectionModel();
 	setEditWidgetsEnabled(selection->hasSelection());

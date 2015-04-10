@@ -25,12 +25,12 @@ inline uint qHash(ItemBase::Type type)
 	return qHash(toUnderlying(type));
 }
 
-QDataStream & operator<<(QDataStream &out, const ItemBase::Type &type)
+QDataStream & operator<<(QDataStream & out, const ItemBase::Type & type)
 {
 	return out << toUnderlying(type);
 }
 
-QDataStream & operator>>(QDataStream &in, ItemBase::Type &type)
+QDataStream & operator>>(QDataStream & in, ItemBase::Type & type)
 {
 	return in >> toUnderlyingRef(type);
 }
@@ -50,12 +50,12 @@ inline uint qHash(ItemBase::Quality quality)
 	return qHash(toUnderlying(quality));
 }
 
-QDataStream & operator<<(QDataStream &out, const ItemBase::Quality &quality)
+QDataStream & operator<<(QDataStream & out, const ItemBase::Quality & quality)
 {
 	return out << toUnderlying(quality);
 }
 
-QDataStream & operator>>(QDataStream &in, ItemBase::Quality &quality)
+QDataStream & operator>>(QDataStream & in, ItemBase::Quality & quality)
 {
 	return in >> toUnderlyingRef(quality);
 }
@@ -67,25 +67,28 @@ const BiHash <ItemBase::Quality, QString> ItemBase::QualityLabels = {
 	{ItemBase::Quality::Legendary,     Labels::Item::Qualities::Legendary},
 };
 
-ItemBase::ItemBase(UID uid, const QString &name) :
+ItemBase::ItemBase(UID uid, const QString & name) :
 	uid_(uid),
 	name_(name),
 	type_(Type::Armor),
 	price_(0),
-	quality_(Quality::NotApplicable)
+	quality_(Quality::NotApplicable),
+	canBeDrawn_(true)
 {}
 
 ItemBase::ItemBase(UID uid,
-                   const QString &name,
+                   const QString & name,
                    ItemBase::Type type,
                    quint16 price,
                    ItemBase::Quality quality,
+                   bool canBeDrawn,
                    const QList <Effect> effects) :
 	uid_(uid),
 	name_(name),
 	type_(type),
 	price_(price),
 	quality_(quality),
+	canBeDrawn_(canBeDrawn),
 	effects_(effects)
 {}
 
@@ -109,6 +112,11 @@ ItemBase::Quality ItemBase::quality() const
 	return quality_;
 }
 
+bool ItemBase::canBeDrawn() const
+{
+	return canBeDrawn();
+}
+
 ItemBase::Type ItemBase::type() const
 {
 	return type_;
@@ -125,27 +133,27 @@ bool ItemBase::isRestricted(Class playerClass) const
 	return false;
 }
 
-QDataStream & ItemBase::toDataStream(QDataStream &out) const
+QDataStream & ItemBase::toDataStream(QDataStream & out) const
 {
-	return out << uid_ << name_ << type_ << price_ << quality_ << effects_;
+	return out << uid_ << name_ << type_ << price_ << quality_ << canBeDrawn_ << effects_;
 }
 
-void ItemBase::addEffect(const Effect &effect)
+void ItemBase::addEffect(const Effect & effect)
 {
 	effects_.append(effect);
 }
 
-QDataStream & ItemBase::fromDataStream(QDataStream &in)
+QDataStream & ItemBase::fromDataStream(QDataStream & in)
 {
-	return in >> uid_ >> name_ >> type_ >> price_ >> quality_ >> effects_;
+	return in >> uid_ >> name_ >> type_ >> price_ >> quality_ >> canBeDrawn_ >> effects_;
 }
 
-void ItemBase::setEffects(const QList <Effect> &effects)
+void ItemBase::setEffects(const QList <Effect> & effects)
 {
 	effects_ = effects;
 }
 
-void ItemBase::setName(const QString &name)
+void ItemBase::setName(const QString & name)
 {
 	name_ = name;
 }
@@ -160,17 +168,22 @@ void ItemBase::setQuality(ItemBase::Quality quality)
 	quality_ = quality;
 }
 
+void ItemBase::setCanBeDrawn(bool canBeDrawn)
+{
+	canBeDrawn_ = canBeDrawn;
+}
+
 void ItemBase::setType(ItemBase::Type type)
 {
 	type_ = type;
 }
 
-QDataStream & operator<<(QDataStream &out, const ItemBase &base)
+QDataStream & operator<<(QDataStream & out, const ItemBase & base)
 {
 	return base.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, ItemBase &base)
+QDataStream & operator>>(QDataStream & in, ItemBase & base)
 {
 	return base.fromDataStream(in);
 }

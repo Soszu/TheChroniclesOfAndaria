@@ -50,15 +50,15 @@ public:
 	QDataStream & toDataStream(QDataStream &out) const;
 	UID uid() const;
 
-	void setName(const QString &name);
-	void setImageName(const QString &imageName);
+	void setName(const QString & name);
+	void setImageName(const QString & imageName);
 	void setLevel(quint8 level);
 	void setType(Type type);
 	void setDefaultAttack(Attack type);
-	void addStat(const Effect &effect);
-	QDataStream & fromDataStream(QDataStream &in);
-	void setBaseStats(const QList <Effect> &baseStats);
-	void setPrize(const Prize &prize);
+	void addStat(const Effect & effect);
+	QDataStream & fromDataStream(QDataStream & in);
+	void setBaseStats(const QList <Effect> & baseStats);
+	void setPrize(const Prize & prize);
 
 private:
 	UID uid_;
