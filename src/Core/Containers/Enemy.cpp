@@ -42,6 +42,11 @@ quint8 Enemy::level() const
 	return base_->level();
 }
 
+Difficulty Enemy::difficulty() const
+{
+	return base_->difficulty();
+}
+
 EnemyBase::Type Enemy::type() const
 {
 	return base_->type();

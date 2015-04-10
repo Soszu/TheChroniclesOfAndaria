@@ -43,6 +43,7 @@ public:
 	const QString & imageName() const;
 	const QPixmap & avatar() const;
 	quint8 level() const;
+	Difficulty difficulty() const;
 	Type type() const;
 	Attack defaultAttack() const;
 	const QList <Effect> & baseStats() const;
@@ -53,6 +54,7 @@ public:
 	void setName(const QString & name);
 	void setImageName(const QString & imageName);
 	void setLevel(quint8 level);
+	void setDifficulty(Difficulty difficulty);
 	void setType(Type type);
 	void setDefaultAttack(Attack type);
 	void addStat(const Effect & effect);
@@ -65,6 +67,7 @@ private:
 	QString name_;
 	QString imageName_;
 	qint8 level_;
+	Difficulty difficulty_;
 	Type type_;
 	Attack defaultAttack_;
 	QList <Effect> baseStats_;

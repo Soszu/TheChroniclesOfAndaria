@@ -56,6 +56,7 @@ namespace Labels {
 		const QString Name          = QObject::tr("Name");
 		const QString ImageName     = QObject::tr("Image name");
 		const QString Level         = QObject::tr("Level");
+		const QString Difficulty    = QObject::tr("Difficulty");
 		const QString Type          = QObject::tr("Type");
 		const QString DefaultAttack = QObject::tr("Default attack");
 		const QString BaseStats     = QObject::tr("Base stats");

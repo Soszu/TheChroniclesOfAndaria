@@ -24,14 +24,15 @@ class EnemyBase;
 
 class EnemyModel : public QAbstractTableModel {
 public:
-	static const int Name          = 0;
-	static const int ImageName     = 1;
-	static const int Level         = 2;
-	static const int Type          = 3;
-	static const int DefaultAttack = 4;
-	static const int BaseStats     = 5;
-	static const int WinningPrize  = 6;
-	static const int ColumnCount   = 7;
+	static const int Name            = 0;
+	static const int ImageName       = 1;
+	static const int Level           = 2;
+	static const int EnemyDifficulty = 3;
+	static const int Type            = 4;
+	static const int DefaultAttack   = 5;
+	static const int BaseStats       = 6;
+	static const int WinningPrize    = 7;
+	static const int ColumnCount     = 8;
 
 	explicit EnemyModel(QObject * parent = nullptr);
 	EnemyModel(const EnemyModel &) = delete;

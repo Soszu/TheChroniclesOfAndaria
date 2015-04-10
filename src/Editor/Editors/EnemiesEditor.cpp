@@ -72,6 +72,10 @@ void EnemiesEditor::initEditPart()
 
 	levelEdit_ = new QSpinBox;
 
+	difficultyEdit_ = new EnumEdit;
+	for (auto & type : DifficultyLabels.leftKeys())
+		difficultyEdit_->addItem(DifficultyLabels[type], QVariant::fromValue(type));
+
 	typeEdit_ = new EnumEdit;
 	for (auto & type : EnemyBase::TypeLabels.leftKeys())
 		typeEdit_->addItem(EnemyBase::TypeLabels[type], QVariant::fromValue(type));
@@ -85,13 +89,14 @@ void EnemiesEditor::initEditPart()
 	prizeEdit_ = new PrizeEdit;
 
 	editLayout_ = new QFormLayout;
-	editLayout_->addRow(Labels::Enemy::Name,          nameEdit_);
-	editLayout_->addRow(Labels::Enemy::ImageName,     imageNameEdit_);
-	editLayout_->addRow(Labels::Enemy::Level,         levelEdit_);
-	editLayout_->addRow(Labels::Enemy::Type,          typeEdit_);
-	editLayout_->addRow(Labels::Enemy::DefaultAttack, defaultAttackEdit_);
-	editLayout_->addRow(Labels::Enemy::BaseStats,     baseStatsEdit_);
-	editLayout_->addRow(Labels::Enemy::WinningPrize,  prizeEdit_);
+	editLayout_->addRow(Labels::Enemy::Name,            nameEdit_);
+	editLayout_->addRow(Labels::Enemy::ImageName,       imageNameEdit_);
+	editLayout_->addRow(Labels::Enemy::Level,           levelEdit_);
+	editLayout_->addRow(Labels::Enemy::Difficulty,      difficultyEdit_);
+	editLayout_->addRow(Labels::Enemy::Type,            typeEdit_);
+	editLayout_->addRow(Labels::Enemy::DefaultAttack,   defaultAttackEdit_);
+	editLayout_->addRow(Labels::Enemy::BaseStats,       baseStatsEdit_);
+	editLayout_->addRow(Labels::Enemy::WinningPrize,    prizeEdit_);
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
@@ -117,7 +122,8 @@ void EnemiesEditor::initMapper()
 	enemyMapper_->addMapping(nameEdit_,          EnemyModel::Name);
 	enemyMapper_->addMapping(imageNameEdit_,     EnemyModel::ImageName);
 	enemyMapper_->addMapping(levelEdit_,         EnemyModel::Level);
-	enemyMapper_->addMapping(typeEdit_,         EnemyModel::Type);
+	enemyMapper_->addMapping(difficultyEdit_,    EnemyModel::EnemyDifficulty);
+	enemyMapper_->addMapping(typeEdit_,          EnemyModel::Type);
 	enemyMapper_->addMapping(defaultAttackEdit_, EnemyModel::DefaultAttack);
 	enemyMapper_->addMapping(baseStatsEdit_,     EnemyModel::BaseStats);
 	enemyMapper_->addMapping(prizeEdit_,         EnemyModel::WinningPrize);

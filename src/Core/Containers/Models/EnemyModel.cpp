@@ -57,13 +57,14 @@ QVariant EnemyModel::data(const QModelIndex & index, int role) const
 	if (role == Qt::DisplayRole || role == Qt::EditRole) {
 		const EnemyBase *enemy = enemies_[index.row()];
 		switch (index.column()) {
-			case Name:          return enemy->name();
-			case ImageName:     return enemy->imageName();
-			case Level:         return enemy->level();
-			case Type:          return QVariant::fromValue(enemy->type());
-			case DefaultAttack: return QVariant::fromValue(enemy->defaultAttack());
-			case BaseStats:     return QVariant::fromValue(enemy->baseStats());
-			case WinningPrize:  return QVariant::fromValue(enemy->prize());
+			case Name:            return enemy->name();
+			case ImageName:       return enemy->imageName();
+			case Level:           return enemy->level();
+			case EnemyDifficulty: return QVariant::fromValue(enemy->difficulty());
+			case Type:            return QVariant::fromValue(enemy->type());
+			case DefaultAttack:   return QVariant::fromValue(enemy->defaultAttack());
+			case BaseStats:       return QVariant::fromValue(enemy->baseStats());
+			case WinningPrize:    return QVariant::fromValue(enemy->prize());
 		}
 	}
 	return QVariant();
@@ -74,7 +75,7 @@ bool EnemyModel::empty() const
 	return enemies_.empty();
 }
 
-Qt::ItemFlags EnemyModel::flags(const QModelIndex &index) const
+Qt::ItemFlags EnemyModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
@@ -217,13 +218,14 @@ bool EnemyModel::setData(const QModelIndex & index, const QVariant & value, int 
 
 	EnemyBase * enemy = enemies_[index.row()];
 	switch (index.column()) {
-		case Name:          enemy->setName(value.toString()); break;
-		case ImageName:     enemy->setImageName(value.toString()); break;
-		case Level:         enemy->setLevel(value.toInt()); break;
-		case Type:          enemy->setType(value.value<EnemyBase::Type>()); break;
-		case DefaultAttack: enemy->setDefaultAttack(value.value<Attack>()); break;
-		case BaseStats:     enemy->setBaseStats(value.value<QList <Effect> >()); break;
-		case WinningPrize:  enemy->setPrize(value.value<Prize>()); break;
+		case Name:            enemy->setName(value.toString()); break;
+		case ImageName:       enemy->setImageName(value.toString()); break;
+		case Level:           enemy->setLevel(value.toInt()); break;
+		case EnemyDifficulty: enemy->setDifficulty(value.value<Difficulty>()); break;
+		case Type:            enemy->setType(value.value<EnemyBase::Type>()); break;
+		case DefaultAttack:   enemy->setDefaultAttack(value.value<Attack>()); break;
+		case BaseStats:       enemy->setBaseStats(value.value<QList <Effect> >()); break;
+		case WinningPrize:    enemy->setPrize(value.value<Prize>()); break;
 	}
 
 	emit dataChanged(index, index);

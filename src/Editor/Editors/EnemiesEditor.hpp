@@ -55,6 +55,7 @@ private:
 	//--- Edits ---
 	QLineEdit * nameEdit_;
 	QLineEdit * imageNameEdit_;
+	EnumEdit * difficultyEdit_;
 	EnumEdit * typeEdit_;
 	EnumEdit * defaultAttackEdit_;
 	QSpinBox * levelEdit_;

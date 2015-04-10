@@ -49,6 +49,7 @@ EnemyBase::EnemyBase(UID uid, QString name) :
 	uid_(uid),
 	name_(name),
 	level_(0),
+	difficulty_(Difficulty::Easy),
 	type_(Type::Beast),
 	defaultAttack_(Attack::Melee)
 {
@@ -73,6 +74,11 @@ const QPixmap & EnemyBase::avatar() const
 quint8 EnemyBase::level() const
 {
 	return level_;
+}
+
+Difficulty EnemyBase::difficulty() const
+{
+	return difficulty_;
 }
 
 EnemyBase::Type EnemyBase::type() const
@@ -130,6 +136,11 @@ void EnemyBase::setImageName(const QString & imageName)
 void EnemyBase::setLevel(quint8 level)
 {
 	level_ = level;
+}
+
+void EnemyBase::setDifficulty(Difficulty difficulty)
+{
+	difficulty_ = difficulty;
 }
 
 void EnemyBase::setType(EnemyBase::Type type)

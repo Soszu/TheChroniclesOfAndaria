@@ -33,6 +33,7 @@ public:
 	const QString & name() const;
 	const QPixmap & avatar() const;
 	quint8 level() const;
+	Difficulty difficulty() const;
 	EnemyBase::Type type() const;
 	Attack defaultAttack() const;
 	const QList <Effect> individualEffects() const;
