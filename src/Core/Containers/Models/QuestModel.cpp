@@ -58,6 +58,7 @@ QVariant QuestModel::data(const QModelIndex &index, int role) const
 			case Description:      return quest->description();
 			case Fraction:         return QVariant::fromValue(quest->fraction());
 			case Level:            return QVariant::fromValue(quest->level());
+			case Difficulty:       return QVariant::fromValue(quest->difficulty());
 			case IsReturnRequired: return quest->isReturnRequired();
 			case CanBeDrawn:       return quest->canBeDrawn();
 			case FollowUp:         return QVariant::fromValue(quest->followUp());
@@ -220,7 +221,8 @@ bool QuestModel::setData(const QModelIndex &index, const QVariant &value, int ro
 		case Title:            quest->setTitle(value.toString()); break;
 		case Description:      quest->setDescription(value.toString()); break;
 		case Fraction:         quest->setFraction(value.value<Kingdom>()); break;
-		case Level:            quest->setLevel(value.value<QuestBase::Level>()); break;
+		case Level:            quest->setLevel(value.toInt()); break;
+		case Difficulty:       quest->setDifficulty(value.value<QuestBase::Difficulty>()); break;
 		case IsReturnRequired: quest->setIsReturnRequired(value.toBool()); break;
 		case CanBeDrawn:       quest->setCanBeDrawn(value.toBool()); break;
 		case FollowUp:         quest->setFollowUp(value.value<UID>()); break;

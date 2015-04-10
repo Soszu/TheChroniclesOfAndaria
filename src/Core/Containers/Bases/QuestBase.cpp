@@ -19,32 +19,33 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Utils/EnumHelpers.hpp"
 
-const BiHash <QuestBase::Level, QString> QuestBase::LevelLabels = {
-	{QuestBase::Level::Easy,   Labels::Quest::Levels::Easy},
-	{QuestBase::Level::Medium, Labels::Quest::Levels::Medium},
-	{QuestBase::Level::Hard,   Labels::Quest::Levels::Hard}
+const BiHash <QuestBase::Difficulty, QString> QuestBase::LevelLabels = {
+	{QuestBase::Difficulty::Easy,   Labels::Quest::Levels::Easy},
+	{QuestBase::Difficulty::Medium, Labels::Quest::Levels::Medium},
+	{QuestBase::Difficulty::Hard,   Labels::Quest::Levels::Hard}
 };
 
-inline uint qHash(QuestBase::Level level)
+inline uint qHash(QuestBase::Difficulty d)
 {
-	return qHash(toUnderlying(level));
+	return qHash(toUnderlying(d));
 }
 
-QDataStream & operator<<(QDataStream &out, const QuestBase::Level &level)
+QDataStream & operator<<(QDataStream &out, const QuestBase::Difficulty &d)
 {
-	return out << toUnderlying(level);
+	return out << toUnderlying(d);
 }
 
-QDataStream & operator>>(QDataStream &in, QuestBase::Level &level)
+QDataStream & operator>>(QDataStream &in, QuestBase::Difficulty &d)
 {
-	return in >> toUnderlyingRef(level);
+	return in >> toUnderlyingRef(d);
 }
 
 QuestBase::QuestBase(UID uid, QString title) :
 	uid_(uid),
 	title_(title),
 	fraction_(Kingdom::Neutral),
-	level_(Level::Easy),
+	level_(1),
+	difficulty_(Difficulty::Easy),
 	isReturnRequired_(false),
 	followUp_(Serial::EmptyUid),
 	canBeDrawn_(true)
@@ -54,7 +55,8 @@ QuestBase::QuestBase(UID uid,
                      const QString &title,
                      const QString &description,
                      Kingdom fraction,
-                     QuestBase::Level level,
+                     int level,
+                     QuestBase::Difficulty difficulty,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
@@ -65,6 +67,7 @@ QuestBase::QuestBase(UID uid,
 	description_(description),
 	fraction_(fraction),
 	level_(level),
+	difficulty_(difficulty),
 	isReturnRequired_(isReturnRequired),
 	followUp_(followUp),
 	canBeDrawn_(canBeDrawn),
@@ -97,9 +100,14 @@ bool QuestBase::isReturnRequired() const
 	return isReturnRequired_;
 }
 
-QuestBase::Level QuestBase::level() const
+int QuestBase::level() const
 {
 	return level_;
+}
+
+QuestBase::Difficulty QuestBase::difficulty() const
+{
+	return difficulty_;
 }
 
 const QHash <Coordinates, Test> & QuestBase::objectives() const
@@ -119,8 +127,8 @@ const QString & QuestBase::title() const
 
 QDataStream & QuestBase::toDataStream(QDataStream &out) const
 {
-	return out << uid_ << title_ << description_ << fraction_ << level_ << isReturnRequired_
-	           << followUp_ << canBeDrawn_ << objectives_ << reward_;
+	return out << uid_ << title_ << description_ << fraction_ << level_ << difficulty_
+	           << isReturnRequired_ << followUp_ << canBeDrawn_ << objectives_ << reward_;
 }
 
 UID QuestBase::uid() const
@@ -135,8 +143,8 @@ void QuestBase::addObjective(Coordinates coordinates, const Test &test)
 
 QDataStream & QuestBase::fromDataStream(QDataStream &in)
 {
-	return in >> uid_ >> title_ >> description_ >> fraction_ >> level_ >> isReturnRequired_
-	          >> followUp_ >> canBeDrawn_ >> objectives_ >> reward_;
+	return in >> uid_ >> title_ >> description_ >> fraction_ >> level_ >> difficulty_
+	          >> isReturnRequired_ >> followUp_ >> canBeDrawn_ >> objectives_ >> reward_;
 }
 
 void QuestBase::setCanBeDrawn(bool canBeDrawn)
@@ -164,9 +172,14 @@ void QuestBase::setIsReturnRequired(bool isReturnRequired)
 	isReturnRequired_ = isReturnRequired;
 }
 
-void QuestBase::setLevel(QuestBase::Level level)
+void QuestBase::setLevel(int level)
 {
 	level_ = level;
+}
+
+void QuestBase::setDifficulty(QuestBase::Difficulty difficulty)
+{
+	difficulty_ = difficulty;
 }
 
 void QuestBase::setObjectives(const QHash <Coordinates, Test> &objectives)

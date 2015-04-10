@@ -28,12 +28,13 @@ public:
 	static const int Description      = 1;
 	static const int Fraction         = 2;
 	static const int Level            = 3;
-	static const int IsReturnRequired = 4;
-	static const int CanBeDrawn       = 5;
-	static const int FollowUp         = 6;
-	static const int Objectives       = 7;
-	static const int Reward           = 8;
-	static const int ColumnCount      = 9;
+	static const int Difficulty       = 4;
+	static const int IsReturnRequired = 5;
+	static const int CanBeDrawn       = 6;
+	static const int FollowUp         = 7;
+	static const int Objectives       = 8;
+	static const int Reward           = 9;
+	static const int ColumnCount      = 10;
 
 	explicit QuestModel(QObject *parent = nullptr);
 	QuestModel(const QuestModel &) = delete;

@@ -31,7 +31,8 @@ public:
 	const Quest *followUp() const;
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
-	QuestBase::Level level() const;
+	int level() const;
+	QuestBase::Difficulty difficulty() const;
 	QHash <Coordinates, Test> objectives() const;
 	const Prize *prize() const;
 	Coordinates source() const;

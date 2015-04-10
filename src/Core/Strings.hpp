@@ -90,6 +90,7 @@ namespace Labels {
 		const QString Description      = QObject::tr("Description");
 		const QString Fraction         = QObject::tr("Fraction");
 		const QString Level            = QObject::tr("Level");
+		const QString Difficulty       = QObject::tr("Difficulty");
 		const QString IsReturnRequired = QObject::tr("Is return required?");
 		const QString CanBeDrawn       = QObject::tr("Can be drawn\nfrom deck?");
 		const QString FollowUp         = QObject::tr("Follow Up");

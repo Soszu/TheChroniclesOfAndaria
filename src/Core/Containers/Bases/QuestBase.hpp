@@ -26,19 +26,20 @@ This file is part of The Chronicles Of Andaria Project.
 class QuestBase {
 
 public:
-	enum class Level : quint8 {
+	enum class Difficulty : quint8 {
 		Easy,
 		Medium,
 		Hard
 	};
-	static const BiHash <Level, QString> LevelLabels;
+	static const BiHash <Difficulty, QString> LevelLabels;
 
 	QuestBase(UID uid = Serial::EmptyUid, QString title ={});
 	QuestBase(UID uid,
 	          const QString &title,
 	          const QString &description,
 	          Kingdom fraction,
-	          Level level,
+	          int level,
+	          Difficulty difficulty,
 	          bool isReturnRequired,
 	          UID followUp,
 	          bool canBeDrawn,
@@ -50,7 +51,8 @@ public:
 	const UID followUp() const;
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
-	Level level() const;
+	int level() const;
+	Difficulty difficulty() const;
 	const QHash <Coordinates, Test> & objectives() const;
 	const Prize & reward() const;
 	const QString & title() const;
@@ -64,7 +66,8 @@ public:
 	void setFollowUp(UID followUp);
 	void setFraction(Kingdom fraction);
 	void setIsReturnRequired(bool isReturnRequired);
-	void setLevel(Level level);
+	void setLevel(int level);
+	void setDifficulty(Difficulty difficulty);
 	void setObjectives(const QHash <Coordinates, Test> &objectives);
 	void setReward(const Prize &reward);
 	void setTitle(const QString &title);
@@ -74,16 +77,17 @@ private:
 	QString title_;
 	QString description_;
 	Kingdom fraction_;
-	Level level_;
+	int level_;
+	Difficulty difficulty_;
 	bool isReturnRequired_;
 	UID followUp_;
 	bool canBeDrawn_;
 	QHash <Coordinates, Test> objectives_;
 	Prize reward_;
 };
-Q_DECLARE_METATYPE(QuestBase::Level)
+Q_DECLARE_METATYPE(QuestBase::Difficulty)
 QDataStream & operator<<(QDataStream &out, const QuestBase &base);
 QDataStream & operator>>(QDataStream &in, QuestBase &base);
-uint qHash(QuestBase::Level level);
-QDataStream & operator<<(QDataStream &out, const QuestBase::Level &level);
-QDataStream & operator>>(QDataStream &in, QuestBase::Level &level);
+uint qHash(QuestBase::Difficulty level);
+QDataStream & operator<<(QDataStream &out, const QuestBase::Difficulty &level);
+QDataStream & operator>>(QDataStream &in, QuestBase::Difficulty &level);

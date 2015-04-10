@@ -26,7 +26,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
 
-QuestEditor::QuestEditor(QuestModel *questModel, QWidget *parent) :
+QuestEditor::QuestEditor(QuestModel * questModel, QWidget * parent) :
 	QWidget(parent),
 	questModel_(questModel),
 	questMapper_(new QDataWidgetMapper(this))
@@ -42,12 +42,12 @@ void QuestEditor::clear()
 	questModel_->reset();
 }
 
-void QuestEditor::loadFromStream(QDataStream& in)
+void QuestEditor::loadFromStream(QDataStream & in)
 {
 	in >> *questModel_;
 }
 
-void QuestEditor::saveToStream(QDataStream& out) const
+void QuestEditor::saveToStream(QDataStream & out) const
 {
 	out << *questModel_;
 }
@@ -70,13 +70,16 @@ void QuestEditor::initEditPart()
 
 	fractionEdit_ = new EnumEdit;
 	fractionEdit_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	for (auto &kingdom : KingdomLabels.leftKeys())
+	for (auto & kingdom : KingdomLabels.leftKeys())
 		fractionEdit_->addItem(KingdomLabels[kingdom], QVariant::fromValue(kingdom));
 
-	levelEdit_ = new EnumEdit;
+	levelEdit_ = new QSpinBox;
 	levelEdit_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	for (auto &level : QuestBase::LevelLabels.leftKeys())
-		levelEdit_->addItem(QuestBase::LevelLabels[level], QVariant::fromValue(level));
+
+	difficultyEdit_ = new EnumEdit;
+	difficultyEdit_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	for (auto & level : QuestBase::LevelLabels.leftKeys())
+		difficultyEdit_->addItem(QuestBase::LevelLabels[level], QVariant::fromValue(level));
 
 	isReturnRequiredEdit_ = new QCheckBox;
 	canBeDrawnEdit_ = new QCheckBox;
@@ -91,20 +94,21 @@ void QuestEditor::initEditPart()
 	editLayout_->addRow(Labels::Quest::Description,      descriptionEdit_);
 	editLayout_->addRow(Labels::Quest::Fraction,         fractionEdit_);
 	editLayout_->addRow(Labels::Quest::Level,            levelEdit_);
+	editLayout_->addRow(Labels::Quest::Difficulty,       difficultyEdit_);
 	editLayout_->addRow(Labels::Quest::IsReturnRequired, isReturnRequiredEdit_);
 	editLayout_->addRow(Labels::Quest::CanBeDrawn,       canBeDrawnEdit_);
 	editLayout_->addRow(Labels::Quest::FollowUp,         followUpEdit_);
 	editLayout_->addRow(Labels::Quest::Reward,           rewardEdit_);
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
-	editLayout_->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+// 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
 // 	editLayout_->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
 	editLayout_->setLabelAlignment(Qt::AlignLeft);
 }
 
 void QuestEditor::initLayout()
 {
-	QHBoxLayout *mainLayout = new QHBoxLayout;
+	QHBoxLayout * mainLayout = new QHBoxLayout;
 
 	mainLayout->addLayout(viewLayout_);
 	mainLayout->addLayout(editLayout_);
@@ -120,26 +124,28 @@ void QuestEditor::initMapper()
 	questMapper_->addMapping(titleEdit_,            QuestModel::Title);
 	questMapper_->addMapping(descriptionEdit_,      QuestModel::Description);
 	questMapper_->addMapping(fractionEdit_,         QuestModel::Fraction);
+	questMapper_->addMapping(difficultyEdit_,       QuestModel::Difficulty);
 	questMapper_->addMapping(levelEdit_,            QuestModel::Level);
 	questMapper_->addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
 	questMapper_->addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
 	questMapper_->addMapping(followUpEdit_,         QuestModel::FollowUp);
 	questMapper_->addMapping(rewardEdit_,           QuestModel::Reward);
 
-	connect(questsList_->selectionModel(), &QItemSelectionModel::currentRowChanged, questMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	connect(questsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
+	        questMapper_, &QDataWidgetMapper::setCurrentModelIndex);
 }
 
 void QuestEditor::initViewPart()
 {
-	QPushButton *addQuestButton = new QPushButton(Editor::Labels::Add);
+	QPushButton * addQuestButton = new QPushButton(Editor::Labels::Add);
 	addQuestButton->setShortcut(Editor::Shortcuts::Add);
-	connect(addQuestButton, &QPushButton::clicked, this, &QuestEditor::addQuest);
+	connect(addQuestButton, & QPushButton::clicked, this, &QuestEditor::addQuest);
 
 	QPushButton *removeQuestButton = new QPushButton(Editor::Labels::Remove);
 	removeQuestButton->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeQuestButton, &QPushButton::clicked, this, &QuestEditor::removeQuest);
 
-	QHBoxLayout *buttonsLayout = new QHBoxLayout;
+	QHBoxLayout * buttonsLayout = new QHBoxLayout;
 	buttonsLayout->addWidget(new QLabel(Editor::Titles::Quests));
 	buttonsLayout->addStretch();
 	buttonsLayout->addWidget(addQuestButton);
@@ -160,7 +166,7 @@ void QuestEditor::updateFollowUps()
 	//TODO if removed check for invalid uids
 
 	followUpEdit_->clear();
-	for (auto &quest : questModel_->quests())
+	for (auto & quest : questModel_->quests())
 		followUpEdit_->addItem(quest->title(), quest->uid());
 }
 
