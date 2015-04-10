@@ -21,10 +21,10 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Bases/ItemBase.hpp"
 #include "Core/Containers/Models/ItemModel.hpp"
+#include "Core/Strings.hpp"
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/Shortcuts.hpp"
-#include "Editor/Strings.hpp"
 
 ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent) :
 	QWidget(parent),
@@ -94,11 +94,11 @@ QLayout * ItemsEditor::createEditPart()
 
 QLayout * ItemsEditor::createViewPart()
 {
-	addItemButton_ = new QPushButton(Editor::Labels::Add);
+	addItemButton_ = new QPushButton(tr("Add"));
 	addItemButton_->setShortcut(Editor::Shortcuts::Add);
 	connect(addItemButton_, &QPushButton::clicked, this, &ItemsEditor::addItem);
 
-	removeItemButton_ = new QPushButton(Editor::Labels::Remove);
+	removeItemButton_ = new QPushButton(tr("Remove"));
 	removeItemButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeItemButton_, &QPushButton::clicked, this, &ItemsEditor::removeItem);
 
@@ -106,7 +106,7 @@ QLayout * ItemsEditor::createViewPart()
 	connect(searchLine_, &QLineEdit::textChanged, this, &ItemsEditor::characterTyped);
 
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;
-	buttonsLayout->addWidget(new QLabel(Editor::Titles::Items));
+	buttonsLayout->addWidget(new QLabel(tr("Items")));
 	buttonsLayout->addStretch();
 	buttonsLayout->addWidget(searchLine_);
 	buttonsLayout->addWidget(addItemButton_);

@@ -28,7 +28,7 @@ public:
 	static const int Description      = 1;
 	static const int Fraction         = 2;
 	static const int Level            = 3;
-	static const int Difficulty       = 4;
+	static const int QuestDifficulty  = 4;
 	static const int IsReturnRequired = 5;
 	static const int CanBeDrawn       = 6;
 	static const int FollowUp         = 7;

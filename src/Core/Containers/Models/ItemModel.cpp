@@ -17,6 +17,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Containers/Models/ItemModel.hpp"
 
+#include "Core/Strings.hpp"
 #include "Core/Containers/Bases/ItemBase.hpp"
 
 ItemModel::ItemModel(QObject * parent) :

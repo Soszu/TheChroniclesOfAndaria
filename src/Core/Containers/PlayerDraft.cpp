@@ -17,6 +17,8 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Containers/PlayerDraft.hpp"
 
+#include "Core/Enums.hpp"
+
 PlayerDraft::PlayerDraft() :
 	color_(generateRandomColor()),
 	name_(generateRandomName()),

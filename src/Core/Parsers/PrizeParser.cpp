@@ -17,8 +17,10 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Parsers/PrizeParser.hpp"
+
 #include "Core/Mod.hpp"
 #include "Core/Paths.hpp"
+#include "Core/Enums.hpp"
 
 PrizeParser::PrizeParser(Mod *mod)
 {

@@ -24,14 +24,13 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Editors/ItemsEditor.hpp"
 #include "Editor/Editors/EnemiesEditor.hpp"
 #include "Editor/Editors/QuestEditor.hpp"
-#include "Editor/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
 
 MainWindow::MainWindow() :
 	mod_(new Mod)
 {
 	resize(1024, 768);
-	setWindowTitle(Editor::Titles::EditorWindow);
+	setWindowTitle(tr("[*]TCOA Editor"));
 
 	initMenuAndActions();
 	initEditors();
@@ -41,14 +40,14 @@ void MainWindow::initMenuAndActions()
 {
 	using namespace Editor;
 
-	QMenu *modMenu = menuBar()->addMenu(Menus::Mod::Main);
+	QMenu *modMenu = menuBar()->addMenu(tr("&Mod"));
 
-	QAction *menuModNew     = new QAction(Menus::Mod::New,     this);
-	QAction *menuModLoad    = new QAction(Menus::Mod::Open,    this);
-	QAction *menuModLoadTxt = new QAction(Menus::Mod::LoadTxt, this);
-	QAction *menuModSave_   = new QAction(Menus::Mod::Save,    this);
-	QAction *menuModSaveAs_ = new QAction(Menus::Mod::SaveAs,  this);
-	QAction *menuModQuit    = new QAction(Menus::Mod::Quit,    this);
+	QAction *menuModNew     = new QAction(tr("&New"),           this);
+	QAction *menuModLoad    = new QAction(tr("&Open..."),       this);
+	QAction *menuModLoadTxt = new QAction(tr("&Load from txt"), this);
+	QAction *menuModSave_   = new QAction(tr("&Save"),          this);
+	QAction *menuModSaveAs_ = new QAction(tr("Save &As..."),    this);
+	QAction *menuModQuit    = new QAction(tr("&Quit"),          this);
 
 	connect(menuModNew,     &QAction::triggered, this, &MainWindow::onNewActivated);
 	connect(menuModLoad,    &QAction::triggered, this, &MainWindow::onLoadActivated);
@@ -76,10 +75,10 @@ void MainWindow::initEditors()
 	editorTabs_ = new QTabWidget;
 	setCentralWidget(editorTabs_);
 
-	editorTabs_->addTab(new BoardEditor(mod_->boardModel()),        Editor::Titles::Board);
-	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()),    Editor::Titles::Items);
-	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), Editor::Titles::Enemies);
-	editorTabs_->addTab(new QuestEditor(mod_->questModel()),   Editor::Titles::Quests);
+	editorTabs_->addTab(new BoardEditor(mod_->boardModel()),   tr("Board"));
+	editorTabs_->addTab(new ItemsEditor(mod_->itemModel()),    tr("Items"));
+	editorTabs_->addTab(new EnemiesEditor(mod_->enemyModel()), tr("Enemies"));
+	editorTabs_->addTab(new QuestEditor(mod_->questModel()),   tr("Quests"));
 }
 
 int MainWindow::checkForUnsavedChanges()
@@ -88,8 +87,8 @@ int MainWindow::checkForUnsavedChanges()
 		return QMessageBox::Discard;
 
 	QMessageBox msgBox;
-	msgBox.setText(Editor::Messages::ModModified);
-	msgBox.setInformativeText(Editor::Messages::AskIfSaveChanges);
+	msgBox.setText(tr("Mod has been modified."));
+	msgBox.setInformativeText(tr("Do you want to save your changes?"));
 	msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 	msgBox.setDefaultButton(QMessageBox::Save);
 
@@ -124,7 +123,7 @@ void MainWindow::onLoadActivated()
 			return;
 	}
 
-	QString path = QFileDialog::getOpenFileName(this, Editor::Titles::OpenFileDialog,
+	QString path = QFileDialog::getOpenFileName(this, tr("Open mod"),
 	                                            resolvePath(Path::ModsDir), Strings::ModFiles);
 	mod_->load(path);
 
@@ -162,7 +161,7 @@ bool MainWindow::onSaveActivated()
 
 bool MainWindow::onSaveAsActivated()
 {
-	QString path = QFileDialog::getSaveFileName(this, Editor::Titles::SaveFileDialog,
+	QString path = QFileDialog::getSaveFileName(this, tr("Save mod"),
 	                                            resolvePath(Path::ModsDir), Strings::ModFiles);
 
 	if (!path.endsWith(Strings::ModFilesExtension))

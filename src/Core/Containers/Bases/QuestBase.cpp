@@ -17,28 +17,8 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "QuestBase.hpp"
 
+#include "Core/Enums.hpp"
 #include "Core/Utils/EnumHelpers.hpp"
-
-const BiHash <QuestBase::Difficulty, QString> QuestBase::LevelLabels = {
-	{QuestBase::Difficulty::Easy,   Labels::Quest::Levels::Easy},
-	{QuestBase::Difficulty::Medium, Labels::Quest::Levels::Medium},
-	{QuestBase::Difficulty::Hard,   Labels::Quest::Levels::Hard}
-};
-
-inline uint qHash(QuestBase::Difficulty d)
-{
-	return qHash(toUnderlying(d));
-}
-
-QDataStream & operator<<(QDataStream & out, const QuestBase::Difficulty & d)
-{
-	return out << toUnderlying(d);
-}
-
-QDataStream & operator>>(QDataStream & in, QuestBase::Difficulty & d)
-{
-	return in >> toUnderlyingRef(d);
-}
 
 QuestBase::QuestBase(UID uid, QString title) :
 	uid_(uid),
@@ -56,7 +36,7 @@ QuestBase::QuestBase(UID uid,
                      const QString & description,
                      Kingdom fraction,
                      int level,
-                     QuestBase::Difficulty difficulty,
+                     Difficulty difficulty,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
@@ -105,7 +85,7 @@ int QuestBase::level() const
 	return level_;
 }
 
-QuestBase::Difficulty QuestBase::difficulty() const
+Difficulty QuestBase::difficulty() const
 {
 	return difficulty_;
 }
@@ -177,7 +157,7 @@ void QuestBase::setLevel(int level)
 	level_ = level;
 }
 
-void QuestBase::setDifficulty(QuestBase::Difficulty difficulty)
+void QuestBase::setDifficulty(Difficulty difficulty)
 {
 	difficulty_ = difficulty;
 }

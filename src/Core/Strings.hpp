@@ -21,67 +21,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 
 namespace Labels {
-	namespace Kingdoms {
-		const QString Neutral   = QObject::tr("Neutral");
-		const QString Humans    = QObject::tr("Humans");
-		const QString Dwarfs    = QObject::tr("Dwarfs");
-		const QString Elves     = QObject::tr("Elves");
-		const QString Halflings = QObject::tr("Halflings");
-	}
-
-	namespace Races {
-		const QString Human    = QObject::tr("Human");
-		const QString Dwarf    = QObject::tr("Dwarf");
-		const QString Elf      = QObject::tr("Elf");
-		const QString Halfling = QObject::tr("Halfling");
-	}
-
-	namespace Classes {
-		const QString Fighter = QObject::tr("Fighter");
-		const QString Hunter  = QObject::tr("Hunter");
-		const QString Mage    = QObject::tr("Mage");
-		const QString Druid   = QObject::tr("Druid");
-	}
-
-	namespace Attacks {
-		const QString Melee   = QObject::tr("Melee");
-		const QString Ranged  = QObject::tr("Ranged");
-		const QString Magical = QObject::tr("Magical");
-	}
-
-	namespace Actions {
-		const QString GoToMarket       = QObject::tr("Go to market");
-		const QString GoToTavern       = QObject::tr("Go to tavern");
-		const QString FightWithMonster = QObject::tr("Fight with monster");
-		const QString EndTurn          = QObject::tr("End turn");
-	}
-
 	namespace Effect {
 		const QString Type     = QObject::tr("Type");
 		const QString Value    = QObject::tr("Value");
 		const QString Duration = QObject::tr("Duration");
-		namespace Types {
-			const QString MaxHealth       = QObject::tr("Maximum Health");
-			const QString Perception      = QObject::tr("Perception");
-			const QString Defence         = QObject::tr("Defence");
-			const QString MeleeBase       = QObject::tr("Melee Attack Base");
-			const QString MeleeRange      = QObject::tr("Melee Attack Range");
-			const QString RangedBase      = QObject::tr("Range Attack Base");
-			const QString RangedRange     = QObject::tr("Ranged Attack Range");
-			const QString MagicalBase     = QObject::tr("Magical Attack Base");
-			const QString MagicalRange    = QObject::tr("Magical Attack Range");
-			const QString Regeneration    = QObject::tr("Regeneration");
-			const QString MovePoints      = QObject::tr("Move Points");
-			const QString Heal            = QObject::tr("Heal");
-			const QString Vamp            = QObject::tr("Vamp");
-			const QString Absorb          = QObject::tr("Absorb");
-			const QString Deflect         = QObject::tr("Deflect");
-			const QString GoldBonus       = QObject::tr("Gold Bonus");
-			const QString ExperienceBonus = QObject::tr("Experience Bonus");
-			const QString TradeBonus      = QObject::tr("Trade Bonus");
-			const QString Fear            = QObject::tr("Fear");
-			const QString Stun            = QObject::tr("Stun");
-		}
 	}
 
 	namespace Quest {
@@ -96,11 +39,6 @@ namespace Labels {
 		const QString FollowUp         = QObject::tr("Follow Up");
 		const QString Objectives       = QObject::tr("Objectives");
 		const QString Reward           = QObject::tr("Reward");
-		namespace Levels {
-			const QString Easy   = QObject::tr("Easy");
-			const QString Medium = QObject::tr("Medium");
-			const QString Hard   = QObject::tr("Hard");
-		}
 	}
 
 	namespace Item {
@@ -111,21 +49,6 @@ namespace Labels {
 		const QString Quality     = QObject::tr("Quality");
 		const QString CanBeDrawn  = QObject::tr("CanBeDrawn");
 		const QString Effects     = QObject::tr("Effects");
-		namespace Types {
-			const QString Armor           = QObject::tr("Armor");
-			const QString Artifact        = QObject::tr("Artifact");
-			const QString Helmet          = QObject::tr("Helmet");
-			const QString Shield          = QObject::tr("Shield");
-			const QString OneHandedWeapon = QObject::tr("OneHandedWeapon");
-			const QString TwoHandedWeapon = QObject::tr("TwoHandedWeapon");
-			const QString Potion          = QObject::tr("Potion");
-		}
-		namespace Qualities {
-			const QString NotApplicable = QObject::tr("Not Applicable");
-			const QString Standard      = QObject::tr("Standard");
-			const QString Magical       = QObject::tr("Magical");
-			const QString Legendary     = QObject::tr("Legendary");
-		}
 	}
 
 	namespace Enemy {

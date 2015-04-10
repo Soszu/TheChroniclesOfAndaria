@@ -17,6 +17,8 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Containers/Models/BoardModel.hpp"
 
+#include "Core/Enums.hpp"
+
 BoardModel::BoardModel()
 {
 	reset();

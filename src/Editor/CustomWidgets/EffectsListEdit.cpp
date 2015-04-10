@@ -17,7 +17,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
-#include "Editor/Strings.hpp"
+#include "Core/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
 
 EffectsListEdit::EffectsListEdit(QWidget *parent) :
@@ -122,11 +122,11 @@ void EffectsListEdit::updateDuration(int x)
 
 void EffectsListEdit::initButtons()
 {
-	addEffectButton_ = new QPushButton(Editor::Labels::Effects::Add);
+	addEffectButton_ = new QPushButton(tr("Add"));
 	addEffectButton_->setShortcut(Editor::Shortcuts::SecondaryAdd);
 	connect(addEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::addEffect);
 
-	removeEffectButton_ = new QPushButton(Editor::Labels::Effects::Remove);
+	removeEffectButton_ = new QPushButton(tr("Remove"));
 	removeEffectButton_->setShortcut(Editor::Shortcuts::SecondaryRemove);
 	connect(removeEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::removeEffect);
 }
@@ -161,8 +161,8 @@ void EffectsListEdit::initList()
 void EffectsListEdit::initLayout()
 {
 	QHBoxLayout *itemEffectsLayout = new QHBoxLayout(this);
-	QLabel *listLabel = new QLabel(Editor::Labels::Effects::List);
-	QGroupBox *effectDetails = new QGroupBox(Editor::Labels::Effects::Details);
+	QLabel *listLabel = new QLabel(tr("List"));
+	QGroupBox *effectDetails = new QGroupBox(tr("Details"));
 	QFormLayout *effectDetailsLayout = new QFormLayout(effectDetails);
 	QVBoxLayout *effectsListLayout = new QVBoxLayout;
 	QHBoxLayout *buttonsLayout = new QHBoxLayout;

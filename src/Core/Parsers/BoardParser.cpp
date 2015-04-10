@@ -17,9 +17,11 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Parsers/BoardParser.hpp"
+
 #include "Core/DataManager.hpp"
 #include "Core/Containers/Coordinates.hpp"
 #include "Core/Containers/Models/BoardModel.hpp"
+#include "Core/Enums.hpp"
 
 BoardParser::BoardParser(Mod *dataKeeper)
 {

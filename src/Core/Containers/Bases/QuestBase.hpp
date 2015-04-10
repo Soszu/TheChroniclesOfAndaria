@@ -17,6 +17,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
+#include "Core/EnumsDeclarations.hpp"
 #include "Core/Utils/BiHash.hpp"
 #include "Core/Utils/Serial.hpp"
 #include "Core/Containers/Coordinates.hpp"
@@ -26,13 +27,6 @@ This file is part of The Chronicles Of Andaria Project.
 class QuestBase {
 
 public:
-	enum class Difficulty : quint8 {
-		Easy,
-		Medium,
-		Hard
-	};
-	static const BiHash <Difficulty, QString> LevelLabels;
-
 	QuestBase(UID uid = Serial::EmptyUid, QString title = {});
 	QuestBase(UID uid,
 	          const QString &title,
@@ -85,9 +79,5 @@ private:
 	QHash <Coordinates, Test> objectives_;
 	Prize reward_;
 };
-Q_DECLARE_METATYPE(QuestBase::Difficulty)
 QDataStream & operator<<(QDataStream & out, const QuestBase & base);
 QDataStream & operator>>(QDataStream & in, QuestBase & base);
-uint qHash(QuestBase::Difficulty d);
-QDataStream & operator<<(QDataStream & out, const QuestBase::Difficulty & d);
-QDataStream & operator>>(QDataStream & in, QuestBase::Difficulty & d);

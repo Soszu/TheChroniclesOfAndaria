@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 
 #include "Core/Containers/Prize.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 class Mod;
 

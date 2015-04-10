@@ -19,95 +19,117 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Utils/BiHash.hpp"
-#include "Core/Strings.hpp"
 
+// ========== KINGDOM ==========
 enum class Kingdom : quint8 {
 	Neutral,
 	Humans,
 	Dwarfs,
 	Elves,
-	Halflings
+	Halflings,
 };
 Q_DECLARE_METATYPE(Kingdom)
-uint qHash(Kingdom kingdom);
+uint qHash(Kingdom val);
 const QVector<Kingdom> KingdomsForReputation {
 	Kingdom::Humans,
 	Kingdom::Dwarfs,
 	Kingdom::Elves,
-	Kingdom::Halflings
+	Kingdom::Halflings,
 };
-QDataStream & operator<<(QDataStream &out, Kingdom kingdom);
-QDataStream & operator>>(QDataStream &in, Kingdom kingdom);
+QDataStream & operator<<(QDataStream & out, const Kingdom & val);
+QDataStream & operator>>(QDataStream & in, Kingdom & val);
 const BiHash <Kingdom, QString> KingdomLabels {
-	{Kingdom::Neutral,   Labels::Kingdoms::Neutral},
-	{Kingdom::Humans,    Labels::Kingdoms::Humans},
-	{Kingdom::Dwarfs,    Labels::Kingdoms::Dwarfs},
-	{Kingdom::Elves,     Labels::Kingdoms::Elves},
-	{Kingdom::Halflings, Labels::Kingdoms::Halflings}
+	{Kingdom::Neutral,   QObject::tr("Neutral")},
+	{Kingdom::Humans,    QObject::tr("Humans")},
+	{Kingdom::Dwarfs,    QObject::tr("Dwarfs")},
+	{Kingdom::Elves,     QObject::tr("Elves")},
+	{Kingdom::Halflings, QObject::tr("Halflings")}
 };
 
+// ========== RACE ==========
 enum class Race : quint8 {
 	Human,
 	Dwarf,
 	Elf,
-	Halfling
+	Halfling,
 };
 Q_DECLARE_METATYPE(Race)
 uint qHash(Race playerRace);
-QDataStream & operator<<(QDataStream &out, const Race &playerRace);
-QDataStream & operator>>(QDataStream &in, Race &playerRace);
+QDataStream & operator<<(QDataStream & out, const Race & playerRace);
+QDataStream & operator>>(QDataStream & in, Race & playerRace);
 const BiHash <Race, QString> RaceLabels {
-	{Race::Human,    Labels::Races::Human},
-	{Race::Dwarf,    Labels::Races::Dwarf},
-	{Race::Elf,      Labels::Races::Elf},
-	{Race::Halfling, Labels::Races::Halfling}
+	{Race::Human,    QObject::tr("Human")},
+	{Race::Dwarf,    QObject::tr("Dwarf")},
+	{Race::Elf,      QObject::tr("Elf")},
+	{Race::Halfling, QObject::tr("Halfling")}
 };
 
+// ========== CLASS ==========
 enum class Class : quint8 {
 	Fighter,
 	Hunter,
 	Mage,
-	Druid
+	Druid,
 };
 Q_DECLARE_METATYPE(Class)
-uint qHash(Class playerClass);
-QDataStream & operator<<(QDataStream &out, const Class &playerClass);
-QDataStream & operator>>(QDataStream &in, Class &playerClass);
+uint qHash(Class val);
+QDataStream & operator<<(QDataStream & out, const Class & val);
+QDataStream & operator>>(QDataStream & in, Class & val);
 const BiHash <Class, QString> ClassLabels {
-	{Class::Fighter, Labels::Classes::Fighter},
-	{Class::Hunter,  Labels::Classes::Hunter},
-	{Class::Mage,    Labels::Classes::Mage},
-	{Class::Druid,   Labels::Classes::Druid}
+	{Class::Fighter, QObject::tr("Fighter")},
+	{Class::Hunter,  QObject::tr("Hunter")},
+	{Class::Mage,    QObject::tr("Mage")},
+	{Class::Druid,   QObject::tr("Druid")}
 };
 
+// ========== ATTACK ==========
 enum class Attack : quint8 {
 	Melee,
 	Ranged,
-	Magical
+	Magical,
 };
 Q_DECLARE_METATYPE(Attack)
-uint qHash(Attack attack);
-QDataStream & operator<<(QDataStream &out, const Attack &attack);
-QDataStream & operator>>(QDataStream &in, Attack &attack);
+uint qHash(Attack val);
+QDataStream & operator<<(QDataStream & out, const Attack & val);
+QDataStream & operator>>(QDataStream & in, Attack & val);
 const BiHash <Attack, QString> AttackLabels {
-	{Attack::Melee,   Labels::Attacks::Melee},
-	{Attack::Ranged,  Labels::Attacks::Ranged},
-	{Attack::Magical, Labels::Attacks::Magical},
+	{Attack::Melee,   QObject::tr("Melee")},
+	{Attack::Ranged,  QObject::tr("Ranged")},
+	{Attack::Magical, QObject::tr("Magical")},
 };
 
+// ========== ACTION ==========
 enum class Action : quint8 {
+	GoToHealer,
 	GoToMarket,
 	GoToTavern,
 	FightWithMonster,
-	EndTurn
+	EndTurn,
 };
 Q_DECLARE_METATYPE(Action)
-uint qHash(Action action);
-QDataStream & operator<<(QDataStream &out, const Action &action);
-QDataStream & operator>>(QDataStream &in, Action &action);
+uint qHash(Action val);
+QDataStream & operator<<(QDataStream & out, const Action & val);
+QDataStream & operator>>(QDataStream & in, Action & val);
 const BiHash <Action, QString> ActionLabels {
-	{Action::GoToMarket,       Labels::Actions::GoToMarket},
-	{Action::GoToTavern,       Labels::Actions::GoToTavern},
-	{Action::FightWithMonster, Labels::Actions::FightWithMonster},
-	{Action::EndTurn,          Labels::Actions::EndTurn},
+	{Action::GoToMarket,       QObject::tr("Go to market")},
+	{Action::GoToTavern,       QObject::tr("Go to tavern")},
+	{Action::GoToHealer,       QObject::tr("Go to healer")},
+	{Action::FightWithMonster, QObject::tr("Fight with monster")},
+	{Action::EndTurn,          QObject::tr("End turn")},
+};
+
+// ========== DIFFICULTY ==========
+enum class Difficulty : quint8 {
+	Easy,
+	Medium,
+	Hard,
+};
+Q_DECLARE_METATYPE(Difficulty)
+uint qHash(Difficulty val);
+QDataStream & operator<<(QDataStream & out, const Difficulty & val);
+QDataStream & operator>>(QDataStream & in, Difficulty & val);
+const BiHash <Difficulty, QString> DifficultyLabels {
+	{Difficulty::Easy,       QObject::tr("Easy")},
+	{Difficulty::Medium,     QObject::tr("Medium")},
+	{Difficulty::Hard,       QObject::tr("Hard")},
 };

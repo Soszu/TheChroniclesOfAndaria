@@ -23,7 +23,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Prize.hpp"
 #include "Core/Containers/Effect.hpp"
 #include "Core/Utils/Serial.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 enum class Attack : quint8 ;
 

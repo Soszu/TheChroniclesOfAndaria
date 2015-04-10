@@ -21,10 +21,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Models/EnemyModel.hpp"
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Enums.hpp"
+#include "Core/Strings.hpp"
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
-#include "Editor/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
 
 
@@ -133,11 +133,11 @@ void EnemiesEditor::characterTyped(const QString & text)
 
 void EnemiesEditor::initViewPart()
 {
-	addEnemyButton_ = new QPushButton(Editor::Labels::Add);
+	addEnemyButton_ = new QPushButton(tr("Add"));
 	addEnemyButton_->setShortcut(Editor::Shortcuts::Add);
 	connect(addEnemyButton_, &QPushButton::clicked, this, &EnemiesEditor::addEnemy);
 
-	removeEnemyButton_ = new QPushButton(Editor::Labels::Remove);
+	removeEnemyButton_ = new QPushButton(tr("Remove"));
 	removeEnemyButton_->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeEnemyButton_, &QPushButton::clicked, this, &EnemiesEditor::removeEnemy);
 
@@ -145,7 +145,7 @@ void EnemiesEditor::initViewPart()
 	connect(searchLine_, &QLineEdit::textChanged, this, &EnemiesEditor::characterTyped);
 
 	QHBoxLayout * buttonsLayout = new QHBoxLayout;
-	buttonsLayout->addWidget(new QLabel(Editor::Titles::Enemies));
+	buttonsLayout->addWidget(new QLabel(tr("Enemies")));
 	buttonsLayout->addStretch();
 	buttonsLayout->addWidget(searchLine_);
 	buttonsLayout->addWidget(addEnemyButton_);

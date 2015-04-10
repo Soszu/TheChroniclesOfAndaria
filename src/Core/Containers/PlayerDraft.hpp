@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 static const int MinPlayers = 2;
 static const int MaxPlayers = 8;

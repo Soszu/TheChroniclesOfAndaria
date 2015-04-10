@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 #include "Core/Containers/Models/BoardModel.hpp"
 #include "Core/Containers/Models/ItemModel.hpp"

@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "EnemyBase.hpp"
 
+#include "Core/Enums.hpp"
 #include "Core/DataManager.hpp"
 #include "Core/Containers/Entity.hpp"
 #include "Core/Paths.hpp"

@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
 
-#include "Editor/Strings.hpp"
+#include "Core/Enums.hpp"
 
 PrizeEdit::PrizeEdit(QWidget *parent) :
 	QWidget(parent)
@@ -83,9 +83,9 @@ void PrizeEdit::initLayout()
 	mainLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
 	setLayout(mainLayout);
 
-	mainLayout->addRow(Editor::Labels::Prize::Experience, experienceEdit_);
-	mainLayout->addRow(Editor::Labels::Prize::Gold, goldEdit_);
-	mainLayout->addRow(Editor::Labels::Prize::KingdomReputations, repLayout_);
+	mainLayout->addRow(tr("Experience"), experienceEdit_);
+	mainLayout->addRow(tr("Gold"),       goldEdit_);
+	mainLayout->addRow(tr("Reputation"), repLayout_);
 }
 
 void PrizeEdit::simulateFocusLoss()

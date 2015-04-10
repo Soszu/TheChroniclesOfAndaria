@@ -20,10 +20,10 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Models/QuestModel.hpp"
 #include "Core/Containers/Bases/QuestBase.hpp"
 #include "Core/Enums.hpp"
+#include "Core/Strings.hpp"
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
-#include "Editor/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
 
 QuestEditor::QuestEditor(QuestModel * questModel, QWidget * parent) :
@@ -78,8 +78,8 @@ void QuestEditor::initEditPart()
 
 	difficultyEdit_ = new EnumEdit;
 	difficultyEdit_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	for (auto & level : QuestBase::LevelLabels.leftKeys())
-		difficultyEdit_->addItem(QuestBase::LevelLabels[level], QVariant::fromValue(level));
+	for (auto & level : DifficultyLabels.leftKeys())
+		difficultyEdit_->addItem(DifficultyLabels[level], QVariant::fromValue(level));
 
 	isReturnRequiredEdit_ = new QCheckBox;
 	canBeDrawnEdit_ = new QCheckBox;
@@ -124,7 +124,7 @@ void QuestEditor::initMapper()
 	questMapper_->addMapping(titleEdit_,            QuestModel::Title);
 	questMapper_->addMapping(descriptionEdit_,      QuestModel::Description);
 	questMapper_->addMapping(fractionEdit_,         QuestModel::Fraction);
-	questMapper_->addMapping(difficultyEdit_,       QuestModel::Difficulty);
+	questMapper_->addMapping(difficultyEdit_,       QuestModel::QuestDifficulty);
 	questMapper_->addMapping(levelEdit_,            QuestModel::Level);
 	questMapper_->addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
 	questMapper_->addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
@@ -137,16 +137,16 @@ void QuestEditor::initMapper()
 
 void QuestEditor::initViewPart()
 {
-	QPushButton * addQuestButton = new QPushButton(Editor::Labels::Add);
+	QPushButton * addQuestButton = new QPushButton(tr("Add"));
 	addQuestButton->setShortcut(Editor::Shortcuts::Add);
 	connect(addQuestButton, & QPushButton::clicked, this, &QuestEditor::addQuest);
 
-	QPushButton *removeQuestButton = new QPushButton(Editor::Labels::Remove);
+	QPushButton *removeQuestButton = new QPushButton(tr("Remove"));
 	removeQuestButton->setShortcut(Editor::Shortcuts::Remove);
 	connect(removeQuestButton, &QPushButton::clicked, this, &QuestEditor::removeQuest);
 
 	QHBoxLayout * buttonsLayout = new QHBoxLayout;
-	buttonsLayout->addWidget(new QLabel(Editor::Titles::Quests));
+	buttonsLayout->addWidget(new QLabel(tr("Quests")));
 	buttonsLayout->addStretch();
 	buttonsLayout->addWidget(addQuestButton);
 	buttonsLayout->addWidget(removeQuestButton);

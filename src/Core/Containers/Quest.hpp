@@ -32,7 +32,7 @@ public:
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
 	int level() const;
-	QuestBase::Difficulty difficulty() const;
+	QuestBase difficulty() const;
 	QHash <Coordinates, Test> objectives() const;
 	const Prize *prize() const;
 	Coordinates source() const;

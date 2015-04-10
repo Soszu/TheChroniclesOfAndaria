@@ -17,6 +17,8 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "EnemyModel.hpp"
 
+#include "Core/Enums.hpp"
+#include "Core/Strings.hpp"
 #include "Core/Containers/Enemy.hpp"
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Containers/Prize.hpp"

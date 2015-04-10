@@ -18,79 +18,93 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Enums.hpp"
 
 #include "Core/Utils/EnumHelpers.hpp"
-#include "Core/Strings.hpp"
 
-inline uint qHash(Kingdom kingdom)
+inline uint qHash(Kingdom val)
 {
-	return qHash(toUnderlying(kingdom));
+	return qHash(toUnderlying(val));
 }
 
-QDataStream & operator<<(QDataStream &out, Kingdom kingdom)
+QDataStream & operator<<(QDataStream & out, const Kingdom & val)
 {
-	return out << toUnderlying(kingdom);
+	return out << toUnderlying(val);
 }
 
-QDataStream & operator>>(QDataStream &in, Kingdom kingdom)
+QDataStream & operator>>(QDataStream & in, Kingdom & val)
 {
-	return in >> toUnderlyingRef(kingdom);
+	return in >> toUnderlyingRef(val);
 }
 
-inline uint qHash(Race playerRace)
+inline uint qHash(Race val)
 {
-	return qHash(toUnderlying(playerRace));
+	return qHash(toUnderlying(val));
 }
 
-QDataStream & operator<<(QDataStream &out, const Race &playerRace)
+QDataStream & operator<<(QDataStream & out, const Race & val)
 {
-	return out << toUnderlying(playerRace);
+	return out << toUnderlying(val);
 }
 
-QDataStream & operator>>(QDataStream &in, Race &playerRace)
+QDataStream & operator>>(QDataStream & in, Race & val)
 {
-	return in >> toUnderlyingRef(playerRace);
+	return in >> toUnderlyingRef(val);
 }
 
-inline uint qHash(Class playerClass)
+inline uint qHash(Class val)
 {
-	return qHash(toUnderlying(playerClass));
+	return qHash(toUnderlying(val));
 }
 
-QDataStream & operator<<(QDataStream &out, const Class &playerClass)
+QDataStream & operator<<(QDataStream & out, const Class & val)
 {
-	return out << toUnderlying(playerClass);
+	return out << toUnderlying(val);
 }
 
-QDataStream & operator>>(QDataStream &in, Class &playerClass)
+QDataStream & operator>>(QDataStream & in, Class & val)
 {
-	return in >> toUnderlyingRef(playerClass);
+	return in >> toUnderlyingRef(val);
 }
 
-inline uint qHash(Attack attack)
+inline uint qHash(Attack val)
 {
-	return qHash(toUnderlying(attack));
+	return qHash(toUnderlying(val));
 }
 
-QDataStream & operator<<(QDataStream &out, const Attack &attack)
+QDataStream & operator<<(QDataStream & out, const Attack & val)
 {
-	return out << toUnderlying(attack);
+	return out << toUnderlying(val);
 }
 
-QDataStream & operator>>(QDataStream &in, Attack &attack)
+QDataStream & operator>>(QDataStream & in, Attack & val)
 {
-	return in >> toUnderlyingRef(attack);
+	return in >> toUnderlyingRef(val);
 }
 
-inline uint qHash(Action action)
+inline uint qHash(Action val)
 {
-	return qHash(toUnderlying(action));
+	return qHash(toUnderlying(val));
 }
 
-QDataStream & operator<<(QDataStream &out, const Action &action)
+QDataStream & operator<<(QDataStream & out, const Action & val)
 {
-	return out << toUnderlying(action);
+	return out << toUnderlying(val);
 }
 
-QDataStream & operator>>(QDataStream &in, Action &action)
+QDataStream & operator>>(QDataStream & in, Action & val)
 {
-	return in >> toUnderlyingRef(action);
+	return in >> toUnderlyingRef(val);
+}
+
+inline uint qHash(Difficulty val)
+{
+	return qHash(toUnderlying(val));
+}
+
+QDataStream & operator<<(QDataStream & out, const Difficulty & val)
+{
+	return out << toUnderlying(val);
+}
+
+QDataStream & operator>>(QDataStream & in, Difficulty & val)
+{
+	return in >> toUnderlyingRef(val);
 }

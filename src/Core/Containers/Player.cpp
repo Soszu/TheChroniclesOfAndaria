@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Containers/Player.hpp"
 
+#include "Core/Enums.hpp"
 #include "Core/Containers/PlayerDraft.hpp"
 #include "Core/Mod.hpp"
 

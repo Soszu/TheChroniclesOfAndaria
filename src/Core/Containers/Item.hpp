@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Containers/Bases/ItemBase.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 #include "Core/Containers/PlayerDraft.hpp"
 
 class Item {

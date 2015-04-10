@@ -20,7 +20,6 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtCore>
 #include "Core/Utils/EnumHelpers.hpp"
 #include "Core/Utils/BiHash.hpp"
-#include "Core/Strings.hpp"
 
 class Effect {
 public:

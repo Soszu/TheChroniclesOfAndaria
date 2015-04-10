@@ -21,9 +21,9 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
+#include "Core/Enums.hpp"
 #include "Core/Mod.hpp"
 #include "Core/Paths.hpp"
-#include "Core/Enums.hpp"
 #include "Core/Containers/Player.hpp"
 
 class Mod;

@@ -17,6 +17,7 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Core/Mod.hpp"
 
+#include "Core/Enums.hpp"
 #include "Core/Parsers/BoardParser.hpp"
 #include "Core/Parsers/ItemParser.hpp"
 #include "Core/Parsers/PrizeParser.hpp"

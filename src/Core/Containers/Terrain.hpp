@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtGui>
 
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 #include "Core/Utils/Serial.hpp"
 
 class Terrain {

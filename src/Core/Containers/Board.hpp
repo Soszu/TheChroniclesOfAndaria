@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Containers/Terrain.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 #include "Core/Containers/Coordinates.hpp"
 
 #include "Core/Utils/Serial.hpp"

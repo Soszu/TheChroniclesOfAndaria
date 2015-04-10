@@ -19,7 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Containers/Prize.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 

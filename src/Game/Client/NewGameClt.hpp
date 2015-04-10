@@ -19,6 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/PlayerDraft.hpp"
 #include "Game/Client/ConnectionAdapterClt.hpp"
+#include "Core/EnumsDeclarations.hpp"
 
 class NewGameClt : public QObject {
 	Q_OBJECT

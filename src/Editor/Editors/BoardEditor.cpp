@@ -19,7 +19,6 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Models/BoardModel.hpp"
 #include "Core/Widgets/Map.hpp"
-#include "Editor/Strings.hpp"
 
 BoardEditor::BoardEditor(BoardModel * board) :
 	board_(board)
@@ -47,10 +46,10 @@ QWidget * BoardEditor::createTools()
 	initialPositionsTools_ = new QWidget;
 
 	QToolBox * tools = new QToolBox;
-	tools->addItem(boardSizeTools_,        Editor::Labels::BoardTools::BoardSize);
-	tools->addItem(terrainsTools_,         Editor::Labels::BoardTools::Terrains);
-	tools->addItem(rulingTools_,           Editor::Labels::BoardTools::Ruling);
-	tools->addItem(initialPositionsTools_, Editor::Labels::BoardTools::InitialPositions);
+	tools->addItem(boardSizeTools_,        tr("Board size"));
+	tools->addItem(terrainsTools_,         tr("Terrains"));
+	tools->addItem(rulingTools_,           tr("Ruling"));
+	tools->addItem(initialPositionsTools_, tr("Initial Positions"));
 
 	return tools;
 }
@@ -73,8 +72,8 @@ void BoardEditor::initBoardSizeTools()
 	connect(boardRows_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &BoardEditor::changeBoardHeight);
 
-	layout->addRow(Editor::Labels::BoardTools::BoardColumns, boardColumns_);
-	layout->addRow(Editor::Labels::BoardTools::BoardRows,    boardRows_);
+	layout->addRow(tr("Board columns"), boardColumns_);
+	layout->addRow(tr("Board rows"),    boardRows_);
 
 	connect(board_, &BoardModel::modelChanged, this, &BoardEditor::updateBoardSizeTools);
 }

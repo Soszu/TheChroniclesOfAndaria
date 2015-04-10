@@ -18,7 +18,6 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include <QtCore>
-#include "Core/Strings.hpp"
 #include "Core/Utils/Serial.hpp"
 
 class ItemBase;

@@ -16,6 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Core/Containers/Effect.hpp"
+#include "Core/Strings.hpp"
 
 inline uint qHash(Effect::Type type)
 {
@@ -33,27 +34,26 @@ QDataStream & operator>>(QDataStream &in, Effect::Type &effectType)
 }
 
 const BiHash <Effect::Type, QString> Effect::TypeLabels = {
-	{Effect::Type::MaxHealth,       Labels::Effect::Types::MaxHealth},
-	{Effect::Type::Perception,      Labels::Effect::Types::Perception},
-	{Effect::Type::Defence,         Labels::Effect::Types::Defence},
-	{Effect::Type::MeleeBase,       Labels::Effect::Types::MeleeBase},
-	{Effect::Type::MeleeRange,      Labels::Effect::Types::MeleeRange},
-	{Effect::Type::RangedBase,      Labels::Effect::Types::RangedBase},
-	{Effect::Type::RangedRange,     Labels::Effect::Types::RangedRange},
-	{Effect::Type::MagicalBase,     Labels::Effect::Types::MagicalBase},
-	{Effect::Type::MagicalRange,    Labels::Effect::Types::MagicalRange},
-	{Effect::Type::Regeneration,    Labels::Effect::Types::Regeneration},
-	{Effect::Type::MovePoints,      Labels::Effect::Types::MovePoints},
-	{Effect::Type::Heal,            Labels::Effect::Types::Heal},
-	{Effect::Type::Vamp,            Labels::Effect::Types::Vamp},
-	{Effect::Type::Deflect,         Labels::Effect::Types::Deflect},
-	{Effect::Type::Absorb,          Labels::Effect::Types::Absorb},
-	{Effect::Type::GoldBonus,       Labels::Effect::Types::GoldBonus},
-	{Effect::Type::ExperienceBonus, Labels::Effect::Types::ExperienceBonus},
-	{Effect::Type::Fear,            Labels::Effect::Types::Fear},
-	{Effect::Type::Stun,            Labels::Effect::Types::Stun},
+	{Effect::Type::MaxHealth,       QObject::tr("Maximum Health")},
+	{Effect::Type::Perception,      QObject::tr("Perception")},
+	{Effect::Type::Defence,         QObject::tr("Defence")},
+	{Effect::Type::MeleeBase,       QObject::tr("Melee attack base")},
+	{Effect::Type::MeleeRange,      QObject::tr("Melee attack base")},
+	{Effect::Type::RangedBase,      QObject::tr("Ranged attack base")},
+	{Effect::Type::RangedRange,     QObject::tr("Ranged attack range")},
+	{Effect::Type::MagicalBase,     QObject::tr("Magical attack base")},
+	{Effect::Type::MagicalRange,    QObject::tr("Magical attack range")},
+	{Effect::Type::Regeneration,    QObject::tr("Regeneraion")},
+	{Effect::Type::MovePoints,      QObject::tr("Move points")},
+	{Effect::Type::Heal,            QObject::tr("Heal")},
+	{Effect::Type::Vamp,            QObject::tr("Vamp")},
+	{Effect::Type::Deflect,         QObject::tr("Deflect")},
+	{Effect::Type::Absorb,          QObject::tr("Absorb")},
+	{Effect::Type::GoldBonus,       QObject::tr("Gold bonus")},
+	{Effect::Type::ExperienceBonus, QObject::tr("Experience bonus")},
+	{Effect::Type::Fear,            QObject::tr("Fear")},
+	{Effect::Type::Stun,            QObject::tr("Stun")},
 };
-
 QString Effect::description(const Effect &effect)
 {
 	return TypeLabels[effect.type()]

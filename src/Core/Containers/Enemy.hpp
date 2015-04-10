@@ -21,7 +21,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Entity.hpp"
 #include "Core/Containers/Effect.hpp"
-#include "Core/Enums.hpp"
+#include "Core/EnumsDeclarations.hpp"
 #include "Core/Containers/Bases/EnemyBase.hpp"
 
 class Prize;

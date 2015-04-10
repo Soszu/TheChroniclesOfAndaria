@@ -27,7 +27,6 @@ class EnumEdit;
 
 class ItemsEditor : public QWidget {
 	Q_OBJECT
-
 public:
 	ItemsEditor(ItemModel * itemModel, QWidget * parent = nullptr);
 	void loadFromStream(QDataStream & in);
