@@ -21,7 +21,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Containers/Prize.hpp"
 
-EnemyModel::EnemyModel(QObject *parent) :
+EnemyModel::EnemyModel(QObject * parent) :
 	QAbstractTableModel(parent),
 	changed_(false)
 {
@@ -40,14 +40,14 @@ EnemyModel::~EnemyModel()
 	qDeleteAll(enemies_);
 }
 
-int EnemyModel::columnCount(const QModelIndex& index) const
+int EnemyModel::columnCount(const QModelIndex & index) const
 {
 	if (index.isValid())
 		return 0;
 	return ColumnCount;
 }
 
-QVariant EnemyModel::data(const QModelIndex &index, int role) const
+QVariant EnemyModel::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -58,6 +58,7 @@ QVariant EnemyModel::data(const QModelIndex &index, int role) const
 			case Name:          return enemy->name();
 			case ImageName:     return enemy->imageName();
 			case Level:         return enemy->level();
+			case Type:          return QVariant::fromValue(enemy->type());
 			case DefaultAttack: return QVariant::fromValue(enemy->defaultAttack());
 			case BaseStats:     return QVariant::fromValue(enemy->baseStats());
 			case WinningPrize:  return QVariant::fromValue(enemy->prize());
@@ -78,7 +79,7 @@ Qt::ItemFlags EnemyModel::flags(const QModelIndex &index) const
 	return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-bool EnemyModel::hasEnemy(const QString &name) const
+bool EnemyModel::hasEnemy(const QString & name) const
 {
 	return enemy(name) != nullptr;
 }
@@ -93,12 +94,12 @@ const EnemyBase * EnemyModel::enemy(UID uid) const
 	return uidToEnemy_.value(uid, nullptr);
 }
 
-const EnemyBase * EnemyModel::enemy(const QModelIndex &index) const
+const EnemyBase * EnemyModel::enemy(const QModelIndex & index) const
 {
 	return enemies_.value(index.row(), nullptr);
 }
 
-const EnemyBase * EnemyModel::enemy(const QString &name) const
+const EnemyBase * EnemyModel::enemy(const QString & name) const
 {
 	for (const EnemyBase * enemy : enemies_)
 		if (enemy->name() == name)
@@ -117,12 +118,12 @@ bool EnemyModel::isChanged() const
 	return changed_;
 }
 
-int EnemyModel::rowCount(const QModelIndex &parent) const
+int EnemyModel::rowCount(const QModelIndex & parent) const
 {
 	return enemies_.count();
 }
 
-QDataStream &EnemyModel::toDataStream(QDataStream &out) const
+QDataStream & EnemyModel::toDataStream(QDataStream & out) const
 {
 	out << serial_ << static_cast<UID>(enemies_.count());
 	for (const EnemyBase *enemy : enemies_)
@@ -134,7 +135,7 @@ void EnemyModel::addNewEnemy(){
 	insertRows(enemies_.count(), 1);
 }
 
-QDataStream &EnemyModel::fromDataStream(QDataStream &in)
+QDataStream & EnemyModel::fromDataStream(QDataStream & in)
 {
 	beginResetModel();
 	qDeleteAll(enemies_);
@@ -144,7 +145,7 @@ QDataStream &EnemyModel::fromDataStream(QDataStream &in)
 	UID count;
 	in >> serial_ >> count;
 	for (UID i = 0; i < count; ++i) {
-		EnemyBase *enemy = new EnemyBase;
+		EnemyBase * enemy = new EnemyBase;
 		in >> *enemy;
 		addEnemy(i, enemy);
 	}
@@ -153,7 +154,7 @@ QDataStream &EnemyModel::fromDataStream(QDataStream &in)
 	return in;
 }
 
-bool EnemyModel::insertRows(int row, int count, const QModelIndex &parent)
+bool EnemyModel::insertRows(int row, int count, const QModelIndex & parent)
 {
 	int nameSuffix = 0;
 	beginInsertRows(QModelIndex(), row, row + count - 1);
@@ -184,7 +185,7 @@ void EnemyModel::removeEnemy(UID uid)
 	}
 }
 
-bool EnemyModel::removeRows(int row, int count, const QModelIndex &parent)
+bool EnemyModel::removeRows(int row, int count, const QModelIndex & parent)
 {
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
 	for (int i = 0; i < count; ++i)
@@ -207,16 +208,17 @@ void EnemyModel::setChanged(bool changed)
 	changed_ = changed;
 }
 
-bool EnemyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool EnemyModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
 	if (!index.isValid() || role != Qt::EditRole)
 		return false;
 
-	EnemyBase *enemy = enemies_[index.row()];
+	EnemyBase * enemy = enemies_[index.row()];
 	switch (index.column()) {
 		case Name:          enemy->setName(value.toString()); break;
 		case ImageName:     enemy->setImageName(value.toString()); break;
 		case Level:         enemy->setLevel(value.toInt()); break;
+		case Type:          enemy->setType(value.value<EnemyBase::Type>()); break;
 		case DefaultAttack: enemy->setDefaultAttack(value.value<Attack>()); break;
 		case BaseStats:     enemy->setBaseStats(value.value<QList <Effect> >()); break;
 		case WinningPrize:  enemy->setPrize(value.value<Prize>()); break;
@@ -227,7 +229,7 @@ bool EnemyModel::setData(const QModelIndex &index, const QVariant &value, int ro
 	return true;
 }
 
-void EnemyModel::addEnemyBase(EnemyBase* eb)
+void EnemyModel::addEnemyBase(EnemyBase * eb)
 {
 	beginResetModel();
 
@@ -236,7 +238,7 @@ void EnemyModel::addEnemyBase(EnemyBase* eb)
 	endResetModel();
 }
 
-void EnemyModel::addEnemy(int row, EnemyBase* enemy)
+void EnemyModel::addEnemy(int row, EnemyBase * enemy)
 {
 	enemies_.insert(row, enemy);
 	uidToEnemy_[enemy->uid()] = enemy;
@@ -248,12 +250,12 @@ void EnemyModel::removeEnemyFromRow(int row)
 	delete enemies_.takeAt(row);
 }
 
-QDataStream & operator<<(QDataStream &out, const EnemyModel &model)
+QDataStream & operator<<(QDataStream & out, const EnemyModel & model)
 {
 	return model.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, EnemyModel &model)
+QDataStream & operator>>(QDataStream & in, EnemyModel & model)
 {
 	return model.fromDataStream(in);
 }

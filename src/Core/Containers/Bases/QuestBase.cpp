@@ -30,12 +30,12 @@ inline uint qHash(QuestBase::Difficulty d)
 	return qHash(toUnderlying(d));
 }
 
-QDataStream & operator<<(QDataStream &out, const QuestBase::Difficulty &d)
+QDataStream & operator<<(QDataStream & out, const QuestBase::Difficulty & d)
 {
 	return out << toUnderlying(d);
 }
 
-QDataStream & operator>>(QDataStream &in, QuestBase::Difficulty &d)
+QDataStream & operator>>(QDataStream & in, QuestBase::Difficulty & d)
 {
 	return in >> toUnderlyingRef(d);
 }
@@ -52,16 +52,16 @@ QuestBase::QuestBase(UID uid, QString title) :
 {}
 
 QuestBase::QuestBase(UID uid,
-                     const QString &title,
-                     const QString &description,
+                     const QString & title,
+                     const QString & description,
                      Kingdom fraction,
                      int level,
                      QuestBase::Difficulty difficulty,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
-                     const QHash <Coordinates, Test> &objectives,
-                     const Prize &reward) :
+                     const QHash <Coordinates, Test> & objectives,
+                     const Prize & reward) :
 	uid_(uid),
 	title_(title),
 	description_(description),
@@ -125,7 +125,7 @@ const QString & QuestBase::title() const
 	return title_;
 }
 
-QDataStream & QuestBase::toDataStream(QDataStream &out) const
+QDataStream & QuestBase::toDataStream(QDataStream & out) const
 {
 	return out << uid_ << title_ << description_ << fraction_ << level_ << difficulty_
 	           << isReturnRequired_ << followUp_ << canBeDrawn_ << objectives_ << reward_;
@@ -152,7 +152,7 @@ void QuestBase::setCanBeDrawn(bool canBeDrawn)
 	canBeDrawn_ = canBeDrawn;
 }
 
-void QuestBase::setDescription(const QString &description)
+void QuestBase::setDescription(const QString & description)
 {
 	description_ = description;
 }
@@ -197,12 +197,12 @@ void QuestBase::setTitle(const QString &title)
 	title_ = title;
 }
 
-QDataStream & operator<<(QDataStream &out, const QuestBase &base)
+QDataStream & operator<<(QDataStream & out, const QuestBase & base)
 {
 	return base.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, QuestBase &base)
+QDataStream & operator>>(QDataStream & in, QuestBase & base)
 {
 	return base.fromDataStream(in);
 }

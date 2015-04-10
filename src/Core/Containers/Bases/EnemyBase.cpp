@@ -22,23 +22,41 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Entity.hpp"
 #include "Core/Paths.hpp"
 
+const BiHash <EnemyBase::Type, QString> EnemyBase::TypeLabels = {
+	{EnemyBase::Type::Beast,    QObject::tr("Beast")},
+	{EnemyBase::Type::Deamon,   QObject::tr("Demon")},
+	{EnemyBase::Type::Humanoid, QObject::tr("Humanoid")},
+	{EnemyBase::Type::Undead,   QObject::tr("Undead")},
+};
+
+inline uint qHash(EnemyBase::Type d)
+{
+	return qHash(toUnderlying(d));
+}
+
+QDataStream & operator<<(QDataStream & out, const EnemyBase::Type & t)
+{
+	return out << toUnderlying(t);
+}
+
+QDataStream & operator>>(QDataStream & in, EnemyBase::Type & t)
+{
+	return in >> toUnderlyingRef(t);
+}
+
 EnemyBase::EnemyBase(UID uid, QString name) :
 	uid_(uid),
 	name_(name),
 	level_(0),
+	type_(Type::Beast),
 	defaultAttack_(Attack::Melee)
 {
 	//TODO add sth to baseStats [hp, armor, ...]
 }
 
-const QList<Effect> & EnemyBase::baseStats() const
+const QString & EnemyBase::name() const
 {
-	return baseStats_;
-}
-
-Attack EnemyBase::defaultAttack() const
-{
-	return defaultAttack_;
+	return name_;
 }
 
 const QString & EnemyBase::imageName() const
@@ -56,9 +74,19 @@ quint8 EnemyBase::level() const
 	return level_;
 }
 
-const QString &EnemyBase::name() const
+EnemyBase::Type EnemyBase::type() const
 {
-	return name_;
+	return type_;
+}
+
+Attack EnemyBase::defaultAttack() const
+{
+	return defaultAttack_;
+}
+
+const QList<Effect> & EnemyBase::baseStats() const
+{
+	return baseStats_;
 }
 
 const Prize & EnemyBase::prize() const
@@ -68,7 +96,8 @@ const Prize & EnemyBase::prize() const
 
 QDataStream & EnemyBase::toDataStream(QDataStream &out) const
 {
-	return out << uid_ << name_ << imageName_ << level_ << defaultAttack_ << baseStats_ << prize_;
+	return out << uid_ << name_ << imageName_ << level_ << type_ << defaultAttack_
+	           << baseStats_ << prize_;
 }
 
 UID EnemyBase::uid() const
@@ -83,17 +112,13 @@ void EnemyBase::addStat(const Effect &effect)
 
 QDataStream & EnemyBase::fromDataStream(QDataStream &in)
 {
-	return in >> uid_ >> name_ >> imageName_ >> level_ >> defaultAttack_ >> baseStats_ >> prize_;
+	return in >> uid_ >> name_ >> imageName_ >> level_ >> type_ >> defaultAttack_
+	          >> baseStats_ >> prize_;
 }
 
-void EnemyBase::setBaseStats(const QList <Effect> &baseStats)
+void EnemyBase::setName(const QString &name)
 {
-	baseStats_ = baseStats;
-}
-
-void EnemyBase::setDefaultAttack(Attack type)
-{
-	defaultAttack_ = type;
+	name_ = name;
 }
 
 void EnemyBase::setImageName(const QString &imageName)
@@ -106,9 +131,19 @@ void EnemyBase::setLevel(quint8 level)
 	level_ = level;
 }
 
-void EnemyBase::setName(const QString &name)
+void EnemyBase::setType(EnemyBase::Type type)
 {
-	name_ = name;
+	type_ = type;
+}
+
+void EnemyBase::setDefaultAttack(Attack type)
+{
+	defaultAttack_ = type;
+}
+
+void EnemyBase::setBaseStats(const QList <Effect> &baseStats)
+{
+	baseStats_ = baseStats;
 }
 
 void EnemyBase::setPrize(const Prize &prize)

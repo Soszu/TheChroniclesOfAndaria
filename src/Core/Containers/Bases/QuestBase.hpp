@@ -33,7 +33,7 @@ public:
 	};
 	static const BiHash <Difficulty, QString> LevelLabels;
 
-	QuestBase(UID uid = Serial::EmptyUid, QString title ={});
+	QuestBase(UID uid = Serial::EmptyUid, QString title = {});
 	QuestBase(UID uid,
 	          const QString &title,
 	          const QString &description,
@@ -43,8 +43,8 @@ public:
 	          bool isReturnRequired,
 	          UID followUp,
 	          bool canBeDrawn,
-	          const QHash <Coordinates, Test> &objectives,
-	          const Prize &reward);
+	          const QHash <Coordinates, Test> & objectives,
+	          const Prize & reward);
 
 	bool canBeDrawn() const;
 	const QString & description() const;
@@ -86,8 +86,8 @@ private:
 	Prize reward_;
 };
 Q_DECLARE_METATYPE(QuestBase::Difficulty)
-QDataStream & operator<<(QDataStream &out, const QuestBase &base);
-QDataStream & operator>>(QDataStream &in, QuestBase &base);
-uint qHash(QuestBase::Difficulty level);
-QDataStream & operator<<(QDataStream &out, const QuestBase::Difficulty &level);
-QDataStream & operator>>(QDataStream &in, QuestBase::Difficulty &level);
+QDataStream & operator<<(QDataStream & out, const QuestBase & base);
+QDataStream & operator>>(QDataStream & in, QuestBase & base);
+uint qHash(QuestBase::Difficulty d);
+QDataStream & operator<<(QDataStream & out, const QuestBase::Difficulty & d);
+QDataStream & operator>>(QDataStream & in, QuestBase::Difficulty & d);

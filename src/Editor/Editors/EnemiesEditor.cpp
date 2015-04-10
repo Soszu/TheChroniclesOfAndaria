@@ -19,6 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Editors/EnemiesEditor.hpp"
 
 #include "Core/Containers/Models/EnemyModel.hpp"
+#include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Enums.hpp"
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
@@ -27,7 +28,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/Shortcuts.hpp"
 
 
-EnemiesEditor::EnemiesEditor(EnemyModel *enemyModel, QWidget *parent) :
+EnemiesEditor::EnemiesEditor(EnemyModel * enemyModel, QWidget * parent) :
 	QWidget(parent),
 	enemyModel_(enemyModel),
 	enemyMapper_(new QDataWidgetMapper(this))
@@ -43,12 +44,12 @@ void EnemiesEditor::clear()
 	enemyModel_->reset();
 }
 
-void EnemiesEditor::loadFromStream(QDataStream& in)
+void EnemiesEditor::loadFromStream(QDataStream & in)
 {
 	in >> *enemyModel_;
 }
 
-void EnemiesEditor::saveToStream(QDataStream& out) const
+void EnemiesEditor::saveToStream(QDataStream & out) const
 {
 	out << *enemyModel_;
 }
@@ -71,8 +72,12 @@ void EnemiesEditor::initEditPart()
 
 	levelEdit_ = new QSpinBox;
 
+	typeEdit_ = new EnumEdit;
+	for (auto & type : EnemyBase::TypeLabels.leftKeys())
+		typeEdit_->addItem(EnemyBase::TypeLabels[type], QVariant::fromValue(type));
+
 	defaultAttackEdit_ = new EnumEdit;
-	for (auto &attack : AttackLabels.leftKeys())
+	for (auto & attack : AttackLabels.leftKeys())
 		defaultAttackEdit_->addItem(AttackLabels[attack], QVariant::fromValue(attack));
 
 	baseStatsEdit_ = new EffectsListEdit;
@@ -83,6 +88,7 @@ void EnemiesEditor::initEditPart()
 	editLayout_->addRow(Labels::Enemy::Name,          nameEdit_);
 	editLayout_->addRow(Labels::Enemy::ImageName,     imageNameEdit_);
 	editLayout_->addRow(Labels::Enemy::Level,         levelEdit_);
+	editLayout_->addRow(Labels::Enemy::Type,          typeEdit_);
 	editLayout_->addRow(Labels::Enemy::DefaultAttack, defaultAttackEdit_);
 	editLayout_->addRow(Labels::Enemy::BaseStats,     baseStatsEdit_);
 	editLayout_->addRow(Labels::Enemy::WinningPrize,  prizeEdit_);
@@ -95,7 +101,7 @@ void EnemiesEditor::initEditPart()
 
 void EnemiesEditor::initLayout()
 {
-	QHBoxLayout *mainLayout = new QHBoxLayout;
+	QHBoxLayout * mainLayout = new QHBoxLayout;
 
 	mainLayout->addLayout(viewLayout_);
 	mainLayout->addLayout(editLayout_);
@@ -111,11 +117,13 @@ void EnemiesEditor::initMapper()
 	enemyMapper_->addMapping(nameEdit_,          EnemyModel::Name);
 	enemyMapper_->addMapping(imageNameEdit_,     EnemyModel::ImageName);
 	enemyMapper_->addMapping(levelEdit_,         EnemyModel::Level);
+	enemyMapper_->addMapping(typeEdit_,         EnemyModel::Type);
 	enemyMapper_->addMapping(defaultAttackEdit_, EnemyModel::DefaultAttack);
 	enemyMapper_->addMapping(baseStatsEdit_,     EnemyModel::BaseStats);
 	enemyMapper_->addMapping(prizeEdit_,         EnemyModel::WinningPrize);
 
-	connect(enemiesList_->selectionModel(), &QItemSelectionModel::currentRowChanged, enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	connect(enemiesList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
+	        enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
 }
 
 void EnemiesEditor::characterTyped(const QString & text)
@@ -136,7 +144,7 @@ void EnemiesEditor::initViewPart()
 	searchLine_ = new QLineEdit(this);
 	connect(searchLine_, &QLineEdit::textChanged, this, &EnemiesEditor::characterTyped);
 
-	QHBoxLayout *buttonsLayout = new QHBoxLayout;
+	QHBoxLayout * buttonsLayout = new QHBoxLayout;
 	buttonsLayout->addWidget(new QLabel(Editor::Titles::Enemies));
 	buttonsLayout->addStretch();
 	buttonsLayout->addWidget(searchLine_);

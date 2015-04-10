@@ -21,15 +21,30 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/DataManager.hpp"
 
-Enemy::Enemy(const EnemyBase *base) :
+Enemy::Enemy(const EnemyBase * base) :
 	base_(base)
 {
 	initHealth();
 }
 
-const QPixmap &Enemy::avatar() const
+const QString & Enemy::name() const
+{
+	return base_->name();
+}
+
+const QPixmap & Enemy::avatar() const
 {
 	return base_->avatar();
+}
+
+quint8 Enemy::level() const
+{
+	return base_->level();
+}
+
+EnemyBase::Type Enemy::type() const
+{
+	return base_->type();
 }
 
 Attack Enemy::defaultAttack() const
@@ -42,27 +57,17 @@ const QList <Effect> Enemy::individualEffects() const
 	return base_->baseStats();
 }
 
-quint8 Enemy::level() const
-{
-	return base_->level();
-}
-
-const QString & Enemy::name() const
-{
-	return base_->name();
-}
-
 const Prize & Enemy::prize() const
 {
 	return base_->prize();
 }
 
-QDataStream &Enemy::toDataStream(QDataStream &out) const
+QDataStream & Enemy::toDataStream(QDataStream &out) const
 {
 	return out << base_->uid();
 }
 
-QDataStream &Enemy::fromDataStream(QDataStream &in)
+QDataStream & Enemy::fromDataStream(QDataStream &in)
 {
 	UID uid;
 	in >> uid;
@@ -71,12 +76,12 @@ QDataStream &Enemy::fromDataStream(QDataStream &in)
 	return in;
 }
 
-QDataStream & operator<<(QDataStream &out, const Enemy &enemy)
+QDataStream & operator<<(QDataStream & out, const Enemy & enemy)
 {
 	return enemy.toDataStream(out);
 }
 
-QDataStream & operator>>(QDataStream &in, Enemy &enemy)
+QDataStream & operator>>(QDataStream & in, Enemy & enemy)
 {
 	return enemy.fromDataStream(in);
 }

@@ -29,10 +29,10 @@ class EnemiesEditor : public QWidget {
 	Q_OBJECT
 
 public:
-	EnemiesEditor(EnemyModel *enemyModel, QWidget *parent = nullptr);
+	EnemiesEditor(EnemyModel * enemyModel, QWidget * parent = nullptr);
 	void clear();
-	void loadFromStream(QDataStream& in);
-	void saveToStream(QDataStream& out) const;
+	void loadFromStream(QDataStream & in);
+	void saveToStream(QDataStream & out) const;
 	bool isChanged() const;
 	void characterTyped(const QString & text);
 
@@ -45,26 +45,27 @@ private:
 	void initLayout();
 	void initMapper();
 
-	QFormLayout *editLayout_;
-	QVBoxLayout *viewLayout_;
+	QFormLayout * editLayout_;
+	QVBoxLayout * viewLayout_;
 
-	EnemyModel *enemyModel_;
-	QSortFilterProxyModel *proxyModel_;
-	QDataWidgetMapper *enemyMapper_;
+	EnemyModel * enemyModel_;
+	QSortFilterProxyModel * proxyModel_;
+	QDataWidgetMapper * enemyMapper_;
 
 	//--- Edits ---
-	QLineEdit *nameEdit_;
-	QLineEdit *imageNameEdit_;
-	EnumEdit *defaultAttackEdit_;
-	QSpinBox *levelEdit_;
-	EffectsListEdit *baseStatsEdit_;
-	PrizeEdit *prizeEdit_;
+	QLineEdit * nameEdit_;
+	QLineEdit * imageNameEdit_;
+	EnumEdit * typeEdit_;
+	EnumEdit * defaultAttackEdit_;
+	QSpinBox * levelEdit_;
+	EffectsListEdit * baseStatsEdit_;
+	PrizeEdit * prizeEdit_;
 
 	//--- List---
-	QListView *enemiesList_;
-	QPushButton *addEnemyButton_;
-	QPushButton *removeEnemyButton_;
-	QLineEdit *searchLine_;
+	QListView * enemiesList_;
+	QPushButton * addEnemyButton_;
+	QPushButton * removeEnemyButton_;
+	QLineEdit * searchLine_;
 
 private slots:
 	void addEnemy();

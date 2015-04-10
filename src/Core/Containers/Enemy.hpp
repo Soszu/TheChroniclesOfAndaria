@@ -22,25 +22,27 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Entity.hpp"
 #include "Core/Containers/Effect.hpp"
 #include "Core/Enums.hpp"
+#include "Core/Containers/Bases/EnemyBase.hpp"
 
 class Prize;
 class EnemyBase;
 
 class Enemy : public Entity {
 public:
-	Enemy(const EnemyBase *enemyBase);
-	const QPixmap &avatar() const;
+	Enemy(const EnemyBase * enemyBase);
+	const QString & name() const;
+	const QPixmap & avatar() const;
+	quint8 level() const;
+	EnemyBase::Type type() const;
 	Attack defaultAttack() const;
 	const QList <Effect> individualEffects() const;
-	quint8 level() const;
-	const QString &name() const;
 	const Prize & prize() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 
 	QDataStream & fromDataStream(QDataStream &in);
 
 private:
-	const EnemyBase *base_;
+	const EnemyBase * base_;
 };
-QDataStream & operator<<(QDataStream &out, const Enemy &enemy);
-QDataStream & operator>>(QDataStream &in, Enemy &enemy);
+QDataStream & operator<<(QDataStream & out, const Enemy & enemy);
+QDataStream & operator>>(QDataStream & in, Enemy & enemy);

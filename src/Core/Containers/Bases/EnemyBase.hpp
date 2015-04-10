@@ -29,25 +29,35 @@ enum class Attack : quint8 ;
 
 class EnemyBase {
 public:
+	enum class Type : quint8 {
+		Beast,
+		Deamon,
+		Humanoid,
+		Undead,
+	};
+	static const BiHash <Type, QString> TypeLabels;
+
 	EnemyBase(UID uid = Serial::MinUid, QString name = QString());
 
-	const QList <Effect> & baseStats() const;
-	Attack defaultAttack() const;
+	const QString & name() const;
 	const QString & imageName() const;
 	const QPixmap & avatar() const;
 	quint8 level() const;
-	const QString & name() const;
+	Type type() const;
+	Attack defaultAttack() const;
+	const QList <Effect> & baseStats() const;
 	const Prize & prize() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 	UID uid() const;
 
+	void setName(const QString &name);
+	void setImageName(const QString &imageName);
+	void setLevel(quint8 level);
+	void setType(Type type);
+	void setDefaultAttack(Attack type);
 	void addStat(const Effect &effect);
 	QDataStream & fromDataStream(QDataStream &in);
 	void setBaseStats(const QList <Effect> &baseStats);
-	void setDefaultAttack(Attack type);
-	void setImageName(const QString &imageName);
-	void setLevel(quint8 level);
-	void setName(const QString &name);
 	void setPrize(const Prize &prize);
 
 private:
@@ -55,9 +65,12 @@ private:
 	QString name_;
 	QString imageName_;
 	qint8 level_;
+	Type type_;
 	Attack defaultAttack_;
 	QList <Effect> baseStats_;
 	Prize prize_;
 };
+Q_DECLARE_METATYPE(EnemyBase::Type)
+uint qHash(EnemyBase::Type t);
 QDataStream & operator<<(QDataStream &out, const EnemyBase &base);
 QDataStream & operator>>(QDataStream &in, EnemyBase &base);
