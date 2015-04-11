@@ -23,49 +23,60 @@ This file is part of The Chronicles Of Andaria Project.
 
 class Effect {
 public:
+	enum class Category : quint8 {
+		Attributes,
+		Damages,
+		Operations,
+		Bonuses,
+		States,
+	};
+	static const BiHash<Category, QString> CategoryLabels;
+
 	enum class Type : quint8 {
-		//entity's stats
+		// Attributes
 		MaxHealth,
 		Perception,
 		Defence,
-		//attacks
+		Regeneration,
+		MovePoints,
+		// Damages
 		MeleeBase,
 		MeleeRange,
 		RangedBase,
 		RangedRange,
 		MagicalBase,
 		MagicalRange,
-		//player's stats
-		Regeneration,
-		MovePoints,
-		//operations
+		// Operations
 		Heal,
 		Vamp,
 		Deflect,
 		Absorb,
-		//bonuses
+		// Bonuses
 		GoldBonus,
 		ExperienceBonus,
-		TradeBonus,
-		//states
-		Fear,
-		Stun
+		// States
+		Stun,
 	};
-	static const BiHash <Type, QString> TypeLabels;
+	static const BiHash<Type, QString> TypeLabels;
+
+	static const QHash<Category, QSet<Type>> Categories;
+	//TODO maybe const & ?
+	static QSet<Type> categoryContent(Category c);
+	static Category effectCategory(Type e);
 
 	typedef qint32 Value;
 	typedef qint32 Duration;
 	static const Duration Instant = -1;
 	static const Duration Permanent = -2;
 
-	static bool isInstant(const Effect &effect);
-	static bool isPermanent(const Effect &effect);
-	static QString description(const Effect &effect);
-	static bool expired(const Effect &effect);
-	static bool contains(const QList <Effect> &effects, Type type);
-	static QList <Effect> filter(const QList <Effect> &effects, Type type);
-	static Value sumValue(const QList <Effect> &effects);
-	static Value sumValue(const QList <Effect> &effects, Type type);
+	static bool isInstant(const Effect & effect);
+	static bool isPermanent(const Effect & effect);
+	static QString description(const Effect & effect);
+	static bool expired(const Effect & effect);
+	static bool contains(const QList<Effect> & effects, Type type);
+	static QList<Effect> filter(const QList<Effect> & effects, Type type);
+	static Value sumValue(const QList<Effect> & effects);
+	static Value sumValue(const QList<Effect> & effects, Type type);
 
 	Effect(Type type = Type::MaxHealth, Value value = 0, Duration duration = Permanent);
 	Effect(const Effect &effect) = default;
@@ -73,11 +84,11 @@ public:
 	bool operator==(const Effect &other) const;
 
 	Duration duration() const;
-	QDataStream & toDataStream(QDataStream &out) const;
+	QDataStream & toDataStream(QDataStream & out) const;
 	Type type() const;
 	Value value() const;
 
-	QDataStream & fromDataStream(QDataStream &in);
+	QDataStream & fromDataStream(QDataStream & in);
 	void setDuration(Effect::Duration);
 	void setType(Effect::Type);
 	void setValue(Effect::Value);
@@ -89,10 +100,14 @@ private:
 	Duration duration_;
 };
 Q_DECLARE_METATYPE(Effect)
+Q_DECLARE_METATYPE(Effect::Category)
 Q_DECLARE_METATYPE(Effect::Type)
 
-QDataStream & operator<<(QDataStream &out, const Effect &effect);
-QDataStream & operator>>(QDataStream &in, Effect &effect);
-uint qHash(const Effect::Type type);
-QDataStream & operator<<(QDataStream &out, const Effect::Type &effectType);
-QDataStream & operator>>(QDataStream &in, Effect::Type &effectType);
+QDataStream & operator<<(QDataStream &, const Effect &);
+QDataStream & operator>>(QDataStream &, Effect &);
+uint qHash(const Effect::Category);
+QDataStream & operator<<(QDataStream &, const Effect::Category &);
+QDataStream & operator>>(QDataStream &, Effect::Category &);
+uint qHash(const Effect::Type);
+QDataStream & operator<<(QDataStream &, const Effect::Type &);
+QDataStream & operator>>(QDataStream &, Effect::Type &);
