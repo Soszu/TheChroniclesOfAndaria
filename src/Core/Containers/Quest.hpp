@@ -18,30 +18,30 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include "Core/Containers/Bases/QuestBase.hpp"
-#include "Core/Containers/Test.hpp"
+#include "Core/Containers/Tests/TestData.hpp"
 
 class Player;
 
 class Quest {
 public:
-	Quest(const QuestBase *base, Coordinates source);
+	Quest(const QuestBase * base, Coordinates source);
 
 	bool canBeDrawn() const;
 	QString description() const;
-	const Quest *followUp() const;
+	const Quest * followUp() const;
 	Kingdom fraction() const;
 	bool isReturnRequired() const;
 	int level() const;
 	QuestBase difficulty() const;
-	QHash <Coordinates, Test> objectives() const;
-	const Prize *prize() const;
+	QHash<Coordinates, TestData> objectives() const;
+	const Prize * prize() const;
 	Coordinates source() const;
 	QString title() const;
-	const QSet <Coordinates> & toDo() const;
+	const QSet<Coordinates> & toDo() const;
 	UID uid() const;
 
 private:
 	const QuestBase * base_;
 	const Coordinates source_;
-	QSet <Coordinates> toDo_;
+	QSet<Coordinates> toDo_;
 };

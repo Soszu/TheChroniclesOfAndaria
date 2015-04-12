@@ -18,7 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Quest.hpp"
 
-Quest::Quest(const QuestBase *base, Coordinates source) :
+Quest::Quest(const QuestBase * base, Coordinates source) :
 	base_(base),
 	source_(source)
 {}

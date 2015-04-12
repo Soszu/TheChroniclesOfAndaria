@@ -227,7 +227,7 @@ bool QuestModel::setData(const QModelIndex &index, const QVariant &value, int ro
 		case IsReturnRequired: quest->setIsReturnRequired(value.toBool()); break;
 		case CanBeDrawn:       quest->setCanBeDrawn(value.toBool()); break;
 		case FollowUp:         quest->setFollowUp(value.value<UID>()); break;
-		case Objectives:       quest->setObjectives(value.value<QHash<Coordinates, Test>>()); break;
+		case Objectives:       quest->setObjectives(value.value<QHash<Coordinates, TestData>>()); break;
 		case Reward:           quest->setReward(value.value<Prize>()); break;
 	}
 

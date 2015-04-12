@@ -17,7 +17,6 @@
 	Containers/Prize.cpp
 	Containers/Quest.cpp
 	Containers/Terrain.cpp
-	Containers/Test.cpp
 
 	Containers/Bases/EnemyBase.cpp
 	Containers/Bases/ItemBase.cpp
@@ -27,6 +26,13 @@
 	Containers/Models/EnemyModel.cpp
 	Containers/Models/ItemModel.cpp
 	Containers/Models/QuestModel.cpp
+
+	Containers/Tests/BlankTest.cpp
+	Containers/Tests/FightTest.cpp
+	Containers/Tests/LuckTest.cpp
+	Containers/Tests/SkillsTest.cpp
+	Containers/Tests/Test.cpp
+	Containers/Tests/TestData.cpp
 
 	Parsers/BoardParser.cpp
 	Parsers/EnemyParser.cpp

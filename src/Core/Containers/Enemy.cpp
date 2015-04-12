@@ -71,7 +71,7 @@ QDataStream & Enemy::toDataStream(QDataStream &out) const
 {
 	return out << base_->uid();
 }
-
+/*
 QDataStream & Enemy::fromDataStream(QDataStream &in)
 {
 	UID uid;
@@ -79,14 +79,14 @@ QDataStream & Enemy::fromDataStream(QDataStream &in)
 	//TODO
 	// 	base_ = DataKeeper::giveEnemyBaseByUid(uid);
 	return in;
-}
+}*/
 
 QDataStream & operator<<(QDataStream & out, const Enemy & enemy)
 {
 	return enemy.toDataStream(out);
 }
-
+/*
 QDataStream & operator>>(QDataStream & in, Enemy & enemy)
 {
 	return enemy.fromDataStream(in);
-}
+}*/

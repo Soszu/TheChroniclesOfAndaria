@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
@@ -15,44 +15,34 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Core/Containers/Entity.hpp"
+#pragma once
 
-Entity::Entity() :
-	health_(0)
-{}
+#include <QtCore>
 
-quint16 Entity::health() const
-{
-	return health_;
-}
+class TestData;
 
-QList<Effect> Entity::effects() const
-{
-	return individualEffects() + imposedEffects_;
-}
+// virtual class; super class for specific types of tests; also works as test factory
+class Test {
+	//factory method
+	static Test * createTest(const TestData & data);
+public:
+// 	enum class Result : quint8 {
+// 		Fail,
+// 		Pass,
+// 		Unsettled
+// 	};
 
-Effect::Value Entity::value(Effect::Type type) const
-{
-	return Effect::sumValue(effects(), type);
-}
+	enum class Type : quint8 {
+		Blank,
+		Fight,
+		Luck,
+		Skills,
+	};
 
-void Entity::initHealth()
-{
-	health_ = value(Effect::Type::MaxHealth);
-}
-
-void Entity::heal(quint16 delta)
-{
-	health_ = qMin(value(Effect::Type::MaxHealth), health_ + delta);
-}
-
-void Entity::imposeEffect(const Effect & effect)
-{
-	imposedEffects_.append(effect);
-}
-
-void Entity::imposeEffects(const QList<Effect> & effects)
-{
-	for (auto &effect : effects)
-		imposedEffects_.append(effect);
-}
+	virtual Type type() const = 0;
+	// 	TODO some virtual methods for taking test
+};
+Q_DECLARE_METATYPE(Test::Type)
+uint qHash(Test::Type type);
+QDataStream & operator<<(QDataStream & out, const Test::Type & val);
+QDataStream & operator>>(QDataStream & in, Test::Type & val);

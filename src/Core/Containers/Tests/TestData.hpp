@@ -1,6 +1,5 @@
 /*
-Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2013 Łukasz Piesiewicz <wookesh [at] gmail [dot] com>
+Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -18,28 +17,26 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include "Core/Containers/Bases/ItemBase.hpp"
-#include "Core/EnumsDeclarations.hpp"
-#include "Core/Containers/PlayerDraft.hpp"
+#include <QtCore>
 
-class Item {
+#include "Core/Containers/Tests/Test.hpp"
+
+class TestData {
 public:
-	Item(ItemBase * base = nullptr);
+	TestData(Test::Type type = Test::Type::Blank, const QVariant & data = {});
 
-	QList<Effect> effects() const;
-	bool isRestricted(Class playerClass) const;
-	QString name() const;
-	quint16 price() const;
-	ItemBase::Quality quality() const;
-	bool canBeDrawn() const;
+	Test::Type type() const;
+	const QVariant & data() const;
 	QDataStream & toDataStream(QDataStream & out) const;
-	ItemBase::Type type() const;
 
-// 	QDataStream & fromDataStream(QDataStream & in);
+	QDataStream & fromDataStream(QDataStream & in);
+	void setType(Test::Type type);
+	void setData(const QVariant & data);
 
 private:
-	ItemBase * base_;
+	Test::Type type_;
+	QVariant data_;
 };
-
-QDataStream & operator<<(QDataStream & out, const Item & item);
-// QDataStream & operator>>(QDataStream & in, Item & item);
+Q_DECLARE_METATYPE(TestData)
+QDataStream & operator<<(QDataStream & out, const TestData & val);
+QDataStream & operator>>(QDataStream & in, TestData & val);

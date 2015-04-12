@@ -40,7 +40,7 @@ QuestBase::QuestBase(UID uid,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
-                     const QHash <Coordinates, Test> & objectives,
+                     const QHash<Coordinates, TestData> & objectives,
                      const Prize & reward) :
 	uid_(uid),
 	title_(title),
@@ -90,7 +90,7 @@ Difficulty QuestBase::difficulty() const
 	return difficulty_;
 }
 
-const QHash <Coordinates, Test> & QuestBase::objectives() const
+const QHash<Coordinates, TestData> & QuestBase::objectives() const
 {
 	return objectives_;
 }
@@ -116,7 +116,7 @@ UID QuestBase::uid() const
 	return uid_;
 }
 
-void QuestBase::addObjective(Coordinates coordinates, const Test &test)
+void QuestBase::addObjective(Coordinates coordinates, const TestData & test)
 {
 	objectives_[coordinates] = test;
 }
@@ -162,7 +162,7 @@ void QuestBase::setDifficulty(Difficulty difficulty)
 	difficulty_ = difficulty;
 }
 
-void QuestBase::setObjectives(const QHash <Coordinates, Test> &objectives)
+void QuestBase::setObjectives(const QHash<Coordinates, TestData> & objectives)
 {
 	objectives_ = objectives;
 }

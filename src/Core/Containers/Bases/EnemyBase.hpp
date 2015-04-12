@@ -75,5 +75,8 @@ private:
 };
 Q_DECLARE_METATYPE(EnemyBase::Type)
 uint qHash(EnemyBase::Type t);
-QDataStream & operator<<(QDataStream &out, const EnemyBase &base);
-QDataStream & operator>>(QDataStream &in, EnemyBase &base);
+QDataStream & operator<<(QDataStream & out, const EnemyBase::Type & t);
+QDataStream & operator>>(QDataStream & in, EnemyBase::Type & t);
+
+QDataStream & operator<<(QDataStream & out, const EnemyBase & base);
+QDataStream & operator>>(QDataStream & in, EnemyBase & base);

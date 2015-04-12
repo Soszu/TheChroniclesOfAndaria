@@ -1,5 +1,5 @@
-﻿/*
-Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+/*
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -19,34 +19,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtCore>
 
-class Test
-{
+#include "Core/Containers/Tests/Test.hpp"
+
+class FightTest : public Test {
 public:
-// 	enum class Result : quint8 {
-// 		Fail,
-// 		Pass,
-// 		Unsettled
-// 	};
 
-	enum class Type : quint8 {
-		Blank,
-		Fight,
-		Skills
-	};
-
-	Test(Type type = Type::Blank, const QVariant & data = {});
+	FightTest(const QVariant &);
 
 	Type type() const;
-	const QVariant & data() const;
-
-	void setType(Type type);
-	void setData(const QVariant & data);
-
-private:
-	Type type_;
-	QVariant data_;
-
 };
-Q_DECLARE_METATYPE(Test)
-QDataStream & operator<<(QDataStream & out, const Test & effect);
-QDataStream & operator>>(QDataStream & in, Test & effect);

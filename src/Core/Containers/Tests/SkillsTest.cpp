@@ -15,39 +15,12 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Test.hpp"
+#include "Core/Containers/Tests/SkillsTest.hpp"
 
-Test::Test(Test::Type type, const QVariant & data) :
-	type_(type),
-	data_(data)
+SkillsTest::SkillsTest(const QVariant &)
 {}
 
-Test::Type Test::type() const
+Test::Type SkillsTest::type() const
 {
-	return type_;
-}
-
-const QVariant & Test::data() const
-{
-	return data_;
-}
-
-void Test::setType(Test::Type type)
-{
-	type_ = type;
-}
-
-void Test::setData(const QVariant & data)
-{
-	data_ = data;
-}
-
-QDataStream & operator<<(QDataStream & out, const Test & effectType)
-{
-	return out;
-}
-
-QDataStream & operator>>(QDataStream & in, Test & effectType)
-{
-	return in;
+	return Type::Skills;
 }

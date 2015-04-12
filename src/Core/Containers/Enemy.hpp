@@ -40,10 +40,10 @@ public:
 	const Prize & prize() const;
 	QDataStream & toDataStream(QDataStream &out) const;
 
-	QDataStream & fromDataStream(QDataStream &in);
+// 	QDataStream & fromDataStream(QDataStream &in);
 
 private:
 	const EnemyBase * base_;
 };
 QDataStream & operator<<(QDataStream & out, const Enemy & enemy);
-QDataStream & operator>>(QDataStream & in, Enemy & enemy);
+// QDataStream & operator>>(QDataStream & in, Enemy & enemy);

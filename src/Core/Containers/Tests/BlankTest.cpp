@@ -15,44 +15,12 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Core/Containers/Entity.hpp"
+#include "Core/Containers/Tests/BlankTest.hpp"
 
-Entity::Entity() :
-	health_(0)
+BlankTest::BlankTest(const QVariant &)
 {}
 
-quint16 Entity::health() const
+Test::Type BlankTest::type() const
 {
-	return health_;
-}
-
-QList<Effect> Entity::effects() const
-{
-	return individualEffects() + imposedEffects_;
-}
-
-Effect::Value Entity::value(Effect::Type type) const
-{
-	return Effect::sumValue(effects(), type);
-}
-
-void Entity::initHealth()
-{
-	health_ = value(Effect::Type::MaxHealth);
-}
-
-void Entity::heal(quint16 delta)
-{
-	health_ = qMin(value(Effect::Type::MaxHealth), health_ + delta);
-}
-
-void Entity::imposeEffect(const Effect & effect)
-{
-	imposedEffects_.append(effect);
-}
-
-void Entity::imposeEffects(const QList<Effect> & effects)
-{
-	for (auto &effect : effects)
-		imposedEffects_.append(effect);
+	return Type::Blank;
 }

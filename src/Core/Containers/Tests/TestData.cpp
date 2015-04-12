@@ -15,44 +15,50 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Core/Containers/Entity.hpp"
+#include "Core/Containers/Tests/TestData.hpp"
 
-Entity::Entity() :
-	health_(0)
+
+TestData::TestData(Test::Type type, const QVariant & data) :
+	type_(type),
+	data_(data)
 {}
 
-quint16 Entity::health() const
+Test::Type TestData::type() const
 {
-	return health_;
+	return type_;
 }
 
-QList<Effect> Entity::effects() const
+const QVariant & TestData::data() const
 {
-	return individualEffects() + imposedEffects_;
+	return data_;
 }
 
-Effect::Value Entity::value(Effect::Type type) const
+QDataStream & TestData::toDataStream(QDataStream & out) const
 {
-	return Effect::sumValue(effects(), type);
+	return out << type_ << data_;
 }
 
-void Entity::initHealth()
+QDataStream & TestData::fromDataStream(QDataStream & in)
 {
-	health_ = value(Effect::Type::MaxHealth);
+	return in >> type_ >> data_;
 }
 
-void Entity::heal(quint16 delta)
+void TestData::setType(Test::Type type)
 {
-	health_ = qMin(value(Effect::Type::MaxHealth), health_ + delta);
+	type_ = type;
 }
 
-void Entity::imposeEffect(const Effect & effect)
+void TestData::setData(const QVariant & data)
 {
-	imposedEffects_.append(effect);
+	data_ = data;
 }
 
-void Entity::imposeEffects(const QList<Effect> & effects)
+QDataStream & operator<<(QDataStream & out, const TestData & val)
 {
-	for (auto &effect : effects)
-		imposedEffects_.append(effect);
+	return val.toDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream & in, TestData & val)
+{
+	return val.fromDataStream(in);
 }

@@ -18,11 +18,11 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #include "Item.hpp"
 
-Item::Item(ItemBase *base) :
+Item::Item(ItemBase * base) :
 	base_(base)
 {}
 
-QList <Effect> Item::effects() const
+QList<Effect> Item::effects() const
 {
 	return base_->effects();
 }
@@ -52,7 +52,7 @@ bool Item::canBeDrawn() const
 	return base_->canBeDrawn();
 }
 
-QDataStream &Item::toDataStream(QDataStream &out) const
+QDataStream & Item::toDataStream(QDataStream & out) const
 {
 	return out << base_->uid();
 }
@@ -61,22 +61,21 @@ ItemBase::Type Item::type() const
 {
 	return base_->type();
 }
-
-QDataStream &Item::fromDataStream(QDataStream &in)
+/*
+QDataStream & Item::fromDataStream(QDataStream & in)
 {
 	UID uid;
 	in >> uid;
-	//TODO
-// 	base_ = DataKeeper::giveItemByUid(uid);
+	//base_ = DataKeeper::giveItemByUid(uid);
 	return in;
-}
+}*/
 
-QDataStream & operator<<(QDataStream &out, const Item &item)
+QDataStream & operator<<(QDataStream & out, const Item & item)
 {
 	return item.toDataStream(out);
 }
-
-QDataStream & operator>>(QDataStream &in, Item &item)
+/*
+QDataStream & operator>>(QDataStream & in, Item & item)
 {
 	return item.fromDataStream(in);
-}
+}*/

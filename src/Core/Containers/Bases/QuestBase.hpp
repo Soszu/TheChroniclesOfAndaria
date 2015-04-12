@@ -21,7 +21,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Utils/BiHash.hpp"
 #include "Core/Utils/Serial.hpp"
 #include "Core/Containers/Coordinates.hpp"
-#include "Core/Containers/Test.hpp"
+#include "Core/Containers/Tests/TestData.hpp"
 #include "Core/Containers/Prize.hpp"
 
 class QuestBase {
@@ -29,15 +29,15 @@ class QuestBase {
 public:
 	QuestBase(UID uid = Serial::EmptyUid, QString title = {});
 	QuestBase(UID uid,
-	          const QString &title,
-	          const QString &description,
+	          const QString & title,
+	          const QString & description,
 	          Kingdom fraction,
 	          int level,
 	          Difficulty difficulty,
 	          bool isReturnRequired,
 	          UID followUp,
 	          bool canBeDrawn,
-	          const QHash <Coordinates, Test> & objectives,
+	          const QHash<Coordinates, TestData> & objectives,
 	          const Prize & reward);
 
 	bool canBeDrawn() const;
@@ -47,24 +47,24 @@ public:
 	bool isReturnRequired() const;
 	int level() const;
 	Difficulty difficulty() const;
-	const QHash <Coordinates, Test> & objectives() const;
+	const QHash<Coordinates, TestData> & objectives() const;
 	const Prize & reward() const;
 	const QString & title() const;
-	QDataStream & toDataStream(QDataStream &out) const;
+	QDataStream & toDataStream(QDataStream & out) const;
 	UID uid() const;
 
-	void addObjective(Coordinates coordinates, const Test &test);
-	QDataStream & fromDataStream(QDataStream &in);
+	void addObjective(Coordinates coordinates, const TestData & test);
+	QDataStream & fromDataStream(QDataStream & in);
 	void setCanBeDrawn(bool canBeDrawn);
-	void setDescription (const QString &description);
+	void setDescription (const QString & description);
 	void setFollowUp(UID followUp);
 	void setFraction(Kingdom fraction);
 	void setIsReturnRequired(bool isReturnRequired);
 	void setLevel(int level);
 	void setDifficulty(Difficulty difficulty);
-	void setObjectives(const QHash <Coordinates, Test> &objectives);
-	void setReward(const Prize &reward);
-	void setTitle(const QString &title);
+	void setObjectives(const QHash<Coordinates, TestData> & objectives);
+	void setReward(const Prize & reward);
+	void setTitle(const QString & title);
 
 private:
 	UID uid_;
@@ -76,7 +76,7 @@ private:
 	bool isReturnRequired_;
 	UID followUp_;
 	bool canBeDrawn_;
-	QHash <Coordinates, Test> objectives_;
+	QHash<Coordinates, TestData> objectives_;
 	Prize reward_;
 };
 QDataStream & operator<<(QDataStream & out, const QuestBase & base);

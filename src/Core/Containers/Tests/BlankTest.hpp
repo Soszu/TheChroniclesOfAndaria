@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -17,27 +17,14 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include <QtWidgets>
+#include <QtCore>
 
-#include "Core/Containers/Effect.hpp"
+#include "Core/Containers/Tests/Test.hpp"
 
-class Entity {
+class BlankTest : public Test {
 public:
-	Entity();
-	virtual const QPixmap & avatar() const = 0;
-	quint16 health() const;
-	QList<Effect> effects() const;
-	virtual const QList<Effect> individualEffects() const = 0;
-	virtual const QString & name() const = 0;
-	Effect::Value value(Effect::Type attack) const;
 
-protected:
-	void initHealth();
-	void heal(quint16 delta);
-	void imposeEffect(const Effect & effect);
-	void imposeEffects(const QList<Effect> & effects);
+	BlankTest(const QVariant &);
 
-private:
-	quint16 health_;
-	QList<Effect> imposedEffects_;
+	Type type() const;
 };
