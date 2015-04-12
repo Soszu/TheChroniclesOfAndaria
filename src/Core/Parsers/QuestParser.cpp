@@ -17,6 +17,10 @@ This file is part of The Chronicles Of Andaria Project.
 */
 
 #include "Core/Parsers/QuestParser.hpp"
+#include "Core/Mod.hpp"
+#include "Core/Paths.hpp"
+#include "Core/Enums.hpp"
+#include <QString>
 
 QuestParser::QuestParser(Mod *dataKeeper)
 {
@@ -141,13 +145,13 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			return true;
 		}
 
-		if(info.rodzaj <= 0 || info.rodzaj > LICZBA_RODZAJOW_ZADAN)
+		if(info.rodzaj <= 0 || info.rodzaj > 4)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawny rodzaj zadania w linii ") + QString::number(numerLinii);
 			return true;
 		}
 
-		if(info.poziom < 0 || info.poziom >= LICZBA_POZIOMOW_ZADAN)
+		if(info.poziom < 0 || info.poziom >= 3)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawny poziom zadania w linii ") + QString::number(numerLinii);
 			return true;
@@ -157,7 +161,7 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			trescBledu = QString::fromUtf8("Niepoprawne ID nagrody w linii ") + QString::number(numerLinii);
 			return true;
 		}
-		if (info.frakcja < -1 && info.frakcja >= PlayerRaceCount)
+		if (info.frakcja < -1 && info.frakcja >= 4)
 		{
 			trescBledu = QString::fromUtf8("Niepoprawna frakcja w linii ") + QString::number(numerLinii);
 			return true;
@@ -202,17 +206,71 @@ bool QuestParser::wczytajDane(QTextStream *wejscie)
 			}
 		}
 //-----------ZAPISANIE DANYCH
-		const Prize *prize = dataKeeper->prizes_[info.idNagrody];
-		const Quest* nowy = new Quest(info.id,
-									 (QuestType)info.rodzaj,
-									 (QuestLevel)info.poziom,
-									 info.frakcja,
-									 info.tytul,
+QString title = info.tytul;
+QChar maybeNum = title[title.lastIndexOf("(")+1];
+int level = maybeNum.digitValue();
+if (level == -1)
+	level = 1;
+title.truncate(title.lastIndexOf(" "));
+
+
+	Kingdom fraction;
+	switch (info.frakcja) {
+		case 0:
+			fraction = Kingdom::Humans;
+			break;
+		case 1:
+			fraction = Kingdom::Dwarfs;
+			break;
+		case 2:
+			fraction = Kingdom::Elves;
+			break;
+		case 3:
+			fraction = Kingdom::Halflings;
+			break;
+		case 4:
+			fraction = Kingdom::Neutral;
+			break;
+	}
+
+	Difficulty diff;
+	switch (info.poziom) {
+		case 0:
+			diff = Difficulty::Easy;
+			break;
+		case 1:
+			diff = Difficulty::Medium;
+			break;
+		case 2:
+			diff = Difficulty::Hard;
+			break;
+	}
+
+	QList<Objective> objectives;
+	switch (info.rodzaj) {
+		case 1: //fight
+			for (auto enemyId : info.idWrogow)
+				objectives.append({info.cel, 1, {Test::Type::Fight, {enemyId}}});
+			break;
+		case 2: //blank
+			objectives.append({info.cel, 1, {}});
+			break;
+		case 3: //luck
+			objectives.append({info.cel, 1, {Test::Type::Luck, {50}}});
+			break;
+	}
+
+		auto nowy = new QuestBase(info.id,
+									 title,
 									 info.tresc,
+									 fraction,
+									 level,
+									 diff,
 									 info.czyPowrot,
-									 info.cel,
-									 prize,
-									 info.idWrogow);
+									 Serial::EmptyUid,
+									 true,
+									 objectives,
+									 *(dataKeeper->prizes_[info.idNagrody]));
 		dataKeeper->quests_.insert(info.id, nowy);
 		++numerLinii;
 	}

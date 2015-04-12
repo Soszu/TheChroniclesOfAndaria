@@ -22,6 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Parsers/ItemParser.hpp"
 #include "Core/Parsers/PrizeParser.hpp"
 #include "Core/Parsers/EnemyParser.hpp"
+#include "Core/Parsers/QuestParser.hpp"
 #include "Core/Containers/Bases/ItemBase.hpp"
 
 Mod::Mod()
@@ -50,9 +51,10 @@ void Mod::loadFromTxt()
 	EnemyParser enemyParser(this);
 	// 	qDebug() <<enemyParser.trescBledu 	<< "enemies: " << enemies_.size();
 
-
-	// 	QuestParser questParser(this);
+	QuestParser questParser(this);
 	// 	qDebug() << questParser.trescBledu 	<< "quests: " << quests_.size();
+// 	for (auto &quest : quests_)
+// 		qDebug() << quest->objectives()[0].testData.data();
 
 	for (auto &item : items_)
 		itemModel_.addItemBase(item);
@@ -60,7 +62,10 @@ void Mod::loadFromTxt()
 	for (auto &enemy : enemies_)
 		enemyModel_.addEnemyBase(enemy);
 
-	//it fills board_ in constructor
+	for (auto &quest : quests_)
+		questModel_.addQuestBase(quest);
+
+	//it fills boardModel_ in constructor
 	BoardParser boardParser(this);
 	
 // 	qDebug() << boardParser.trescBledu << boardModel_.size() << boardModel_.terrainUids().size();
@@ -77,7 +82,7 @@ bool Mod::load(const QString & path)
 
 	QDataStream in(&file);
 
-	in >> itemModel_ >> enemyModel_ >> boardModel_;
+	in >> boardModel_>> itemModel_ >> enemyModel_ >> questModel_;
 
 	file.close();
 
@@ -95,7 +100,7 @@ bool Mod::save(const QString & path)
 
 	QDataStream out(&file);
 
-	out << itemModel_ << enemyModel_ << boardModel_;
+	out << boardModel_ << itemModel_ << enemyModel_ << questModel_;
 
 	itemModel_.setChanged(false);
 	enemyModel_.setChanged(false);

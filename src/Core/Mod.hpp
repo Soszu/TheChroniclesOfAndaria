@@ -30,8 +30,7 @@ class Prize;
 class EnemyBase;
 class ItemBase;
 
-//Mod, Variant, Rule(s), Option, Extension, Version, Chronicle, Guide, Set, Model, Story, Content
-//Tale, Form, Adaptation,
+//Mod, Variant, Rule(s), Extension, Version, Chronicle, Guide, Set, Model, Story, Content, Tale,
 class Mod
 {
 	friend class EnemyParser;
@@ -70,4 +69,5 @@ private:
 	QMap<int, ItemBase *> items_;
 	QMap<int, Prize *> prizes_;
 	QMap<int, EnemyBase *> enemies_;
+	QMap<int, QuestBase *> quests_;
 };

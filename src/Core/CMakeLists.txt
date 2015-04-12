@@ -38,7 +38,7 @@
 	Parsers/EnemyParser.cpp
 	Parsers/PrizeParser.cpp
 	Parsers/ItemParser.cpp
-#	Parsers/QuestParser.cpp
+	Parsers/QuestParser.cpp
 
 	Widgets/Map.cpp
 	Widgets/Tile.cpp
