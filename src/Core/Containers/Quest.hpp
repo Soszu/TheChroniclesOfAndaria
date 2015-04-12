@@ -17,9 +17,12 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
+#include <QtCore>
+
 #include "Core/Containers/Bases/QuestBase.hpp"
 #include "Core/Containers/Tests/TestData.hpp"
 
+class Objective;
 class Player;
 
 class Quest {
@@ -33,7 +36,7 @@ public:
 	bool isReturnRequired() const;
 	int level() const;
 	QuestBase difficulty() const;
-	QHash<Coordinates, TestData> objectives() const;
+	QList<Objective> objectives() const;
 	const Prize * prize() const;
 	Coordinates source() const;
 	QString title() const;
@@ -43,5 +46,6 @@ public:
 private:
 	const QuestBase * base_;
 	const Coordinates source_;
-	QSet<Coordinates> toDo_;
+	// Objectives indexes
+	QSet<int> toDo_;
 };

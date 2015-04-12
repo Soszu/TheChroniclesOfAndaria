@@ -20,6 +20,17 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Enums.hpp"
 #include "Core/Utils/EnumHelpers.hpp"
 
+QDataStream & operator<<(QDataStream & out, const Objective & val)
+{
+	return out << val.coords << val.priority << val.testData;
+}
+
+QDataStream & operator>>(QDataStream & in, Objective & val)
+{
+	return in >> val.coords >> val.priority >> val.testData;
+}
+
+
 QuestBase::QuestBase(UID uid, QString title) :
 	uid_(uid),
 	title_(title),
@@ -40,7 +51,7 @@ QuestBase::QuestBase(UID uid,
                      bool isReturnRequired,
                      UID followUp,
                      bool canBeDrawn,
-                     const QHash<Coordinates, TestData> & objectives,
+                     const QList<Objective> & objectives,
                      const Prize & reward) :
 	uid_(uid),
 	title_(title),
@@ -90,7 +101,7 @@ Difficulty QuestBase::difficulty() const
 	return difficulty_;
 }
 
-const QHash<Coordinates, TestData> & QuestBase::objectives() const
+const QList<Objective> & QuestBase::objectives() const
 {
 	return objectives_;
 }
@@ -116,12 +127,7 @@ UID QuestBase::uid() const
 	return uid_;
 }
 
-void QuestBase::addObjective(Coordinates coordinates, const TestData & test)
-{
-	objectives_[coordinates] = test;
-}
-
-QDataStream & QuestBase::fromDataStream(QDataStream &in)
+QDataStream & QuestBase::fromDataStream(QDataStream & in)
 {
 	return in >> uid_ >> title_ >> description_ >> fraction_ >> level_ >> difficulty_
 	          >> isReturnRequired_ >> followUp_ >> canBeDrawn_ >> objectives_ >> reward_;
@@ -162,7 +168,7 @@ void QuestBase::setDifficulty(Difficulty difficulty)
 	difficulty_ = difficulty;
 }
 
-void QuestBase::setObjectives(const QHash<Coordinates, TestData> & objectives)
+void QuestBase::setObjectives(const QList<Objective> & objectives)
 {
 	objectives_ = objectives;
 }
@@ -172,7 +178,7 @@ void QuestBase::setReward(const Prize &reward)
 	reward_ = reward;
 }
 
-void QuestBase::setTitle(const QString &title)
+void QuestBase::setTitle(const QString & title)
 {
 	title_ = title;
 }
