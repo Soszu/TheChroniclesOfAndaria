@@ -5,6 +5,8 @@
 	CustomWidgets/EffectsListEdit.cpp
 	CustomWidgets/EnumEdit.cpp
 	CustomWidgets/PrizeEdit.cpp
+	CustomWidgets/ObjectiveEdit.cpp
+
 
 	Editors/BoardEditor.cpp
 	Editors/EnemiesEditor.cpp
@@ -18,6 +20,7 @@ set (Editor_HDRS
 	CustomWidgets/EffectsListEdit.hpp
 	CustomWidgets/EnumEdit.hpp
 	CustomWidgets/PrizeEdit.hpp
+	CustomWidgets/ObjectiveEdit.hpp
 
 	Editors/BoardEditor.hpp
 	Editors/EnemiesEditor.hpp

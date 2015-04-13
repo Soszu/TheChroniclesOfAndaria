@@ -41,6 +41,14 @@ Test * Test::createTest(const TestData & testData)
 	return nullptr;
 }
 
+const BiHash <Test::Type, QString> Test::TypeLabels = {
+	{Test::Type::Blank,           QObject::tr("Blank")},
+	{Test::Type::Fight,           QObject::tr("Fight")},
+	{Test::Type::Luck,            QObject::tr("Luck")},
+	{Test::Type::Skills,          QObject::tr("Skills")}
+};
+
+
 inline uint qHash(Test::Type type)
 {
 	return qHash(toUnderlying(type));

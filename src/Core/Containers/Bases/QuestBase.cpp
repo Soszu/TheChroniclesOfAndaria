@@ -15,10 +15,17 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "QuestBase.hpp"
+#include "Core/Containers/Bases/QuestBase.hpp"
 
 #include "Core/Enums.hpp"
 #include "Core/Utils/EnumHelpers.hpp"
+
+const Objective Objective::SimpleObjective{{0,0}, 0, {Test::Type::Blank, {}}};
+
+bool Objective::operator==(const Objective & other) const
+{
+	return priority == other.priority && coords == other.coords && testData == other.testData;
+}
 
 QDataStream & operator<<(QDataStream & out, const Objective & val)
 {

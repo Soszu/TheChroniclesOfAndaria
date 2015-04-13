@@ -24,6 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 class TestData {
 public:
 	TestData(Test::Type type = Test::Type::Blank, const QVariant & data = {});
+	bool operator==(const TestData & other) const;
 
 	Test::Type type() const;
 	const QVariant & data() const;

@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 #pragma once
 
 #include <QtCore>
+#include "Core/Utils/BiHash.hpp"
 
 class TestData;
 
@@ -38,6 +39,7 @@ public:
 		Luck,
 		Skills,
 	};
+	static const BiHash <Type, QString> TypeLabels;
 
 	virtual Type type() const = 0;
 	// 	TODO some virtual methods for taking test

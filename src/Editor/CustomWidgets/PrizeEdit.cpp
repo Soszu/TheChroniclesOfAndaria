@@ -70,7 +70,10 @@ void PrizeEdit::initWidgets()
 	connect(listEdit_, &EffectsListEdit::effectsChanged, this, &PrizeEdit::updateEffects);
 	repLayout_ = new QFormLayout;
 	for (int i = 0; i < KingdomsForReputation.size(); i++) {
-		repSpins_.push_back(new QSpinBox);
+		auto repSpin = new QSpinBox;
+		repSpin->setMaximum(99);
+		repSpin->setMinimum(-99);
+		repSpins_.push_back(repSpin);
 		repLayout_->addRow(KingdomLabels[KingdomsForReputation[i]], repSpins_.back());
 		connect(repSpins_.back(), static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 			this, &PrizeEdit::updateKingdom);

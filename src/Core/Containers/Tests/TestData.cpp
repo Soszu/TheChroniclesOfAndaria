@@ -23,6 +23,11 @@ TestData::TestData(Test::Type type, const QVariant & data) :
 	data_(data)
 {}
 
+bool TestData::operator==(const TestData & other) const
+{
+	return type_ == other.type() && data_ == other.data();
+}
+
 Test::Type TestData::type() const
 {
 	return type_;

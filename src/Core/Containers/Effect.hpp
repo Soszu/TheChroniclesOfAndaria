@@ -79,9 +79,9 @@ public:
 	static Value sumValue(const QList<Effect> & effects, Type type);
 
 	Effect(Type type = Type::MaxHealth, Value value = 0, Duration duration = Permanent);
-	Effect(const Effect &effect) = default;
+	Effect(const Effect & effect) = default;
 
-	bool operator==(const Effect &other) const;
+	bool operator==(const Effect & other) const;
 
 	Duration duration() const;
 	QDataStream & toDataStream(QDataStream & out) const;

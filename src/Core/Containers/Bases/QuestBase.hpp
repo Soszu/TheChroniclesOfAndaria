@@ -25,6 +25,9 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Prize.hpp"
 
 struct Objective {
+	static const Objective SimpleObjective;
+	bool operator==(const Objective & other) const;
+
 	Coordinates coords;
 	int priority;
 	TestData testData;
