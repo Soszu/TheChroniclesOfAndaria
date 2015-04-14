@@ -29,6 +29,8 @@ This file is part of The Chronicles Of Andaria Project.
 MainWindow::MainWindow() :
 	mod_(new Mod)
 {
+	Q_INIT_RESOURCE(resources);
+
 	resize(1024, 768);
 	setWindowTitle(tr("[*]TCOA Editor"));
 

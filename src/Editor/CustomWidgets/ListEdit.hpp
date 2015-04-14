@@ -19,48 +19,31 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-#include "Core/Containers/Bases/QuestBase.hpp"
-
-class EnumEdit;
-class CoordsEdit;
-
-class ObjectiveEdit : public QWidget {
+class ListEdit : public QWidget {
 	Q_OBJECT
-	Q_PROPERTY(Objective objective
-	           READ objective
-	           WRITE setObjective
-	           RESET reset
-	           NOTIFY contentChanged
-	           USER true)
-
 public:
-	ObjectiveEdit(const Objective & objective = Objective::SimpleObjective,
-	              QWidget * parent = nullptr);
+	ListEdit(QWidget * parent = nullptr);
 
-	const Objective & objective() const;
-
-	void setObjective(const Objective & objective);
-
-public slots:
+protected:
+	virtual QWidget * createEditWidget();
+	virtual void editRemoved(int index);
+	//reset does not call editRemoved
 	void reset();
+	//setEdits does not call editRemoved nor createEditWidget
+	void setEdits(const QList<QWidget *> & edits);
 
 private:
 	void initLayout();
+	void addEdit(QWidget * edit);
+	void removeEdit(int index);
+	void addRow(QWidget * btn, QWidget * widget = nullptr);
 
-	Objective objective_;
-
-	CoordsEdit * coordsEdit_;
-	QSpinBox * priorityEdit_;
-	EnumEdit * testTypeEdit_;
-	QWidget * testDataEdit_;
+	QList<QWidget *> edits_;
+	QList<QWidget *> minuses_;
+	QVBoxLayout * mainLayout_;
+	QSignalMapper buttonsMapper_;
 
 private slots:
-	void updateCoordinates(const Coordinates & coords);
-	void updatePriority(int x);
-	void updateTestType(const QVariant & typeVar);
-	void updateTestData(const QVariant & data);
-	void updateWidgets();
-
-signals:
-	void contentChanged();
+	void onEditAdded();
+	void onEditRemoved(QWidget * widget);
 };

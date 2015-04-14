@@ -22,6 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 class EnumEdit;
 class PrizeEdit;
 class QuestModel;
+class ObjectivesEdit;
 
 class QuestEditor : public QWidget {
 	Q_OBJECT
@@ -57,6 +58,7 @@ private:
 	EnumEdit * difficultyEdit_;
 	QCheckBox * isReturnRequiredEdit_;
 	QCheckBox * canBeDrawnEdit_;
+	ObjectivesEdit * objectivesEdit_;
 	EnumEdit * followUpEdit_;
 	PrizeEdit * rewardEdit_;
 

@@ -1,6 +1,5 @@
 /*
-Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -20,11 +19,12 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 
-ObjectiveEdit::ObjectiveEdit(QWidget * parent) :
+ObjectiveEdit::ObjectiveEdit(const Objective & objective, QWidget * parent) :
 	QWidget(parent),
-	objective_(Objective::SimpleObjective)
+	objective_(objective)
 {
 	initLayout();
+	updateWidgets();
 }
 
 const Objective & ObjectiveEdit::objective() const
@@ -38,13 +38,15 @@ void ObjectiveEdit::setObjective(const Objective & objective)
 		return;
 
 	objective_ = objective;
-	emit objectiveChanged();
+	updateWidgets();
+
+	emit contentChanged();
 }
 
 void ObjectiveEdit::reset()
 {
 	objective_ = Objective::SimpleObjective;
-	emit objectiveChanged();
+	emit contentChanged();
 }
 
 void ObjectiveEdit::initLayout()
@@ -71,24 +73,32 @@ void ObjectiveEdit::initLayout()
 void ObjectiveEdit::updateCoordinates(const Coordinates & coords)
 {
 	objective_.coords = coords;
-	emit objectiveChanged();
+	emit contentChanged();
 }
 
 void ObjectiveEdit::updatePriority(int x)
 {
 	objective_.priority = x;
-	emit objectiveChanged();
+	emit contentChanged();
 }
 
 void ObjectiveEdit::updateTestType(const QVariant & typeVar)
 {
 	Test::Type type = typeVar.value<Test::Type>();
 	objective_.testData.setType(type);
-	emit objectiveChanged();
+	emit contentChanged();
 }
 
 void ObjectiveEdit::updateTestData(const QVariant & data)
 {
 	objective_.testData.setData(data);
-	emit objectiveChanged();
+	emit contentChanged();
+}
+
+void ObjectiveEdit::updateWidgets()
+{
+	priorityEdit_->setValue(objective_.priority);
+	testTypeEdit_->setValue(QVariant::fromValue(objective_.testData.type()));
+
+	//TODO update widgets when added
 }

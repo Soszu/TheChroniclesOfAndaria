@@ -21,6 +21,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/QuestBase.hpp"
 #include "Core/Enums.hpp"
 #include "Core/Strings.hpp"
+#include "Editor/CustomWidgets/ObjectivesEdit.hpp"
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
@@ -84,6 +85,8 @@ void QuestEditor::initEditPart()
 	isReturnRequiredEdit_ = new QCheckBox;
 	canBeDrawnEdit_ = new QCheckBox;
 
+	objectivesEdit_ = new ObjectivesEdit;
+
 	followUpEdit_ = new EnumEdit;
 	followUpEdit_->setEditable(true);
 
@@ -97,6 +100,7 @@ void QuestEditor::initEditPart()
 	editLayout_->addRow(Labels::Quest::Difficulty,       difficultyEdit_);
 	editLayout_->addRow(Labels::Quest::IsReturnRequired, isReturnRequiredEdit_);
 	editLayout_->addRow(Labels::Quest::CanBeDrawn,       canBeDrawnEdit_);
+	editLayout_->addRow(Labels::Quest::Objectives,       objectivesEdit_);
 	editLayout_->addRow(Labels::Quest::FollowUp,         followUpEdit_);
 	editLayout_->addRow(Labels::Quest::Reward,           rewardEdit_);
 
@@ -128,8 +132,12 @@ void QuestEditor::initMapper()
 	questMapper_->addMapping(levelEdit_,            QuestModel::Level);
 	questMapper_->addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
 	questMapper_->addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
+	questMapper_->addMapping(objectivesEdit_,       QuestModel::Objectives);
 	questMapper_->addMapping(followUpEdit_,         QuestModel::FollowUp);
 	questMapper_->addMapping(rewardEdit_,           QuestModel::Reward);
+
+	connect(objectivesEdit_, &ObjectivesEdit::contentChanged,
+	        questMapper_, &QDataWidgetMapper::submit);
 
 	connect(questsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
 	        questMapper_, &QDataWidgetMapper::setCurrentModelIndex);

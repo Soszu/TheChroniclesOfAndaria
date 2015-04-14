@@ -17,49 +17,34 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include <QtWidgets>
+#include <QtCore>
 
+#include "Editor/CustomWidgets/ListEdit.hpp"
+#include "Editor/CustomWidgets/ObjectiveEdit.hpp"
 #include "Core/Containers/Bases/QuestBase.hpp"
 
-class EnumEdit;
-class CoordsEdit;
-
-class ObjectiveEdit : public QWidget {
+class ObjectivesEdit : public ListEdit {
 	Q_OBJECT
-	Q_PROPERTY(Objective objective
-	           READ objective
-	           WRITE setObjective
+	Q_PROPERTY(QList<Objective> objectives
+	           READ objectives
+	           WRITE setObjectives
 	           RESET reset
 	           NOTIFY contentChanged
 	           USER true)
 
 public:
-	ObjectiveEdit(const Objective & objective = Objective::SimpleObjective,
-	              QWidget * parent = nullptr);
+	ObjectivesEdit(QWidget * parent = nullptr);
 
-	const Objective & objective() const;
+	QList<Objective> objectives() const;
+	void setObjectives(const QList<Objective> & objectives);
 
-	void setObjective(const Objective & objective);
-
-public slots:
 	void reset();
 
 private:
-	void initLayout();
+	QWidget * createEditWidget();
+	void editRemoved(int index);
 
-	Objective objective_;
-
-	CoordsEdit * coordsEdit_;
-	QSpinBox * priorityEdit_;
-	EnumEdit * testTypeEdit_;
-	QWidget * testDataEdit_;
-
-private slots:
-	void updateCoordinates(const Coordinates & coords);
-	void updatePriority(int x);
-	void updateTestType(const QVariant & typeVar);
-	void updateTestData(const QVariant & data);
-	void updateWidgets();
+	QList<ObjectiveEdit *> objectiveEdits_;
 
 signals:
 	void contentChanged();

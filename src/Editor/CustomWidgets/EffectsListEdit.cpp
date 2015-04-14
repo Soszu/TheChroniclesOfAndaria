@@ -19,6 +19,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Core/Strings.hpp"
 #include "Editor/Shortcuts.hpp"
+#include "Core/Resources.hpp"
 
 EffectsListEdit::EffectsListEdit(QWidget *parent) :
 	QWidget(parent)
@@ -122,12 +123,14 @@ void EffectsListEdit::updateDuration(int x)
 
 void EffectsListEdit::initButtons()
 {
-	addEffectButton_ = new QPushButton(tr("Add"));
+	addEffectButton_ = new QPushButton;
 	addEffectButton_->setShortcut(Editor::Shortcuts::SecondaryAdd);
+	addEffectButton_->setIcon(QPixmap(Icons::Plus));
 	connect(addEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::addEffect);
 
-	removeEffectButton_ = new QPushButton(tr("Remove"));
+	removeEffectButton_ = new QPushButton;
 	removeEffectButton_->setShortcut(Editor::Shortcuts::SecondaryRemove);
+	removeEffectButton_->setIcon(QPixmap(Icons::Minus));
 	connect(removeEffectButton_, &QPushButton::clicked, this, &EffectsListEdit::removeEffect);
 }
 

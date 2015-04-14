@@ -84,7 +84,6 @@ const BiHash<Effect::Type, QString> Effect::TypeLabels = {
 	{Type::Heal,            QObject::tr("Heal")},
 	{Type::Vamp,            QObject::tr("Vamp")},
 	{Type::Deflect,         QObject::tr("Deflect")},
-	{Type::Absorb,          QObject::tr("Absorb")},
 
 	{Type::GoldBonus,       QObject::tr("Gold bonus")},
 	{Type::ExperienceBonus, QObject::tr("Experience bonus")},

@@ -14,3 +14,8 @@ set (CMAKE_CXX_FLAGS "-Wall -std=c++11")
 add_subdirectory (src)
 
 install (DIRECTORY data DESTINATION "${EXECUTABLE_OUTPUT_PATH}")
+
+# Resources resources resources
+qt5_add_resources (resources_RESOURCES resources/resources.qrc)
+add_library (Resources ${resources_RESOURCES})
+# now spell "resources" aloud ...

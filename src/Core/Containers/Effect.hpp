@@ -50,7 +50,6 @@ public:
 		Heal,
 		Vamp,
 		Deflect,
-		Absorb,
 		// Bonuses
 		GoldBonus,
 		ExperienceBonus,
