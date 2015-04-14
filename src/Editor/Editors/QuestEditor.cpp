@@ -22,15 +22,13 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Enums.hpp"
 #include "Core/Strings.hpp"
 #include "Editor/CustomWidgets/ObjectivesEdit.hpp"
-#include "Editor/CustomWidgets/EffectsListEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
 #include "Editor/Shortcuts.hpp"
 
 QuestEditor::QuestEditor(QuestModel * questModel, QWidget * parent) :
 	QWidget(parent),
-	questModel_(questModel),
-	questMapper_(new QDataWidgetMapper(this))
+	questModel_(questModel)
 {
 	initEditPart();
 	initViewPart();
@@ -122,25 +120,28 @@ void QuestEditor::initLayout()
 
 void QuestEditor::initMapper()
 {
-	questMapper_->setModel(questModel_);
-	questMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+	questMapper_.setModel(questModel_);
+	questMapper_.setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
-	questMapper_->addMapping(titleEdit_,            QuestModel::Title);
-	questMapper_->addMapping(descriptionEdit_,      QuestModel::Description);
-	questMapper_->addMapping(fractionEdit_,         QuestModel::Fraction);
-	questMapper_->addMapping(difficultyEdit_,       QuestModel::QuestDifficulty);
-	questMapper_->addMapping(levelEdit_,            QuestModel::Level);
-	questMapper_->addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
-	questMapper_->addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
-	questMapper_->addMapping(objectivesEdit_,       QuestModel::Objectives);
-	questMapper_->addMapping(followUpEdit_,         QuestModel::FollowUp);
-	questMapper_->addMapping(rewardEdit_,           QuestModel::Reward);
+	questMapper_.addMapping(titleEdit_,            QuestModel::Title);
+	questMapper_.addMapping(descriptionEdit_,      QuestModel::Description);
+	questMapper_.addMapping(fractionEdit_,         QuestModel::Fraction);
+	questMapper_.addMapping(difficultyEdit_,       QuestModel::QuestDifficulty);
+	questMapper_.addMapping(levelEdit_,            QuestModel::Level);
+	questMapper_.addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
+	questMapper_.addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
+	questMapper_.addMapping(objectivesEdit_,       QuestModel::Objectives);
+	questMapper_.addMapping(followUpEdit_,         QuestModel::FollowUp);
+	questMapper_.addMapping(rewardEdit_,           QuestModel::Reward);
 
 	connect(objectivesEdit_, &ObjectivesEdit::contentChanged,
-	        questMapper_, &QDataWidgetMapper::submit);
+	        &questMapper_, &QDataWidgetMapper::submit);
 
 	connect(questsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
-	        questMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	        &questMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+
+	//TODO change to proxyModel one day
+	connect(questModel_, &QAbstractItemModel::modelReset, objectivesEdit_, &ObjectivesEdit::reset);
 }
 
 void QuestEditor::initViewPart()

@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include <QtWidgets>
 
 class ItemModel;
-class EffectsListEdit;
+class EffectsEdit;
 class EnumEdit;
 
 class ItemsEditor : public QWidget {
@@ -47,7 +47,7 @@ private:
 	void characterTyped(const QString & text);
 
 	ItemModel * const itemModel_;
-	QDataWidgetMapper * const itemMapper_;
+	QDataWidgetMapper itemMapper_;
 	QSortFilterProxyModel * proxyModel_;
 
 	QFormLayout * editLayout_;
@@ -59,7 +59,7 @@ private:
 	EnumEdit * qualityEdit_;
 	QSpinBox * priceEdit_;
 	QCheckBox * canBeDrawnEdit_;
-	EffectsListEdit * effectsEdit_;
+	EffectsEdit * effectsEdit_;
 
 	//--- Item list---
 	QListView * itemsList_;

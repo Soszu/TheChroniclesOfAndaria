@@ -2,7 +2,8 @@
 	main.cpp
 	MainWindow.cpp
 
-	CustomWidgets/EffectsListEdit.cpp
+	CustomWidgets/EffectEdit.cpp
+	CustomWidgets/EffectsEdit.cpp
 	CustomWidgets/EnumEdit.cpp
 	CustomWidgets/PrizeEdit.cpp
 	CustomWidgets/ObjectiveEdit.cpp
@@ -18,7 +19,8 @@
 set (Editor_HDRS
 	MainWindow.hpp
 
-	CustomWidgets/EffectsListEdit.hpp
+	CustomWidgets/EffectEdit.hpp
+	CustomWidgets/EffectsEdit.hpp
 	CustomWidgets/EnumEdit.hpp
 	CustomWidgets/PrizeEdit.hpp
 	CustomWidgets/ObjectiveEdit.hpp

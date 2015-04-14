@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 class EnumEdit;
 class PrizeEdit;
-class EffectsListEdit;
+class EffectsEdit;
 class EnemyModel;
 
 class EnemiesEditor : public QWidget {
@@ -50,7 +50,7 @@ private:
 
 	EnemyModel * enemyModel_;
 	QSortFilterProxyModel * proxyModel_;
-	QDataWidgetMapper * enemyMapper_;
+	QDataWidgetMapper enemyMapper_;
 
 	//--- Edits ---
 	QLineEdit * nameEdit_;
@@ -59,7 +59,7 @@ private:
 	EnumEdit * typeEdit_;
 	EnumEdit * defaultAttackEdit_;
 	QSpinBox * levelEdit_;
-	EffectsListEdit * baseStatsEdit_;
+	EffectsEdit * baseStatsEdit_;
 	PrizeEdit * prizeEdit_;
 
 	//--- List---

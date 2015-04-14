@@ -48,7 +48,7 @@ private:
 	QVBoxLayout * viewLayout_;
 
 	QuestModel * questModel_;
-	QDataWidgetMapper * questMapper_;
+	QDataWidgetMapper questMapper_;
 
 	//--- Edits ---
 	QLineEdit * titleEdit_;

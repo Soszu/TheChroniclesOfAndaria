@@ -22,7 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Enums.hpp"
 #include "Core/Strings.hpp"
-#include "Editor/CustomWidgets/EffectsListEdit.hpp"
+#include "Editor/CustomWidgets/EffectsEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/CustomWidgets/PrizeEdit.hpp"
 #include "Editor/Shortcuts.hpp"
@@ -30,8 +30,7 @@ This file is part of The Chronicles Of Andaria Project.
 
 EnemiesEditor::EnemiesEditor(EnemyModel * enemyModel, QWidget * parent) :
 	QWidget(parent),
-	enemyModel_(enemyModel),
-	enemyMapper_(new QDataWidgetMapper(this))
+	enemyModel_(enemyModel)
 {
 	initEditPart();
 	initViewPart();
@@ -84,7 +83,7 @@ void EnemiesEditor::initEditPart()
 	for (auto & attack : AttackLabels.leftKeys())
 		defaultAttackEdit_->addItem(AttackLabels[attack], QVariant::fromValue(attack));
 
-	baseStatsEdit_ = new EffectsListEdit;
+	baseStatsEdit_ = new EffectsEdit;
 
 	prizeEdit_ = new PrizeEdit;
 
@@ -116,20 +115,24 @@ void EnemiesEditor::initLayout()
 
 void EnemiesEditor::initMapper()
 {
-	enemyMapper_->setModel(proxyModel_);
-	enemyMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+	enemyMapper_.setModel(proxyModel_);
+	enemyMapper_.setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
-	enemyMapper_->addMapping(nameEdit_,          EnemyModel::Name);
-	enemyMapper_->addMapping(imageNameEdit_,     EnemyModel::ImageName);
-	enemyMapper_->addMapping(levelEdit_,         EnemyModel::Level);
-	enemyMapper_->addMapping(difficultyEdit_,    EnemyModel::EnemyDifficulty);
-	enemyMapper_->addMapping(typeEdit_,          EnemyModel::Type);
-	enemyMapper_->addMapping(defaultAttackEdit_, EnemyModel::DefaultAttack);
-	enemyMapper_->addMapping(baseStatsEdit_,     EnemyModel::BaseStats);
-	enemyMapper_->addMapping(prizeEdit_,         EnemyModel::WinningPrize);
+	enemyMapper_.addMapping(nameEdit_,          EnemyModel::Name);
+	enemyMapper_.addMapping(imageNameEdit_,     EnemyModel::ImageName);
+	enemyMapper_.addMapping(levelEdit_,         EnemyModel::Level);
+	enemyMapper_.addMapping(difficultyEdit_,    EnemyModel::EnemyDifficulty);
+	enemyMapper_.addMapping(typeEdit_,          EnemyModel::Type);
+	enemyMapper_.addMapping(defaultAttackEdit_, EnemyModel::DefaultAttack);
+	enemyMapper_.addMapping(baseStatsEdit_,     EnemyModel::BaseStats);
+	enemyMapper_.addMapping(prizeEdit_,         EnemyModel::WinningPrize);
 
+	connect(baseStatsEdit_, &EffectsEdit::contentChanged,
+	        &enemyMapper_, &QDataWidgetMapper::submit);
 	connect(enemiesList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
-	        enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	        &enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+
+	connect(proxyModel_, &QAbstractItemModel::modelReset, baseStatsEdit_, &EffectsEdit::reset);
 }
 
 void EnemiesEditor::characterTyped(const QString & text)

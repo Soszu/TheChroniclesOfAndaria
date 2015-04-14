@@ -22,14 +22,13 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Bases/ItemBase.hpp"
 #include "Core/Containers/Models/ItemModel.hpp"
 #include "Core/Strings.hpp"
-#include "Editor/CustomWidgets/EffectsListEdit.hpp"
+#include "Editor/CustomWidgets/EffectsEdit.hpp"
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/Shortcuts.hpp"
 
 ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent) :
 	QWidget(parent),
-	itemModel_(itemModel),
-	itemMapper_(new QDataWidgetMapper(this))
+	itemModel_(itemModel)
 {
 	initLayout();
 	initMapper();
@@ -73,8 +72,7 @@ QLayout * ItemsEditor::createEditPart()
 
 	canBeDrawnEdit_ = new QCheckBox;
 
-	effectsEdit_ = new EffectsListEdit;
-	connect(itemModel_, &QAbstractItemModel::modelReset, effectsEdit_, &EffectsListEdit::reset);
+	effectsEdit_ = new EffectsEdit;
 
 	QFormLayout *editLayout = new QFormLayout;
 	editLayout->addRow(Labels::Item::Name,       nameEdit_);
@@ -139,20 +137,22 @@ void ItemsEditor::initLayout()
 
 void ItemsEditor::initMapper()
 {
-	itemMapper_->setModel(proxyModel_);
-	itemMapper_->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+	itemMapper_.setModel(proxyModel_);
+	itemMapper_.setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
-	itemMapper_->addMapping(nameEdit_,       ItemModel::Name);
-	itemMapper_->addMapping(typeEdit_,       ItemModel::Type);
-	itemMapper_->addMapping(qualityEdit_,    ItemModel::Quality);
-	itemMapper_->addMapping(priceEdit_,      ItemModel::Price);
-	itemMapper_->addMapping(canBeDrawnEdit_, ItemModel::CanBeDrawn);
-	itemMapper_->addMapping(effectsEdit_,    ItemModel::Effects);
+	itemMapper_.addMapping(nameEdit_,       ItemModel::Name);
+	itemMapper_.addMapping(typeEdit_,       ItemModel::Type);
+	itemMapper_.addMapping(qualityEdit_,    ItemModel::Quality);
+	itemMapper_.addMapping(priceEdit_,      ItemModel::Price);
+	itemMapper_.addMapping(canBeDrawnEdit_, ItemModel::CanBeDrawn);
+	itemMapper_.addMapping(effectsEdit_,    ItemModel::Effects);
 
-	connect(effectsEdit_, &EffectsListEdit::effectsChanged,
-	        itemMapper_, &QDataWidgetMapper::submit);
+	connect(effectsEdit_, &EffectsEdit::contentChanged,
+	        &itemMapper_, &QDataWidgetMapper::submit);
 	connect(itemsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
 	        this, &ItemsEditor::rowChanged);
+
+	connect(proxyModel_, &QAbstractItemModel::modelReset, effectsEdit_, &EffectsEdit::reset);
 }
 
 void ItemsEditor::setEditWidgetsEnabled(bool enabled)
@@ -186,5 +186,5 @@ void ItemsEditor::rowChanged()
 	const QItemSelectionModel *selection = itemsList_->selectionModel();
 	setEditWidgetsEnabled(selection->hasSelection());
 	if (selection->hasSelection())
-		itemMapper_->setCurrentModelIndex(selection->currentIndex());
+		itemMapper_.setCurrentModelIndex(selection->currentIndex());
 }

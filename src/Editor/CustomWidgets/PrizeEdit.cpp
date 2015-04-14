@@ -66,8 +66,6 @@ void PrizeEdit::initWidgets()
 	goldEdit_ = new QSpinBox;
 	connect(goldEdit_, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 	        this, &PrizeEdit::updateGold);
-	listEdit_ = new EffectsListEdit;
-	connect(listEdit_, &EffectsListEdit::effectsChanged, this, &PrizeEdit::updateEffects);
 	repLayout_ = new QFormLayout;
 	for (int i = 0; i < KingdomsForReputation.size(); i++) {
 		auto repSpin = new QSpinBox;
@@ -107,13 +105,6 @@ void PrizeEdit::updateExperience(int x)
 void PrizeEdit::updateGold(int x)
 {
 	prize_.setGold(x);
-	emit prizeChanged(prize_);
-	simulateFocusLoss();
-}
-
-void PrizeEdit::updateEffects()
-{
-	prize_.setEffects(listEdit_->effects());
 	emit prizeChanged(prize_);
 	simulateFocusLoss();
 }

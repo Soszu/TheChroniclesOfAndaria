@@ -1,6 +1,5 @@
 /*
-Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -22,51 +21,41 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include "Core/Containers/Effect.hpp"
 
-class EffectsListEdit : public QWidget {
+class EnumEdit;
+
+class EffectEdit : public QWidget {
 	Q_OBJECT
-	Q_PROPERTY(QList <Effect> effects
-	           READ effects
-	           WRITE setEffects
+	Q_PROPERTY(Effect effect
+	           READ effect
+	           WRITE setEffect
 	           RESET reset
-	           NOTIFY effectsChanged
+	           NOTIFY contentChanged
 	           USER true)
 
 public:
-	EffectsListEdit(QWidget *parent = nullptr);
+	EffectEdit(const Effect & effect = {}, QWidget * parent = nullptr);
 
-	QList <Effect> effects() const;
-	void setEffects(const QList <Effect> &effects);
+	const Effect & effect() const;
+	void setEffect(const Effect & effect);
 
 public slots:
 	void reset();
 
 private:
-	void initButtons();
-	void initEdits();
-	void initList();
 	void initLayout();
-	void setEditWidgetsEnabled(bool enabled);
 
-	QList <Effect> effects_;
-	QStringListModel *effectsModel_;
+	Effect effect_;
 
-	QListView *listView_;
-	QComboBox *typeEdit_;
-	QSpinBox *valueEdit_;
-	QSpinBox *durationEdit_;
-
-	QPushButton *addEffectButton_;
-	QPushButton *removeEffectButton_;
+	EnumEdit * typeEdit_;
+	QSpinBox * valueEdit_;
+	QSpinBox * durationEdit_;
 
 private slots:
-	void addEffect();
-	void removeEffect();
-	void selectionChanged();
-
-	void updateType(QString text);
+	void updateType(const QVariant & typeVar);
 	void updateValue(int x);
 	void updateDuration(int x);
+	void updateWidgets();
 
 signals:
-	void effectsChanged();
+	void contentChanged();
 };

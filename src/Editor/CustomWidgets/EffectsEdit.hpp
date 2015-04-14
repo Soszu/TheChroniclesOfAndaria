@@ -1,6 +1,5 @@
 /*
-Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
-Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
+Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -18,46 +17,35 @@ This file is part of The Chronicles Of Andaria Project.
 */
 #pragma once
 
-#include "Core/Containers/Prize.hpp"
-#include "Core/EnumsDeclarations.hpp"
+#include <QtCore>
 
-#include <QtWidgets>
+#include "Editor/CustomWidgets/ListEdit.hpp"
+#include "Editor/CustomWidgets/EffectEdit.hpp"
+#include "Core/Containers/Effect.hpp"
 
-class PrizeEdit : public QWidget {
+class EffectsEdit : public ListEdit {
 	Q_OBJECT
-	Q_PROPERTY(Prize prize_
-	           READ prize
-	           WRITE setPrize
+	Q_PROPERTY(QList<Effect> effects
+	           READ effects
+	           WRITE setEffects
 	           RESET reset
-	           NOTIFY prizeChanged
+	           NOTIFY contentChanged
 	           USER true)
 
 public:
-	PrizeEdit(QWidget *parent = nullptr);
+	EffectsEdit(QWidget * parent = nullptr);
 
-	Prize prize() const;
+	QList<Effect> effects() const;
+	void setEffects(const QList<Effect> & effects);
 
 	void reset();
-	void setPrize(const Prize &prize);
 
 private:
-	void initWidgets();
-	void initLayout();
-	void simulateFocusLoss();
+	QWidget * createEditWidget();
+	void editRemoved(int index);
 
-	Prize prize_;
-
-	QSpinBox *experienceEdit_;
-	QSpinBox *goldEdit_;
-
-	QVector<QSpinBox*> repSpins_;
-	QFormLayout *repLayout_;
-
-private slots:
-	void updateExperience(int x);
-	void updateGold(int x);
-	void updateKingdom(int value);
+	QList<EffectEdit *> effectEdits_;
 
 signals:
-	void prizeChanged(Prize prize);
+	void contentChanged();
 };
