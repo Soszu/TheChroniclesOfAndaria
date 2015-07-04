@@ -19,18 +19,18 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-class BoardModel;
 class Tile;
 
-class Map : public QGraphicsScene
+class MapView : public QGraphicsView
 {
 	Q_OBJECT
 public:
-    Map(BoardModel * board);
+	MapView();
 
-public slots:
-	void repaint();
+protected:
+	void wheelEvent(QWheelEvent * event);
+	void mouseReleaseEvent(QMouseEvent * event);
 
-private:
-	BoardModel * board_;
+signals:
+	void tileClicked(const Tile * tile);
 };

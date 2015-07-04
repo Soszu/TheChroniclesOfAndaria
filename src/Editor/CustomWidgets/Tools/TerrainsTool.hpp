@@ -19,18 +19,17 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-class BoardModel;
+#include "Editor/CustomWidgets/Tools/Tool.hpp"
+
 class Tile;
 
-class Map : public QGraphicsScene
+class TerrainsTool : public Tool
 {
-	Q_OBJECT
 public:
-    Map(BoardModel * board);
+	TerrainsTool(BoardModel * board);
+
+	void handleTileClick(const Tile * tile);
 
 public slots:
-	void repaint();
-
-private:
-	BoardModel * board_;
+	void deactivate();
 };

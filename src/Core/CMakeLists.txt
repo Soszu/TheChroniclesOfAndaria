@@ -41,11 +41,13 @@
 	Parsers/QuestParser.cpp
 
 	Widgets/Map.cpp
+	Widgets/MapView.cpp
 	Widgets/Tile.cpp
 )
 
 set (core_HEADERS
 	Widgets/Map.hpp
+	Widgets/MapView.hpp
 
 	Containers/Models/BoardModel.hpp
 )

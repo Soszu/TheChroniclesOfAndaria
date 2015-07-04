@@ -10,6 +10,12 @@
 	CustomWidgets/ObjectivesEdit.cpp
 	CustomWidgets/ListEdit.cpp
 
+	CustomWidgets/Tools/Tool.cpp
+	CustomWidgets/Tools/BoardSizeTool.cpp
+	CustomWidgets/Tools/TerrainsTool.cpp
+	CustomWidgets/Tools/RulingTool.cpp
+	CustomWidgets/Tools/InitialPositionsTool.cpp
+
 	Editors/BoardEditor.cpp
 	Editors/EnemiesEditor.cpp
 	Editors/ItemsEditor.cpp
@@ -31,6 +37,12 @@ set (Editor_HDRS
 	Editors/EnemiesEditor.hpp
 	Editors/ItemsEditor.hpp
 	Editors/QuestEditor.hpp
+
+	CustomWidgets/Tools/Tool.hpp
+	CustomWidgets/Tools/BoardSizeTool.hpp
+# 	CustomWidgets/Tools/TerrainsTool.hpp
+# 	CustomWidgets/Tools/RulingTool.hpp
+# 	CustomWidgets/Tools/InitialPositionsTool.hpp
 )
 
 qt5_wrap_cpp (Editor_SRCS ${Editor_HDRS})

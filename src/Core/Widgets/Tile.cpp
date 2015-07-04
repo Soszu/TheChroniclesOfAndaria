@@ -21,28 +21,26 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Paths.hpp"
 #include "Core/DataManager.hpp"
 
-Tile::Tile(const Terrain * terrain) :
-	sideSize_(DefaultSideSize),
+const qreal Tile::SideSize = 32;
+
+Tile::Tile(const Coordinates & coords, const Terrain * terrain) :
+	coords_(coords),
 	terrain_(terrain)
 {}
 
-qreal Tile::sideSize() const
-{
-	return sideSize_;
-}
-
 qreal Tile::height() const
 {
-	if (sideSize_ <= 0)
-		return 0;
-	return sideSize_ * qSqrt(3);
+	return SideSize * qSqrt(3);
 }
 
 qreal Tile::width() const
 {
-	if (sideSize_ <= 0)
-		return 0;
-	return sideSize_ * 2;
+	return SideSize * 2;
+}
+
+const Coordinates & Tile::coords() const
+{
+	return coords_;
 }
 
 QVector<QPointF> Tile::nodes()
@@ -59,22 +57,15 @@ QRectF Tile::boundingRect() const
 	return QRectF(0, 0, width(), height());
 }
 
-void Tile::setSideSize(qreal sideSize)
-{
-	sideSize_ = sideSize;
-}
-
 void Tile::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
 	if (terrain_ == nullptr) {
-		painter->drawRect(sideSize_ / 2, sideSize_ / 2, sideSize_ / 2, sideSize_ / 2);
+		painter->drawRect(SideSize / 2, SideSize / 2, SideSize / 2, SideSize / 2);
 		return;
 	}
 
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
 	painter->drawPixmap(boundingRect().toRect(),
 	                    DataManager::pixmap(resolveTerrainPath(terrain_->pixmapName())));
-
 }
 
-const qreal Tile::DefaultSideSize = 30;

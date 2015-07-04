@@ -19,9 +19,13 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
-#include "Core/Widgets/Map.hpp"
-
 class BoardModel;
+class MapView;
+class Tool;
+class BoardSizeTool;
+class InitialPositionsTool;
+class RulingTool;
+class TerrainsTool;
 
 class BoardEditor : public QWidget
 {
@@ -32,24 +36,15 @@ public:
 private:
 	QWidget * createMap();
 	QWidget * createTools();
-	void initBoardSizeTools();
 	void initLayout();
 
 	BoardModel * const board_;
-	Map * map_;
-	QWidget * boardSizeTools_;
-	QSpinBox * boardColumns_;
-	QSpinBox * boardRows_;
+	MapView * mapView_;
 
-	QWidget * terrainsTools_;
-	QWidget * rulingTools_;
-	QWidget * initialPositionsTools_;
+	BoardSizeTool * boardSizeTool_;
+	TerrainsTool * terrainsTool_;
+	RulingTool * rulingTool_;
+	InitialPositionsTool * initialPositionsTool_;
 
-private slots:
-	void updateBoardSizeTools();
-	void changeBoardWidth(int val);
-	void changeBoardHeight(int val);
-
-signals:
-	void boardChanged();
+	Tool * activeTool_;
 };

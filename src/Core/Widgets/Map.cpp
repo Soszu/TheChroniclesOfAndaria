@@ -32,7 +32,8 @@ void Map::repaint()
 
 	for (int row = 0; row < board_->rowCount(); ++row)
 		for (int column = 0; column < board_->columnCount(); ++column) {
-			Tile * tile = new Tile(board_->terrain(Coordinates(row, column)));
+			auto coords = Coordinates(row, column);
+			Tile * tile = new Tile(coords, board_->terrain(coords));
 
 			qreal xPos = column * tile->boundingRect().width();
 			if (row % 2 == 1) xPos += tile->width() / 2;

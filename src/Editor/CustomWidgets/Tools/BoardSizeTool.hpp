@@ -19,18 +19,24 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
+#include "Editor/CustomWidgets/Tools/Tool.hpp"
+
 class BoardModel;
 class Tile;
 
-class Map : public QGraphicsScene
+class BoardSizeTool : public Tool
 {
 	Q_OBJECT
 public:
-    Map(BoardModel * board);
-
-public slots:
-	void repaint();
+	BoardSizeTool(BoardModel * board);
+	void initLayout();
 
 private:
-	BoardModel * board_;
+	QSpinBox * boardColumns_;
+	QSpinBox * boardRows_;
+
+private slots:
+	void updateBoardSizeTools();
+	void changeBoardWidth(int val);
+	void changeBoardHeight(int val);
 };

@@ -22,15 +22,20 @@ This file is part of The Chronicles Of Andaria Project.
 class BoardModel;
 class Tile;
 
-class Map : public QGraphicsScene
+class Tool : public QWidget
 {
 	Q_OBJECT
 public:
-    Map(BoardModel * board);
+	Tool(BoardModel * board);
+
+	virtual void handleTileClick(const Tile * tile);
 
 public slots:
-	void repaint();
+	virtual void deactivate();
 
-private:
-	BoardModel * board_;
+protected:
+	BoardModel * const board_;
+
+signals:
+	void activate();
 };

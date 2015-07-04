@@ -15,22 +15,20 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
+#include "Editor/CustomWidgets/Tools/InitialPositionsTool.hpp"
 
-#include <QtWidgets>
+#include "Core/Widgets/Tile.hpp"
 
-class BoardModel;
-class Tile;
+InitialPositionsTool::InitialPositionsTool(BoardModel * board) :
+	Tool(board)
+{}
 
-class Map : public QGraphicsScene
+void InitialPositionsTool::handleTileClick(const Tile * tile)
 {
-	Q_OBJECT
-public:
-    Map(BoardModel * board);
 
-public slots:
-	void repaint();
+}
 
-private:
-	BoardModel * board_;
-};
+void InitialPositionsTool::deactivate()
+{
+
+}

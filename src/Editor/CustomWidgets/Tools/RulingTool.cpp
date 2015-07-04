@@ -15,22 +15,20 @@ This file is part of The Chronicles Of Andaria Project.
 	You should have received a copy of the GNU General Public License
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
+#include "Editor/CustomWidgets/Tools/RulingTool.hpp"
 
-#include <QtWidgets>
+#include "Core/Widgets/Tile.hpp"
 
-class BoardModel;
-class Tile;
+RulingTool::RulingTool(BoardModel * board) :
+	Tool(board)
+{}
 
-class Map : public QGraphicsScene
+void RulingTool::handleTileClick(const Tile * tile)
 {
-	Q_OBJECT
-public:
-    Map(BoardModel * board);
 
-public slots:
-	void repaint();
+}
 
-private:
-	BoardModel * board_;
-};
+void RulingTool::deactivate()
+{
+
+}

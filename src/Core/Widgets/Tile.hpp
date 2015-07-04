@@ -19,26 +19,27 @@ This file is part of The Chronicles Of Andaria Project.
 
 #include <QtWidgets>
 
+#include <Core/Containers/Coordinates.hpp>
+
 class Terrain;
 
 class Tile : public QGraphicsItem
 {
 public:
-	Tile(const Terrain * terrain);
+	static const qreal SideSize;
+	Tile(const Coordinates & coords, const Terrain * terrain);
 
-	qreal sideSize() const;
 	qreal height() const;
 	qreal width() const;
+	const Coordinates & coords() const;
 	virtual QRectF boundingRect() const;
 
-	void setSideSize(qreal sideSize1);
 	virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
 
 private:
-	static const qreal DefaultSideSize;
 
 	QVector<QPointF> nodes();
 
-	qreal sideSize_;
+	Coordinates coords_;
 	const Terrain * terrain_;
 };
