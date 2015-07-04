@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -25,8 +26,8 @@ public:
 	ListEdit(QWidget * parent = nullptr);
 
 protected:
-	virtual QWidget * createEditWidget();
-	virtual void editRemoved(int index);
+	virtual QWidget * createEditWidget() = 0;
+	virtual void rowRemoved(int index) = 0;
 	//reset does not call editRemoved
 	void reset();
 	//setEdits does not call editRemoved nor createEditWidget
@@ -35,7 +36,7 @@ protected:
 private:
 	void initLayout();
 	void addEdit(QWidget * edit);
-	void removeEdit(int index);
+	void removeRow(int index);
 	void addRow(QWidget * btn, QWidget * widget = nullptr);
 
 	QList<QWidget *> edits_;

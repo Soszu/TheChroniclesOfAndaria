@@ -68,7 +68,7 @@ QWidget * ObjectivesEdit::createEditWidget()
 	return oe;
 }
 
-void ObjectivesEdit::editRemoved(int index)
+void ObjectivesEdit::rowRemoved(int index)
 {
 	if (index < 0 || index > objectiveEdits_.count())
 		return;

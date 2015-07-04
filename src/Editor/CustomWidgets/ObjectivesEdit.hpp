@@ -42,7 +42,7 @@ public:
 
 private:
 	QWidget * createEditWidget();
-	void editRemoved(int index);
+	void rowRemoved(int index) override;
 
 	QList<ObjectiveEdit *> objectiveEdits_;
 

@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -27,19 +28,10 @@ ListEdit::ListEdit(QWidget * parent) : QWidget(parent)
 	        this, &ListEdit::onEditRemoved);
 }
 
-QWidget * ListEdit::createEditWidget()
-{
-	return new QWidget;
-}
-
-void ListEdit::editRemoved(int index)
-{
-}
-
 void ListEdit::reset()
 {
-	while (! edits_.isEmpty())
-		removeEdit(0);
+	while (!edits_.isEmpty())
+		removeRow(0);
 }
 
 void ListEdit::setEdits(const QList<QWidget *> & edits)
@@ -52,6 +44,7 @@ void ListEdit::setEdits(const QList<QWidget *> & edits)
 void ListEdit::initLayout()
 {
 	mainLayout_ = new QVBoxLayout;
+	mainLayout_->setSpacing(0);
 	setLayout(mainLayout_);
 
 	auto plusBtn = new QPushButton(QIcon(QPixmap(Icons::Plus)), {});
@@ -64,41 +57,30 @@ void ListEdit::addEdit(QWidget * edit)
 {
 	auto newMinus = new QPushButton(QIcon(QPixmap(Icons::Minus)), {});
 	connect(newMinus, &QPushButton::clicked,
-			&buttonsMapper_, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+	        &buttonsMapper_, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
 	buttonsMapper_.setMapping(newMinus, newMinus);
+
 	minuses_.append(newMinus);
 	edits_.append(edit);
-
 	addRow(newMinus, edit);
 }
 
-void ListEdit::removeEdit(int index)
+void ListEdit::removeRow(int index)
 {
-	auto item = mainLayout_->takeAt(index);
-	if (item == nullptr)
-		return;
-
-	delete item->widget();
-	delete item;
-
-	edits_.removeAt(index);
-	minuses_.removeAt(index);
+	delete mainLayout_->takeAt(index);
+	delete edits_.takeAt(index);
+	delete minuses_.takeAt(index);
 }
 
 void ListEdit::addRow(QWidget * btn, QWidget * widget)
 {
-	auto hLayout = new QHBoxLayout;
-
-	hLayout->addWidget(btn);
-	if (widget == nullptr)
-		hLayout->addStretch();
+	QHBoxLayout *row = new QHBoxLayout;
+	row->addWidget(btn);
+	if (widget != nullptr)
+		row->addWidget(widget, 1);
 	else
-		hLayout->addWidget(widget, 1);
-
-	//placeholder is here for easy removing from layout
-	auto placeholder = new QWidget;
-	placeholder->setLayout(hLayout);
-	mainLayout_->insertWidget(edits_.count() - 1, placeholder);
+		row->addStretch();
+	mainLayout_->insertLayout(edits_.count() - 1, row);
 }
 
 void ListEdit::onEditAdded()
@@ -109,6 +91,6 @@ void ListEdit::onEditAdded()
 void ListEdit::onEditRemoved(QWidget * widget)
 {
 	int index = minuses_.lastIndexOf(widget);
-	removeEdit(index);
-	editRemoved(index);
+	removeRow(index);
+	rowRemoved(index);
 }

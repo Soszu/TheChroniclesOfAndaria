@@ -68,7 +68,7 @@ QWidget * EffectsEdit::createEditWidget()
 	return oe;
 }
 
-void EffectsEdit::editRemoved(int index)
+void EffectsEdit::rowRemoved(int index)
 {
 	if (index < 0 || index > effectEdits_.count())
 		return;
