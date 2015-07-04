@@ -1,6 +1,7 @@
 ﻿/*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -44,6 +45,7 @@ private:
 	void initViewPart();
 	void initLayout();
 	void initMapper();
+	void setEditWidgetsEnabled(bool enabled);
 
 	QFormLayout * editLayout_;
 	QVBoxLayout * viewLayout_;
@@ -71,4 +73,5 @@ private:
 private slots:
 	void addEnemy();
 	void removeEnemy();
+	void rowChanged();
 };

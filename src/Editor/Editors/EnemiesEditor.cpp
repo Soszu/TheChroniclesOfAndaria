@@ -1,6 +1,7 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
 Copyright (C) 2015 by Marcin Parafiniuk <jessie [dot] inferno [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -36,6 +37,7 @@ EnemiesEditor::EnemiesEditor(EnemyModel * enemyModel, QWidget * parent) :
 	initViewPart();
 	initLayout();
 	initMapper();
+	setEditWidgetsEnabled(false);
 }
 
 void EnemiesEditor::clear()
@@ -99,7 +101,6 @@ void EnemiesEditor::initEditPart()
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
-// 	editLayout_->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
 	editLayout_->setLabelAlignment(Qt::AlignLeft);
 }
 
@@ -129,8 +130,8 @@ void EnemiesEditor::initMapper()
 
 	connect(baseStatsEdit_, &EffectsEdit::contentChanged,
 	        &enemyMapper_, &QDataWidgetMapper::submit);
-	connect(enemiesList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
-	        &enemyMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	connect(enemiesList_->selectionModel(), &QItemSelectionModel::selectionChanged,
+	        this, &EnemiesEditor::rowChanged);
 
 	connect(proxyModel_, &QAbstractItemModel::modelReset, baseStatsEdit_, &EffectsEdit::reset);
 }
@@ -173,6 +174,13 @@ void EnemiesEditor::initViewPart()
 	viewLayout_->addWidget(enemiesList_);
 }
 
+void EnemiesEditor::setEditWidgetsEnabled(bool enabled)
+{
+	for (QWidget *widget : std::initializer_list<QWidget *>{nameEdit_, imageNameEdit_, difficultyEdit_,
+	                       typeEdit_, defaultAttackEdit_, levelEdit_, baseStatsEdit_, prizeEdit_})
+		widget->setEnabled(enabled);
+}
+
 void EnemiesEditor::addEnemy()
 {
 	enemyModel_->insertRows(enemyModel_->rowCount(), 1);
@@ -185,4 +193,12 @@ void EnemiesEditor::removeEnemy()
 		return;
 
 	enemyModel_->removeRows(selected.row(), 1);
+}
+
+void EnemiesEditor::rowChanged()
+{
+	const QItemSelectionModel *selection = enemiesList_->selectionModel();
+	setEditWidgetsEnabled(selection->hasSelection());
+	if (selection->hasSelection())
+		enemyMapper_.setCurrentModelIndex(selection->currentIndex());
 }
