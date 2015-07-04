@@ -26,7 +26,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Editor/CustomWidgets/EnumEdit.hpp"
 #include "Editor/Shortcuts.hpp"
 
-ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent) :
+ItemsEditor::ItemsEditor(ItemModel * itemModel, QWidget * parent) :
 	QWidget(parent),
 	itemModel_(itemModel)
 {
@@ -35,12 +35,12 @@ ItemsEditor::ItemsEditor(ItemModel *itemModel, QWidget *parent) :
 	setEditWidgetsEnabled(false);
 }
 
-void ItemsEditor::loadFromStream(QDataStream& in)
+void ItemsEditor::loadFromStream(QDataStream & in)
 {
 	in >> *itemModel_;
 }
 
-void ItemsEditor::saveToStream(QDataStream& out) const
+void ItemsEditor::saveToStream(QDataStream & out) const
 {
 	out << *itemModel_;
 }
@@ -60,11 +60,11 @@ QLayout * ItemsEditor::createEditPart()
 	nameEdit_ = new QLineEdit;
 
 	typeEdit_ = new EnumEdit;
-	for (auto &type : ItemBase::TypeLabels.leftKeys())
+	for (auto & type : ItemBase::TypeLabels.leftKeys())
 		typeEdit_->addItem(ItemBase::TypeLabels[type], QVariant::fromValue(type));
 
 	qualityEdit_ = new EnumEdit;
-	for (auto &quality : ItemBase::QualityLabels.leftKeys())
+	for (auto & quality : ItemBase::QualityLabels.leftKeys())
 		qualityEdit_->addItem(ItemBase::QualityLabels[quality], QVariant::fromValue(quality));
 
 	priceEdit_ = new QSpinBox;
@@ -83,8 +83,6 @@ QLayout * ItemsEditor::createEditPart()
 	editLayout->addRow(Labels::Item::Effects,    effectsEdit_);
 
 	editLayout->setRowWrapPolicy(QFormLayout::DontWrapRows);
-// 	editLayout->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
-// 	editLayout->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
 	editLayout->setLabelAlignment(Qt::AlignLeft);
 
 	return editLayout;
@@ -111,12 +109,12 @@ QLayout * ItemsEditor::createViewPart()
 	buttonsLayout->addWidget(removeItemButton_);
 
 	itemsList_ = new QListView;
-	itemsList_->setModel(itemModel_);
+	proxyModel_ = new QSortFilterProxyModel(this);
+	proxyModel_->setSourceModel(itemModel_);
+	itemsList_->setModel(proxyModel_);
 	itemsList_->setModelColumn(ItemModel::Name);
 	itemsList_->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	proxyModel_ = new QSortFilterProxyModel(this);
-	proxyModel_->setSourceModel(itemModel_);
 
 	QVBoxLayout *viewLayout = new QVBoxLayout;
 	viewLayout->addLayout(buttonsLayout);
@@ -149,7 +147,7 @@ void ItemsEditor::initMapper()
 
 	connect(effectsEdit_, &EffectsEdit::contentChanged,
 	        &itemMapper_, &QDataWidgetMapper::submit);
-	connect(itemsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
+	connect(itemsList_->selectionModel(), &QItemSelectionModel::selectionChanged,
 	        this, &ItemsEditor::rowChanged);
 
 	connect(proxyModel_, &QAbstractItemModel::modelReset, effectsEdit_, &EffectsEdit::reset);
