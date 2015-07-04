@@ -22,6 +22,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Containers/Enemy.hpp"
 #include "Core/Containers/Bases/EnemyBase.hpp"
 #include "Core/Containers/Prize.hpp"
+#include "Core/Utils/Debug.hpp"
 
 EnemyModel::EnemyModel(QObject * parent) :
 	QAbstractTableModel(parent),

@@ -57,7 +57,7 @@ void Mod::loadFromTxt()
 		qDebug() << prizeParser.trescBledu << "prizes" << prizes_.size();
 
 	EnemyParser enemyParser(this);
-		qDebug() <<enemyParser.trescBledu << "enemies: " << enemies_.size();
+		qDebug() << enemyParser.trescBledu << "enemies: " << enemies_.size();
 
 	QuestParser questParser(this);
 		qDebug() << questParser.trescBledu << "quests: " << quests_.size();
@@ -79,6 +79,8 @@ void Mod::loadFromTxt()
 	qDebug() << boardParser.trescBledu << boardModel_.size() << boardModel_.terrainUids().size();
 }
 
+
+//TODO something entirely wrong FIX FIX FIX this feature
 bool Mod::load(const QString & path)
 {
 	info("Loading from ", Logging::NoEndline);
@@ -148,6 +150,8 @@ bool Mod::save(const QString & path)
 
 void Mod::reset()
 {
+	log("Mod::reset");
+
 	itemModel_.reset();
 	enemyModel_.reset();
 	boardModel_.reset();

@@ -30,11 +30,11 @@ This file is part of The Chronicles Of Andaria Project.
 // 5 - log
 
 // Functions
-// crit
-// err
-// warn
-// info
-// log
+// crit - colour red, causes instant exit
+// err  - colour red
+// warn - colour yellow
+// info - colour green
+// log  - default colour
 
 #define MESSAGE_LEVEL 5
 
