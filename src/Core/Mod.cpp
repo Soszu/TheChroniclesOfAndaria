@@ -24,6 +24,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Parsers/EnemyParser.hpp"
 #include "Core/Parsers/QuestParser.hpp"
 #include "Core/Containers/Bases/ItemBase.hpp"
+#include "Core/Utils/Debug.hpp"
 
 Mod::Mod()
 {}
@@ -33,9 +34,14 @@ Mod::~Mod()
 	qDeleteAll(prizes_);
 }
 
-bool Mod::unsavedChanges() const
+bool Mod::hasUnsavedChanges() const
 {
-	return (itemModel_.isChanged() || enemyModel_.isChanged());
+	bool changed = (itemModel_.isChanged() || enemyModel_.isChanged());
+	if (changed)
+		log("Mod::hasUnsavedChanges yes");
+	else
+		log("Mod::hasUnsavedChanges no");
+	return changed;
 }
 
 void Mod::loadFromTxt()
@@ -56,33 +62,48 @@ void Mod::loadFromTxt()
 // 	for (auto &quest : quests_)
 // 		qDebug() << quest->objectives()[0].testData.data();
 
-	for (auto &item : items_)
+	for (auto & item : items_)
 		itemModel_.addItemBase(item);
 
-	for (auto &enemy : enemies_)
+	for (auto & enemy : enemies_)
 		enemyModel_.addEnemyBase(enemy);
 
-	for (auto &quest : quests_)
+	for (auto & quest : quests_)
 		questModel_.addQuestBase(quest);
 
 	//it fills boardModel_ in constructor
 	BoardParser boardParser(this);
-	
+
 // 	qDebug() << boardParser.trescBledu << boardModel_.size() << boardModel_.terrainUids().size();
 }
 
 bool Mod::load(const QString & path)
 {
-	if (path.isEmpty())
+	if (path.isEmpty()) {
+		info("Mod::load: unable to load, empty path.");
 		return false;
+	}
 
 	QFile file(path);
-	if (!file.open(QIODevice::ReadOnly))
+	if (!file.open(QIODevice::ReadOnly)) {
+		info("Mod::load: unable to load, cannot open file.");
 		return false;
+	}
 
+	log("Mod::load: reading file...");
 	QDataStream in(&file);
+	log("Mod::load: done");
 
-	in >> boardModel_>> itemModel_ >> enemyModel_ >> questModel_;
+	log("Mod::load: loading models...");
+	datalog("Mod::load: loading boardModel");
+	in >> boardModel_;
+	datalog("Mod::load: loading itemModel");
+	in >> itemModel_;
+	datalog("Mod::load: loading enemyModel");
+	in >> enemyModel_;
+	datalog("Mod::load: loading questModel");
+	in >> questModel_;
+	log("Mod::load: done");
 
 	file.close();
 

@@ -20,6 +20,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Mod.hpp"
 #include "Core/Paths.hpp"
 #include "Core/Strings.hpp"
+#include "Core/Utils/Debug.hpp"
 #include "Editor/Editors/BoardEditor.hpp"
 #include "Editor/Editors/ItemsEditor.hpp"
 #include "Editor/Editors/EnemiesEditor.hpp"
@@ -85,7 +86,7 @@ void MainWindow::initEditors()
 
 int MainWindow::checkForUnsavedChanges()
 {
-	if (!mod_->unsavedChanges())
+	if (!mod_->hasUnsavedChanges())
 		return QMessageBox::Discard;
 
 	QMessageBox msgBox;
@@ -99,6 +100,8 @@ int MainWindow::checkForUnsavedChanges()
 
 void MainWindow::onNewActivated()
 {
+	log("MainWindow::onNewActivated");
+
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
 			if (!onSaveActivated())
@@ -114,6 +117,8 @@ void MainWindow::onNewActivated()
 
 void MainWindow::onLoadActivated()
 {
+	log("MainWindow::onLoadActivated");
+
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
 			if (!onSaveActivated())
@@ -134,6 +139,8 @@ void MainWindow::onLoadActivated()
 
 void MainWindow::onLoadTxtActivated()
 {
+	log("MainWindow::onLoadTxtActivated");
+
 	switch (checkForUnsavedChanges()) {
 		case QMessageBox::Save:
 			if (!onSaveActivated())
