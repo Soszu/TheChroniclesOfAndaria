@@ -52,6 +52,13 @@ This file is part of The Chronicles Of Andaria Project.
 #define ENABLE_DATA_LOGS     2
 #define ENABLE_GRAPHICS_LOGS 1
 
+namespace Logging {
+	enum Flags {
+		NoFlags   = 0x00,
+		NoEndline = 0x01,
+		NoColour  = 0x02,
+	};
+}
 
 namespace {
 	static const QString BashRed     = "0;31m";
@@ -59,26 +66,39 @@ namespace {
 	static const QString BashYellow  = "0;33m";
 	static const QString BashDefault = "0m";
 
-	inline void message(const QString &msg)
+	inline void printMessage(const QString &msg)
 	{
-		fprintf(stderr, (msg + "\n").toStdString().c_str());
+		fprintf(stderr, msg.toStdString().c_str());
 	}
 
-	inline QString colour(const QString &msg, const QString &colour)
+	inline QString colourMessage(const QString &msg, const QString &colour)
 	{
 		return "\033[" + colour + msg + "\033[" + BashDefault;
+	}
+
+	inline void message(const QString &msg, int flags, const QString &colour = BashDefault)
+	{
+		QString m = msg;
+
+		if (!(flags & Logging::NoColour))
+			m = colourMessage(m, colour);
+
+		if (flags & Logging::NoEndline)
+			printMessage(m);
+		else
+			printMessage(m + "\n");
 	}
 }
 
 
 #if MESSAGE_LEVEL >= 1
-inline void crit(const QString &msg)
+inline void crit(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(colour(msg, BashRed));
+	message(msg, flags, BashRed);
 	exit(0);
 }
 #else
-inline void crit(const QString &)
+inline void crit(const QString &, int flags = Logging::NoFlags)
 {
 	exit(0);
 }
@@ -86,81 +106,81 @@ inline void crit(const QString &)
 
 
 #if MESSAGE_LEVEL >= 2
-inline void err(const QString &msg)
+inline void err(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(colour(msg, BashRed));
+	message(msg, flags, BashRed);
 }
 #else
-inline void err(const QString &) {}
+inline void err(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 
 #if MESSAGE_LEVEL >= 3
-inline void warn(const QString &msg)
+inline void warn(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(colour(msg, BashYellow));
+	message(msg, flags, BashYellow);
 }
 #else
-inline void warn(const QString &) {}
+inline void warn(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 
 #if MESSAGE_LEVEL >= 4
-inline void info(const QString &msg)
+inline void info(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(colour(msg, BashGreen));
+	message(msg, flags, BashGreen);
 }
 #else
-inline void info(const QString &) {}
+inline void info(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 
 #if MESSAGE_LEVEL == 5
-inline void log(const QString &msg)
+inline void log(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(msg);
+	message(msg, flags);
 }
 
 #if ENABLE_DATA_LOGS == 2
-inline void ldatalog(const QString &msg)
+inline void ldatalog(const QString &msg, int flags = Logging::NoFlags)
 {
-	message("\t" + msg);
+	message("\t" + msg, flags);
 }
 #else
-inline void ldatalog(const QString &) {}
+inline void ldatalog(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 #if ENABLE_DATA_LOGS >= 1
-inline void datalog(const QString &msg)
+inline void datalog(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(msg);
+	message(msg, flags);
 }
 #else
-inline void datalog(const QString &) {}
+inline void datalog(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 #if ENABLE_GRAPHICS_LOGS == 2
-inline void lgraphicslog(const QString &msg)
+inline void lgraphicslog(const QString &msg, int flags = Logging::NoFlags)
 {
-	message("\t" + msg);
+	message("\t" + msg, flags);
 }
 #else
-inline void lgraphicslog(const QString &) {}
+inline void lgraphicslog(const QString &, int flags = Logging::NoFlags) {}
 #endif
 
 #if ENABLE_GRAPHICS_LOGS >= 1
-inline void graphicslog(const QString &msg)
+inline void graphicslog(const QString &msg, int flags = Logging::NoFlags)
 {
-	message(msg);
+	message(msg, flags);
 }
 #else
 inline void graphicslog(const QString &msg) {}
 #endif
 
 #else
-inline void log(const QString &) {}
-inline void ldatalog(const QString &) {}
-inline void datalog(const QString &) {}
-inline void lgraphicslog(const QString &) {}
-inline void graphicslog(const QString &) {}
+inline void log(const QString &, int flags = Logging::NoFlags) {}
+inline void ldatalog(const QString &, int flags = Logging::NoFlags) {}
+inline void datalog(const QString &, int flags = Logging::NoFlags) {}
+inline void lgraphicslog(const QString &, int flags = Logging::NoFlags) {}
+inline void graphicslog(const QString &, int flags = Logging::NoFlags) {}
 #endif
