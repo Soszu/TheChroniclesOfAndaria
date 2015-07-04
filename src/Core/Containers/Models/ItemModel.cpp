@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2014-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -218,7 +219,7 @@ bool ItemModel::setData(const QModelIndex & index, const QVariant & value, int r
 		case Type:       item->setType(value.value<ItemBase::Type>()); break;
 		case Quality:    item->setQuality(value.value<ItemBase::Quality>()); break;
 		case Price:      item->setPrice(value.toInt()); break;
-		case CanBeDrawn: item->setPrice(value.toBool()); break;
+		case CanBeDrawn: item->setCanBeDrawn(value.toBool()); break;
 		case Effects:    item->setEffects(value.value<QList <Effect> >()); break;
 	}
 
