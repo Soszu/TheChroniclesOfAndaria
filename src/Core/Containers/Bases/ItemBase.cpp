@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2013-2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -114,7 +115,7 @@ ItemBase::Quality ItemBase::quality() const
 
 bool ItemBase::canBeDrawn() const
 {
-	return canBeDrawn();
+	return canBeDrawn_;
 }
 
 ItemBase::Type ItemBase::type() const
