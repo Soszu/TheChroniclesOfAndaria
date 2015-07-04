@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2015 by Rafał Soszyński <rsoszynski121 [at] gmail [dot] com>
+Copyright (C) 2015 by Bartosz Szreder <szreder [at] mimuw [dot] edu [dot] pl>
 This file is part of The Chronicles Of Andaria Project.
 
 	The Chronicles of Andaria Project is free software: you can redistribute it and/or modify
@@ -34,6 +35,7 @@ QuestEditor::QuestEditor(QuestModel * questModel, QWidget * parent) :
 	initViewPart();
 	initLayout();
 	initMapper();
+	setEditWidgetsEnabled(false);
 }
 
 void QuestEditor::clear()
@@ -103,8 +105,6 @@ void QuestEditor::initEditPart()
 	editLayout_->addRow(Labels::Quest::Reward,           rewardEdit_);
 
 	editLayout_->setRowWrapPolicy(QFormLayout::DontWrapRows);
-// 	editLayout_->setFieldGrowthPolicy(QFormLayout::FieldsStayAtSizeHint);
-// 	editLayout_->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
 	editLayout_->setLabelAlignment(Qt::AlignLeft);
 }
 
@@ -128,8 +128,8 @@ void QuestEditor::initMapper()
 	questMapper_.addMapping(fractionEdit_,         QuestModel::Fraction);
 	questMapper_.addMapping(difficultyEdit_,       QuestModel::QuestDifficulty);
 	questMapper_.addMapping(levelEdit_,            QuestModel::Level);
-	questMapper_.addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired, "checked");
-	questMapper_.addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn,       "checked");
+	questMapper_.addMapping(isReturnRequiredEdit_, QuestModel::IsReturnRequired);
+	questMapper_.addMapping(canBeDrawnEdit_,       QuestModel::CanBeDrawn);
 	questMapper_.addMapping(objectivesEdit_,       QuestModel::Objectives);
 	questMapper_.addMapping(followUpEdit_,         QuestModel::FollowUp);
 	questMapper_.addMapping(rewardEdit_,           QuestModel::Reward);
@@ -137,8 +137,8 @@ void QuestEditor::initMapper()
 	connect(objectivesEdit_, &ObjectivesEdit::contentChanged,
 	        &questMapper_, &QDataWidgetMapper::submit);
 
-	connect(questsList_->selectionModel(), &QItemSelectionModel::currentRowChanged,
-	        &questMapper_, &QDataWidgetMapper::setCurrentModelIndex);
+	connect(questsList_->selectionModel(), &QItemSelectionModel::selectionChanged,
+	        this, &QuestEditor::rowChanged);
 
 	//TODO change to proxyModel one day
 	connect(questModel_, &QAbstractItemModel::modelReset, objectivesEdit_, &ObjectivesEdit::reset);
@@ -179,6 +179,14 @@ void QuestEditor::updateFollowUps()
 		followUpEdit_->addItem(quest->title(), quest->uid());
 }
 
+void QuestEditor::setEditWidgetsEnabled(bool enabled)
+{
+	for (QWidget *widget : std::initializer_list<QWidget *>{titleEdit_, descriptionEdit_, fractionEdit_,
+	                       levelEdit_, difficultyEdit_, isReturnRequiredEdit_, canBeDrawnEdit_,
+	                       objectivesEdit_, followUpEdit_, rewardEdit_})
+		widget->setEnabled(enabled);
+}
+
 void QuestEditor::addQuest()
 {
 	questModel_->insertRows(questModel_->rowCount(), 1);
@@ -193,4 +201,12 @@ void QuestEditor::removeQuest()
 
 	questModel_->removeRows(selected.row(), 1);
 	updateFollowUps();
+}
+
+void QuestEditor::rowChanged()
+{
+	const QItemSelectionModel *selection = questsList_->selectionModel();
+	setEditWidgetsEnabled(selection->hasSelection());
+	if (selection->hasSelection())
+		questMapper_.setCurrentModelIndex(selection->currentIndex());
 }
