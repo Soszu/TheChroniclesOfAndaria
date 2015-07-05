@@ -16,6 +16,7 @@ This file is part of The Chronicles Of Andaria Project.
 	along with The Chronicles Of Andaria.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Core/Containers/Models/BoardModel.hpp"
+#include "Core/Utils/Debug.hpp"
 
 #include "Core/Enums.hpp"
 
@@ -82,12 +83,14 @@ const QHash<Race, Coordinates> & BoardModel::initialPositions() const
 
 QDataStream & BoardModel::toDataStream(QDataStream & out) const
 {
+	datalog("BoardModel::toDataStream: saving data...");
 	out << size_ << fields_ << rulers_ << initialPositions_;
 
 	out << terrainSerial_ << static_cast<UID>(terrains_.count());
 	for (const Terrain * terrain : terrains_)
 		out << terrain->uid() << *terrain;
 
+	datalog("BoardModel::toDataStream: done");
 	return out;
 }
 
@@ -220,7 +223,36 @@ void BoardModel::setModified()
 
 QDataStream & BoardModel::fromDataStream(QDataStream & in)
 {
+	datalog("BoardModel::fromDataStream: loading data...");
+
 	in >> size_ >> fields_ >> rulers_ >> initialPositions_;
+
+
+	ldatalog("width = " + QString::number(size_.width()) + ", height = " + QString::number(size_.height()));
+	QString strFields;
+	for (const Coordinates &c : fields_.keys()) {
+		if (!strFields.isEmpty())
+			strFields += ", ";
+		strFields += c.toString();
+	}
+	ldatalog("fields = " + strFields);
+
+	QString strRulers;
+	for (const Coordinates &c : rulers_.keys()) {
+		if (!strRulers.isEmpty())
+			strRulers += ", ";
+		strRulers += c.toString();
+	}
+	ldatalog("rulers = " + strRulers);
+
+	QString strInitialPositions;
+	for (const Coordinates &c : initialPositions_) {
+		if (!strInitialPositions.isEmpty())
+			strInitialPositions += ", ";
+		strInitialPositions += c.toString();
+	}
+	ldatalog("initialPositions = " + strInitialPositions);
+
 
 	UID count;
 	in >> terrainSerial_ >> count;
@@ -230,8 +262,10 @@ QDataStream & BoardModel::fromDataStream(QDataStream & in)
 		in >> uid >> *terrain;
 		terrains_[uid] = terrain;
 	}
+	datalog("BoardModel::fromDataStream: emit modelChanged signal");
 	emit modelChanged();
 
+	datalog("BoardModel::fromDataStream: done");
 	return in;
 }
 

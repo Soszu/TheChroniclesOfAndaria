@@ -18,6 +18,7 @@ This file is part of The Chronicles Of Andaria Project.
 #include "Core/Widgets/Map.hpp"
 
 #include "Core/Containers/Models/BoardModel.hpp"
+#include "Core/Utils/Debug.hpp"
 #include "Core/Widgets/Tile.hpp"
 
 Map::Map(BoardModel * board) :
@@ -28,9 +29,10 @@ Map::Map(BoardModel * board) :
 
 void Map::repaint()
 {
+	lgraphicslog("Map::repaint"); // probably for removal, too much of this shit
 	clear();
 
-	for (int row = 0; row < board_->rowCount(); ++row)
+	for (int row = 0; row < board_->rowCount(); ++row) {
 		for (int column = 0; column < board_->columnCount(); ++column) {
 			auto coords = Coordinates(row, column);
 			Tile * tile = new Tile(coords, board_->terrain(coords));
@@ -45,4 +47,5 @@ void Map::repaint()
 
 			addItem(tile);
 		}
+	}
 }

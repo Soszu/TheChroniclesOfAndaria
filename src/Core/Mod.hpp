@@ -43,7 +43,7 @@ public:
 	Mod();
 	~Mod();
 
-	bool unsavedChanges() const;
+	bool hasUnsavedChanges() const;
 
 	void loadFromTxt();
 	bool load(const QString & path);
